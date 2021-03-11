@@ -1,0 +1,8 @@
+.vscode
+.idea
+node_modules
+ui/dist
+ui/node_modules
+backend/.venv
+__pycache__
+db.sqlite3
