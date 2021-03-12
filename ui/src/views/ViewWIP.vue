@@ -1,7 +1,8 @@
 <template>
   <section class="section">
     <p class="m-4 is-size-2">Work in progress</p>
-    <b-table :data="rows">
+
+    <b-table :data="rows" :selected.sync="selected">
       <b-table-column field="firstName" label="Name" v-slot="props">
         {{ props.row.firstName }}
       </b-table-column>
@@ -53,21 +54,23 @@ import Vue from "vue";
 
 export default Vue.extend({
   data() {
+    const rows = [
+      {
+        firstName: "John",
+        lastName: "Smith",
+        homeCountry: "USA",
+        hostCountry: "Greece",
+        dateInitiated: "01/01/2021",
+        targetDate: "01/03/2021",
+        progress: "50%",
+        currentStatus: "Application Submitted",
+        service: "Immigration",
+        caseType: "Initial",
+      },
+    ];
     return {
-      rows: [
-        {
-          firstName: "John",
-          lastName: "Smith",
-          homeCountry: "USA",
-          hostCountry: "Greece",
-          dateInitiated: "01/01/2021",
-          targetDate: "01/03/2021",
-          progress: "50%",
-          currentStatus: "Application Submitted",
-          service: "Immigration",
-          caseType: "Initial",
-        },
-      ],
+      selected: rows[0],
+      rows: rows,
     };
   },
 });
