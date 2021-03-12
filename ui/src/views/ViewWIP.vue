@@ -1,7 +1,50 @@
 <template>
   <section class="section">
     <p class="m-4 is-size-2">Work in progress</p>
-    <b-table :data="rows" :columns="columns"> </b-table>
+    <b-table :data="rows">
+      <b-table-column field="firstName" label="Name" v-slot="props">
+        {{ props.row.firstName }}
+      </b-table-column>
+      <b-table-column field="lastName" label="Surname" v-slot="props">
+        {{ props.row.lastName }}
+      </b-table-column>
+      <b-table-column field="homeCountry" label="Home country" v-slot="props">
+        {{ props.row.homeCountry }}
+      </b-table-column>
+      <b-table-column field="hostCountry" label="Host country" v-slot="props">
+        {{ props.row.hostCountry }}
+      </b-table-column>
+      <b-table-column
+        field="dateInitiated"
+        label="Date initiated"
+        v-slot="props"
+      >
+        {{ props.row.dateInitiated }}
+      </b-table-column>
+      <b-table-column
+        field="targetDate"
+        label="Target date to enter"
+        v-slot="props"
+      >
+        {{ props.row.targetDate }}
+      </b-table-column>
+      <b-table-column field="progress" label="Progress" v-slot="props">
+        {{ props.row.progress }}
+      </b-table-column>
+      <b-table-column
+        field="currentStatus"
+        label="Current status"
+        v-slot="props"
+      >
+        {{ props.row.currentStatus }}
+      </b-table-column>
+      <b-table-column field="service" label="Service" v-slot="props">
+        {{ props.row.service }}
+      </b-table-column>
+      <b-table-column field="caseType" label="Case type" v-slot="props">
+        {{ props.row.caseType }}
+      </b-table-column>
+    </b-table>
   </section>
 </template>
 
@@ -24,18 +67,6 @@ export default Vue.extend({
           service: "Immigration",
           caseType: "Initial",
         },
-      ],
-      columns: [
-        { field: "firstName", label: "Name" },
-        { field: "lastName", label: "Surname" },
-        { field: "homeCountry", label: "Home country" },
-        { field: "hostCountry", label: "Host country" },
-        { field: "dateInitiated", label: "Date initiated" },
-        { field: "targetDate", label: "Target date to enter" },
-        { field: "progress", label: "Progress" },
-        { field: "currentStatus", label: "Current status" },
-        { field: "service", label: "Service" },
-        { field: "caseType", label: "Case type" },
       ],
     };
   },
