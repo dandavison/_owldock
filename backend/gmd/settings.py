@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_faker",
     "app",
 ]
 
@@ -120,8 +119,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
-
-# Custom settings
-
-FAKER_LOCALE = None  # settings.LANGUAGE_CODE is loaded
-FAKER_PROVIDERS = None  # faker.DEFAULT_PROVIDERS is loaded (all)
