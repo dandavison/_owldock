@@ -6,6 +6,7 @@
         <b-table
           :data="rows"
           :selected.sync="selected"
+          focusable
           hoverable
           paginated
           :per-page="10"
@@ -35,17 +36,17 @@
             label="Date initiated"
             v-slot="props"
           >
-            {{ props.row.created_at }}
+            {{ new Date(props.row.created_at).toDateString() }}
           </b-table-column>
           <b-table-column
             field="targetDate"
             label="Target date to enter"
             v-slot="props"
           >
-            {{ props.row.target_entry_date }}
+            {{ new Date(props.row.target_entry_date).toDateString() }}
           </b-table-column>
           <b-table-column field="progress" label="Progress" v-slot="props">
-            {{ props.row.progress }}
+            {{ props.row.progress }}%
           </b-table-column>
           <b-table-column
             field="currentStatus"
