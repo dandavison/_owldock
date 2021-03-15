@@ -5,6 +5,7 @@ from app.models import PersonImmigrationTask
 
 def person_immigration_tasks(request):
     qs = PersonImmigrationTask.objects.values(
+        "id",
         "person__first_name",
         "person__last_name",
         "person__home_country",

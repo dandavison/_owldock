@@ -4,11 +4,13 @@
     <b-tabs>
       <b-tab-item label="Table">
         <b-table
+          ref="table"
           :data="rows"
           :selected.sync="selected"
           focusable
           hoverable
           paginated
+          @dblclick="navigateToRowDetailView"
           :per-page="10"
         >
           <b-table-column field="firstName" label="Name" v-slot="props">
@@ -78,6 +80,10 @@
 
 <script lang="ts">
 import Vue from "vue";
+import BTable from "buefy/src/components/table";
+type BTableInstance = InstanceType<typeof BTable>;
+
+import { PersonImmigrationTask } from "../types";
 
 export default Vue.extend({
   data() {
@@ -91,6 +97,23 @@ export default Vue.extend({
     fetch("http://localhost:8000/api/person-immigration-tasks/")
       .then((resp) => resp.json())
       .then((data) => (this.rows = data));
+  },
+
+  mounted() {
+    this.$el.querySelector("table")?.addEventListener("keydown", (event) => {
+      if (event.code === "Enter") {
+        let table = this.$refs.table as BTableInstance;
+        if (table.selected) {
+          this.navigateToRowDetailView(table.selected);
+        }
+      }
+    });
+  },
+
+  methods: {
+    navigateToRowDetailView(row: PersonImmigrationTask): void {
+      this.$router.push(`/work-in-progress/${row.id}`);
+    },
   },
 });
 </script>
