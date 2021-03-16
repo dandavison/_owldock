@@ -12,6 +12,7 @@ const Home = () => import("./views/Home.vue");
 const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const InitiateNewWork = () => import("./views/InitiateNewWork.vue");
 const ViewWIP = () => import("./views/ViewWIP.vue");
+const ViewWIPDetail = () => import("./views/ViewWIPDetail.vue");
 const AccessData = () => import("./views/AccessData.vue");
 
 Vue.config.productionTip = false;
@@ -25,6 +26,7 @@ const routes = [
   { path: "/question", component: AskAQuestion },
   { path: "/initiate-new-work", component: InitiateNewWork },
   { path: "/work-in-progress", component: ViewWIP },
+  { path: "/work-in-progress/:id", component: ViewWIPDetail },
   { path: "/access-data", component: AccessData }
 ];
 

@@ -21,4 +21,5 @@ from app import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/person-immigration-tasks/", views.person_immigration_tasks),
+    path("api/person-immigration-task/<int:task_id>", views.person_immigration_task),
 ]
