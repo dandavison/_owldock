@@ -11,8 +11,11 @@
       type="image/x-icon"
       href="{% static 'favicon.ico' %}"
     />
+    {% block head_extra %}{% endblock %}
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <section class="section">
+      {% block content %}{% endblock %}
+    </section>
   </body>
 </html>
