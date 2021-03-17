@@ -26,7 +26,8 @@ backend-destroy-db:
 	&& rm -f db.sqlite3 \
 	&& rm -rf app/migrations/* \
 	&& ./manage.py makemigrations app \
-	&& ./manage.py migrate
+	&& ./manage.py migrate \
+	&& ./manage.py create_users_and_groups $$GMD_DEV_PASSWORD
 
 test: test-ui test-backend
 
