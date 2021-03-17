@@ -60,7 +60,7 @@ export default Vue.extend({
 
   methods: {
     handleSubmit() {
-      fetch("http://localhost:8000/api/person-immigration-tasks/", {
+      fetch(`${process.env.VUE_APP_SERVER_URL}/api/person-immigration-tasks/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

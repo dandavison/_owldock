@@ -26,7 +26,7 @@ export default Vue.extend({
 
   created() {
     fetch(
-      `http://localhost:8000/api/person-immigration-tasks/${this.$route.params.id}`
+      `${process.env.VUE_APP_SERVER_URL}/api/person-immigration-tasks/${this.$route.params.id}`
     )
       .then((resp) => resp.json())
       .then((data) => (this.task = data));

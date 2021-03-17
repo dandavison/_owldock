@@ -1,10 +1,12 @@
 PSQL=psql -v ON_ERROR_STOP=1
 SHELL = bash -u
+WITH_NODE_ENV=env $$(xargs < .env)
+WITH_SERVER_ENV=env $$(xargs < .env.server)
 
 serve: ui-build backend-serve
 
 ui-build:
-	cd ui && npm run build
+	cd ui && $(WITH_SERVER_ENV) npm run build
 
 ui-serve:
 	cd ui && npm run serve
@@ -35,7 +37,7 @@ ui-test:
 	cd ui && npm test
 
 ui-test-live:
-	cd ui && npx cypress open
+	cd ui && $(WITH_NODE_ENV) npx cypress open
 
 clean:
 	rm -fr ui/dist
