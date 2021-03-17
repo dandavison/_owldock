@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_seed",
     "corsheaders",
+    "guardian",
     "rest_framework",
     "app",
 ]
@@ -54,6 +55,11 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",  # default
+    "guardian.backends.ObjectPermissionBackend",
+)
 
 ROOT_URLCONF = "gmd.urls"
 
