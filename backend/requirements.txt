@@ -1,0 +1,11 @@
+Django==3.1.7
+black==20.8b1
+djangorestframework==3.12.2
+django-cors-headers==3.7.0
+django-rest-framework==0.1.0
+django-seed==0.2.2
+django-typomatic==1.2.1
+ipython==7.21.0
+mypy==0.812
+python-language-server==0.36.2
+typing-extensions==3.7.4.3
