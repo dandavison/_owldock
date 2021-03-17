@@ -1,16 +1,16 @@
 from django_typomatic import ts_interface
 from rest_framework import serializers
 
-from app.models import PersonImmigrationTask
+from app.models import ImmigrationTask
 
 
 @ts_interface()
-class PersonImmigrationTaskSerializer(serializers.ModelSerializer):
+class ImmigrationTaskSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PersonImmigrationTask
+        model = ImmigrationTask
         fields = [
             "id",
-            "person",
+            "employee",
             "case_type",
             "current_status",
             "host_country",

@@ -1,6 +1,6 @@
-export interface PersonImmigrationTaskSerializer {
+export interface ImmigrationTaskSerializer {
     id?: number;
-    person?: any;
+    employee?: any;
     case_type: string;
     current_status: string;
     host_country: string;

@@ -1,12 +1,12 @@
 from rest_framework import permissions
 from rest_framework import viewsets
 
-from app.models import PersonImmigrationTask
-from app.serializers import PersonImmigrationTaskSerializer
+from app.models import ImmigrationTask
+from app.serializers import ImmigrationTaskSerializer
 
 
-class PersonImmigrationTaskViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.DjangoObjectPermissions]
+class ImmigrationTaskViewSet(viewsets.ModelViewSet):
+    # permission_classes = [permissions.DjangoObjectPermissions]
 
-    queryset = PersonImmigrationTask.objects.all()
-    serializer_class = PersonImmigrationTaskSerializer
+    queryset = ImmigrationTask.objects.all()
+    serializer_class = ImmigrationTaskSerializer

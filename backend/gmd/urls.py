@@ -11,7 +11,7 @@ from rest_framework.routers import DefaultRouter
 from app import views as app_views
 
 router = DefaultRouter()
-router.register("person-immigration-tasks", app_views.PersonImmigrationTaskViewSet)
+router.register("immigration-tasks", app_views.ImmigrationTaskViewSet)
 
 # Note: every route defined here must set appropriate access controls
 

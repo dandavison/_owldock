@@ -4,8 +4,8 @@ from typing import List
 from django.core.management.base import BaseCommand
 from django_seed import Seed
 
-from app.models import Person
-from app.models import PersonImmigrationTask
+from app.models import Employee
+from app.models import ImmigrationTask
 from app.types import CaseType
 from app.types import Service
 from app.types import Status
@@ -17,21 +17,21 @@ class Command(BaseCommand):
         self.seeder = Seed.seeder()
 
     def handle(self, *args, **kwargs):
-        self.create_fake_persons(100)
-        self.create_fake_pits(200)
+        self.create_fake_employees(100)
+        self.create_fake_immigration_tasks(200)
         self.seeder.execute()
 
-    def create_fake_persons(self, n_persons: int):
+    def create_fake_employees(self, n_employees: int):
         self.seeder.add_entity(
-            Person,
-            n_persons,
+            Employee,
+            n_employees,
             {"home_country": lambda _: self.seeder.faker.country()},
         )
 
-    def create_fake_pits(self, n_pits: int):
+    def create_fake_immigration_tasks(self, n_immigration_tasks: int):
         self.seeder.add_entity(
-            PersonImmigrationTask,
-            n_pits,
+            ImmigrationTask,
+            n_immigration_tasks,
             {
                 "case_type": random_case_type,
                 "current_status": random_status,

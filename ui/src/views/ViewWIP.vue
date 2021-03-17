@@ -14,17 +14,17 @@
           :per-page="10"
         >
           <b-table-column field="firstName" label="Name" v-slot="props">
-            {{ props.row.person.first_name }}
+            {{ props.row.employee.first_name }}
           </b-table-column>
           <b-table-column field="lastName" label="Surname" v-slot="props">
-            {{ props.row.person.last_name }}
+            {{ props.row.employee.last_name }}
           </b-table-column>
           <b-table-column
             field="homeCountry"
             label="Home country"
             v-slot="props"
           >
-            {{ props.row.person.home_country }}
+            {{ props.row.employee.home_country }}
           </b-table-column>
           <b-table-column
             field="hostCountry"
@@ -83,7 +83,7 @@ import Vue from "vue";
 import BTable from "buefy/src/components/table";
 type BTableInstance = InstanceType<typeof BTable>;
 
-import { PersonImmigrationTaskSerializer } from "../api-types";
+import { ImmigrationTaskSerializer } from "../api-types";
 
 export default Vue.extend({
   data() {
@@ -94,7 +94,7 @@ export default Vue.extend({
   },
 
   created() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/person-immigration-tasks/`)
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/immigration-tasks/`)
       .then((resp) => resp.json())
       .then((data) => (this.rows = data));
   },
@@ -111,7 +111,7 @@ export default Vue.extend({
   },
 
   methods: {
-    navigateToRowDetailView(row: PersonImmigrationTaskSerializer): void {
+    navigateToRowDetailView(row: ImmigrationTaskSerializer): void {
       this.$router.push(`/work-in-progress/${row.id}`);
     },
   },
