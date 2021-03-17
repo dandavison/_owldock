@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Cookies from "js-cookie";
 import { PersonImmigrationTaskSerializer } from "../api-types";
 
 export default Vue.extend({
@@ -60,11 +61,17 @@ export default Vue.extend({
 
   methods: {
     handleSubmit() {
+      const headers = {
+        "Content-Type": "application/json",
+      } as any;
+      const csrf_token = Cookies.get("csrftoken");
+      if (csrf_token) {
+        headers["X-CSRFToken"] = csrf_token;
+      }
+
       fetch(`${process.env.VUE_APP_SERVER_URL}/api/person-immigration-tasks/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(this.form),
       });
     },
