@@ -1,3 +1,6 @@
+from typing import List
+from typing import Tuple
+
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -13,22 +16,50 @@ class Command(BaseCommand):
         """
         Create all users with the same password
         """
-        password = kwargs["password"]
-        sophy = "sophy@owlimmigration.com"
-        dan = "dandavison7@gmail.com"
+        self.password = kwargs["password"]
+        self._create_staff_users(
+            [
+                ("sophy@owlimmigration.com", "Sophy", "King"),
+                ("dandavison7@gmail.com", "Dan", "Davison"),
+            ]
+        )
+        self._create_users_and_groups(
+            "Corporate Users",
+            [
+                ("corporate-user-alice@gmd.com", "Alice", "CorporateUser"),
+                ("corporate-user-benoit@gmd.com", "Benoit", "CorporateUser"),
+            ],
+        )
+        self._create_users_and_groups(
+            "Service Providers",
+            [
+                ("service-provider-carlos@gmd.com", "Carlos", "ServiceProvider"),
+                ("service-provider-dimitri@gmd.com", "Dimitri", "ServiceProvider"),
+            ],
+        )
 
-        staff_users = [sophy, dan]
-        for email in staff_users:
+    def _create_staff_users(self, user_data: List[Tuple[str, str, str]]) -> None:
+        for (email, first_name, last_name) in user_data:
             User.objects.create_user(
-                username=email, email=email, password=password, is_staff=True
+                username=email,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                password=self.password,
+                is_staff=True,
             )
 
-        Group.objects.create(name="Corporate Users")
-        Group.objects.create(name="Service Providers")
+    def _create_users_and_groups(
+        self, group_name: str, user_data: List[Tuple[str, str, str]]
+    ) -> None:
+        group = Group.objects.create(name=group_name)
 
-        User.objects.create_user(
-            username="corporate-user@gmd.com", email=dan, password=password
-        )
-        User.objects.create_user(
-            username="service-provider@gmd.com", email=dan, password=password
-        )
+        for (email, first_name, last_name) in user_data:
+            user = User.objects.create_user(
+                username=email,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                password=self.password,
+            )
+            user.groups.add(group)
