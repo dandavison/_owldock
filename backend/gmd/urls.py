@@ -16,12 +16,8 @@ router.register("person-immigration-tasks", app_views.PersonImmigrationTaskViewS
 # Note: every route defined here must set appropriate access controls
 
 urlpatterns = [
+    path("accounts/", include("django.contrib.auth.urls")),
     path("", login_required(TemplateView.as_view(template_name="app/index.html"))),
-    path(
-        "login/",
-        auth_views.LoginView.as_view(template_name="app/login.html"),
-        name="login",
-    ),
     path("admin/", admin.site.urls),  # TODO: permission
     path("api/", include(router.urls)),  # TODO: permission
     # Assume anything else is a client-side route handled by Vue router

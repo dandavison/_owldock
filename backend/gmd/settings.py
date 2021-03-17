@@ -128,4 +128,3 @@ STATIC_URL = "/static/"
 ### App-specific settings
 
 CORS_ALLOW_ALL_ORIGINS = True
-LOGIN_REDIRECT_URL = "/"
