@@ -10,7 +10,7 @@ class Person(models.Model):
 class PersonImmigrationTask(models.Model):
     person = models.ForeignKey(Person, on_delete=models.deletion.CASCADE)
     case_type = models.CharField(max_length=128)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now=True)
     current_status = models.CharField(max_length=128)
     host_country = models.CharField(max_length=128)
     progress = models.FloatField()
