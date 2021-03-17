@@ -1,8 +1,10 @@
+from django_typomatic import ts_interface
 from rest_framework import serializers
 
 from app.models import PersonImmigrationTask
 
 
+@ts_interface()
 class PersonImmigrationTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonImmigrationTask

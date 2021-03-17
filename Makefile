@@ -17,6 +17,9 @@ serve-backend-and-ui: build-ui serve-backend
 type-check-backend:
 	cd backend && .venv/bin/mypy --check-untyped-defs .
 
+create_typescript_interfaces:
+	cd backend && .venv/bin/python manage.py create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
+
 test: test-ui test-backend
 
 test-ui:
