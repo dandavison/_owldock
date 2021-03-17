@@ -15,18 +15,18 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { PersonImmigrationTask } from "../types";
+import { PersonImmigrationTaskSerializer } from "../api-types";
 
 export default Vue.extend({
   data() {
     return {
-      task: null as PersonImmigrationTask | null,
+      task: null as PersonImmigrationTaskSerializer | null,
     };
   },
 
   created() {
     fetch(
-      `http://localhost:8000/api/person-immigration-task/${this.$route.params.id}`
+      `http://localhost:8000/api/person-immigration-tasks/${this.$route.params.id}`
     )
       .then((resp) => resp.json())
       .then((data) => (this.task = data));
