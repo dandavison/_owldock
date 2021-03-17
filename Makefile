@@ -14,6 +14,9 @@ serve-backend:
 
 serve-backend-and-ui: build-ui serve-backend
 
+type-check-backend:
+	cd backend && .venv/bin/mypy --check-untyped-defs .
+
 test: test-ui test-backend
 
 test-ui:
