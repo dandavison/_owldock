@@ -7,6 +7,7 @@ module.exports = {
       enableInSFC: true
     }
   },
+  publicPath: "/static",
   devServer: {
     disableHostCheck: true
   }
