@@ -1,32 +1,40 @@
 PSQL=psql -v ON_ERROR_STOP=1
-WITH_ENV_DEV=env $$(xargs < .env)
-WITH_ENV_PROD=env $$(xargs < .env.prod)
 SHELL = bash -u
 
-build-ui:
-	cd ui && $(WITH_ENV_PROD) npm run build
+serve: ui-build backend-serve
 
-serve-ui:
+ui-build:
+	cd ui && npm run build
+
+ui-serve:
 	cd ui && npm run serve
 
-serve-backend:
-	$(WITH_ENV_DEV) cd backend && ./manage.py runserver
+backend-serve:
+	cd backend && ./manage.py runserver
 
-serve-backend-and-ui: build-ui serve-backend
-
-type-check-backend:
+backend-type-check:
 	cd backend && .venv/bin/mypy --check-untyped-defs .
 
-create_typescript_interfaces:
+backend_create_fake_data:
+	cd backend && .venv/bin/python manage.py create_fake_data
+
+backend_create_typescript_interfaces:
 	cd backend && .venv/bin/python manage.py create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
+
+backend-destroy-db:
+	cd backend \
+	&& rm -f db.sqlite3 \
+	&& rm -rf app/migrations/* \
+	&& ./manage.py makemigrations app \
+	&& ./manage.py migrate
 
 test: test-ui test-backend
 
-test-ui:
+ui-test:
 	cd ui && npm test
 
-test-ui-live:
-	cd ui && $(WITH_ENV_DEV) npx cypress open
+ui-test-live:
+	cd ui && npx cypress open
 
 clean:
 	rm -fr ui/dist
