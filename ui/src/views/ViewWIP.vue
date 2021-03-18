@@ -94,7 +94,7 @@ export default Vue.extend({
   },
 
   created() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/immigration-tasks/`)
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/immigration-task-list/`)
       .then((resp) => resp.json())
       .then((data) => (this.rows = data));
   },
