@@ -1,37 +1,11 @@
 <template>
   <section class="section">
-    <p class="m-4 is-size-2">
-      {{ welcomeMessage() }}
-    </p>
-    <p class="m-4 is-size-4">What would you like to do next?</p>
     <ul>
       <li>
-        <router-link to="/question">
-          <b-button class="is-large m-4" style="background-color: #fff2cc">
-            Ask a question
-          </b-button>
-        </router-link>
+        <router-link to="/client-portal"> Client Portal </router-link>
       </li>
       <li>
-        <router-link to="/initiate-new-work">
-          <b-button class="is-large m-4" style="background-color: #deebf7">
-            Initiate new work
-          </b-button>
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/work-in-progress">
-          <b-button class="is-large m-4" style="background-color: #f8dcf7">
-            View work in progress
-          </b-button>
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/access-data">
-          <b-button class="is-large m-4" style="background-color: #e3efda">
-            Access data
-          </b-button>
-        </router-link>
+        <router-link to="/provider-portal"> Provider Portal </router-link>
       </li>
     </ul>
   </section>
@@ -39,18 +13,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Cookies from "js-cookie";
 
-export default Vue.extend({
-  methods: {
-    welcomeMessage(): string {
-      const name = Cookies.get("first_name");
-      if (name) {
-        return `Hello ${name}, welcome to your dashboard!`;
-      } else {
-        return `Hello, welcome to your dashboard!`;
-      }
-    },
-  },
-});
+export default Vue.extend({});
 </script>

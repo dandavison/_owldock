@@ -9,12 +9,13 @@ from rest_framework.schemas import get_schema_view
 from app.api import employee as employee_api
 from app.api import immigration_task as immigration_task_api
 from app.api import immigration_task_list as immigration_task_list_api
+from app.views import HomeView
 
 # Note: every route defined here must set appropriate access controls
 
 urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
-    path("", login_required(TemplateView.as_view(template_name="app/index.html"))),
+    path("", login_required(HomeView.as_view())),
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
     path("api/employees/", employee_api.EmployeeAPIView.as_view()),  # TODO: permission
