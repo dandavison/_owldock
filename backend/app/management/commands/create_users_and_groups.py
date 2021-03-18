@@ -17,7 +17,7 @@ class Command(BaseCommand):
         Create all users with the same password
         """
         self.password = kwargs["password"]
-        self._create_staff_users(
+        self._create_superusers(
             [
                 ("sophy@owlimmigration.com", "Sophy", "King"),
                 ("dandavison7@gmail.com", "Dan", "Davison"),
@@ -38,7 +38,7 @@ class Command(BaseCommand):
             ],
         )
 
-    def _create_staff_users(self, user_data: List[Tuple[str, str, str]]) -> None:
+    def _create_superusers(self, user_data: List[Tuple[str, str, str]]) -> None:
         for (email, first_name, last_name) in user_data:
             User.objects.create_user(
                 username=email,
@@ -47,6 +47,7 @@ class Command(BaseCommand):
                 last_name=last_name,
                 password=self.password,
                 is_staff=True,
+                is_superuser=True,
             )
 
     def _create_users_and_groups(
