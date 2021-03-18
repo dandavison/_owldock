@@ -60,7 +60,7 @@ export default Vue.extend({
 
 function isMatch(employee: EmployeeSerializer, name: string): boolean {
   // TODO
-  return `${employee.first_name} ${employee.last_name}`
+  return `${employee.user.first_name} ${employee.user.last_name}`
     .toLowerCase()
     .startsWith(name.toLowerCase());
 }

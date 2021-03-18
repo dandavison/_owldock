@@ -14,10 +14,10 @@
           :per-page="10"
         >
           <b-table-column field="firstName" label="Name" v-slot="props">
-            {{ props.row.employee.first_name }}
+            {{ props.row.employee.user.first_name }}
           </b-table-column>
           <b-table-column field="lastName" label="Surname" v-slot="props">
-            {{ props.row.employee.last_name }}
+            {{ props.row.employee.user.last_name }}
           </b-table-column>
           <b-table-column
             field="homeCountry"
@@ -55,13 +55,13 @@
             label="Current status"
             v-slot="props"
           >
-            {{ props.row.current_status }}
+            {{ props.row.status }}
           </b-table-column>
           <b-table-column field="service" label="Service" v-slot="props">
             {{ props.row.service }}
           </b-table-column>
           <b-table-column field="caseType" label="Case type" v-slot="props">
-            {{ props.row.case_type }}
+            {{ props.row.type }}
           </b-table-column>
         </b-table>
       </b-tab-item>

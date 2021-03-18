@@ -10,7 +10,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = "__all__"
-
+        depth = 1
 
 class EmployeeAPIView(generics.ListCreateAPIView):
     queryset = Employee.objects.all()

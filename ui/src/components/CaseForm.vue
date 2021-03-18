@@ -38,8 +38,8 @@ export default Vue.extend({
     return {
       form: {
         employee: this.employeeId,
-        case_type: "",
-        current_status: "UNASSIGNED",
+        type: "",
+        status: "UNASSIGNED",
         host_country: "",
         progress: 0,
         service: "",
