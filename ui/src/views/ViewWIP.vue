@@ -83,7 +83,7 @@ import Vue from "vue";
 import BTable from "buefy/src/components/table";
 type BTableInstance = InstanceType<typeof BTable>;
 
-import { ImmigrationTaskSerializer } from "../api-types";
+import { CaseSerializer } from "../api-types";
 
 export default Vue.extend({
   data() {
@@ -94,7 +94,7 @@ export default Vue.extend({
   },
 
   created() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/immigration-task-list/`)
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/case-list/`)
       .then((resp) => resp.json())
       .then((data) => (this.rows = data));
   },
@@ -111,7 +111,7 @@ export default Vue.extend({
   },
 
   methods: {
-    navigateToRowDetailView(row: ImmigrationTaskSerializer): void {
+    navigateToRowDetailView(row: CaseSerializer): void {
       this.$router.push(`/work-in-progress/${row.id}`);
     },
   },

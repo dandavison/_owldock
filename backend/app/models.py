@@ -7,7 +7,7 @@ class Employee(models.Model):
     home_country = models.CharField(max_length=128)
 
 
-class ImmigrationTask(models.Model):
+class Case(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.deletion.CASCADE)
     case_type = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now=True)

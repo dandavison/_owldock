@@ -5,7 +5,7 @@ export interface EmployeeSerializer {
     home_country: string;
 }
 
-export interface ImmigrationTaskSerializer {
+export interface CaseSerializer {
     id?: number;
     case_type: string;
     created_at?: string;
@@ -17,7 +17,7 @@ export interface ImmigrationTaskSerializer {
     employee: any;
 }
 
-export interface ImmigrationTaskListRowSerializer {
+export interface CaseListRowSerializer {
     id?: number;
     case_type: string;
     created_at?: string;

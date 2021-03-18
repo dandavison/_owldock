@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Employee
-from .models import ImmigrationTask
+from .models import Case
 
 admin.site.register(Employee)
-admin.site.register(ImmigrationTask)
+admin.site.register(Case)

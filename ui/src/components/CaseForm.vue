@@ -29,7 +29,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Cookies from "js-cookie";
-import { ImmigrationTaskSerializer } from "../api-types";
+import { CaseSerializer } from "../api-types";
 
 export default Vue.extend({
   props: { employeeId: Number },
@@ -44,7 +44,7 @@ export default Vue.extend({
         progress: 0,
         service: "",
         target_entry_date: "",
-      } as ImmigrationTaskSerializer,
+      } as CaseSerializer,
     };
   },
 
@@ -58,7 +58,7 @@ export default Vue.extend({
         headers["X-CSRFToken"] = csrf_token;
       }
 
-      fetch(`${process.env.VUE_APP_SERVER_URL}/api/immigration-tasks/`, {
+      fetch(`${process.env.VUE_APP_SERVER_URL}/api/cases/`, {
         method: "POST",
         headers,
         body: JSON.stringify(this.form),

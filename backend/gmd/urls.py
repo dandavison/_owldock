@@ -7,8 +7,8 @@ from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
 from app.api import employee as employee_api
-from app.api import immigration_task as immigration_task_api
-from app.api import immigration_task_list as immigration_task_list_api
+from app.api import case as case_api
+from app.api import case_list as case_list_api
 from app.views import HomeView
 
 # Note: every route defined here must set appropriate access controls
@@ -20,12 +20,12 @@ urlpatterns = [
     path("grappelli/", include("grappelli.urls")),
     path("api/employees/", employee_api.EmployeeAPIView.as_view()),  # TODO: permission
     path(
-        "api/immigration-tasks/",
-        immigration_task_api.ImmigrationTaskAPIView.as_view(),
+        "api/cases/",
+        case_api.CaseAPIView.as_view(),
     ),  # TODO: permission
     path(
-        "api/immigration-task-list/",
-        immigration_task_list_api.ImmigrationTaskListAPIView.as_view(),
+        "api/case-list/",
+        case_list_api.CaseListAPIView.as_view(),
     ),  # TODO: permission
     path(
         "api/",

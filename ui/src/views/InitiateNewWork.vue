@@ -3,18 +3,18 @@
     <p class="m-4 is-size-2">Initiate new work</p>
     <employee-selector @select:employee="(id) => (this.employeeId = id)">
     </employee-selector>
-    <immigration-task-form v-if="employeeId" :employeeId="employeeId">
-    </immigration-task-form>
+    <case-form v-if="employeeId" :employeeId="employeeId">
+    </case-form>
   </section>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import EmployeeSelector from "../components/EmployeeSelector.vue";
-import ImmigrationTaskForm from "../components/ImmigrationTaskForm.vue";
+import CaseForm from "../components/CaseForm.vue";
 
 export default Vue.extend({
-  components: { EmployeeSelector, ImmigrationTaskForm },
+  components: { EmployeeSelector, CaseForm },
   data() {
     return {
       employeeId: null as number | null,

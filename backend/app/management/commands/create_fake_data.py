@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django_seed import Seed
 
 from app.models import Employee
-from app.models import ImmigrationTask
+from app.models import Case
 from app.types import CaseType
 from app.types import Service
 from app.types import Status
@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.create_fake_employees(100)
-        self.create_fake_immigration_tasks(200)
+        self.create_fake_cases(200)
         self.seeder.execute()
 
     def create_fake_employees(self, n_employees: int):
@@ -28,10 +28,10 @@ class Command(BaseCommand):
             {"home_country": lambda _: self.seeder.faker.country()},
         )
 
-    def create_fake_immigration_tasks(self, n_immigration_tasks: int):
+    def create_fake_cases(self, n_cases: int):
         self.seeder.add_entity(
-            ImmigrationTask,
-            n_immigration_tasks,
+            Case,
+            n_cases,
             {
                 "case_type": random_case_type,
                 "current_status": random_status,
