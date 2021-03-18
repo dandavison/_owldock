@@ -26,17 +26,17 @@ class Command(BaseCommand):
             ]
         )
         self._create_users_and_groups(
-            GroupName.CORPORATE_USERS.value,
+            GroupName.CLIENT_CONTACTS.value,
             [
-                ("corporate-user-alice@gmd.com", "Alice", "CorporateUser"),
-                ("corporate-user-benoit@gmd.com", "Benoit", "CorporateUser"),
+                ("client-contact-alice@gmd.com", "Alice", "CorporateUser"),
+                ("client-contact-benoit@gmd.com", "Benoit", "CorporateUser"),
             ],
         )
         self._create_users_and_groups(
-            GroupName.SERVICE_PROVIDERS.value,
+            GroupName.PROVIDER_CONTACTS.value,
             [
-                ("service-provider-carlos@gmd.com", "Carlos", "ServiceProvider"),
-                ("service-provider-dimitri@gmd.com", "Dimitri", "ServiceProvider"),
+                ("provider-contact-carlos@gmd.com", "Carlos", "ServiceProvider"),
+                ("provider-contact-dimitri@gmd.com", "Dimitri", "ServiceProvider"),
             ],
         )
 
