@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
+from app.constants import GroupName
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -24,14 +26,14 @@ class Command(BaseCommand):
             ]
         )
         self._create_users_and_groups(
-            "Corporate Users",
+            GroupName.CORPORATE_USERS.value,
             [
                 ("corporate-user-alice@gmd.com", "Alice", "CorporateUser"),
                 ("corporate-user-benoit@gmd.com", "Benoit", "CorporateUser"),
             ],
         )
         self._create_users_and_groups(
-            "Service Providers",
+            GroupName.SERVICE_PROVIDERS.value,
             [
                 ("service-provider-carlos@gmd.com", "Carlos", "ServiceProvider"),
                 ("service-provider-dimitri@gmd.com", "Dimitri", "ServiceProvider"),
