@@ -16,6 +16,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("", login_required(TemplateView.as_view(template_name="app/index.html"))),
     path("admin/", admin.site.urls),  # TODO: permission
+    path("grappelli/", include("grappelli.urls")),
     path(
         "api/employees/", employee_views.EmployeeAPIView.as_view()
     ),  # TODO: permission
