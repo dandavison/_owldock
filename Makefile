@@ -17,10 +17,10 @@ backend-serve:
 backend-type-check:
 	cd backend && .venv/bin/mypy --check-untyped-defs .
 
-backend_create_fake_data:
+backend-create-fake_data:
 	cd backend && .venv/bin/python manage.py create_fake_data
 
-backend_create_typescript_interfaces:
+backend-create-typescript-interfaces:
 	cd backend && .venv/bin/python manage.py create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
 
 backend-destroy-db:
