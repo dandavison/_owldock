@@ -13,23 +13,23 @@ from app.views import immigration_task_list as immigration_task_list_views
 # Note: every route defined here must set appropriate access controls
 
 urlpatterns = [
-    path("accounts/", include("django.contrib.auth.urls")),
+    re_path("accounts/?", include("django.contrib.auth.urls")),
     path("", login_required(TemplateView.as_view(template_name="app/index.html"))),
-    path("admin/", admin.site.urls),  # TODO: permission
-    path("grappelli/", include("grappelli.urls")),
-    path(
-        "api/employees/", employee_views.EmployeeAPIView.as_view()
+    re_path("admin/?", admin.site.urls),  # TODO: permission
+    re_path("grappelli/?", include("grappelli.urls")),
+    re_path(
+        "api/employees/?", employee_views.EmployeeAPIView.as_view()
     ),  # TODO: permission
-    path(
-        "api/immigration-tasks/",
+    re_path(
+        "api/immigration-tasks/?",
         immigration_task_views.ImmigrationTaskAPIView.as_view(),
     ),  # TODO: permission
-    path(
-        "api/immigration-task-list/",
+    re_path(
+        "api/immigration-task-list/?",
         immigration_task_list_views.ImmigrationTaskListAPIView.as_view(),
     ),  # TODO: permission
-    path(
-        "api/",
+    re_path(
+        "api/?",
         get_schema_view(title="GMD", version="0.0.1"),
         name="openapi-schema",
     ),
