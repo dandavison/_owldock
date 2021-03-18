@@ -1,5 +1,4 @@
 from django_typomatic import ts_interface
-
 from rest_framework import generics
 from rest_framework import serializers
 
