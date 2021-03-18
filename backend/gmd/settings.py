@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_seed",
     "corsheaders",
-    "guardian",
     "rest_framework",
     "app",
 ]
@@ -56,11 +55,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "app.middleware.set_user_data_cookies",
 ]
-
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",  # default
-    "guardian.backends.ObjectPermissionBackend",
-)
 
 ROOT_URLCONF = "gmd.urls"
 
