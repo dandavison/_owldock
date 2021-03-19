@@ -5,10 +5,10 @@ WITH_SERVER_ENV=env $$(xargs < .env.server)
 
 serve: ui-build backend-serve
 
-ui-build:
+ui-build: backend-create-typescript-interfaces
 	cd ui && $(WITH_SERVER_ENV) npm run build
 
-ui-serve:
+ui-serve: backend-create-typescript-interfaces
 	cd ui && npm run serve
 
 backend-serve:
@@ -33,10 +33,10 @@ backend-destroy-db:
 
 test: test-ui test-backend
 
-ui-test:
+ui-test: backend-create-typescript-interfaces
 	cd ui && npm test
 
-ui-test-live:
+ui-test-live: backend-create-typescript-interfaces
 	cd ui && $(WITH_NODE_ENV) npx cypress open
 
 clean:
