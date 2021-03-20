@@ -11,6 +11,9 @@ ui-build: backend-create-typescript-interfaces
 ui-serve: backend-create-typescript-interfaces
 	cd ui && npm run serve
 
+ui-vscode:
+	cd ui && code .
+
 backend-serve:
 	cd backend && ./manage.py runserver
 
@@ -32,7 +35,13 @@ backend-destroy-db:
 	&& ./manage.py create_users_and_groups $$GMD_DEV_PASSWORD \
 	&& ./manage.py create_fake_data
 
-test: test-ui test-backend
+backend-vscode:
+	cd backend && code .
+
+backend-test:
+	cd backend && .venv/bin/pytest
+
+test: backend-test
 
 ui-test: backend-create-typescript-interfaces
 	cd ui && npm test
