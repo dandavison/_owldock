@@ -6,9 +6,9 @@ from django.urls import re_path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
-from app.api import employee as employee_api
-from app.api import case as case_api
-from app.api import case_list as case_list_api
+from app.http_api import employee as employee_api
+from app.http_api import case as case_api
+from app.http_api import case_list as case_list_api
 from app.views import HomeView
 
 # Note: every route defined here must set appropriate access controls
