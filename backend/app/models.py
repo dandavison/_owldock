@@ -79,3 +79,13 @@ class Case(BaseModel):
 
     # TODO: compute
     progress = models.FloatField()
+
+
+class CaseContract(BaseModel):
+    case = models.ForeignKey(Case, on_delete=models.deletion.CASCADE)
+    provider_contact = models.ForeignKey(
+        ProviderContact, on_delete=models.deletion.CASCADE
+    )
+    # TODO: db-level constraint that at most one of these may be non-null
+    accepted_at = models.DateTimeField(null=True)
+    rejected_at = models.DateTimeField(null=True)
