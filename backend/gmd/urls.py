@@ -14,10 +14,13 @@ from app.views import HomeView
 # Note: every route defined here must set appropriate access controls
 
 urlpatterns = [
+    # Login and home page
     path("accounts/", include("django.contrib.auth.urls")),
     path("", login_required(HomeView.as_view())),
+    # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
+    # DRF API
     path(
         "api/employees/", employee_drf_api.EmployeeAPIView.as_view()
     ),  # TODO: permission
