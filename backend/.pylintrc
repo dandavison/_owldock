@@ -1,0 +1,16 @@
+[MASTER]
+
+load-plugins=pylint_django
+suggestion-mode=yes
+
+[PYLINT DJANGO]
+django-settings-module=gmd.settings
+
+[MESSAGES CONTROL]
+
+disable=fixme,
+    invalid-name,
+    missing-class-docstring,
+    missing-function-docstring,
+    missing-module-docstring,
+    no-else-return

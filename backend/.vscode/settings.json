@@ -1,12 +1,5 @@
 {
   "python.linting.pylintArgs": [
-    "--load-plugins",
-    "pylint_django",
-    "--django-settings-module=gmd.settings",
-    "--disable=missing-module-docstring",
-    "--disable=invalid-name",
-    "--disable=missing-class-docstring",
-    "--disable=missing-function-docstring"
+    "--rcfile=.pylintrc",
   ],
-  "prettier.enable": false
 }
