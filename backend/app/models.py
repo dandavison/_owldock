@@ -15,9 +15,7 @@ class BaseModel(models.Model):
         abstract = True
 
     def __repr__(self) -> str:
-        data = {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
-        cls_name = type(self).__name__
-        return f"{cls_name}({pformat(data)})"
+        return f"{self.__class__.__name__}({self.id})"
 
 
 class Client(BaseModel):
