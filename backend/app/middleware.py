@@ -1,10 +1,11 @@
 from typing import Callable
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 from django.http import HttpResponse
 
 Middleware = Callable[[HttpRequest], HttpResponse]
+User = get_user_model()
 
 
 def set_user_data_cookies(get_response: Middleware) -> Middleware:

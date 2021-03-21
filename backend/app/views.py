@@ -1,13 +1,14 @@
 import logging
 from typing import Optional
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.views.generic import RedirectView
 
 from app.constants import GroupName
 from app.constants import Role
 
 logger = logging.getLogger(__file__)
+User = get_user_model()
 
 
 class HomeView(RedirectView):
@@ -27,7 +28,8 @@ def get_role(user: User) -> Optional[Role]:
     is_provider_contact = GroupName.PROVIDER_CONTACTS.value in groups
     if is_client_contact and is_provider_contact:
         logger.error(
-            f"User {user} is in both client-contact and provider-contact groups"
+            "User %s is in both client-contact and provider-contact groups",
+            user,
         )
         return None
     elif is_client_contact:
