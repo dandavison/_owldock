@@ -3,22 +3,33 @@ SHELL = bash -u
 WITH_NODE_ENV=env $$(xargs < .env)
 WITH_SERVER_ENV=env $$(xargs < .env.server)
 
+static-analysis: backend-static-analysis ui-static-analysis
+
+test: backend-test ui-test
+
 serve: ui-build backend-serve
 
-ui-build: backend-create-typescript-interfaces
-	cd ui && $(WITH_SERVER_ENV) npm run build
+clean:
+	rm -fr ui/dist
 
-ui-serve: backend-create-typescript-interfaces
-	cd ui && npm run serve
+vscode: backend-vscode ui-vscode
 
-ui-vscode:
-	cd ui && code .
+################################################################
+# Backend
 
-backend-serve:
-	cd backend && ./manage.py runserver
+backend-static-analysis: backend-lint backend-type-check
+
+backend-lint:
+	cd backend && pylint --rcfile=.pylintrc app gmd
 
 backend-type-check:
 	cd backend && .venv/bin/mypy --check-untyped-defs .
+
+backend-test:
+	cd backend && .venv/bin/pytest
+
+backend-serve:
+	cd backend && ./manage.py runserver
 
 backend-create-fake_data:
 	cd backend && .venv/bin/python manage.py create_fake_data
@@ -38,16 +49,28 @@ backend-destroy-db:
 backend-vscode:
 	cd backend && code .
 
-backend-test:
-	cd backend && .venv/bin/pytest
+################################################################
+# ui
 
-test: backend-test
+ui-static-analysis: ui-lint ui-type-check
+
+ui-lint: backend-create-typescript-interfaces
+	cd ui && npm run lint
+
+ui-type-check: backend-create-typescript-interfaces
+	cd ui && npm run type-check
 
 ui-test: backend-create-typescript-interfaces
-	cd ui && npm test
+	cd ui && npm run test
 
 ui-test-live: backend-create-typescript-interfaces
 	cd ui && $(WITH_NODE_ENV) npx cypress open
 
-clean:
-	rm -fr ui/dist
+ui-build: backend-create-typescript-interfaces
+	cd ui && $(WITH_SERVER_ENV) npm run build
+
+ui-serve: backend-create-typescript-interfaces
+	cd ui && npm run serve
+
+ui-vscode:
+	cd ui && code .
