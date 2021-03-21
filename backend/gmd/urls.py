@@ -6,9 +6,9 @@ from django.urls import re_path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
-from app.http_api import employee as employee_api
-from app.http_api import case as case_api
-from app.http_api import case_list as case_list_api
+from app.drf_api import employee as employee_drf_api
+from app.drf_api import case as case_drf_api
+from app.drf_api import case_list as case_list_drf_api
 from app.views import HomeView
 
 # Note: every route defined here must set appropriate access controls
@@ -18,14 +18,16 @@ urlpatterns = [
     path("", login_required(HomeView.as_view())),
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
-    path("api/employees/", employee_api.EmployeeAPIView.as_view()),  # TODO: permission
+    path(
+        "api/employees/", employee_drf_api.EmployeeAPIView.as_view()
+    ),  # TODO: permission
     path(
         "api/cases/",
-        case_api.CaseAPIView.as_view(),
+        case_drf_api.CaseAPIView.as_view(),
     ),  # TODO: permission
     path(
         "api/case-list/",
-        case_list_api.CaseListAPIView.as_view(),
+        case_list_drf_api.CaseListAPIView.as_view(),
     ),  # TODO: permission
     path(
         "api/",
