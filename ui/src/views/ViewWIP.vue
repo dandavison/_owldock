@@ -60,8 +60,8 @@
           <b-table-column field="service" label="Service" v-slot="props">
             {{ props.row.service }}
           </b-table-column>
-          <b-table-column field="caseType" label="Case type" v-slot="props">
-            {{ props.row.type }}
+          <b-table-column field="process" label="Process" v-slot="props">
+            {{ props.row.process.name }}
           </b-table-column>
         </b-table>
       </b-tab-item>

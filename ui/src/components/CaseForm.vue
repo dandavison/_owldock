@@ -14,6 +14,9 @@
       <b-field label="Service required">
         <b-input v-model="form.service"></b-input>
       </b-field>
+      <b-field label="Process">
+        <b-input v-model="form.process"></b-input>
+      </b-field>
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-link" @click="handleSubmit">Submit</button>
@@ -42,6 +45,7 @@ export default Vue.extend({
         status: "UNASSIGNED",
         host_country: "",
         progress: 0,
+        process: "",
         service: "",
         target_entry_date: "",
       } as CaseSerializer,
