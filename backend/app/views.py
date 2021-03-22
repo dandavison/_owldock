@@ -1,14 +1,16 @@
 import logging
-from typing import Optional
+from typing import Optional, Union
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import (  # pylint: disable=imported-auth-user
+    AnonymousUser,
+    User,
+)
 from django.views.generic import RedirectView
 
 from app.constants import GroupName
 from app.constants import Role
 
 logger = logging.getLogger(__file__)
-User = get_user_model()
 
 
 class HomeView(RedirectView):
@@ -22,7 +24,7 @@ class HomeView(RedirectView):
             return "/accounts/logout/"
 
 
-def get_role(user: User) -> Optional[Role]:
+def get_role(user: Union[User, AnonymousUser]) -> Optional[Role]:
     groups = {g.name for g in user.groups.all()}
     is_client_contact = GroupName.CLIENT_CONTACTS.value in groups
     is_provider_contact = GroupName.PROVIDER_CONTACTS.value in groups

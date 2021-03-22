@@ -1,11 +1,14 @@
-from typing import Callable
+from typing import Callable, Union
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import (  # pylint: disable=imported-auth-user
+    AnonymousUser,
+    User,
+)
+
 from django.http import HttpRequest
 from django.http import HttpResponse
 
 Middleware = Callable[[HttpRequest], HttpResponse]
-User = get_user_model()
 
 
 def set_user_data_cookies(get_response: Middleware) -> Middleware:
@@ -19,9 +22,9 @@ def set_user_data_cookies(get_response: Middleware) -> Middleware:
     return middleware
 
 
-def _set_user_attribute_cookie(attr: str, user: User, response: HttpResponse) -> None:
-    # Note: mypy reports the type of User to be Union[AbstractBaseUser, AnonymousUser],
-    # and that this type does not have, for example 'user_name'.
+def _set_user_attribute_cookie(
+    attr: str, user: Union[User, AnonymousUser], response: HttpResponse
+) -> None:
     try:
         value = getattr(user, attr)
     except AttributeError:

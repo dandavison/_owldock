@@ -10,7 +10,6 @@ from django.db.models import Model
 from django_seed import Seed
 
 from app import models
-from app.types import CaseType
 from app.types import Service
 from app.types import Status
 
@@ -117,11 +116,15 @@ def create_entities(model: Type[M], n) -> List[M]:
     return list(model.objects.filter(pk__in=pks))
 
 
-def random_case_status(_) -> List[Status]:
-    return random.sample(
-        ["Application Submitted", "Application Approved", "Complete"], 1
-    )[0]
+def random_case_status(_) -> Status:
+    statuses = [
+        Status("Application Submitted"),
+        Status("Application Approved"),
+        Status("Complete"),
+    ]
+    return random.sample(statuses, 1)[0]
 
 
-def random_service(_) -> List[Service]:
-    return random.sample(["Immigration"], 1)[0]
+def random_service(_) -> Service:
+    services = [Service("Immigration")]
+    return random.sample(services, 1)[0]
