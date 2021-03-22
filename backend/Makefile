@@ -4,7 +4,7 @@ lint:
 	pylint --rcfile=.pylintrc app gmd
 
 type-check:
-	.venv/bin/mypy --check-untyped-defs .
+	.venv/bin/mypy .
 
 test:
 	.venv/bin/pytest

@@ -13,4 +13,6 @@ disable=fixme,
     missing-class-docstring,
     missing-function-docstring,
     missing-module-docstring,
-    no-else-return
+    no-else-return,
+    redefined-builtin,
+    wrong-import-position
