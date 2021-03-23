@@ -43,6 +43,7 @@ class BaseModel(models.Model):
 
 class Client(BaseModel):
     name = models.CharField(max_length=128)
+    entity_domain_name = models.CharField(max_length=128)
 
 
 class ClientContact(BaseModel):
