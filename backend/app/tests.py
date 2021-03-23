@@ -10,6 +10,7 @@ from app.models import (
     Process,
     ProviderContact,
 )
+from app.types import Country
 
 
 @pytest.mark.django_db
@@ -25,7 +26,7 @@ def test_client_provider_case_lifecycle():
     case = clientc.initiate_case(
         employee_id=employee.id,
         process_id=process.id,
-        host_country="Mozambique",
+        host_country=Country("Mozambique"),
         target_entry_date=datetime.now() + timedelta(weeks=6),
     )
     assert case.provider_contact is None
