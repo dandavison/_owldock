@@ -8,6 +8,7 @@
           placeholder="Select an employee"
           :data="filteredCandidates"
           @select="handleSelect"
+          :open-on-focus="true"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
