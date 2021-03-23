@@ -3,14 +3,22 @@ static-analysis: lint type-check
 lint:
 	pylint --rcfile=.pylintrc app gmd
 
-type-check:
-	.venv/bin/mypy .
+type-check: type-check-mypy
 
 test:
 	.venv/bin/pytest
 
 serve:
 	./manage.py runserver
+
+type-check-mypy:
+	.venv/bin/mypy .
+
+type-check-pyright:
+	pyright --venv-path . app gmd
+
+repl-python:
+	./manage.py shell_plus
 
 create-fake_data:
 	.venv/bin/python manage.py create_fake_data

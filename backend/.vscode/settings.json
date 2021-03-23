@@ -2,4 +2,5 @@
   "python.linting.pylintArgs": [
     "--rcfile=.pylintrc",
   ],
+  "python.analysis.typeCheckingMode": "basic",
 }
