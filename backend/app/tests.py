@@ -1,22 +1,25 @@
-from datetime import datetime
-from datetime import timedelta
-
-from django.core.management import call_command
+from datetime import datetime, timedelta
 
 import pytest
+from django.core.management import call_command
 
-from . import api
-from . import models
+from app.models import (
+    CaseCannotBeOffered,
+    CaseNotAvailableToProvider,
+    ClientContact,
+    Process,
+    ProviderContact,
+)
 
 
 @pytest.mark.django_db
 def test_client_provider_case_lifecycle():
     _setup()
 
-    clientc = api.ClientContact_.objects.earliest("id")
+    clientc = ClientContact.objects.earliest("id")
     employee = clientc.client.employee_set.earliest("id")
-    process = models.Process.objects.earliest("id")
-    providerc_a, providerc_b = api.ProviderContact_.objects.all()[:2]
+    process = Process.objects.earliest("id")
+    providerc_a, providerc_b = ProviderContact.objects.all()[:2]
 
     # Client contact creates a case
     case = clientc.initiate_case(
@@ -36,9 +39,9 @@ def test_client_provider_case_lifecycle():
 
     # The client contact can't offer it again to anyone (provider contact A
     # has exclusive rights to accept the offer).
-    with pytest.raises(api.CaseCannotBeOffered):
+    with pytest.raises(CaseCannotBeOffered):
         clientc.offer_case_to_provider(case, providerc_a)
-    with pytest.raises(api.CaseCannotBeOffered):
+    with pytest.raises(CaseCannotBeOffered):
         clientc.offer_case_to_provider(case, providerc_b)
 
     # The case still has no provider because it hasn't been accepted
@@ -49,7 +52,7 @@ def test_client_provider_case_lifecycle():
     assert not providerc_b.available_cases().filter(id=case.id).exists()
 
     # Provider B can't reject the case; it hasn't been offered to them.
-    with pytest.raises(api.CaseNotAvailableToProvider):
+    with pytest.raises(CaseNotAvailableToProvider):
         providerc_b.reject_case(case)
 
     # Provider A rejects the case
@@ -74,9 +77,9 @@ def test_client_provider_case_lifecycle():
     providerc_b.accept_case(case)
 
     # The client contact can't offer it again to anyone (it has been accepted)
-    with pytest.raises(api.CaseCannotBeOffered):
+    with pytest.raises(CaseCannotBeOffered):
         clientc.offer_case_to_provider(case, providerc_a)
-    with pytest.raises(api.CaseCannotBeOffered):
+    with pytest.raises(CaseCannotBeOffered):
         clientc.offer_case_to_provider(case, providerc_b)
 
     # It's no longer in provider B's available cases but is in in their assigned cases.
