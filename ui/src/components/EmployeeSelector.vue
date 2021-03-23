@@ -5,7 +5,7 @@
         <b-autocomplete
           type="text"
           v-model="inputEmployeeName"
-          placeholder="Employee"
+          placeholder="Select an employee"
           :data="filteredCandidates"
           @select="handleSelect"
           autocomplete="off"
@@ -14,7 +14,7 @@
           spellcheck="false"
         >
           <template slot-scope="props">
-            {{ props.option.first_name }} {{ props.option.last_name }}
+            {{ props.option.user.first_name }} {{ props.option.user.last_name }}
           </template>
         </b-autocomplete>
       </b-field>

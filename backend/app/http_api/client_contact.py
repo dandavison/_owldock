@@ -4,7 +4,7 @@ from django.views import View
 from django_typomatic import ts_interface
 from rest_framework import serializers
 
-from app.models import ClientContact
+from app.models import Case, ClientContact
 from app.models import Employee
 
 
@@ -33,3 +33,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = "__all__"
         depth = 1
+
+
+class CaseList(_ClientContactView):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        cases = self.client_contact.case_set.all()
+        serializer = CaseSerializer(data=cases, many=True)
+        serializer.is_valid()
+        return JsonResponse(serializer.data, safe=False)
+
+
+@ts_interface()
+class CaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Case
+        fields = "__all__"
+        depth = 2
