@@ -46,7 +46,7 @@ export default Vue.extend({
   },
 
   mounted() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/employees/`)
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/client-contact/employees/`)
       .then((resp) => resp.json())
       .then((data) => (this.employees = data));
   },

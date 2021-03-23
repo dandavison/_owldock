@@ -37,3 +37,12 @@ export interface CaseListRowSerializer {
     process?: any;
 }
 
+export interface EmployeeSerializer {
+    id?: number;
+    created_at?: string;
+    modified_at?: string;
+    home_country: string;
+    user?: any;
+    employer?: any;
+}
+

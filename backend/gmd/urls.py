@@ -4,11 +4,8 @@ from django.urls import include
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from rest_framework.schemas import get_schema_view
 
-from app.drf_api import employee as employee_drf_api
-from app.drf_api import case as case_drf_api
-from app.drf_api import case_list as case_list_drf_api
+from app.http_api import client_contact
 from app.views import HomeView
 
 # Note: every route defined here must set appropriate access controls
@@ -17,26 +14,14 @@ urlpatterns = [
     # Login and home page
     path("accounts/", include("django.contrib.auth.urls")),
     path("", login_required(HomeView.as_view())),
+    # HTTP API
+    path(
+        "api/client-contact/employees/",
+        login_required(client_contact.EmployeesList.as_view()),
+    ),
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
-    # DRF API
-    path(
-        "api/employees/", employee_drf_api.EmployeeAPIView.as_view()
-    ),  # TODO: permission
-    path(
-        "api/cases/",
-        case_drf_api.CaseAPIView.as_view(),
-    ),  # TODO: permission
-    path(
-        "api/case-list/",
-        case_list_drf_api.CaseListAPIView.as_view(),
-    ),  # TODO: permission
-    path(
-        "api/",
-        get_schema_view(title="GMD", version="0.0.1"),
-        name="openapi-schema",
-    ),
     # Assume anything else is a client-side route handled by Vue router
     # https://stackoverflow.com/questions/42864641/handling-single-page-application-url-and-django-url
     re_path(
