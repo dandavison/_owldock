@@ -22,6 +22,9 @@ build: backend-create-typescript-interfaces
 serve: backend-create-typescript-interfaces
 	npm run serve
 
+watch:
+	fswatch -or src | xargs -n1 -I{} make build
+
 vscode:
 	code .
 
