@@ -16,7 +16,7 @@ from app.models import (
 def test_client_provider_case_lifecycle():
     _setup()
 
-    clientc = ClientContact.objects.earliest("id")
+    clientc, clientc_b = ClientContact.objects.all()[:2]
     employee = clientc.client.employee_set.earliest("id")
     process = Process.objects.earliest("id")
     providerc_a, providerc_b = ProviderContact.objects.all()[:2]
@@ -33,6 +33,10 @@ def test_client_provider_case_lifecycle():
     # Neither provider can see the case because the client contact hasn't offered it to them.
     for provider in [providerc_a, providerc_b]:
         assert not provider.available_cases().filter(id=case.id).exists()
+
+    # A different client may not offer this case to anyone.
+    with pytest.raises(CaseCannotBeOffered):
+        clientc_b.offer_case_to_provider(case, providerc_a)
 
     # Client contact offers the case to provider contact A
     clientc.offer_case_to_provider(case, providerc_a)

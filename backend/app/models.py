@@ -76,12 +76,22 @@ class ClientContact(BaseModel):
     ) -> None:
         """
         Offer this case to a provider; they may then accept or reject it.
+
+        The case may be offered iff:
+        - This client contact has write access to it
+        - It is offerable (i.e. the case state machine features a transition
+          from its current state to offered)
         """
-        if CaseContract.objects.filter(case_id=case.id, rejected_at=None).exists():
+        if not self.has_case_write_permission(case):
             raise CaseCannotBeOffered(
-                f"A non-rejected contract exists for case {case.id}"
+                f"{self} does not have permission to edit {case}."
             )
-        CaseContract.objects.create(case=case, provider_contact_id=provider_contact.id)
+        if not case.can_be_offered():
+            raise CaseCannotBeOffered(f"{case} is not in an offerable state.")
+        CaseContract.objects.create(case=case, provider_contact=provider_contact)
+
+    def has_case_write_permission(self, case: "Case") -> bool:
+        return case.client_contact == self
 
 
 class Provider(BaseModel):
@@ -208,9 +218,22 @@ class Case(BaseModel):
     # TODO: compute
     progress = models.FloatField()
 
+    def can_be_offered(self):
+        """
+        A case can be offered iff:
+        - It is not assigned to a provider
+        - It is not on-offer to a provider
+        """
+        # TODO: This can be viewed as answering the question:
+        # Given the current state of this case, does the case state machine
+        # accept an 'offered-case' event which transitions to an 'on-offer' state?
+        return not self.contracts.filter(rejected_at=None).exists()
+
 
 class CaseContract(BaseModel):
-    case = models.ForeignKey(Case, on_delete=models.deletion.CASCADE)
+    case = models.ForeignKey(
+        Case, on_delete=models.deletion.CASCADE, related_name="contracts"
+    )
     provider_contact = models.ForeignKey(
         ProviderContact, on_delete=models.deletion.CASCADE
     )
