@@ -31,8 +31,14 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.id})"  # type: ignore
+    def __str__(self) -> str:
+        if hasattr(self, "name"):
+            data = self.name  # type: ignore # pylint: disable=no-member
+        elif hasattr(self, "user"):
+            data = self.user.email  # type: ignore # pylint: disable=no-member
+        else:
+            data = self.id  # type: ignore
+        return f"{self.__class__.__name__}({data})"
 
 
 class Client(BaseModel):
