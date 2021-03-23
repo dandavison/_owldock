@@ -93,4 +93,4 @@ def test_client_provider_case_lifecycle():
 
 
 def _setup():
-    call_command("create_fake_data")
+    call_command("create_fake_data", "test-password")

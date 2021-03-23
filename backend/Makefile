@@ -23,8 +23,7 @@ destroy-db:
 	&& rm -rf app/migrations/* \
 	&& ./manage.py makemigrations app \
 	&& ./manage.py migrate \
-	&& ./manage.py create_users_and_groups $$GMD_DEV_PASSWORD \
-	&& ./manage.py create_fake_data
+	&& ./manage.py create_fake_data $$GMD_DEV_PASSWORD
 
 vscode:
 	code .
