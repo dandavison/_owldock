@@ -10,7 +10,9 @@
         <div class="media">
           <div class="media-left">
             <figure class="image is-4x3">
-              <img v-bind="makeCountryFlagImgProps(employee.home_country)" />
+              <img
+                v-bind="makeCountryFlagImgProps(employee.home_country, '64x48')"
+              />
             </figure>
           </div>
           <div class="media-content">
