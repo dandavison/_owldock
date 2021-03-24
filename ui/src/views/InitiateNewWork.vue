@@ -1,9 +1,10 @@
 <template>
   <section class="section">
     <p class="m-4 is-size-2">Initiate new work</p>
-    <employee-selector @select:employee="(emp) => (this.employee = emp)">
-    </employee-selector>
-    <employee v-if="employee" :employee="employee"></employee>
+    <employee
+      @select:employee="(emp) => (this.employee = emp)"
+      :employee="employee"
+    ></employee>
     <case-form v-if="employee" :employeeId="employee.id"> </case-form>
   </section>
 </template>

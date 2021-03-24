@@ -1,42 +1,68 @@
 <template>
-  <div class="card">
-    <div class="card-content">
-      <div class="media">
-        <div class="media-left">
-          <figure class="image is-4x3">
-            <img
-              :src="`https://flagcdn.com/64x48/${employee.home_country.toLowerCase()}.png`"
-              :srcset="`
-                https://flagcdn.com/128x96/${employee.home_country.toLowerCase()}.png  2x,
-                https://flagcdn.com/192x144/${employee.home_country.toLowerCase()}.png 3x
-              `"
-              width="64"
-              height="48"
-              :alt="`${employee.home_country}`"
-            />
-          </figure>
-        </div>
-        <div class="media-content">
-          <p class="title is-4">
-            {{ employee.user.first_name }} {{ employee.user.last_name }}
-          </p>
-          <p class="subtitle is-6">
-            <a :href="`mailto:${employee.user.email}`">
-              {{ employee.user.email }}
-            </a>
-          </p>
+  <div>
+    <div
+      v-if="employee"
+      class="card"
+      style="overflow: visible"
+      @click="handleClick"
+    >
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-4x3">
+              <img
+                :src="`https://flagcdn.com/64x48/${employee.home_country.toLowerCase()}.png`"
+                :srcset="`
+                  https://flagcdn.com/128x96/${employee.home_country.toLowerCase()}.png  2x,
+                  https://flagcdn.com/192x144/${employee.home_country.toLowerCase()}.png 3x
+                `"
+                width="64"
+                height="48"
+                :alt="`${employee.home_country}`"
+              />
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-4">
+              {{ employee.user.first_name }} {{ employee.user.last_name }}
+            </p>
+            <p class="subtitle is-6">
+              <a :href="`mailto:${employee.user.email}`">
+                {{ employee.user.email }}
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
+    <employee-selector v-else @select:employee="handleSelect">
+    </employee-selector>
   </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue from "vue";
 import { EmployeeSerializer } from "../api-types";
+import EmployeeSelector from "./EmployeeSelector.vue";
 
 export default Vue.extend({
-  props: { employee: {} as PropType<EmployeeSerializer> },
+  components: { EmployeeSelector },
+  data() {
+    return {
+      employee: null as EmployeeSerializer | null,
+    };
+  },
+
+  methods: {
+    handleSelect(employee: EmployeeSerializer) {
+      this.employee = employee;
+      this.$emit("select:employee", employee);
+    },
+
+    handleClick() {
+      this.employee = null;
+    },
+  },
 });
 </script>
 
