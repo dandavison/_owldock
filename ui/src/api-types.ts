@@ -18,7 +18,7 @@ export interface EmployeeSerializer {
     id?: number;
     created_at?: string;
     modified_at?: string;
-    home_country: string;
+    home_country: any;
     user?: any;
     employer?: any;
 }
@@ -36,5 +36,10 @@ export interface CaseSerializer {
     provider_contact?: any;
     employee?: any;
     process?: any;
+}
+
+export interface CountrySerializer {
+    code: string;
+    name: string;
 }
 
