@@ -31,7 +31,6 @@ class Command(BaseCommand):
         self._create_provider_contacts()
         self._create_employees(10)
         self._create_activities(3)
-        self._create_processes(3)
 
     def _create_countries(self) -> None:
         print("Creating countries")
@@ -43,16 +42,6 @@ class Command(BaseCommand):
         models.Service.objects.create(name="Complete and submit petition")
         models.Service.objects.create(name="Book consular appointment")
         models.Service.objects.create(name="Escort employee to consular appointment")
-
-    def _create_processes(self, n: int):
-        print("Creating processes")
-        for (name, country_code) in [("H1B", "US"), ("L1", "US")]:
-            country = models.Country.objects.get(code=country_code)
-            process = models.Process.objects.create(
-                name=name,
-                country=country,
-            )
-            process.services.add(*models.Service.objects.all())
 
     def _create_activities(self, n: int):
         print("Creating activities")

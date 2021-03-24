@@ -210,8 +210,24 @@ class Service(BaseModel):
 
 class Process(BaseModel):
     name = models.CharField(max_length=128)
-    country = models.ForeignKey(Country, on_delete=models.deletion.PROTECT)
-    services = models.ManyToManyField(Service)
+    nationality = models.ForeignKey(
+        Country,
+        on_delete=models.deletion.PROTECT,
+        related_name="processes_for_which_nationality",
+    )
+    host_country = models.ForeignKey(
+        Country,
+        on_delete=models.deletion.PROTECT,
+        related_name="processes_for_which_host_country",
+    )
+
+
+class ProcessStep(BaseModel):
+    process = models.ForeignKey(
+        Process, on_delete=models.deletion.CASCADE, related_name="steps"
+    )
+    service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
+    sequence_number = models.FloatField()
 
 
 class Case(BaseModel):
