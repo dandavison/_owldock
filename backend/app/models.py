@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.transaction import atomic
 from django.utils import timezone
 
 if TYPE_CHECKING:
@@ -57,6 +58,7 @@ class ClientContact(BaseModel):
         # TODO: ClientEntity
         return Employee.objects.filter(employer_id=self.client_id)
 
+    @atomic
     def initiate_case(
         self,
         employee_id: int,
@@ -80,6 +82,7 @@ class ClientContact(BaseModel):
             progress=0.0,
         )
 
+    @atomic
     def offer_case_to_provider(
         self, case: "Case", provider_contact: "ProviderContact"
     ) -> None:
@@ -129,6 +132,7 @@ class ProviderContact(BaseModel):
         """
         return Case.objects.filter(id__in=self._accepted_contracts().values("case_id"))
 
+    @atomic
     def accept_case(self, case: "Case") -> None:
         """
         Accept an offered case, i.e. undertake to do the work.
@@ -137,6 +141,7 @@ class ProviderContact(BaseModel):
         contract.accepted_at = timezone.now()
         contract.save()
 
+    @atomic
     def reject_case(self, case: "Case") -> None:
         """
         Reject an offered case.
