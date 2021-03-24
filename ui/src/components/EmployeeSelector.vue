@@ -3,12 +3,11 @@
     <p class="control" style="width: 100%">
       <b-field>
         <b-autocomplete
-          type="text"
           v-model="inputEmployeeName"
           placeholder="Select an employee"
           :data="filteredCandidates"
-          @select="handleSelect"
-          :open-on-focus="true"
+          @select="(employee) => $emit('select:employee', employee)"
+          :openOnFocus="true"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -46,16 +45,10 @@ export default Vue.extend({
     },
   },
 
-  mounted() {
+  created() {
     fetch(`${process.env.VUE_APP_SERVER_URL}/api/client-contact/employees/`)
       .then((resp) => resp.json())
       .then((data) => (this.employees = data));
-  },
-
-  methods: {
-    handleSelect(employee: EmployeeSerializer) {
-      this.$emit("select:employee", employee);
-    },
   },
 });
 
