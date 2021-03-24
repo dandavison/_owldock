@@ -3,9 +3,15 @@
     <div class="card-content">
       <div class="media">
         <div class="media-left">
-          <figure class="image is-48x48">
+          <figure class="image is-4x3">
             <img
-              :src="`/static/flags/${employee.home_country}.gif`"
+              :src="`https://flagcdn.com/64x48/${employee.home_country.toLowerCase()}.png`"
+              :srcset="`
+                https://flagcdn.com/128x96/${employee.home_country.toLowerCase()}.png  2x,
+                https://flagcdn.com/192x144/${employee.home_country.toLowerCase()}.png 3x
+              `"
+              width="64"
+              height="48"
               :alt="`${employee.home_country}`"
             />
           </figure>
