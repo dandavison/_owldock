@@ -23,6 +23,9 @@ repl-python:
 create-fake_data:
 	.venv/bin/python manage.py create_fake_data
 
+load-processes-fixture:
+	.venv/bin/python manage.py load_processes_fixture
+
 create-typescript-interfaces:
 	.venv/bin/python manage.py create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
 

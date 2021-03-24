@@ -3,6 +3,7 @@ from typing import List, Set, Type, TypeVar, Optional
 
 import django_countries
 from django.contrib.auth.models import Group, User
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db.models import Model
 from django.db.transaction import atomic
@@ -31,6 +32,7 @@ class Command(BaseCommand):
         self._create_provider_contacts()
         self._create_employees(10)
         self._create_activities(3)
+        call_command("load_processes_fixture")
 
     def _create_countries(self) -> None:
         print("Creating countries")
