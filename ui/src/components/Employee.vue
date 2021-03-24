@@ -10,16 +10,7 @@
         <div class="media">
           <div class="media-left">
             <figure class="image is-4x3">
-              <img
-                :src="`https://flagcdn.com/64x48/${employee.home_country.toLowerCase()}.png`"
-                :srcset="`
-                  https://flagcdn.com/128x96/${employee.home_country.toLowerCase()}.png  2x,
-                  https://flagcdn.com/192x144/${employee.home_country.toLowerCase()}.png 3x
-                `"
-                width="64"
-                height="48"
-                :alt="`${employee.home_country}`"
-              />
+              <img v-bind="makeCountryFlagImgProps(employee.home_country)" />
             </figure>
           </div>
           <div class="media-content">
@@ -42,6 +33,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+
+import { makeCountryFlagImgProps } from "../utils";
 import { EmployeeSerializer } from "../api-types";
 import EmployeeSelector from "./EmployeeSelector.vue";
 
@@ -50,6 +43,7 @@ export default Vue.extend({
   data() {
     return {
       employee: null as EmployeeSerializer | null,
+      makeCountryFlagImgProps,
     };
   },
 
