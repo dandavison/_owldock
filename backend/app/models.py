@@ -9,6 +9,8 @@ from django.utils import timezone
 if TYPE_CHECKING:
     from django.db.models.query import QuerySet
 
+from django_countries.fields import CountryField
+
 from app.types import Country
 
 
@@ -184,7 +186,7 @@ class ProviderContact(BaseModel):
 class Employee(BaseModel):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     employer = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
-    home_country = models.CharField(max_length=128)
+    home_country = CountryField()
 
 
 class Activity(BaseModel):

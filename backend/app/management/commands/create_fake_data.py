@@ -4,6 +4,7 @@ from typing import List, Set, Type, TypeVar, Optional
 from app import models
 from app.constants import GroupName
 from app.types import Service, Status
+import django_countries
 from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
 from django.db.models import Model
@@ -59,6 +60,7 @@ class Command(BaseCommand):
             models.ClientContact.objects.create(client=client, user=user)
 
     def _create_employees(self, n: int) -> None:
+        countries = list(django_countries.countries)
         for client in models.Client.objects.all():
             seen: Set[str] = set()
             done = 0
@@ -73,7 +75,11 @@ class Command(BaseCommand):
                 last_name = " ".join(last_names)
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
-                models.Employee.objects.create(employer=client, user=user)
+                models.Employee.objects.create(
+                    employer=client,
+                    user=user,
+                    home_country=random.sample(countries, 1)[0],
+                )
 
     def _create_provider_contacts(self) -> None:
         group = Group.objects.create(name=GroupName.PROVIDER_CONTACTS.value)

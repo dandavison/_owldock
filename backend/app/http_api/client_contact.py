@@ -1,6 +1,7 @@
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 
 from django.views import View
+from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework import serializers
 
