@@ -2,7 +2,20 @@
   <section class="section">
     <form>
       <b-field label="Host country">
-        <b-input v-model="form.host_country"></b-input>
+        <b-autocomplete
+          v-model="inputHostCountry"
+          :data="filteredCandidates"
+          :openOnFocus="true"
+          @select="(country) => (form.host_country = country)"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+          <template slot-scope="props">
+            {{ props.option.name }}
+          </template>
+        </b-autocomplete>
       </b-field>
       <b-field label="Target entry date">
         <b-input v-model="form.target_entry_date"></b-input>
@@ -32,7 +45,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Cookies from "js-cookie";
-import { CaseSerializer } from "../api-types";
+import { CaseSerializer, CountrySerializer } from "../api-types";
 
 export default Vue.extend({
   props: { employeeId: Number },
@@ -49,7 +62,28 @@ export default Vue.extend({
         service: "",
         target_entry_date: "",
       } as CaseSerializer,
+      inputHostCountry: "",
+      countries: [] as CountrySerializer[],
     };
+  },
+
+  created() {
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/countries/`)
+      .then((resp) => resp.json())
+      .then((data) => (this.countries = data));
+  },
+
+  computed: {
+    filteredCandidates(): CountrySerializer[] {
+      // TODO: why is this called after selecting with inputEmployeeName === undefined?
+      if (!this.inputHostCountry) {
+        return [];
+      } else {
+        return this.countries.filter((country) =>
+          inputMatchesCountry(this.inputHostCountry, country)
+        );
+      }
+    },
   },
 
   methods: {
@@ -70,6 +104,13 @@ export default Vue.extend({
     },
   },
 });
+
+function inputMatchesCountry(
+  input: string,
+  country: CountrySerializer
+): boolean {
+  return country.name.toLowerCase().startsWith(input.toLowerCase());
+}
 </script>
 
 
