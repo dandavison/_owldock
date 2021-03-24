@@ -54,7 +54,7 @@ export default Vue.extend({
 
   methods: {
     handleSelect(employee: EmployeeSerializer) {
-      this.$emit("select:employee", employee.id);
+      this.$emit("select:employee", employee);
     },
   },
 });
