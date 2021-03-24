@@ -2,10 +2,15 @@
   <section class="section">
     <p class="m-4 is-size-2">Initiate new work</p>
     <employee
-      @select:employee="(emp) => (this.employee = emp)"
-      :employee="employee"
+      @select:employee="(employee) => (this.employee = employee)"
+      :hostCountry="hostCountry"
     ></employee>
-    <case-form v-if="employee" :employeeId="employee.id"> </case-form>
+    <case-form
+      v-if="employee"
+      :employeeId="employee.id"
+      @select:host-country="(country) => (this.hostCountry = country)"
+    >
+    </case-form>
   </section>
 </template>
 
@@ -13,7 +18,7 @@
 import Vue from "vue";
 import Employee from "../components/Employee.vue";
 import EmployeeSelector from "../components/EmployeeSelector.vue";
-import { EmployeeSerializer } from "../api-types";
+import { CountrySerializer, EmployeeSerializer } from "../api-types";
 import CaseForm from "../components/CaseForm.vue";
 
 export default Vue.extend({
@@ -21,6 +26,7 @@ export default Vue.extend({
   data() {
     return {
       employee: null as EmployeeSerializer | null,
+      hostCountry: null as CountrySerializer | null,
     };
   },
 });

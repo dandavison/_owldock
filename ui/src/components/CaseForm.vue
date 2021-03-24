@@ -6,7 +6,7 @@
           v-model="inputHostCountry"
           :data="filteredCandidates"
           :openOnFocus="true"
-          @select="(country) => (form.host_country = country)"
+          @select="handleSelectHostCountry"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -91,6 +91,11 @@ export default Vue.extend({
   },
 
   methods: {
+    handleSelectHostCountry(country: CountrySerializer) {
+      this.form.host_country = country.code;
+      this.$emit("select:host-country", country);
+    },
+
     isValid(): boolean {
       // TODO
       const emptyValues = Object.values(this.form).filter(
@@ -129,7 +134,3 @@ function inputMatchesCountry(
   return country.name.toLowerCase().startsWith(input.toLowerCase());
 }
 </script>
-
-
-
-    

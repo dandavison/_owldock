@@ -15,6 +15,7 @@
               />
             </figure>
           </div>
+
           <div class="media-content">
             <p class="title is-4">
               {{ employee.user.first_name }} {{ employee.user.last_name }}
@@ -25,6 +26,14 @@
               </a>
             </p>
           </div>
+
+          <div v-if="hostCountry" class="media-right">
+            <figure class="image is-4x3">
+              <img
+                v-bind="makeCountryFlagImgProps(hostCountry.code, '64x48')"
+              />
+            </figure>
+          </div>
         </div>
       </div>
     </div>
@@ -34,14 +43,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 
 import { makeCountryFlagImgProps } from "../utils";
-import { EmployeeSerializer } from "../api-types";
+import { CountrySerializer, EmployeeSerializer } from "../api-types";
 import EmployeeSelector from "./EmployeeSelector.vue";
 
 export default Vue.extend({
+  props: { hostCountry: Object as PropType<CountrySerializer> },
+
   components: { EmployeeSelector },
+
   data() {
     return {
       employee: null as EmployeeSerializer | null,
