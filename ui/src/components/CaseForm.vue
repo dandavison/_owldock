@@ -87,7 +87,20 @@ export default Vue.extend({
   },
 
   methods: {
-    handleSubmit() {
+    isValid(): boolean {
+      // TODO
+      const emptyValues = Object.values(this.form).filter(
+        (val) => `${val}`.length === 0
+      );
+      return emptyValues.length === 0;
+    },
+
+    handleSubmit(): void {
+      if (!this.isValid()) {
+        console.log("Not submitting: form data is not valid");
+        return;
+      }
+
       const headers = {
         "Content-Type": "application/json",
       } as any;
