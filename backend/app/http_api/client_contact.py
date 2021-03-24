@@ -1,5 +1,5 @@
+from django.contrib.auth import get_user_model
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
-
 from django.views import View
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
@@ -34,6 +34,14 @@ class CaseList(_ClientContactView):
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
+
+
+@ts_interface()
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = "__all__"
+        depth = 2
 
 
 @ts_interface()
