@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # TODO: dev only
     "django_extensions",
     "django_countries",
     "django_seed",

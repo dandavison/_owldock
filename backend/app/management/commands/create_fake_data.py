@@ -1,15 +1,16 @@
 import random
 from typing import List, Set, Type, TypeVar, Optional
 
-from app import models
-from app.constants import GroupName
-from app.types import Service, Status
 import django_countries
 from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
 from django.db.models import Model
 from django.db.transaction import atomic
 from django_seed import Seed
+
+from app import models
+from app.constants import GroupName
+from app.types import Service, Status
 
 
 class Command(BaseCommand):

@@ -28,20 +28,20 @@ class EmployeesList(_ClientContactView):
         return JsonResponse(serializer.data, safe=False)
 
 
-@ts_interface()
-class EmployeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = "__all__"
-        depth = 1
-
-
 class CaseList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         cases = self.client_contact.case_set.all()
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
+
+
+@ts_interface()
+class EmployeeSerializer(CountryFieldMixin, serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = "__all__"
+        depth = 1
 
 
 @ts_interface()
