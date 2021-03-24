@@ -13,6 +13,7 @@
           spellcheck="false"
         >
           <template slot-scope="props">
+            <img v-bind="makeCountryFlagImgProps(props.option.code, '16x12')" />
             {{ props.option.name }}
           </template>
         </b-autocomplete>
@@ -45,6 +46,8 @@
 <script lang="ts">
 import Vue from "vue";
 import Cookies from "js-cookie";
+
+import { makeCountryFlagImgProps } from "../utils";
 import { CaseSerializer, CountrySerializer } from "../api-types";
 
 export default Vue.extend({
@@ -64,6 +67,7 @@ export default Vue.extend({
       } as CaseSerializer,
       inputHostCountry: "",
       countries: [] as CountrySerializer[],
+      makeCountryFlagImgProps,
     };
   },
 
