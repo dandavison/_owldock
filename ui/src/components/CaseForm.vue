@@ -13,7 +13,7 @@
           spellcheck="false"
         >
           <template slot-scope="props">
-            <img v-bind="makeCountryFlagImgProps(props.option.code, '16x12')" />
+            <img v-bind="makeCountryFlagImgProps(props.option, '16x12')" />
             {{ props.option.name }}
           </template>
         </b-autocomplete>
@@ -92,7 +92,7 @@ export default Vue.extend({
 
   methods: {
     handleSelectHostCountry(country: CountrySerializer) {
-      this.form.host_country = country.code;
+      this.form.host_country = country;
       this.$emit("select:host-country", country);
     },
 

@@ -18,9 +18,10 @@ export interface EmployeeSerializer {
     id?: number;
     created_at?: string;
     modified_at?: string;
-    home_country: any;
     user?: any;
     employer?: any;
+    home_country?: any;
+    nationalities?: any[];
 }
 
 export interface CaseSerializer {
@@ -28,7 +29,6 @@ export interface CaseSerializer {
     created_at?: string;
     modified_at?: string;
     service: string;
-    host_country: string;
     target_entry_date: string;
     status: string;
     progress: number;
@@ -36,6 +36,7 @@ export interface CaseSerializer {
     provider_contact?: any;
     employee?: any;
     process?: any;
+    host_country?: any;
 }
 
 export interface CountrySerializer {

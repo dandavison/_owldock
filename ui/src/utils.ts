@@ -1,3 +1,5 @@
+import { CountrySerializer } from "./api-types";
+
 interface ImgProps {
   src: string;
   srcset: string;
@@ -22,20 +24,23 @@ const dimensionsTable: DimensionsTable = {
   "64x48": {
     "1x": "64x48",
     "2x": "128x96",
-    "3x": "192x144",
+    "3x": "192x144"
   },
   "16x12": {
     "1x": "16x12",
     "2x": "32x24",
-    "3x": "48x36",
-  },
-}
+    "3x": "48x36"
+  }
+};
 
-// TODO: this should take a CountrySerializer
 // TODO: create use enum for dimensions
-export function makeCountryFlagImgProps(countryCode: string, dimensions: string): ImgProps {
-  const code = countryCode.toLowerCase();
-  const dimensionSeries = dimensionsTable[dimensions] || dimensionsTable["16x12"];
+export function makeCountryFlagImgProps(
+  country: CountrySerializer,
+  dimensions: string
+): ImgProps {
+  const code = country.code.toLowerCase();
+  const dimensionSeries =
+    dimensionsTable[dimensions] || dimensionsTable["16x12"];
   return {
     src: `https://flagcdn.com/${dimensionSeries["1x"]}/${code}.png`,
     srcset: `
@@ -44,6 +49,6 @@ export function makeCountryFlagImgProps(countryCode: string, dimensions: string)
                 `,
     width: "64",
     height: "48",
-    alt: code
+    alt: country.name
   };
 }

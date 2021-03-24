@@ -10,10 +10,6 @@ from django.utils import timezone
 if TYPE_CHECKING:
     from django.db.models.query import QuerySet
 
-from django_countries.fields import CountryField
-
-from app.types import Country
-
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -42,6 +38,11 @@ class BaseModel(models.Model):
         else:
             data = self.id  # type: ignore
         return f"{self.__class__.__name__}({data})"
+
+
+class Country(BaseModel):
+    name = models.CharField(max_length=128)
+    code = models.CharField(max_length=2)
 
 
 class Client(BaseModel):
@@ -191,16 +192,26 @@ class ProviderContact(BaseModel):
 class Employee(BaseModel):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     employer = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
-    home_country = CountryField()
+    home_country = models.ForeignKey(
+        Country, on_delete=models.deletion.PROTECT, related_name="employees_based_in"
+    )
+    nationalities = models.ManyToManyField(
+        Country, related_name="employees_national_of"
+    )
 
 
 class Activity(BaseModel):
     name = models.CharField(max_length=128)
 
 
+class Service(BaseModel):
+    name = models.CharField(max_length=128)
+
+
 class Process(BaseModel):
     name = models.CharField(max_length=128)
-    activities = models.ManyToManyField(Activity)
+    country = models.ForeignKey(Country, on_delete=models.deletion.PROTECT)
+    services = models.ManyToManyField(Service)
 
 
 class Case(BaseModel):
@@ -225,7 +236,7 @@ class Case(BaseModel):
     service = models.CharField(max_length=128)
 
     # Case data
-    host_country = models.CharField(max_length=128)
+    host_country = models.ForeignKey(Country, on_delete=models.deletion.PROTECT)
     target_entry_date = models.DateField()
     status = models.CharField(max_length=128)
 

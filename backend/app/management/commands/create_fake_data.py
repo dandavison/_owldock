@@ -10,7 +10,7 @@ from django_seed import Seed
 
 from app import models
 from app.constants import GroupName
-from app.types import Service, Status
+from app.types import Status
 
 
 class Command(BaseCommand):
@@ -24,6 +24,8 @@ class Command(BaseCommand):
     @atomic
     def handle(self, *args, **kwargs):
         self.password = kwargs["password"]
+        self._create_countries()
+        self._create_services()
         self._create_superusers()
         self._create_client_contacts()
         self._create_provider_contacts()
@@ -31,23 +33,34 @@ class Command(BaseCommand):
         self._create_activities(3)
         self._create_processes(3)
 
-    def _create_superusers(self) -> None:
-        for (email, first_name, last_name) in [
-            ("dandavison7@gmail.com", "Dan", "Davison"),
-            ("maria.kouri@corporaterelocations.gr", "Maria", "Kouri"),
-            ("sophy@owlimmigration.com", "Sophy", "King"),
-        ]:
-            User.objects.create_user(
-                username=email,
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                password=self.password,
-                is_staff=True,
-                is_superuser=True,
+    def _create_countries(self) -> None:
+        print("Creating countries")
+        for (code, name) in django_countries.countries:
+            models.Country.objects.create(code=code, name=name)
+
+    def _create_services(self) -> None:
+        print("Creating services")
+        models.Service.objects.create(name="Complete and submit petition")
+        models.Service.objects.create(name="Book consular appointment")
+        models.Service.objects.create(name="Escort employee to consular appointment")
+
+    def _create_processes(self, n: int):
+        print("Creating processes")
+        for (name, country_code) in [("H1B", "US"), ("L1", "US")]:
+            country = models.Country.objects.get(code=country_code)
+            process = models.Process.objects.create(
+                name=name,
+                country=country,
             )
+            process.services.add(*models.Service.objects.all())
+
+    def _create_activities(self, n: int):
+        print("Creating activities")
+        for name in ["Give presentation", "Fix engine", "Training"]:
+            models.Activity.objects.create(name=name)
 
     def _create_client_contacts(self) -> None:
+        print("Creating client contacts")
         group = Group.objects.create(name=GroupName.CLIENT_CONTACTS.value)
         for (first_name, last_name, client_name, client_entity_domain_name) in [
             ("Carlos", "Carlero", "Coca-Cola", "cocacola.com"),
@@ -61,7 +74,8 @@ class Command(BaseCommand):
             models.ClientContact.objects.create(client=client, user=user)
 
     def _create_employees(self, n: int) -> None:
-        countries = list(django_countries.countries)
+        print("Creating employees")
+        countries = iter(models.Country.objects.all())
         for client in models.Client.objects.all():
             seen: Set[str] = set()
             done = 0
@@ -76,13 +90,14 @@ class Command(BaseCommand):
                 last_name = " ".join(last_names)
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
-                models.Employee.objects.create(
-                    employer=client,
-                    user=user,
-                    home_country=random.sample(countries, 1)[0],
+                employee = models.Employee.objects.create(
+                    user=user, employer=client, home_country=next(countries)
                 )
+                for _ in range(2):
+                    employee.nationalities.add(next(countries))
 
     def _create_provider_contacts(self) -> None:
+        print("Creating provider contacts")
         group = Group.objects.create(name=GroupName.PROVIDER_CONTACTS.value)
         for (first_name, last_name, provider_name, client_entity_domain_name) in [
             ("Alice", "Alisson", "Acme", "acme.com"),
@@ -117,13 +132,22 @@ class Command(BaseCommand):
             user.groups.add(group)
         return user
 
-    def _create_activities(self, n: int):
-        for name in ["Give presentation", "Fix engine", "Training"]:
-            models.Activity.objects.create(name=name)
-
-    def _create_processes(self, n: int):
-        for name in ["Immigration Process A", "Immigration Process B"]:
-            models.Process.objects.create(name=name)
+    def _create_superusers(self) -> None:
+        print("Creating superusers")
+        for (email, first_name, last_name) in [
+            ("dandavison7@gmail.com", "Dan", "Davison"),
+            ("maria.kouri@corporaterelocations.gr", "Maria", "Kouri"),
+            ("sophy@owlimmigration.com", "Sophy", "King"),
+        ]:
+            User.objects.create_user(
+                username=email,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                password=self.password,
+                is_staff=True,
+                is_superuser=True,
+            )
 
 
 M = TypeVar("M", bound=Model)
@@ -136,11 +160,6 @@ def _random_case_status(_) -> Status:
         Status("Complete"),
     ]
     return random.sample(statuses, 1)[0]
-
-
-def _random_service(_) -> Service:
-    services = [Service("Immigration")]
-    return random.sample(services, 1)[0]
 
 
 def _make_email(name: str, entity_domain_name: str) -> str:

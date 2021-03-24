@@ -1,4 +1,3 @@
-import django_countries
 from django.http import HttpRequest, JsonResponse
 from django.views import View
 from django_typomatic import ts_interface
