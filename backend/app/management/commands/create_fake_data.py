@@ -1,7 +1,7 @@
 import random
 from typing import List, Set, Type, TypeVar, Optional
 
-import django_countries
+import django_countries.fields
 from django.contrib.auth.models import Group, User
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
@@ -11,7 +11,6 @@ from django_seed import Seed
 
 from app import models
 from app.constants import GroupName
-from app.types import Status
 
 
 class Command(BaseCommand):
@@ -156,15 +155,6 @@ class Command(BaseCommand):
 
 
 M = TypeVar("M", bound=Model)
-
-
-def _random_case_status(_) -> Status:
-    statuses = [
-        Status("Application Submitted"),
-        Status("Application Approved"),
-        Status("Complete"),
-    ]
-    return random.sample(statuses, 1)[0]
 
 
 def _make_email(name: str, entity_domain_name: str) -> str:

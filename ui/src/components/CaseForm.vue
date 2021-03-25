@@ -76,12 +76,8 @@ export default Vue.extend({
     return {
       form: {
         employee: this.employee,
-        type: "",
-        status: "UNASSIGNED",
-        host_country: "",
-        progress: 0,
-        process: "",
-        service: "",
+        host_country: {},
+        process: {},
         target_entry_date: "",
       } as CaseSerializer,
       inputHostCountry: "",

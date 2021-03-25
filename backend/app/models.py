@@ -81,7 +81,6 @@ class ClientContact(BaseModel):
             process_id=process_id,
             host_country=host_country,
             target_entry_date=target_entry_date,
-            progress=0.0,
         )
 
     @atomic
@@ -259,16 +258,9 @@ class Case(BaseModel):
     # A case is always associated with a process
     process = models.ForeignKey(Process, on_delete=models.deletion.PROTECT)
 
-    # TODO: what is this?
-    service = models.CharField(max_length=128)
-
     # Case data
     host_country = models.ForeignKey(Country, on_delete=models.deletion.PROTECT)
     target_entry_date = models.DateField()
-    status = models.CharField(max_length=128)
-
-    # TODO: compute
-    progress = models.FloatField()
 
     def can_be_offered(self):
         """
