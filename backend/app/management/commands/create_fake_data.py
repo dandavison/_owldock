@@ -71,8 +71,13 @@ class Command(BaseCommand):
 
     def _create_employees(self, n: int) -> None:
         print("Creating employees")
-        countries = iter(models.Country.objects.all())
-        for client in models.Client.objects.all():
+        countries = [
+            models.Country.objects.get(code="GB"),
+            models.Country.objects.get(code="US"),
+        ]
+        all_countries = list(models.Country.objects.all())
+        for (i, client) in enumerate(models.Client.objects.all()):
+            country = countries[i % len(countries)]
             seen: Set[str] = set()
             done = 0
             while done < n:
@@ -87,11 +92,14 @@ class Command(BaseCommand):
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
                 employee = models.Employee.objects.create(
-                    user=user, employer=client, home_country=next(countries)
+                    user=user,
+                    employer=client,
+                    home_country=country,
                 )
-                n_nationalities = 1 if random.uniform(0, 1) < 2 / 3 else 2
-                for _ in range(n_nationalities):
-                    employee.nationalities.add(next(countries))
+                employee.nationalities.add(country)
+                is_dual_national = random.uniform(0, 1) < 1 / 3
+                if is_dual_national:
+                    employee.nationalities.add(random.sample(all_countries, 1)[0])
 
     def _create_provider_contacts(self) -> None:
         print("Creating provider contacts")
