@@ -28,9 +28,6 @@
           </div>
 
           <div v-if="hostCountry" class="media-right">
-            <i class="fas fa-long-arrow-alt-right fa-3x"></i>
-          </div>
-          <div v-if="hostCountry" class="media-right">
             <figure class="image is-4x3">
               <img v-bind="makeCountryFlagImgProps(hostCountry, '64x48')" />
             </figure>
