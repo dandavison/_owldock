@@ -36,6 +36,9 @@ class CaseList(_ClientContactView):
         return JsonResponse(serializer.data, safe=False)
 
 
+# FIXME: These serializers are sending the user.password hash
+
+
 @ts_interface()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
