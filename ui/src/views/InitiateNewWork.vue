@@ -1,10 +1,10 @@
 <template>
   <section class="section">
     <p class="m-4 is-size-2">New case</p>
-    <employee
+    <case-header
       @select:employee="(employee) => (this.employee = employee)"
       :hostCountry="hostCountry"
-    ></employee>
+    ></case-header>
     <case-form
       v-if="employee"
       :employeeId="employee.id"
@@ -16,13 +16,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Employee from "../components/Employee.vue";
+import CaseHeader from "../components/CaseHeader.vue";
 import EmployeeSelector from "../components/EmployeeSelector.vue";
 import { CountrySerializer, EmployeeSerializer } from "../api-types";
 import CaseForm from "../components/CaseForm.vue";
 
 export default Vue.extend({
-  components: { Employee, EmployeeSelector, CaseForm },
+  components: { CaseHeader, EmployeeSelector, CaseForm },
   data() {
     return {
       employee: null as EmployeeSerializer | null,
