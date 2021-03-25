@@ -27,6 +27,7 @@ def test_client_provider_case_lifecycle():
         employee_id=employee.id,
         process_id=process.id,
         target_entry_date=now + timedelta(weeks=6),
+        target_exit_date=now + timedelta(weeks=58),
     )
     assert case.provider_contact is None
 

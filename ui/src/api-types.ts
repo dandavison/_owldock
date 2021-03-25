@@ -61,6 +61,7 @@ export interface CaseSerializer {
     employee: EmployeeSerializer;
     process: ProcessSerializer;
     target_entry_date: string;
+    target_exit_date: string;
     provider_contact: ProviderContactSerializer;
 }
 

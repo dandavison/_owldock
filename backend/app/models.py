@@ -66,6 +66,7 @@ class ClientContact(BaseModel):
         employee_id: int,
         process_id: int,
         target_entry_date: datetime,
+        target_exit_date: datetime,
     ) -> "Case":
         """
         Create a case associated with this client contact,
@@ -79,6 +80,7 @@ class ClientContact(BaseModel):
             employee_id=employee_id,
             process_id=process_id,
             target_entry_date=target_entry_date,
+            target_exit_date=target_exit_date,
         )
 
     @atomic
@@ -272,6 +274,7 @@ class Case(BaseModel):
 
     # Case data
     target_entry_date = models.DateField()
+    target_exit_date = models.DateField()
 
     def can_be_offered(self):
         """
