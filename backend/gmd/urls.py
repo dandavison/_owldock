@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 
 from app.http_api import client_contact
 from app.http_api import countries
+from app.http_api import processes
 from app.views import HomeView
 
 # Note: every route defined here must set appropriate access controls
@@ -21,6 +22,7 @@ urlpatterns = [
         login_required(client_contact.EmployeesList.as_view()),
     ),
     path("api/countries/", countries.CountriesList.as_view()),
+    path("api/processes/", processes.ProcessList.as_view()),
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),

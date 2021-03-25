@@ -18,15 +18,32 @@
           </template>
         </b-autocomplete>
       </b-field>
+      <b-field label="Process">
+        <b-autocomplete
+          v-model="inputProcess"
+          :data="filteredProcessCandidates"
+          :openOnFocus="true"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+          <template slot-scope="props">
+            <span class="mr-2">{{ props.option.name }}</span>
+            <span class="mr-2">
+              {{ props.option.nationality.unicode_flag }}
+            </span>
+            <span><i class="fas fa-long-arrow-alt-right"></i></span>
+            <span> {{ props.option.host_country.unicode_flag }} </span>
+          </template>
+        </b-autocomplete>
+      </b-field>
       <b-field label="Target entry date">
         <b-input v-model="form.target_entry_date"></b-input>
       </b-field>
       <!-- <b-field label="End date of assignment"><b-input></b-input></b-field> -->
       <b-field label="Service required">
         <b-input v-model="form.service"></b-input>
-      </b-field>
-      <b-field label="Process">
-        <b-input v-model="form.process"></b-input>
       </b-field>
       <div class="field is-grouped">
         <div class="control">
@@ -41,19 +58,24 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import Cookies from "js-cookie";
 
 import { makeCountryFlagImgProps } from "../utils";
-import { CaseSerializer, CountrySerializer } from "../api-types";
+import {
+  CaseSerializer,
+  CountrySerializer,
+  EmployeeSerializer,
+  ProcessSerializer,
+} from "../api-types";
 
 export default Vue.extend({
-  props: { employeeId: Number },
+  props: { employee: Object as PropType<EmployeeSerializer> },
 
   data() {
     return {
       form: {
-        employee: this.employeeId,
+        employee: this.employee,
         type: "",
         status: "UNASSIGNED",
         host_country: "",
@@ -63,7 +85,9 @@ export default Vue.extend({
         target_entry_date: "",
       } as CaseSerializer,
       inputHostCountry: "",
+      inputProcess: "",
       countries: [] as CountrySerializer[],
+      processes: [] as ProcessSerializer[],
       makeCountryFlagImgProps,
     };
   },
@@ -85,12 +109,35 @@ export default Vue.extend({
         );
       }
     },
+
+    filteredProcessCandidates(): ProcessSerializer[] {
+      // TODO: why is this called after selecting with inputEmployeeName === undefined?
+      if (!this.inputProcess) {
+        return [];
+      } else {
+        return this.processes.filter((process) =>
+          inputMatchesProcess(this.inputProcess, process)
+        );
+      }
+    },
   },
 
   methods: {
     handleSelectHostCountry(country: CountrySerializer) {
       this.form.host_country = country;
       this.$emit("select:host-country", country);
+      if (this.employee.nationalities) {
+        const nationalityCodes = this.employee.nationalities.map(
+          (country) => country.code
+        );
+        fetch(
+          `${process.env.VUE_APP_SERVER_URL}/api/processes/?host_country=${
+            country.code
+          }&nationalities=${nationalityCodes.join(",")}`
+        )
+          .then((resp) => resp.json())
+          .then((data) => (this.processes = data));
+      }
     },
 
     isValid(): boolean {
@@ -129,5 +176,12 @@ function inputMatchesCountry(
   country: CountrySerializer
 ): boolean {
   return country.name.toLowerCase().startsWith(input.toLowerCase());
+}
+
+function inputMatchesProcess(
+  input: string,
+  process: ProcessSerializer
+): boolean {
+  return process.name.toLowerCase().startsWith(input.toLowerCase());
 }
 </script>

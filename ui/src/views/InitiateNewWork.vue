@@ -4,10 +4,11 @@
     <case-header
       @select:employee="(employee) => (this.employee = employee)"
       :hostCountry="hostCountry"
-    ></case-header>
+    >
+    </case-header>
     <case-form
       v-if="employee"
-      :employeeId="employee.id"
+      :employee="employee"
       @select:host-country="(country) => (this.hostCountry = country)"
     >
     </case-form>
