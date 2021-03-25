@@ -64,7 +64,7 @@ class ClientContact(BaseModel):
     def initiate_case(
         self,
         employee_id: int,
-        process_id: int,
+        route_id: int,
         host_country: Country,
         target_entry_date: datetime,
     ) -> "Case":
@@ -78,7 +78,7 @@ class ClientContact(BaseModel):
             modified_at=now,
             client_contact=self,
             employee_id=employee_id,
-            process_id=process_id,
+            route_id=route_id,
             host_country=host_country,
             target_entry_date=target_entry_date,
         )
@@ -208,45 +208,46 @@ class Service(BaseModel):
     name = models.CharField(max_length=128)
 
 
-class Process(BaseModel):
+class Route(BaseModel):
     """
     E.g. 'Work Permit for France'.
 
-    This does not depend on Employee nationalities or home country.
+    Unlike Process, this depends only on the host country
+    and not on Employee nationalities or home country.
     """
 
     name = models.CharField(max_length=128)
     host_country = models.ForeignKey(
         Country,
         on_delete=models.deletion.PROTECT,
-        related_name="processes_for_which_host_country",
+        related_name="routes_for_which_host_country",
     )
 
 
-class ProcessFlow(BaseModel):
+class Process(BaseModel):
     """
-    A predicted sequence of steps for a Process, given Employee nationalities and home country.
+    A predicted sequence of steps for a Route, given Employee nationalities and home country.
     """
 
-    process = models.ForeignKey(
-        Process, on_delete=models.deletion.PROTECT, related_name="process_flows"
+    route = models.ForeignKey(
+        Route, on_delete=models.deletion.PROTECT, related_name="processes"
     )
     nationality = models.ForeignKey(
         Country,
         on_delete=models.deletion.PROTECT,
-        related_name="process_flows_for_which_nationality",
+        related_name="processes_for_which_nationality",
     )
     home_country = models.ForeignKey(
         Country,
         null=True,
         on_delete=models.deletion.PROTECT,
-        related_name="process_flows_for_which_home_country",
+        related_name="processes_for_which_home_country",
     )
 
 
-class ProcessFlowStep(BaseModel):
-    process_flow = models.ForeignKey(
-        ProcessFlow, on_delete=models.deletion.PROTECT, related_name="steps"
+class ProcessStep(BaseModel):
+    process = models.ForeignKey(
+        Process, on_delete=models.deletion.PROTECT, related_name="steps"
     )
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
     sequence_number = models.FloatField()
@@ -267,8 +268,8 @@ class Case(BaseModel):
     # A case is always associated with an employee.
     employee = models.ForeignKey(Employee, on_delete=models.deletion.CASCADE)
 
-    # A case is always associated with a process
-    process = models.ForeignKey(Process, on_delete=models.deletion.PROTECT)
+    # A case is always associated with a route
+    route = models.ForeignKey(Route, on_delete=models.deletion.PROTECT)
 
     # Case data
     host_country = models.ForeignKey(Country, on_delete=models.deletion.PROTECT)

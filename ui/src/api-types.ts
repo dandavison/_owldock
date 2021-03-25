@@ -8,20 +8,20 @@ export interface ServiceSerializer {
     name: string;
 }
 
-export interface ProcessSerializer {
+export interface RouteSerializer {
     name: string;
     host_country: CountrySerializer;
 }
 
-export interface ProcessFlowStepSerializer {
+export interface ProcessStepSerializer {
     sequence_number: number;
     service: ServiceSerializer;
 }
 
-export interface ProcessFlowSerializer {
+export interface ProcessSerializer {
     nationality: CountrySerializer;
     home_country: CountrySerializer;
-    steps: ProcessFlowStepSerializer[];
+    steps: ProcessStepSerializer[];
 }
 
 export interface UserSerializer {
@@ -59,7 +59,7 @@ export interface CaseSerializer {
     id?: number;
     client_contact: ClientContactSerializer;
     employee: EmployeeSerializer;
-    process: ProcessSerializer;
+    route: RouteSerializer;
     host_country: CountrySerializer;
     target_entry_date: string;
     provider_contact: ProviderContactSerializer;

@@ -22,7 +22,7 @@ urlpatterns = [
         login_required(client_contact.EmployeesList.as_view()),
     ),
     path("api/countries/", countries.CountriesList.as_view()),
-    path("api/process-flows/", processes.ProcessFlowList.as_view()),
+    path("api/processes/", processes.ProcessList.as_view()),
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),

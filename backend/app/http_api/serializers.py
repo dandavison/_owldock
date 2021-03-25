@@ -18,9 +18,9 @@ from app.models import (
     ClientContact,
     Country,
     Employee,
+    Route,
     Process,
-    ProcessFlow,
-    ProcessFlowStep,
+    ProcessStep,
     Provider,
     ProviderContact,
     Service,
@@ -42,32 +42,32 @@ class ServiceSerializer(ModelSerializer):
 
 
 @ts_interface()
-class ProcessSerializer(ModelSerializer):
+class RouteSerializer(ModelSerializer):
     host_country = CountrySerializer()
 
     class Meta:
-        model = Process
+        model = Route
         fields = ["name", "host_country"]
 
 
 @ts_interface()
-class ProcessFlowStepSerializer(ModelSerializer):
+class ProcessStepSerializer(ModelSerializer):
     service = ServiceSerializer()
 
     class Meta:
-        model = ProcessFlowStep
+        model = ProcessStep
         fields = ["sequence_number", "service"]
         ordering = ["sequence_number"]
 
 
 @ts_interface()
-class ProcessFlowSerializer(ModelSerializer):
+class ProcessSerializer(ModelSerializer):
     nationality = CountrySerializer()
     home_country = CountrySerializer()
-    steps = ProcessFlowStepSerializer(many=True)
+    steps = ProcessStepSerializer(many=True)
 
     class Meta:
-        model = ProcessFlow
+        model = Process
         fields = ["nationality", "home_country", "steps"]
 
 
@@ -129,7 +129,7 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 class CaseSerializer(ModelSerializer):
     client_contact = ClientContactSerializer()
     employee = EmployeeSerializer()
-    process = ProcessSerializer()
+    route = RouteSerializer()
     host_country = CountrySerializer()
     provider_contact = ProviderContactSerializer()
 
@@ -139,7 +139,7 @@ class CaseSerializer(ModelSerializer):
             "id",
             "client_contact",
             "employee",
-            "process",
+            "route",
             "host_country",
             "target_entry_date",
             "provider_contact",

@@ -8,7 +8,7 @@ from app.models import (
     CaseNotAvailableToProvider,
     ClientContact,
     Country,
-    Process,
+    Route,
     ProviderContact,
 )
 
@@ -19,13 +19,13 @@ def test_client_provider_case_lifecycle():
 
     clientc, clientc_b = ClientContact.objects.all()[:2]
     employee = clientc.client.employee_set.earliest("id")
-    process = Process.objects.earliest("id")
+    route = Route.objects.earliest("id")
     providerc_a, providerc_b = ProviderContact.objects.all()[:2]
 
     # Client contact creates a case
     case = clientc.initiate_case(
         employee_id=employee.id,
-        process_id=process.id,
+        route_id=route.id,
         host_country=Country.objects.get(name="Mozambique"),
         target_entry_date=datetime.now() + timedelta(weeks=6),
     )

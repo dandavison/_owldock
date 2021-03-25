@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from app.models import Country, Process, ProcessFlow, Service
+from app.models import Country, Route, Process, Service
 
 
 class Command(BaseCommand):
@@ -40,17 +40,17 @@ class Command(BaseCommand):
                         process_string += "]"
                     process_string = process_string.strip()
                     process_name, process_steps = _parse_process(process_string)
-                    process = Process.objects.create(
+                    route = Route.objects.create(
                         name=process_name,
                         host_country=host_country,
                     )
-                    process_flow = ProcessFlow.objects.create(
-                        process=process,
+                    process = Process.objects.create(
+                        route=route,
                         nationality=nationality,
                     )
                     for (n, service_name) in process_steps:
                         service, _ = Service.objects.get_or_create(name=service_name)
-                        process_flow.steps.create(sequence_number=n, service=service)
+                        process.steps.create(sequence_number=n, service=service)
 
 
 def _parse_process(process_string: str) -> Tuple[str, List[Tuple[float, str]]]:

@@ -18,10 +18,10 @@
           </template>
         </b-autocomplete>
       </b-field>
-      <b-field label="Process">
+      <b-field label="Route">
         <b-autocomplete
-          v-model="inputProcess"
-          :data="filteredProcessCandidates"
+          v-model="inputRoute"
+          :data="filteredRouteCandidates"
           :openOnFocus="true"
           autocomplete="off"
           autocorrect="off"
@@ -66,7 +66,7 @@ import {
   CaseSerializer,
   CountrySerializer,
   EmployeeSerializer,
-  ProcessSerializer,
+  RouteSerializer,
 } from "../api-types";
 
 export default Vue.extend({
@@ -77,13 +77,13 @@ export default Vue.extend({
       form: {
         employee: this.employee,
         host_country: {},
-        process: {},
+        route: {},
         target_entry_date: "",
       } as CaseSerializer,
       inputHostCountry: "",
-      inputProcess: "",
+      inputRoute: "",
       countries: [] as CountrySerializer[],
-      processes: [] as ProcessSerializer[],
+      routes: [] as RouteSerializer[],
       makeCountryFlagImgProps,
     };
   },
@@ -106,13 +106,13 @@ export default Vue.extend({
       }
     },
 
-    filteredProcessCandidates(): ProcessSerializer[] {
+    filteredRouteCandidates(): RouteSerializer[] {
       // TODO: why is this called after selecting with inputEmployeeName === undefined?
-      if (!this.inputProcess) {
+      if (!this.inputRoute) {
         return [];
       } else {
-        return this.processes.filter((process) =>
-          inputMatchesProcess(this.inputProcess, process)
+        return this.routes.filter((route) =>
+          inputMatchesRoute(this.inputRoute, route)
         );
       }
     },
@@ -127,12 +127,12 @@ export default Vue.extend({
           (country) => country.code
         );
         fetch(
-          `${process.env.VUE_APP_SERVER_URL}/api/process-flows/?host_country=${
+          `${process.env.VUE_APP_SERVER_URL}/api/routes/?host_country=${
             country.code
           }&nationalities=${nationalityCodes.join(",")}`
         )
           .then((resp) => resp.json())
-          .then((data) => (this.processes = data));
+          .then((data) => (this.routes = data));
       }
     },
 
@@ -180,10 +180,7 @@ function inputMatchesCountry(
   return country.name.toLowerCase().startsWith(input.toLowerCase());
 }
 
-function inputMatchesProcess(
-  input: string,
-  process: ProcessSerializer
-): boolean {
-  return process.name.toLowerCase().startsWith(input.toLowerCase());
+function inputMatchesRoute(input: string, route: RouteSerializer): boolean {
+  return route.name.toLowerCase().startsWith(input.toLowerCase());
 }
 </script>
