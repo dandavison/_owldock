@@ -89,7 +89,8 @@ class Command(BaseCommand):
                 employee = models.Employee.objects.create(
                     user=user, employer=client, home_country=next(countries)
                 )
-                for _ in range(2):
+                n_nationalities = 1 if random.uniform(0, 1) < 2 / 3 else 2
+                for _ in range(n_nationalities):
                     employee.nationalities.add(next(countries))
 
     def _create_provider_contacts(self) -> None:
