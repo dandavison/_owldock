@@ -136,3 +136,4 @@ STATIC_ROOT = "static"
 CORS_ALLOW_ALL_ORIGINS = True
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+PROJECT_ROOT = Path(__file__).parent.parent
