@@ -1,9 +1,8 @@
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
-from django_typomatic import ts_interface
-from rest_framework import serializers
 
 from app.models import Process
+from .serializers import ProcessSerializer
 
 
 class ProcessList(View):
@@ -25,11 +24,3 @@ class ProcessList(View):
         serializer = ProcessSerializer(data=processes, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
-
-
-@ts_interface()
-class ProcessSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Process
-        fields = "__all__"
-        depth = 2

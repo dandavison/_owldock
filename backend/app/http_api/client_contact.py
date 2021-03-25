@@ -1,12 +1,8 @@
-from django.contrib.auth import get_user_model
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
-from django_countries.serializers import CountryFieldMixin
-from django_typomatic import ts_interface
-from rest_framework import serializers
 
-from app.models import Case, ClientContact
-from app.models import Employee
+from app.models import ClientContact
+from .serializers import CaseSerializer, EmployeeSerializer
 
 
 class _ClientContactView(View):
@@ -34,30 +30,3 @@ class CaseList(_ClientContactView):
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
-
-
-# FIXME: These serializers are sending the user.password hash
-
-
-@ts_interface()
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
-        fields = "__all__"
-        depth = 2
-
-
-@ts_interface()
-class EmployeeSerializer(CountryFieldMixin, serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = "__all__"
-        depth = 1
-
-
-@ts_interface()
-class CaseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Case
-        fields = "__all__"
-        depth = 2
