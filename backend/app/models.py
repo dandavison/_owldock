@@ -210,11 +210,6 @@ class Service(BaseModel):
 
 class Process(BaseModel):
     name = models.CharField(max_length=128)
-    nationality = models.ForeignKey(
-        Country,
-        on_delete=models.deletion.PROTECT,
-        related_name="processes_for_which_nationality",
-    )
     host_country = models.ForeignKey(
         Country,
         on_delete=models.deletion.PROTECT,
@@ -222,10 +217,25 @@ class Process(BaseModel):
     )
 
 
-class ProcessStep(BaseModel):
+class ProcessFlow(BaseModel):
     process = models.ForeignKey(
-        Process, on_delete=models.deletion.CASCADE, related_name="steps"
+        Process, on_delete=models.deletion.PROTECT, related_name="steps"
     )
+    nationality = models.ForeignKey(
+        Country,
+        on_delete=models.deletion.PROTECT,
+        related_name="process_flows_for_which_nationality",
+    )
+    home_country = models.ForeignKey(
+        Country,
+        null=True,
+        on_delete=models.deletion.PROTECT,
+        related_name="process_flows_for_which_home_country",
+    )
+
+
+class ProcessFlowStep(BaseModel):
+    process_flow = models.ForeignKey(ProcessFlow, on_delete=models.deletion.PROTECT)
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
     sequence_number = models.FloatField()
 
