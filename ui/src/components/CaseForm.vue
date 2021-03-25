@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <form>
+    <form @submit="fakeSubmit">
       <b-field label="Host country">
         <b-autocomplete
           v-model="inputHostCountry"
@@ -163,6 +163,12 @@ export default Vue.extend({
         headers,
         body: JSON.stringify(this.form),
       });
+    },
+
+    fakeSubmit(event: Event): void {
+      console.log("fakeSubmit", event);
+      event.stopPropagation();
+      event.preventDefault();
     },
   },
 });
