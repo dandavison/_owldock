@@ -1,17 +1,7 @@
 export interface UserSerializer {
-    id?: number;
-    password: string;
-    last_login?: string;
-    is_superuser?: boolean;
-    username: string;
     first_name?: string;
     last_name?: string;
     email?: string;
-    is_staff?: boolean;
-    is_active?: boolean;
-    date_joined?: string;
-    groups?: any[];
-    user_permissions?: any[];
 }
 
 export interface EmployeeSerializer {
@@ -40,7 +30,11 @@ export interface CaseSerializer {
 }
 
 export interface CountrySerializer {
-    code: string;
+    id?: number;
+    created_at?: string;
+    modified_at?: string;
     name: string;
+    code: string;
+    unicode_flag: string;
 }
 

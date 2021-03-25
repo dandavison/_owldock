@@ -3,15 +3,18 @@ from django.views import View
 from django_typomatic import ts_interface
 from rest_framework import serializers
 
+from app.models import Country
+
 
 class CountriesList(View):
     def get(self, request: HttpRequest):
-        serializer = CountrySerializer(data=django_countries.countries, many=True)
+        serializer = CountrySerializer(data=Country.objects.all(), many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
 
 
 @ts_interface()
-class CountrySerializer(serializers.Serializer):  # pylint: disable=abstract-method
-    code = serializers.CharField()
-    name = serializers.CharField()
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = "__all__"

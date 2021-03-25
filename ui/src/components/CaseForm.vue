@@ -13,8 +13,8 @@
           spellcheck="false"
         >
           <template slot-scope="props">
-            <img v-bind="makeCountryFlagImgProps(props.option, '16x12')" />
-            {{ props.option.name }}
+            <span class="mr-2">{{ props.option.unicode_flag }}</span>
+            <span>{{ props.option.name }}</span>
           </template>
         </b-autocomplete>
       </b-field>

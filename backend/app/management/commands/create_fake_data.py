@@ -36,8 +36,13 @@ class Command(BaseCommand):
 
     def _create_countries(self) -> None:
         print("Creating countries")
-        for (code, name) in django_countries.countries:
-            models.Country.objects.create(code=code, name=name)
+        for (code, _) in django_countries.countries:
+            country = django_countries.fields.Country(code)
+            models.Country.objects.create(
+                code=country.code,
+                name=country.name,
+                unicode_flag=country.unicode_flag,
+            )
 
     def _create_services(self) -> None:
         print("Creating services")
