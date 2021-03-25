@@ -64,8 +64,7 @@ class ClientContact(BaseModel):
     def initiate_case(
         self,
         employee_id: int,
-        route_id: int,
-        host_country: Country,
+        process_id: int,
         target_entry_date: datetime,
     ) -> "Case":
         """
@@ -78,8 +77,7 @@ class ClientContact(BaseModel):
             modified_at=now,
             client_contact=self,
             employee_id=employee_id,
-            route_id=route_id,
-            host_country=host_country,
+            process_id=process_id,
             target_entry_date=target_entry_date,
         )
 
@@ -268,11 +266,11 @@ class Case(BaseModel):
     # A case is always associated with an employee.
     employee = models.ForeignKey(Employee, on_delete=models.deletion.CASCADE)
 
-    # A case is always associated with a route
-    route = models.ForeignKey(Route, on_delete=models.deletion.PROTECT)
+    # The process is a specific sequence of steps that will attain the desired
+    # immigration Route.
+    process = models.ForeignKey(Process, on_delete=models.deletion.PROTECT)
 
     # Case data
-    host_country = models.ForeignKey(Country, on_delete=models.deletion.PROTECT)
     target_entry_date = models.DateField()
 
     def can_be_offered(self):

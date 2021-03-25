@@ -62,13 +62,14 @@ class ProcessStepSerializer(ModelSerializer):
 
 @ts_interface()
 class ProcessSerializer(ModelSerializer):
+    route = RouteSerializer()
     nationality = CountrySerializer()
     home_country = CountrySerializer()
     steps = ProcessStepSerializer(many=True)
 
     class Meta:
         model = Process
-        fields = ["nationality", "home_country", "steps"]
+        fields = ["route", "nationality", "home_country", "steps"]
 
 
 @ts_interface()
@@ -127,20 +128,16 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
 @ts_interface()
 class CaseSerializer(ModelSerializer):
-    client_contact = ClientContactSerializer()
     employee = EmployeeSerializer()
-    route = RouteSerializer()
-    host_country = CountrySerializer()
+    process = ProcessSerializer()
     provider_contact = ProviderContactSerializer()
 
     class Meta:
         model = Case
         fields = [
             "id",
-            "client_contact",
             "employee",
-            "route",
-            "host_country",
+            "process",
             "target_entry_date",
             "provider_contact",
         ]

@@ -7,8 +7,7 @@ from app.models import (
     CaseCannotBeOffered,
     CaseNotAvailableToProvider,
     ClientContact,
-    Country,
-    Route,
+    Process,
     ProviderContact,
 )
 
@@ -19,15 +18,15 @@ def test_client_provider_case_lifecycle():
 
     clientc, clientc_b = ClientContact.objects.all()[:2]
     employee = clientc.client.employee_set.earliest("id")
-    route = Route.objects.earliest("id")
+    process = Process.objects.earliest("id")
     providerc_a, providerc_b = ProviderContact.objects.all()[:2]
 
     # Client contact creates a case
+    now = datetime.now()
     case = clientc.initiate_case(
         employee_id=employee.id,
-        route_id=route.id,
-        host_country=Country.objects.get(name="Mozambique"),
-        target_entry_date=datetime.now() + timedelta(weeks=6),
+        process_id=process.id,
+        target_entry_date=now + timedelta(weeks=6),
     )
     assert case.provider_contact is None
 

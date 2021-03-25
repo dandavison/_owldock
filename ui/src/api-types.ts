@@ -19,6 +19,7 @@ export interface ProcessStepSerializer {
 }
 
 export interface ProcessSerializer {
+    route: RouteSerializer;
     nationality: CountrySerializer;
     home_country: CountrySerializer;
     steps: ProcessStepSerializer[];
@@ -57,10 +58,8 @@ export interface ProviderContactSerializer {
 
 export interface CaseSerializer {
     id?: number;
-    client_contact: ClientContactSerializer;
     employee: EmployeeSerializer;
-    route: RouteSerializer;
-    host_country: CountrySerializer;
+    process: ProcessSerializer;
     target_entry_date: string;
     provider_contact: ProviderContactSerializer;
 }
