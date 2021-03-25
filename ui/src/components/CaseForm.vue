@@ -127,7 +127,7 @@ export default Vue.extend({
           (country) => country.code
         );
         fetch(
-          `${process.env.VUE_APP_SERVER_URL}/api/processes/?host_country=${
+          `${process.env.VUE_APP_SERVER_URL}/api/process-flows/?host_country=${
             country.code
           }&nationalities=${nationalityCodes.join(",")}`
         )

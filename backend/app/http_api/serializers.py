@@ -19,7 +19,8 @@ from app.models import (
     Country,
     Employee,
     Process,
-    ProcessStep,
+    ProcessFlow,
+    ProcessFlowStep,
     Provider,
     ProviderContact,
     Service,
@@ -41,24 +42,33 @@ class ServiceSerializer(ModelSerializer):
 
 
 @ts_interface()
-class ProcesssStepSerializer(ModelSerializer):
+class ProcessSerializer(ModelSerializer):
+    host_country = CountrySerializer()
+
+    class Meta:
+        model = Process
+        fields = ["name", "host_country"]
+
+
+@ts_interface()
+class ProcessFlowStepSerializer(ModelSerializer):
     service = ServiceSerializer()
 
     class Meta:
-        model = ProcessStep
+        model = ProcessFlowStep
         fields = ["sequence_number", "service"]
         ordering = ["sequence_number"]
 
 
 @ts_interface()
-class ProcessSerializer(ModelSerializer):
+class ProcessFlowSerializer(ModelSerializer):
     nationality = CountrySerializer()
-    host_country = CountrySerializer()
-    steps = ProcesssStepSerializer(many=True)
+    home_country = CountrySerializer()
+    steps = ProcessFlowStepSerializer(many=True)
 
     class Meta:
-        model = Process
-        fields = ["name", "nationality", "host_country", "steps"]
+        model = ProcessFlow
+        fields = ["nationality", "home_country", "steps"]
 
 
 @ts_interface()

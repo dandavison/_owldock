@@ -1,11 +1,11 @@
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
 
-from app.models import Process
-from .serializers import ProcessSerializer
+from app.models import ProcessFlow
+from .serializers import ProcessFlowSerializer
 
 
-class ProcessList(View):
+class ProcessFlowList(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         nationality_codes = [
             s.strip()
@@ -17,10 +17,10 @@ class ProcessList(View):
             raise Http404(
                 "nationalities and host_country must be supplied in URL params"
             )
-        processes = Process.objects.filter(
+        process_flows = ProcessFlow.objects.filter(
             nationality__code__in=nationality_codes,
-            host_country__code=host_country_code,
+            process__host_country__code=host_country_code,
         )
-        serializer = ProcessSerializer(data=processes, many=True)
+        serializer = ProcessFlowSerializer(data=process_flows, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)

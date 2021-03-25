@@ -25,7 +25,8 @@ class HomeView(RedirectView):
 
 
 def get_role(user: Union[User, AnonymousUser]) -> Optional[Role]:
-    groups = {g.name for g in user.groups.all()}
+    # FIXME
+    groups = {g.name for g in user.groups.all()}  # type: ignore
     is_client_contact = GroupName.CLIENT_CONTACTS.value in groups
     is_provider_contact = GroupName.PROVIDER_CONTACTS.value in groups
     if is_client_contact and is_provider_contact:

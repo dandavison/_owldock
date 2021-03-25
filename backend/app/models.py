@@ -209,6 +209,12 @@ class Service(BaseModel):
 
 
 class Process(BaseModel):
+    """
+    E.g. 'Work Permit for France'.
+
+    This does not depend on Employee nationalities or home country.
+    """
+
     name = models.CharField(max_length=128)
     host_country = models.ForeignKey(
         Country,
@@ -218,8 +224,12 @@ class Process(BaseModel):
 
 
 class ProcessFlow(BaseModel):
+    """
+    A predicted sequence of steps for a Process, given Employee nationalities and home country.
+    """
+
     process = models.ForeignKey(
-        Process, on_delete=models.deletion.PROTECT, related_name="steps"
+        Process, on_delete=models.deletion.PROTECT, related_name="process_flows"
     )
     nationality = models.ForeignKey(
         Country,
@@ -235,7 +245,9 @@ class ProcessFlow(BaseModel):
 
 
 class ProcessFlowStep(BaseModel):
-    process_flow = models.ForeignKey(ProcessFlow, on_delete=models.deletion.PROTECT)
+    process_flow = models.ForeignKey(
+        ProcessFlow, on_delete=models.deletion.PROTECT, related_name="steps"
+    )
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
     sequence_number = models.FloatField()
 
