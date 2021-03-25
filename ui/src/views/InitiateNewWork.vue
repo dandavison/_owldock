@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <p class="m-4 is-size-2">Initiate new work</p>
+    <p class="m-4 is-size-2">New case</p>
     <employee
       @select:employee="(employee) => (this.employee = employee)"
       :hostCountry="hostCountry"
