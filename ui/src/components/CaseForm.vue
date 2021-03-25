@@ -4,7 +4,7 @@
       <b-field label="Host country">
         <b-autocomplete
           v-model="inputHostCountry"
-          :data="filteredCandidates"
+          :data="filteredHostCountryCandidates"
           :openOnFocus="true"
           @select="handleSelectHostCountry"
           autocomplete="off"
@@ -20,9 +20,6 @@
       </b-field>
       <b-field label="Target entry date">
         <b-input v-model="form.target_entry_date"></b-input>
-      </b-field>
-      <b-field label="Case type">
-        <b-input v-model="form.case_type"></b-input>
       </b-field>
       <!-- <b-field label="End date of assignment"><b-input></b-input></b-field> -->
       <b-field label="Service required">
@@ -78,7 +75,7 @@ export default Vue.extend({
   },
 
   computed: {
-    filteredCandidates(): CountrySerializer[] {
+    filteredHostCountryCandidates(): CountrySerializer[] {
       // TODO: why is this called after selecting with inputEmployeeName === undefined?
       if (!this.inputHostCountry) {
         return [];
