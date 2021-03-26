@@ -1,3 +1,4 @@
+import json
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
 
@@ -30,3 +31,15 @@ class CaseList(_ClientContactView):
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
+
+
+class CreateCase(_ClientContactView):
+    def post(self, request: HttpRequest) -> HttpResponse:
+        serializer = CaseSerializer(data=json.loads(request.body))
+        if serializer.is_valid():
+            serializer.create(
+                serializer.validated_data, client_contact=self.client_contact
+            )
+            return JsonResponse({"errors": None})
+        else:
+            return JsonResponse({"errors": serializer.errors})

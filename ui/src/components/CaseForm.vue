@@ -81,7 +81,7 @@ import Case from "../components/Case.vue";
 import { NullCase, employeeIsNull } from "@/factories";
 import CountrySelector from "./CountrySelector.vue";
 import EmployeeSelector from "./EmployeeSelector.vue";
-import { inputMatchesString } from "../utils";
+import { dateToYYYYMMDD, inputMatchesString } from "../utils";
 
 export default Vue.extend({
   components: { Case, CountrySelector, EmployeeSelector, VueJsonPretty },
@@ -95,6 +95,7 @@ export default Vue.extend({
       // All processes matching country, employee nationalities & home country, dates
       processes: [] as ProcessSerializer[],
       // Subset of those processes matching selected route
+      validationErrors: null as object | null,
     };
   },
 
@@ -169,12 +170,12 @@ export default Vue.extend({
       }
     },
 
-    handleInputDateRange([entryDate, exitDate]: Date[]): void {
-      this.case_.target_entry_date = entryDate?.toLocaleDateString() || "";
-      this.case_.target_exit_date = exitDate?.toLocaleDateString() || "";
+    handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
+      this.case_.target_entry_date = dateToYYYYMMDD(entryDate);
+      this.case_.target_exit_date = dateToYYYYMMDD(exitDate);
     },
 
-    handleSubmit(): void {
+    async handleSubmit(): Promise<void> {
       // TODO: validation
 
       const headers = {
@@ -185,12 +186,24 @@ export default Vue.extend({
         headers["X-CSRFToken"] = csrf_token;
       }
 
-      fetch(`${process.env.VUE_APP_SERVER_URL}/api/cases/`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(this.case_),
-      });
+      const response = await fetch(
+        `${process.env.VUE_APP_SERVER_URL}/api/client-contact/create-case/`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(this.case_),
+        }
+      );
+      const data = await response.json();
+      if (data.errors) {
+        this.validationErrors = data.errors;
+      } else {
+        this.case_ = NullCase();
+        this.$router.push("/client/cases/");
+      }
     },
   },
 });
 </script>
+
+

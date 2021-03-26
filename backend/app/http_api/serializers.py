@@ -10,7 +10,7 @@ if the backend and frontend code have got out of sync.
 from django.contrib.auth.models import User  # pylint: disable=imported-auth-user
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, IntegerField
 
 from app.models import Case
 from app.models import (
@@ -62,9 +62,13 @@ class ProcessStepSerializer(ModelSerializer):
 
 @ts_interface()
 class ProcessSerializer(ModelSerializer):
+    # By default, DRF will not make 'id' available in serializer.validated_data,
+    # because it is a read-only field. But we need it when handling a POST to
+    # create a case, in order to look up the process.
+    id = IntegerField(read_only=False)
     route = RouteSerializer()
     nationality = CountrySerializer()
-    home_country = CountrySerializer()
+    home_country = CountrySerializer(allow_null=True)
     steps = ProcessStepSerializer(many=True)
 
     class Meta:
@@ -89,6 +93,10 @@ class ClientSerializer(ModelSerializer):
 
 @ts_interface()
 class EmployeeSerializer(CountryFieldMixin, ModelSerializer):
+    # By default, DRF will not make 'id' available in serializer.validated_data,
+    # because it is a read-only field. But we need it when handling a POST to
+    # create a case, in order to look up the employee.
+    id = IntegerField(read_only=False)
     user = UserSerializer()
     employer = ClientSerializer()
     home_country = CountrySerializer()
@@ -142,3 +150,13 @@ class CaseSerializer(ModelSerializer):
             "target_exit_date",
             "provider_contact",
         ]
+
+    def create(self, validated_data: dict, client_contact: ClientContact):
+        employee = validated_data.pop("employee")
+        process = validated_data.pop("process")
+        Case.objects.create(
+            client_contact=client_contact,
+            employee_id=employee["id"],
+            process_id=process["id"],
+            **validated_data,
+        )
