@@ -5,9 +5,9 @@
     </p>
     <ul>
       <li>
-        <router-link to="/work-in-progress">
+        <router-link to="/cases">
           <b-button class="is-large m-4" style="background-color: #f8dcf7">
-            View work in progress
+            View active cases
           </b-button>
         </router-link>
       </li>

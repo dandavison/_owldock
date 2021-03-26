@@ -2,10 +2,10 @@
   <section class="section">
     <ul>
       <li>
-        <router-link to="/client-portal"> Client Portal </router-link>
+        <router-link to="/client"> Client Portal </router-link>
       </li>
       <li>
-        <router-link to="/provider-portal"> Provider Portal </router-link>
+        <router-link to="/provider"> Provider Portal </router-link>
       </li>
     </ul>
   </section>

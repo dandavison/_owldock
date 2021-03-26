@@ -112,7 +112,7 @@ export default Vue.extend({
 
   methods: {
     navigateToRowDetailView(row: CaseSerializer): void {
-      this.$router.push(`/work-in-progress/${row.id}`);
+      this.$router.push(`/client/case/${row.id}`);
     },
   },
 });

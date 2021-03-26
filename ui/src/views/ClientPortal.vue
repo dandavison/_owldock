@@ -6,28 +6,28 @@
     <p class="m-4 is-size-4">What would you like to do next?</p>
     <ul>
       <li>
-        <router-link to="/question">
+        <router-link to="/client/question">
           <b-button class="is-large m-4" style="background-color: #fff2cc">
             Ask a question
           </b-button>
         </router-link>
       </li>
       <li>
-        <router-link to="/initiate-new-work">
+        <router-link to="/client/new-case">
           <b-button class="is-large m-4" style="background-color: #deebf7">
             Initiate new work
           </b-button>
         </router-link>
       </li>
       <li>
-        <router-link to="/work-in-progress">
+        <router-link to="/client/cases">
           <b-button class="is-large m-4" style="background-color: #f8dcf7">
             View work in progress
           </b-button>
         </router-link>
       </li>
       <li>
-        <router-link to="/access-data">
+        <router-link to="/client/my-data">
           <b-button class="is-large m-4" style="background-color: #e3efda">
             Access data
           </b-button>

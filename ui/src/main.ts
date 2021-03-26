@@ -8,14 +8,14 @@ import "buefy/dist/buefy.css";
 import "../node_modules/@fortawesome/fontawesome-free/js/all.js";
 
 import App from "./App.vue";
-const AccessData = () => import("./views/AccessData.vue");
-const AskAQuestion = () => import("./views/AskAQuestion.vue");
-const ClientPortal = () => import("./views/ClientPortal.vue");
 const Home = () => import("./views/Home.vue");
-const InitiateNewWork = () => import("./views/InitiateNewWork.vue");
+const ClientPortal = () => import("./views/ClientPortal.vue");
+const NewCase = () => import("./views/NewCase.vue");
+const ViewCase = () => import("./views/ViewCase.vue");
+const ViewCases = () => import("./views/ViewCases.vue");
+const AskAQuestion = () => import("./views/AskAQuestion.vue");
+const AccessData = () => import("./views/AccessData.vue");
 const ProviderPortal = () => import("./views/ProviderPortal.vue");
-const ViewWIPDetail = () => import("./views/ViewWIPDetail.vue");
-const ViewWIP = () => import("./views/ViewWIP.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {
@@ -25,13 +25,13 @@ Vue.use(Buefy, {
 
 const routes = [
   { path: "/", component: Home },
-  { path: "/access-data", component: AccessData },
-  { path: "/client-portal", component: ClientPortal },
-  { path: "/initiate-new-work", component: InitiateNewWork },
-  { path: "/provider-portal", component: ProviderPortal },
-  { path: "/question", component: AskAQuestion },
-  { path: "/work-in-progress", component: ViewWIP },
-  { path: "/work-in-progress/:id", component: ViewWIPDetail }
+  { path: "/client", component: ClientPortal },
+  { path: "/client/my-data", component: AccessData },
+  { path: "/client/new-case", component: NewCase },
+  { path: "/client/cases", component: ViewCases },
+  { path: "/client/case/:id", component: ViewCase },
+  { path: "/client/question", component: AskAQuestion },
+  { path: "/provider", component: ProviderPortal }
 ];
 
 const router = new VueRouter({ mode: "history", routes });

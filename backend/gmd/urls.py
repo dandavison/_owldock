@@ -26,9 +26,10 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
-    # Assume anything else is a client-side route handled by Vue router
+    # client-side routes handled by Vue router
     # https://stackoverflow.com/questions/42864641/handling-single-page-application-url-and-django-url
     re_path(
-        r"^.*$", login_required(TemplateView.as_view(template_name="app/index.html"))
+        r"^(client|provider)/.*$",
+        login_required(TemplateView.as_view(template_name="app/index.html")),
     ),
 ]
