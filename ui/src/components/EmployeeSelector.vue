@@ -4,17 +4,14 @@
       <b-field :label="label">
         <b-autocomplete
           v-model="input"
-          field="computedName"
+          field="displayName"
           :data="filteredCandidates"
           @select="(employee) => $emit('change:employee', employee)"
           :openOnFocus="true"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
+          dropdown-position="bottom"
         >
           <template slot-scope="props">
-            {{ props.option.user.first_name }} {{ props.option.user.last_name }}
+            {{ props.option.displayName }}
           </template>
         </b-autocomplete>
       </b-field>
@@ -39,22 +36,21 @@ export default Vue.extend({
 
   computed: {
     filteredCandidates(): EmployeeSerializer[] {
-      // TODO: why is this called with input === undefined?
-      if (!this.input) {
-        return [];
-      }
       return this.employees
-        .filter((e) =>
+        .filter((employee) =>
           inputMatchesString(
             this.input,
-            `${e.user.first_name} ${e.user.last_name}`
+            `${employee.user.first_name} ${employee.user.last_name}`
           )
         )
-        .map((e) =>
-          Object.assign(e, {
-            computedName: `${e.user.first_name} ${e.user.last_name}`,
-          })
-        );
+        .map((employee) => {
+          const flags = employee.nationalities
+            .map((nationality) => nationality.unicode_flag)
+            .join(" ");
+          return Object.assign(employee, {
+            displayName: `${flags} ${employee.user.first_name} ${employee.user.last_name}`,
+          });
+        });
     },
   },
 

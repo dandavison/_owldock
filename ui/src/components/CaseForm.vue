@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <section class="section">
       <case v-if="haveEmployee" :case_="case_"> </case>
@@ -17,7 +17,12 @@
         </country-selector>
 
         <b-field label="Target dates">
-          <b-datepicker @input="handleInputDateRange" range> </b-datepicker>
+          <b-datepicker
+            :range="true"
+            :mobile-native="false"
+            @input="handleInputDateRange"
+          >
+          </b-datepicker>
         </b-field>
 
         <fieldset :disabled="processes.length === 0">
@@ -28,6 +33,7 @@
               field="route.name"
               @select="handleSelectProcessForRouteSelection"
               :openOnFocus="true"
+              dropdown-position="bottom"
             >
               <template slot-scope="props">
                 <span class="mr-2">{{ props.option.route.name }}</span>

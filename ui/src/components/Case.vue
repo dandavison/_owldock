@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card" style="overflow: visible" @click="handleClick">
+    <div class="card" style="overflow: visible">
       <div class="card-content">
         <div class="media">
           <div class="media-left">
@@ -80,10 +80,6 @@ export default Vue.extend({
   methods: {
     handleSelectEmployee(employee: EmployeeSerializer) {
       this.$emit("select:employee", employee);
-    },
-
-    handleClick() {
-      this.$emit("select:employee", NullEmployee());
     },
   },
 });

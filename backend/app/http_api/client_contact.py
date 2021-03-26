@@ -18,7 +18,7 @@ class _ClientContactView(View):
 
 class EmployeesList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        employees = self.client_contact.employees()
+        employees = self.client_contact.employees().order_by("user__last_name")
         serializer = EmployeeSerializer(data=employees, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)

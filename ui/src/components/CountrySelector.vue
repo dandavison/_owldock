@@ -5,13 +5,13 @@
         <b-autocomplete
           v-model="input"
           :data="filteredCandidates"
-          field="name"
+          field="displayName"
           @select="(country) => $emit('change:country', country)"
           :openOnFocus="true"
+          dropdown-position="bottom"
         >
           <template slot-scope="props">
-            <span class="mr-2">{{ props.option.unicode_flag }}</span>
-            <span>{{ props.option.name }}</span>
+            {{ props.option.displayName }}
           </template>
         </b-autocomplete>
       </b-field>
@@ -42,9 +42,13 @@ export default Vue.extend({
 
   computed: {
     filteredCandidates(): CountrySerializer[] {
-      return this.countries.filter((country) =>
-        inputMatchesString(this.input, country.name)
-      );
+      return this.countries
+        .filter((country) => inputMatchesString(this.input, country.name))
+        .map((country) => {
+          return Object.assign(country, {
+            displayName: `${country.unicode_flag} ${country.name}`,
+          });
+        });
     },
   },
 });
