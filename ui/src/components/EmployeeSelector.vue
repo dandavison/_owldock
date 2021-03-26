@@ -3,12 +3,14 @@
     <p class="control" style="width: 100%">
       <b-field :label="label">
         <b-autocomplete
+          ref="autocomplete"
           v-model="input"
           field="displayName"
           :data="filteredCandidates"
           @select="(employee) => $emit('change:employee', employee)"
           :openOnFocus="true"
           dropdown-position="bottom"
+          max-height="100vh"
         >
           <template slot-scope="props">
             {{ props.option.flags }} {{ props.option.displayName }}
@@ -23,6 +25,7 @@
 import { inputMatchesString } from "@/utils";
 import Vue from "vue";
 import { EmployeeSerializer } from "../api-types";
+import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
 
 export default Vue.extend({
   props: { label: String },
@@ -32,6 +35,10 @@ export default Vue.extend({
       input: "",
       employees: [] as EmployeeSerializer[],
     };
+  },
+
+  mounted() {
+    dismissMobileKeyboardOnDropdownScroll(this, "autocomplete");
   },
 
   computed: {
