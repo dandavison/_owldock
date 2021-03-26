@@ -42,21 +42,6 @@
         </b-field>
       </fieldset>
 
-      <fieldset :disabled="routeProcesses.length === 0">
-        <b-field label="Processes">
-          <b-autocomplete
-            v-model="inputProcess"
-            :data="routeProcesses"
-            field="route.name"
-            :openOnFocus="true"
-          >
-            <template slot-scope="props">
-              <span class="mr-2">{{ props.option.route.name }}</span>
-            </template>
-          </b-autocomplete>
-        </b-field>
-      </fieldset>
-
       <fieldset :disabled="!isValid()">
         <div class="field is-grouped pt-4">
           <div class="control">
@@ -94,7 +79,6 @@ export default Vue.extend({
       dateRange: [] as string[],
       inputHostCountry: "",
       inputRoute: "",
-      inputProcess: "",
       countries: [] as CountrySerializer[],
       // All processes matching country, employee nationalities & home country, dates
       processes: [] as ProcessSerializer[],
