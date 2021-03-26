@@ -11,7 +11,7 @@
           dropdown-position="bottom"
         >
           <template slot-scope="props">
-            {{ props.option.displayName }}
+            {{ props.option.flags }} {{ props.option.displayName }}
           </template>
         </b-autocomplete>
       </b-field>
@@ -44,11 +44,11 @@ export default Vue.extend({
           )
         )
         .map((employee) => {
-          const flags = employee.nationalities
-            .map((nationality) => nationality.unicode_flag)
-            .join(" ");
           return Object.assign(employee, {
-            displayName: `${flags} ${employee.user.first_name} ${employee.user.last_name}`,
+            displayName: `${employee.user.first_name} ${employee.user.last_name}`,
+            flags: employee.nationalities
+              .map((nationality) => nationality.unicode_flag)
+              .join(" "),
           });
         });
     },
