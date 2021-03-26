@@ -1,5 +1,10 @@
 <template>
   <section class="section">
+    <case
+      @select:employee="(employee) => (this.employee = employee)"
+      :hostCountry="hostCountry"
+    >
+    </case>
     <form @submit="fakeSubmit">
       <b-field label="Host country">
         <b-autocomplete
@@ -17,12 +22,7 @@
       </b-field>
 
       <b-field label="Target dates">
-        <b-datepicker
-          placeholder="Click to select..."
-          v-model="dateRange"
-          @select="handleSelectDateRange"
-          range
-        >
+        <b-datepicker v-model="dateRange" @select="handleSelectDateRange" range>
         </b-datepicker>
       </b-field>
 
@@ -75,12 +75,13 @@ import {
   ProcessSerializer,
 } from "../api-types";
 
+import Case from "../components/Case.vue";
 import Process from "./Process.vue";
 
 export default Vue.extend({
   props: { employee: Object as PropType<EmployeeSerializer> },
 
-  components: { Process },
+  components: { Case, Process },
 
   data() {
     return {
