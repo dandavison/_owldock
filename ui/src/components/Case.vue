@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="employee"
+      v-if="haveEmployee"
       class="card"
       style="overflow: visible"
       @click="handleClick"
@@ -10,7 +10,7 @@
         <div class="media">
           <div class="media-left">
             <figure
-              v-for="nationality in employee.nationalities"
+              v-for="nationality of case_.employee.nationalities"
               :key="nationality.code"
               class="image is-4x3"
             >
@@ -20,24 +20,34 @@
 
           <div class="media-content">
             <p class="title is-4">
-              {{ employee.user.first_name }} {{ employee.user.last_name }}
+              {{ case_.employee.user.first_name }}
+              {{ case_.employee.user.last_name }}
             </p>
             <p class="subtitle is-6">
-              <a :href="`mailto:${employee.user.email}`">
-                {{ employee.user.email }}
+              <a :href="`mailto:${case_.employee.user.email}`">
+                {{ case_.employee.user.email }}
               </a>
             </p>
           </div>
 
-          <div v-if="hostCountry" class="media-right">
+          <div v-if="haveHostCountry" class="media-right">
             <figure class="image is-4x3">
-              <img v-bind="makeCountryFlagImgProps(hostCountry, '64x48')" />
+              <img
+                v-bind="
+                  makeCountryFlagImgProps(
+                    case_.process.route.host_country,
+                    '64x48'
+                  )
+                "
+              />
             </figure>
           </div>
         </div>
       </div>
+      <process v-if="haveProcess" :process="case_.process" class="mt-4">
+      </process>
     </div>
-    <employee-selector v-else @select:employee="handleSelect">
+    <employee-selector v-else @select:employee="handleSelectEmployee">
     </employee-selector>
   </div>
 </template>
@@ -45,14 +55,21 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 
-import { makeCountryFlagImgProps } from "../utils";
-import { CountrySerializer, EmployeeSerializer } from "../api-types";
 import EmployeeSelector from "./EmployeeSelector.vue";
+import Process from "./Process.vue";
+import { CaseSerializer, EmployeeSerializer } from "../api-types";
+import {
+  NullEmployee,
+  countryIsNull,
+  employeeIsNull,
+  processIsNull,
+} from "../factories";
+import { makeCountryFlagImgProps } from "../utils";
 
 export default Vue.extend({
-  props: { hostCountry: Object as PropType<CountrySerializer> },
+  props: { case_: Object as PropType<CaseSerializer> },
 
-  components: { EmployeeSelector },
+  components: { EmployeeSelector, Process },
 
   data() {
     return {
@@ -61,14 +78,28 @@ export default Vue.extend({
     };
   },
 
+  computed: {
+    haveEmployee(): boolean {
+      return !employeeIsNull(this.case_.employee);
+    },
+
+    haveHostCountry(): boolean {
+      return !countryIsNull(this.case_.process.route.host_country);
+    },
+
+    haveProcess(): boolean {
+      let ret = !processIsNull(this.case_.process);
+      return ret;
+    },
+  },
+
   methods: {
-    handleSelect(employee: EmployeeSerializer) {
-      this.employee = employee;
+    handleSelectEmployee(employee: EmployeeSerializer) {
       this.$emit("select:employee", employee);
     },
 
     handleClick() {
-      this.employee = null;
+      this.$emit("select:employee", NullEmployee());
     },
   },
 });

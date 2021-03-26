@@ -1,104 +1,84 @@
 <template>
-  <section class="section">
-    <case
-      @select:employee="(employee) => (this.employee = employee)"
-      :hostCountry="hostCountry"
-    >
-    </case>
-    <form @submit="fakeSubmit">
-      <b-field label="Host country">
-        <b-autocomplete
-          v-model="inputHostCountry"
-          :data="filteredHostCountryCandidates"
-          field="name"
-          @select="handleSelectHostCountry"
-          :openOnFocus="true"
-        >
-          <template slot-scope="props">
-            <span class="mr-2">{{ props.option.unicode_flag }}</span>
-            <span>{{ props.option.name }}</span>
-          </template>
-        </b-autocomplete>
-      </b-field>
-
-      <b-field label="Target dates">
-        <b-datepicker v-model="dateRange" @select="handleSelectDateRange" range>
-        </b-datepicker>
-      </b-field>
-
-      <fieldset :disabled="processes.length === 0">
-        <b-field label="Route">
+  <div>
+    <section class="section">
+      <case @select:employee="handleSelectEmployee" :case_="case_"> </case>
+      <div class="form pt-6">
+        <b-field label="Host country">
           <b-autocomplete
-            v-model="inputRoute"
-            :data="filteredProcessCandidatesForRouteSelection"
-            field="route.name"
-            @select="handleSelectProcessForRouteSelection"
+            v-model="input.hostCountry"
+            :data="filteredHostCountryCandidates"
+            field="name"
+            @select="handleSelectHostCountry"
             :openOnFocus="true"
           >
             <template slot-scope="props">
-              <span class="mr-2">{{ props.option.route.name }}</span>
+              <span class="mr-2">{{ props.option.unicode_flag }}</span>
+              <span>{{ props.option.name }}</span>
             </template>
           </b-autocomplete>
         </b-field>
 
-        <b-field v-if="routeProcesses.length > 0" label="Process">
-          <process
-            v-for="process of routeProcesses"
-            :key="process.id"
-            :process="process"
-            class="mt-4"
-          >
-          </process>
+        <b-field label="Target dates">
+          <b-datepicker @input="handleInputDateRange" range> </b-datepicker>
         </b-field>
-      </fieldset>
 
-      <fieldset :disabled="!isValid()">
-        <div class="field is-grouped pt-4">
-          <div class="control">
-            <button class="button is-link" @click="handleSubmit">Submit</button>
+        <fieldset :disabled="processes.length === 0">
+          <b-field label="Route">
+            <b-autocomplete
+              v-model="input.route"
+              :data="filteredProcessCandidatesForRouteSelection"
+              field="route.name"
+              @select="handleSelectProcessForRouteSelection"
+              :openOnFocus="true"
+            >
+              <template slot-scope="props">
+                <span class="mr-2">{{ props.option.route.name }}</span>
+              </template>
+            </b-autocomplete>
+          </b-field>
+        </fieldset>
+
+        <fieldset :disabled="!isValid()">
+          <div class="field is-grouped pt-4">
+            <div class="control">
+              <button class="button is-link" @click="handleSubmit">
+                Submit
+              </button>
+            </div>
           </div>
-        </div>
-      </fieldset>
-    </form>
-  </section>
+        </fieldset>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue from "vue";
 import Cookies from "js-cookie";
 
-import { makeCountryFlagImgProps } from "../utils";
 import {
-  CaseSerializer,
   CountrySerializer,
   EmployeeSerializer,
   ProcessSerializer,
 } from "../api-types";
-
 import Case from "../components/Case.vue";
-import Process from "./Process.vue";
+import { NullCase } from "@/factories";
+import { makeCountryFlagImgProps } from "../utils";
 
 export default Vue.extend({
-  props: { employee: Object as PropType<EmployeeSerializer> },
-
-  components: { Case, Process },
+  components: { Case },
 
   data() {
     return {
-      form: {
-        employee: this.employee,
-        process: {},
-        target_entry_date: "",
-        target_exit_date: "",
-      } as CaseSerializer,
-      dateRange: [] as string[],
-      inputHostCountry: "",
-      inputRoute: "",
+      case_: NullCase(),
+      input: {
+        hostCountry: "",
+        route: "",
+      },
       countries: [] as CountrySerializer[],
       // All processes matching country, employee nationalities & home country, dates
       processes: [] as ProcessSerializer[],
       // Subset of those processes matching selected route
-      routeProcesses: [] as ProcessSerializer[],
       makeCountryFlagImgProps,
     };
   },
@@ -113,7 +93,7 @@ export default Vue.extend({
     /// Return countries matching input country name fragment.
     filteredHostCountryCandidates(): CountrySerializer[] {
       return this.countries.filter((country) =>
-        inputMatchesString(this.inputHostCountry, country.name)
+        inputMatchesString(this.input.hostCountry, country.name)
       );
     },
 
@@ -124,7 +104,7 @@ export default Vue.extend({
       const seen = new Set();
       for (let process of this.processes) {
         let name = process.route.name;
-        if (inputMatchesString(this.inputRoute, name)) {
+        if (inputMatchesString(this.input.route, name)) {
           if (!seen.has(name)) {
             seen.add(name);
             processes.push(process);
@@ -136,15 +116,19 @@ export default Vue.extend({
   },
 
   methods: {
+    handleSelectEmployee(employee: EmployeeSerializer) {
+      this.case_.employee = employee;
+    },
+
     handleSelectHostCountry(country: CountrySerializer) {
       if (!country) {
         // FIXME: why
         console.log("ERROR: country is", JSON.stringify(country));
         return;
       }
-      this.$emit("select:host-country", country);
-      if (this.employee.nationalities) {
-        const nationalityCodes = this.employee.nationalities.map(
+      this.case_.process.route.host_country = country;
+      if (this.case_.employee.nationalities) {
+        const nationalityCodes = this.case_.employee.nationalities.map(
           (country) => country.code
         );
         fetch(
@@ -163,19 +147,25 @@ export default Vue.extend({
         console.log("ERROR: process is", JSON.stringify(process));
         return;
       }
-      this.routeProcesses = this.processes.filter(
+      const processes = this.processes.filter(
         (p) => p.route.name === process.route.name
       );
+      if (processes[0]) {
+        if (processes.length > 1) {
+          alert("TODO: multiple processes match the route and employee data");
+        }
+        this.case_.process = processes[0];
+      }
     },
 
-    handleSelectDateRange(): void {
-      this.form.target_entry_date = this.dateRange[0] || "";
-      this.form.target_exit_date = this.dateRange[1] || "";
+    handleInputDateRange([entryDate, exitDate]: Date[]): void {
+      this.case_.target_entry_date = entryDate?.toLocaleDateString() || "";
+      this.case_.target_exit_date = exitDate?.toLocaleDateString() || "";
     },
 
     isValid(): boolean {
       // TODO
-      const emptyValues = Object.values(this.form).filter(
+      const emptyValues = Object.values(this.case_).filter(
         (val) => `${val}`.length === 0
       );
       return emptyValues.length === 0;
@@ -198,15 +188,8 @@ export default Vue.extend({
       fetch(`${process.env.VUE_APP_SERVER_URL}/api/cases/`, {
         method: "POST",
         headers,
-        body: JSON.stringify(this.form),
+        body: JSON.stringify(this.case_),
       });
-    },
-
-    fakeSubmit(event: Event): void {
-      // FIXME: prevent submit correctly
-      console.log("fakeSubmit", event);
-      event.stopPropagation();
-      event.preventDefault();
     },
   },
 });
