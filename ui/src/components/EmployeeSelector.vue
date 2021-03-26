@@ -1,12 +1,12 @@
 <template>
   <div class="field has-addons" style="width: 100%">
     <p class="control" style="width: 100%">
-      <b-field>
+      <b-field :label="label">
         <b-autocomplete
-          v-model="inputEmployeeName"
-          placeholder="Select an employee"
+          v-model="input"
+          field="computedName"
           :data="filteredCandidates"
-          @select="(employee) => $emit('select:employee', employee)"
+          @select="(employee) => $emit('change:employee', employee)"
           :openOnFocus="true"
           autocomplete="off"
           autocorrect="off"
@@ -23,25 +23,38 @@
 </template>
 
 <script lang="ts">
+import { inputMatchesString } from "@/utils";
 import Vue from "vue";
 import { EmployeeSerializer } from "../api-types";
 
 export default Vue.extend({
+  props: { label: String },
+
   data() {
     return {
-      inputEmployeeName: "",
+      input: "",
       employees: [] as EmployeeSerializer[],
     };
   },
 
   computed: {
     filteredCandidates(): EmployeeSerializer[] {
-      // TODO: why is this called after selecting with inputEmployeeName === undefined?
-      if (!this.inputEmployeeName) {
+      // TODO: why is this called with input === undefined?
+      if (!this.input) {
         return [];
-      } else {
-        return this.employees.filter((e) => isMatch(e, this.inputEmployeeName));
       }
+      return this.employees
+        .filter((e) =>
+          inputMatchesString(
+            this.input,
+            `${e.user.first_name} ${e.user.last_name}`
+          )
+        )
+        .map((e) =>
+          Object.assign(e, {
+            computedName: `${e.user.first_name} ${e.user.last_name}`,
+          })
+        );
     },
   },
 
@@ -51,18 +64,4 @@ export default Vue.extend({
       .then((data) => (this.employees = data));
   },
 });
-
-function isMatch(employee: EmployeeSerializer, name: string): boolean {
-  // TODO
-  return `${employee.user.first_name} ${employee.user.last_name}`
-    .toLowerCase()
-    .startsWith(name.toLowerCase());
-}
 </script>
-
-<style>
-.autocomplete .icon.has-text-danger,
-.autocomplete .icon.has-text-success {
-  display: none;
-}
-</style>

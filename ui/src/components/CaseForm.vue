@@ -1,22 +1,20 @@
 <template>
   <div>
     <section class="section">
-      <case @select:employee="handleSelectEmployee" :case_="case_"> </case>
+      <case v-if="haveEmployee" :case_="case_"> </case>
+
       <div class="form pt-6">
-        <b-field label="Host country">
-          <b-autocomplete
-            v-model="input.hostCountry"
-            :data="filteredHostCountryCandidates"
-            field="name"
-            @select="handleSelectHostCountry"
-            :openOnFocus="true"
-          >
-            <template slot-scope="props">
-              <span class="mr-2">{{ props.option.unicode_flag }}</span>
-              <span>{{ props.option.name }}</span>
-            </template>
-          </b-autocomplete>
-        </b-field>
+        <employee-selector
+          label="Employee"
+          @change:employee="handleChangeEmployee"
+        >
+        </employee-selector>
+
+        <country-selector
+          label="Host country"
+          @change:country="handleChangeHostCountry"
+        >
+        </country-selector>
 
         <b-field label="Target dates">
           <b-datepicker @input="handleInputDateRange" range> </b-datepicker>
@@ -62,39 +60,29 @@ import {
   ProcessSerializer,
 } from "../api-types";
 import Case from "../components/Case.vue";
-import { NullCase } from "@/factories";
-import { makeCountryFlagImgProps } from "../utils";
+import { NullCase, employeeIsNull } from "@/factories";
+import CountrySelector from "./CountrySelector.vue";
+import EmployeeSelector from "./EmployeeSelector.vue";
+import { inputMatchesString } from "../utils";
 
 export default Vue.extend({
-  components: { Case },
+  components: { Case, CountrySelector, EmployeeSelector },
 
   data() {
     return {
       case_: NullCase(),
       input: {
-        hostCountry: "",
         route: "",
       },
-      countries: [] as CountrySerializer[],
       // All processes matching country, employee nationalities & home country, dates
       processes: [] as ProcessSerializer[],
       // Subset of those processes matching selected route
-      makeCountryFlagImgProps,
     };
   },
 
-  created() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/countries/`)
-      .then((resp) => resp.json())
-      .then((data) => (this.countries = data));
-  },
-
   computed: {
-    /// Return countries matching input country name fragment.
-    filteredHostCountryCandidates(): CountrySerializer[] {
-      return this.countries.filter((country) =>
-        inputMatchesString(this.input.hostCountry, country.name)
-      );
+    haveEmployee(): boolean {
+      return !employeeIsNull(this.case_.employee);
     },
 
     /// Return processes with route matching input route name fragment,
@@ -116,11 +104,16 @@ export default Vue.extend({
   },
 
   methods: {
-    handleSelectEmployee(employee: EmployeeSerializer) {
+    handleChangeEmployee(employee: EmployeeSerializer) {
+      if (!employee) {
+        // FIXME: why
+        console.log("ERROR: employee is", JSON.stringify(employee));
+        return;
+      }
       this.case_.employee = employee;
     },
 
-    handleSelectHostCountry(country: CountrySerializer) {
+    handleChangeHostCountry(country: CountrySerializer) {
       if (!country) {
         // FIXME: why
         console.log("ERROR: country is", JSON.stringify(country));
@@ -193,8 +186,4 @@ export default Vue.extend({
     },
   },
 });
-
-function inputMatchesString(input: string, string: string): boolean {
-  return string.toLowerCase().startsWith(input.toLowerCase());
-}
 </script>

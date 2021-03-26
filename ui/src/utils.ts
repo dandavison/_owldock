@@ -52,3 +52,7 @@ export function makeCountryFlagImgProps(
     alt: country.name
   };
 }
+
+export function inputMatchesString(input: string, string: string): boolean {
+  return string.toLowerCase().startsWith(input.toLowerCase());
+}

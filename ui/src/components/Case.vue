@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="haveEmployee"
-      class="card"
-      style="overflow: visible"
-      @click="handleClick"
-    >
+    <div class="card" style="overflow: visible" @click="handleClick">
       <div class="card-content">
         <div class="media">
           <div class="media-left">
@@ -47,8 +42,6 @@
       <process v-if="haveProcess" :process="case_.process" class="mt-4">
       </process>
     </div>
-    <employee-selector v-else @select:employee="handleSelectEmployee">
-    </employee-selector>
   </div>
 </template>
 
@@ -58,12 +51,7 @@ import Vue, { PropType } from "vue";
 import EmployeeSelector from "./EmployeeSelector.vue";
 import Process from "./Process.vue";
 import { CaseSerializer, EmployeeSerializer } from "../api-types";
-import {
-  NullEmployee,
-  countryIsNull,
-  employeeIsNull,
-  processIsNull,
-} from "../factories";
+import { countryIsNull, processIsNull } from "../factories";
 import { makeCountryFlagImgProps } from "../utils";
 
 export default Vue.extend({
@@ -79,10 +67,6 @@ export default Vue.extend({
   },
 
   computed: {
-    haveEmployee(): boolean {
-      return !employeeIsNull(this.case_.employee);
-    },
-
     haveHostCountry(): boolean {
       return !countryIsNull(this.case_.process.route.host_country);
     },
