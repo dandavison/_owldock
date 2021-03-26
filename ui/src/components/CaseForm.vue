@@ -52,6 +52,15 @@
           </div>
         </fieldset>
       </div>
+      <div>
+        <vue-json-pretty
+          v-if="validationErrors"
+          :path="'res'"
+          :data="validationErrors"
+          @click="handleClick"
+        >
+        </vue-json-pretty>
+      </div>
     </section>
   </div>
 </template>
@@ -59,6 +68,9 @@
 <script lang="ts">
 import Vue from "vue";
 import Cookies from "js-cookie";
+
+import VueJsonPretty from "vue-json-pretty";
+import "vue-json-pretty/lib/styles.css";
 
 import {
   CountrySerializer,
@@ -72,7 +84,7 @@ import EmployeeSelector from "./EmployeeSelector.vue";
 import { inputMatchesString } from "../utils";
 
 export default Vue.extend({
-  components: { Case, CountrySelector, EmployeeSelector },
+  components: { Case, CountrySelector, EmployeeSelector, VueJsonPretty },
 
   data() {
     return {
