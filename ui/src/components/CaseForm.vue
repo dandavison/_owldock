@@ -42,7 +42,7 @@
           </b-field>
         </fieldset>
 
-        <fieldset :disabled="!isValid()">
+        <fieldset>
           <div class="field is-grouped pt-4">
             <div class="control">
               <button class="button is-link" @click="handleSubmit">
@@ -162,19 +162,8 @@ export default Vue.extend({
       this.case_.target_exit_date = exitDate?.toLocaleDateString() || "";
     },
 
-    isValid(): boolean {
-      // TODO
-      const emptyValues = Object.values(this.case_).filter(
-        (val) => `${val}`.length === 0
-      );
-      return emptyValues.length === 0;
-    },
-
     handleSubmit(): void {
-      if (!this.isValid()) {
-        console.log("Not submitting: form data is not valid");
-        return;
-      }
+      // TODO: validation
 
       const headers = {
         "Content-Type": "application/json",
