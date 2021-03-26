@@ -69,7 +69,7 @@ class ProcessSerializer(ModelSerializer):
 
     class Meta:
         model = Process
-        fields = ["route", "nationality", "home_country", "steps"]
+        fields = ["id", "route", "nationality", "home_country", "steps"]
 
 
 @ts_interface()

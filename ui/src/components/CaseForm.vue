@@ -40,6 +40,16 @@
             </template>
           </b-autocomplete>
         </b-field>
+
+        <b-field v-if="routeProcesses.length > 0" label="Process">
+          <process
+            v-for="process of routeProcesses"
+            :key="process.id"
+            :process="process"
+            class="mt-4"
+          >
+          </process>
+        </b-field>
       </fieldset>
 
       <fieldset :disabled="!isValid()">
@@ -65,8 +75,12 @@ import {
   ProcessSerializer,
 } from "../api-types";
 
+import Process from "./Process.vue";
+
 export default Vue.extend({
   props: { employee: Object as PropType<EmployeeSerializer> },
+
+  components: { Process },
 
   data() {
     return {
