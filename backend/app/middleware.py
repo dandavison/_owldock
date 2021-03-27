@@ -67,6 +67,7 @@ def _set_client_cookies(
         return False
     else:
         response.set_cookie("logo_url", client.logo_url)
+        response.set_cookie("role", "client-contact")
         return True
 
 
@@ -79,4 +80,5 @@ def _set_provider_cookies(
         return False
     else:
         response.set_cookie("logo_url", provider.logo_url)
+        response.set_cookie("role", "provider-contact")
         return True

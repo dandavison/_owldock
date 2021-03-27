@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
+import Cookies from "js-cookie";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import "../node_modules/@fortawesome/fontawesome-free/js/all.js";
@@ -23,8 +24,19 @@ Vue.use(Buefy, {
   defaultContainerElement: "#content"
 });
 
+function getPortalViewForRole(): Promise<any> {
+  const role = Cookies.get("role");
+  if (role === "client-contact") {
+    return ClientPortal();
+  } else if (role === "provider-contact") {
+    return ProviderPortal();
+  } else {
+    return Home();
+  }
+}
+
 const routes = [
-  { path: "/", component: Home },
+  { path: "/", component: getPortalViewForRole },
   { path: "/client", component: ClientPortal },
   { path: "/client/my-data", component: AccessData },
   { path: "/client/new-case", component: NewCase },
