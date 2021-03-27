@@ -71,8 +71,7 @@ export function NullCase(): CaseSerializer {
     employee: NullEmployee(),
     process: NullProcess(),
     target_entry_date: "",
-    target_exit_date: "",
-    provider_contact: NullProviderContact()
+    target_exit_date: ""
   };
 }
 

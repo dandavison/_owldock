@@ -138,7 +138,6 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 class CaseSerializer(ModelSerializer):
     employee = EmployeeSerializer()
     process = ProcessSerializer()
-    provider_contact = ProviderContactSerializer()
 
     class Meta:
         model = Case
