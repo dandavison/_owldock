@@ -137,3 +137,5 @@ CORS_ALLOW_ALL_ORIGINS = True
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 PROJECT_ROOT = Path(__file__).parent.parent
+
+SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
