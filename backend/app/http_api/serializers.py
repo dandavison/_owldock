@@ -31,14 +31,14 @@ from app.models import (
 class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
-        fields = ["name", "code", "unicode_flag"]
+        fields = ["id", "name", "code", "unicode_flag"]
 
 
 @ts_interface()
 class ServiceSerializer(ModelSerializer):
     class Meta:
         model = Service
-        fields = ["name"]
+        fields = ["id", "name"]
 
 
 @ts_interface()
@@ -47,7 +47,7 @@ class RouteSerializer(ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ["name", "host_country"]
+        fields = ["id", "name", "host_country"]
 
 
 @ts_interface()
@@ -56,7 +56,7 @@ class ProcessStepSerializer(ModelSerializer):
 
     class Meta:
         model = ProcessStep
-        fields = ["sequence_number", "service"]
+        fields = ["id", "sequence_number", "service"]
         ordering = ["sequence_number"]
 
 
@@ -76,7 +76,7 @@ class ProcessSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email"]
+        fields = ["id", "first_name", "last_name", "email"]
         depth = 2
 
 
@@ -84,7 +84,7 @@ class UserSerializer(ModelSerializer):
 class ClientSerializer(ModelSerializer):
     class Meta:
         model = Client
-        fields = ["name"]
+        fields = ["id", "name"]
 
 
 @ts_interface()
@@ -96,7 +96,7 @@ class EmployeeSerializer(CountryFieldMixin, ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ["user", "employer", "home_country", "nationalities"]
+        fields = ["id", "user", "employer", "home_country", "nationalities"]
 
 
 @ts_interface()
@@ -106,14 +106,14 @@ class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
 
     class Meta:
         model = ClientContact
-        fields = ["user", "client"]
+        fields = ["id", "user", "client"]
 
 
 @ts_interface()
 class ProviderSerializer(ModelSerializer):
     class Meta:
         model = Provider
-        fields = ["name"]
+        fields = ["id", "name"]
 
 
 @ts_interface()
@@ -123,7 +123,7 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
     class Meta:
         model = ProviderContact
-        fields = ["user", "provider"]
+        fields = ["id", "user", "provider"]
 
 
 @ts_interface()

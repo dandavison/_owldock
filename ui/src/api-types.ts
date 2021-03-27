@@ -1,19 +1,23 @@
 export interface CountrySerializer {
+    id?: number;
     name: string;
     code: string;
     unicode_flag: string;
 }
 
 export interface ServiceSerializer {
+    id?: number;
     name: string;
 }
 
 export interface RouteSerializer {
+    id?: number;
     name: string;
     host_country: CountrySerializer;
 }
 
 export interface ProcessStepSerializer {
+    id?: number;
     sequence_number: number;
     service: ServiceSerializer;
 }
@@ -27,16 +31,19 @@ export interface ProcessSerializer {
 }
 
 export interface UserSerializer {
+    id?: number;
     first_name?: string;
     last_name?: string;
     email?: string;
 }
 
 export interface ClientSerializer {
+    id?: number;
     name: string;
 }
 
 export interface EmployeeSerializer {
+    id?: number;
     user: UserSerializer;
     employer: ClientSerializer;
     home_country: CountrySerializer;
@@ -44,15 +51,18 @@ export interface EmployeeSerializer {
 }
 
 export interface ClientContactSerializer {
+    id?: number;
     user: UserSerializer;
     client: ClientSerializer;
 }
 
 export interface ProviderSerializer {
+    id?: number;
     name: string;
 }
 
 export interface ProviderContactSerializer {
+    id?: number;
     user: UserSerializer;
     provider: ProviderSerializer;
 }
