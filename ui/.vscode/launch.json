@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "npm run serve",
+            "name": "Vue Dev Server",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+    ]
+}
