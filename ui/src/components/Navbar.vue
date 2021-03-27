@@ -3,7 +3,8 @@
     <template slot="brand">
       <b-navbar-item>
         <router-link to="/">
-          <i class="fas fa-globe-americas"></i>
+          <img v-if="logoUrl" :src="logoUrl" height="24px" />
+          <i v-else class="fas fa-globe-americas"></i>
         </router-link>
       </b-navbar-item>
 
@@ -15,7 +16,7 @@
     </template>
 
     <template slot="end">
-      <b-navbar-dropdown :label="loggedInUserName() || 'Account'" arrowless>
+      <b-navbar-dropdown :label="loggedInUserName || 'Account'" arrowless>
         <b-navbar-item>
           <a :href="logoutURL"> Log out </a>
         </b-navbar-item>
@@ -33,10 +34,13 @@ export default Vue.extend({
     logoutURL(): string {
       return `${process.env.VUE_APP_SERVER_URL}/accounts/logout/`;
     },
-  },
-  methods: {
+
     loggedInUserName(): string | undefined {
       return Cookies.get("username");
+    },
+
+    logoUrl(): string | undefined {
+      return Cookies.get("logo_url");
     },
   },
 });

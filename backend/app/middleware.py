@@ -1,3 +1,4 @@
+import logging
 from typing import Callable, Union
 
 from django.contrib.auth.models import (  # pylint: disable=imported-auth-user
@@ -8,6 +9,10 @@ from django.contrib.auth.models import (  # pylint: disable=imported-auth-user
 from django.http import HttpRequest
 from django.http import HttpResponse
 
+logger = logging.getLogger(__file__)
+
+from app.models import Client, Provider
+
 Middleware = Callable[[HttpRequest], HttpResponse]
 
 
@@ -17,6 +22,25 @@ def set_user_data_cookies(get_response: Middleware) -> Middleware:
         if request.user:
             _set_user_attribute_cookie("first_name", request.user, response)
             _set_user_attribute_cookie("username", request.user, response)
+            logger.info(
+                "request.user: username=%s, email=%s, id=%s"
+                % (
+                    request.user.username,
+                    getattr(request.user, "email", "<no email>"),
+                    getattr(request.user, "id", "<no id>"),
+                ),
+            )
+            if not (
+                _set_client_cookies(request.user, response)
+                or _set_provider_cookies(request.user, response)
+            ):
+                logger.error(
+                    "request.user is neither client nor provider: username=%s, email=%s, id=%s",
+                    request.user.username,
+                    getattr(request.user, "email", "<no email>"),
+                    getattr(request.user, "id", "<no id>"),
+                )
+
         return response
 
     return middleware
@@ -32,3 +56,27 @@ def _set_user_attribute_cookie(
     else:
         if value:
             response.set_cookie(attr, value)
+
+
+def _set_client_cookies(
+    user: Union[User, AnonymousUser], response: HttpResponse
+) -> bool:
+    try:
+        client = Client.objects.get(contacts__user__username=user.username)
+    except Client.DoesNotExist:
+        return False
+    else:
+        response.set_cookie("logo_url", client.logo_url)
+        return True
+
+
+def _set_provider_cookies(
+    user: Union[User, AnonymousUser], response: HttpResponse
+) -> bool:
+    try:
+        provider = Provider.objects.get(contacts__user__username=user.username)
+    except Provider.DoesNotExist:
+        return False
+    else:
+        response.set_cookie("logo_url", provider.logo_url)
+        return True

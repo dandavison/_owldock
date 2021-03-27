@@ -57,14 +57,34 @@ class Command(BaseCommand):
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
         group = Group.objects.create(name=GroupName.CLIENT_CONTACTS.value)
-        for (first_name, last_name, client_name, client_entity_domain_name) in [
-            ("Carlos", "Carlero", "Coca-Cola", "cocacola.com"),
-            ("Petra", "Petrasson", "Pepsi", "pepsi.com"),
+        for (
+            first_name,
+            last_name,
+            client_name,
+            client_entity_domain_name,
+            logo_url,
+        ) in [
+            (
+                "Carlos",
+                "Carlero",
+                "Coca-Cola",
+                "cocacola.com",
+                "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
+            ),
+            (
+                "Petra",
+                "Petrasson",
+                "Pepsi",
+                "pepsi.com",
+                "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
+            ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
             user = self._create_user(first_name, last_name, email, group)
             client, _ = models.Client.objects.get_or_create(
-                name=client_name, entity_domain_name=client_entity_domain_name
+                name=client_name,
+                entity_domain_name=client_entity_domain_name,
+                logo_url=logo_url,
             )
             models.ClientContact.objects.create(client=client, user=user)
 
@@ -103,19 +123,40 @@ class Command(BaseCommand):
     def _create_provider_contacts(self) -> None:
         print("Creating provider contacts")
         group = Group.objects.create(name=GroupName.PROVIDER_CONTACTS.value)
-        for (first_name, last_name, provider_name, client_entity_domain_name) in [
-            ("Alice", "Alisson", "Acme", "acme.com"),
+        for (
+            first_name,
+            last_name,
+            provider_name,
+            client_entity_domain_name,
+            logo_url,
+        ) in [
+            (
+                "Alice",
+                "Alisson",
+                "Acme",
+                "acme.com",
+                "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png/revision/latest/scale-to-width-down/596",
+            ),
             (
                 "Cuthbert",
                 "Cuthbertson",
                 "Corporate Relocations",
                 "corporaterelocations.gr",
+                "https://corporaterelocations.gr/wp-content/uploads/2016/01/FAV.png",
             ),
-            ("Dimitri", "Dimitros", "Deloitte", "deloitte.com"),
+            (
+                "Dimitri",
+                "Dimitros",
+                "Deloitte",
+                "deloitte.com",
+                "https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg",
+            ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
             user = self._create_user(first_name, last_name, email, group)
-            provider, _ = models.Provider.objects.get_or_create(name=provider_name)
+            provider, _ = models.Provider.objects.get_or_create(
+                name=provider_name, logo_url=logo_url
+            )
             models.ProviderContact.objects.create(provider=provider, user=user)
 
     def _create_user(

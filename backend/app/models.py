@@ -49,11 +49,14 @@ class Country(BaseModel):
 class Client(BaseModel):
     name = models.CharField(max_length=128)
     entity_domain_name = models.CharField(max_length=128)
+    logo_url = models.URLField()
 
 
 class ClientContact(BaseModel):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
-    client = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
+    client = models.ForeignKey(
+        Client, on_delete=models.deletion.CASCADE, related_name="contacts"
+    )
 
     def employees(self) -> "QuerySet[Employee]":
         # TODO: these are employees for which the client contact has what permissions?
@@ -109,11 +112,14 @@ class ClientContact(BaseModel):
 
 class Provider(BaseModel):
     name = models.CharField(max_length=128)
+    logo_url = models.URLField()
 
 
 class ProviderContact(BaseModel):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
-    provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
+    provider = models.ForeignKey(
+        Provider, on_delete=models.deletion.CASCADE, related_name="contacts"
+    )
 
     def available_cases(self) -> "QuerySet[Case]":
         """
