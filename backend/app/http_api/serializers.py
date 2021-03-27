@@ -6,6 +6,13 @@ When we run `make serve` and `make build` in the ui/ directory, the first
 thing that happens is they generate typescript interface definitions from
 these serializer classes. Thus, there will be typescript compiler error messages
 if the backend and frontend code have got out of sync.
+
+By default, DRF will not make 'id' available in serializer.validated_data,
+because it is a read-only field. But we need it when handling a POST to
+create a case, in order to look up the process.
+
+allow_null is supplied on some serializer fields in order for client-side
+objects without to type-check.
 """
 from django.contrib.auth.models import User  # pylint: disable=imported-auth-user
 from django_countries.serializers import CountryFieldMixin
@@ -62,13 +69,11 @@ class ProcessStepSerializer(ModelSerializer):
 
 @ts_interface()
 class ProcessSerializer(ModelSerializer):
-    # By default, DRF will not make 'id' available in serializer.validated_data,
-    # because it is a read-only field. But we need it when handling a POST to
-    # create a case, in order to look up the process.
-    id = IntegerField(read_only=False)
+    # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
     nationality = CountrySerializer()
-    home_country = CountrySerializer(allow_null=True)
+    home_country = CountrySerializer(allow_null=True, required=False)
     steps = ProcessStepSerializer(many=True)
 
     class Meta:
@@ -93,10 +98,8 @@ class ClientSerializer(ModelSerializer):
 
 @ts_interface()
 class EmployeeSerializer(CountryFieldMixin, ModelSerializer):
-    # By default, DRF will not make 'id' available in serializer.validated_data,
-    # because it is a read-only field. But we need it when handling a POST to
-    # create a case, in order to look up the employee.
-    id = IntegerField(read_only=False)
+    # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     employer = ClientSerializer()
     home_country = CountrySerializer()

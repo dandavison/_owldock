@@ -26,7 +26,7 @@ export interface ProcessSerializer {
     id?: number;
     route: RouteSerializer;
     nationality: CountrySerializer;
-    home_country: CountrySerializer;
+    home_country?: CountrySerializer;
     steps: ProcessStepSerializer[];
 }
 
