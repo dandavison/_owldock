@@ -38,9 +38,14 @@
             </figure>
           </div>
         </div>
+        <process
+          v-if="haveProcess"
+          :process="case_.process"
+          :showSteps="showSteps"
+          class="mt-4"
+        >
+        </process>
       </div>
-      <process v-if="haveProcess" :process="case_.process" class="mt-4">
-      </process>
     </div>
   </div>
 </template>
@@ -55,7 +60,10 @@ import { countryIsNull, processIsNull } from "../factories";
 import { makeCountryFlagImgProps } from "../utils";
 
 export default Vue.extend({
-  props: { case_: Object as PropType<CaseSerializer> },
+  props: {
+    case_: Object as PropType<CaseSerializer>,
+    showSteps: { type: Boolean, default: true },
+  },
 
   components: { EmployeeSelector, Process },
 

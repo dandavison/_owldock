@@ -1,0 +1,73 @@
+<template>
+  <section class="section">
+    <b-tabs>
+      <b-tab-item label="Table">
+        <b-table
+          ref="table"
+          :data="rows"
+          :selected.sync="selected"
+          focusable
+          hoverable
+          paginated
+          @dblclick="navigateToRowDetailView"
+          :per-page="10"
+        >
+          <b-table-column v-slot="props">
+            <case :case_="props.row" :showSteps="false"></case>
+          </b-table-column>
+        </b-table>
+      </b-tab-item>
+
+      <b-tab-item label="Selected">
+        <ul>
+          <li>Milestones completed</li>
+          <li>Documents</li>
+          <li>Exchange documents</li>
+          <li>Send notification / message to provider</li>
+        </ul>
+      </b-tab-item>
+    </b-tabs>
+  </section>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import BTable from "buefy/src/components/table";
+type BTableInstance = InstanceType<typeof BTable>;
+
+import { CaseSerializer } from "../api-types";
+import Case from "../components/Case.vue";
+
+export default Vue.extend({
+  components: { Case },
+  data() {
+    return {
+      rows: [],
+      selected: {},
+    };
+  },
+
+  created() {
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-cases/`)
+      .then((resp) => resp.json())
+      .then((data) => (this.rows = data));
+  },
+
+  mounted() {
+    this.$el.querySelector("table")?.addEventListener("keydown", (event) => {
+      if (event.code === "Enter") {
+        let table = this.$refs.table as BTableInstance;
+        if (table.selected) {
+          this.navigateToRowDetailView(table.selected);
+        }
+      }
+    });
+  },
+
+  methods: {
+    navigateToRowDetailView(row: CaseSerializer): void {
+      this.$router.push(`/client/case/${row.id}`);
+    },
+  },
+});
+</script>
