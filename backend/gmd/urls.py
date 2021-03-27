@@ -25,6 +25,10 @@ urlpatterns = [
         "api/client-contact/create-case/",
         client_contact.CreateCase.as_view(),
     ),
+    path(
+        "api/client-contact/list-cases/",
+        client_contact.CaseList.as_view(),
+    ),
     path("api/countries/", countries.CountriesList.as_view()),
     path("api/processes/", processes.ProcessList.as_view()),
     # Admin
