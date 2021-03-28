@@ -37,7 +37,7 @@ urlpatterns = [
     # client-side routes handled by Vue router
     # https://stackoverflow.com/questions/42864641/handling-single-page-application-url-and-django-url
     re_path(
-        r"^(client|provider)/.*$",
+        r"^portal(/.*)?$",
         login_required(TemplateView.as_view(template_name="app/index.html")),
     ),
 ]

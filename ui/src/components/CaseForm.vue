@@ -199,7 +199,7 @@ export default Vue.extend({
         this.validationErrors = data.errors;
       } else {
         this.case_ = NullCase();
-        this.$router.push("/client/cases/");
+        this.$router.push("/portal/cases/");
       }
     },
   },

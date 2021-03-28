@@ -2,7 +2,7 @@
   <b-navbar>
     <template slot="brand">
       <b-navbar-item>
-        <router-link to="/">
+        <router-link to="/portal">
           <img v-if="logoUrl" :src="logoUrl" height="24px" />
           <i v-else class="fas fa-globe-americas"></i>
         </router-link>
@@ -10,7 +10,7 @@
 
       <b-navbar-dropdown label="Global Mobility Dashboard" arrowless>
         <b-navbar-item>
-          <router-link to="/"> Help </router-link>
+          <router-link to="/portal"> Help </router-link>
         </b-navbar-item>
       </b-navbar-dropdown>
     </template>

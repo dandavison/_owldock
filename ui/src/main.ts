@@ -3,20 +3,17 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-import Cookies from "js-cookie";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import "../node_modules/@fortawesome/fontawesome-free/js/all.js";
 
 import App from "./App.vue";
-const Home = () => import("./views/Home.vue");
-const ClientPortal = () => import("./views/ClientPortal.vue");
+const Portal = () => import("./views/Portal.vue");
 const NewCase = () => import("./views/NewCase.vue");
 const ViewCase = () => import("./views/ViewCase.vue");
 const ClientCaseList = () => import("./views/ClientCaseList.vue");
 const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const AccessData = () => import("./views/AccessData.vue");
-const ProviderPortal = () => import("./views/ProviderPortal.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {
@@ -24,26 +21,13 @@ Vue.use(Buefy, {
   defaultContainerElement: "#content"
 });
 
-function getPortalViewForRole(): Promise<any> {
-  const role = Cookies.get("role");
-  if (role === "client-contact") {
-    return ClientPortal();
-  } else if (role === "provider-contact") {
-    return ProviderPortal();
-  } else {
-    return Home();
-  }
-}
-
 const routes = [
-  { path: "/", component: getPortalViewForRole },
-  { path: "/client", component: ClientPortal },
-  { path: "/client/my-data", component: AccessData },
-  { path: "/client/new-case", component: NewCase },
-  { path: "/client/cases", component: ClientCaseList },
-  { path: "/client/case/:id", component: ViewCase },
-  { path: "/client/question", component: AskAQuestion },
-  { path: "/provider", component: ProviderPortal }
+  { path: "/portal", component: Portal },
+  { path: "/portal/my-data", component: AccessData },
+  { path: "/portal/new-case", component: NewCase },
+  { path: "/portal/cases", component: ClientCaseList },
+  { path: "/portal/case/:id", component: ViewCase },
+  { path: "/portal/question", component: AskAQuestion }
 ];
 
 const router = new VueRouter({ mode: "history", routes });

@@ -16,10 +16,8 @@ logger = logging.getLogger(__file__)
 class HomeView(RedirectView):
     def get_redirect_url(self, *args, **kwargs) -> str:
         role = get_role(self.request.user)
-        if role == Role.CLIENT_CONTACT:
-            return "/client/"
-        elif role == Role.PROVIDER_CONTACT:
-            return "/provider/"
+        if role in [Role.CLIENT_CONTACT, Role.PROVIDER_CONTACT]:
+            return "/portal/"
         else:
             return "/accounts/logout/"
 

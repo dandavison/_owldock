@@ -66,7 +66,7 @@ export default Vue.extend({
 
   methods: {
     navigateToRowDetailView(row: CaseSerializer): void {
-      this.$router.push(`/client/case/${row.id}`);
+      this.$router.push(`/portal/case/${row.id}`);
     },
   },
 });

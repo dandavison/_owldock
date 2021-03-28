@@ -5,7 +5,7 @@
     </p>
     <ul>
       <li>
-        <router-link to="/cases">
+        <router-link to="/portal/cases">
           <b-button class="is-large m-4" style="background-color: #f8dcf7">
             View active cases
           </b-button>
