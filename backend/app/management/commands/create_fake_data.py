@@ -100,14 +100,14 @@ class Command(BaseCommand):
             seen: Set[str] = set()
             done = 0
             while done < n:
-                first_name, *last_names = self.seeder.faker.name().split()
+                *first_names, last_name = self.seeder.faker.name().split()
+                first_name = "-".join(first_names).replace(".", "")
 
                 if first_name in seen:
                     continue
                 seen.add(first_name)
                 done += 1
 
-                last_name = " ".join(last_names)
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
                 employee = models.Employee.objects.create(
