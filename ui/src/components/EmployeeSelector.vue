@@ -45,14 +45,11 @@ export default Vue.extend({
     filteredCandidates(): EmployeeSerializer[] {
       return this.employees
         .filter((employee) =>
-          inputMatchesString(
-            this.input,
-            `${employee.user.first_name} ${employee.user.last_name}`
-          )
+          inputMatchesString(this.input, displayName(employee))
         )
         .map((employee) => {
           return Object.assign(employee, {
-            displayName: `${employee.user.first_name} ${employee.user.last_name}`,
+            displayName: displayName(employee),
             flags: employee.nationalities
               .map((nationality) => nationality.unicode_flag)
               .join(" "),
@@ -67,4 +64,8 @@ export default Vue.extend({
       .then((data) => (this.employees = data));
   },
 });
+
+function displayName(employee: EmployeeSerializer): string {
+  return `${employee.user.first_name} ${employee.user.last_name}`;
+}
 </script>
