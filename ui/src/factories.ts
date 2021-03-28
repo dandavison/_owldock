@@ -70,6 +70,7 @@ export function NullCase(): CaseSerializer {
     id: undefined,
     employee: NullEmployee(),
     process: NullProcess(),
+    provider_contact: NullProviderContact(),
     target_entry_date: "",
     target_exit_date: ""
   };

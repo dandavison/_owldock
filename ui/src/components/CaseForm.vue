@@ -34,6 +34,15 @@
           </route-selector>
         </fieldset>
 
+        <fieldset :disabled="!haveProcess">
+          <provider-contact-selector
+            label="Provider"
+            :process="case_.process"
+            @change:provider-contact="handleChangeProviderContact"
+          >
+          </provider-contact-selector>
+        </fieldset>
+
         <fieldset>
           <div class="field is-grouped pt-4">
             <div class="control">
@@ -68,11 +77,13 @@ import {
   CountrySerializer,
   EmployeeSerializer,
   ProcessSerializer,
+  ProviderContactSerializer,
 } from "../api-types";
 import Case from "../components/Case.vue";
-import { NullCase, employeeIsNull } from "@/factories";
+import { NullCase, employeeIsNull, processIsNull } from "@/factories";
 import CountrySelector from "./CountrySelector.vue";
 import EmployeeSelector from "./EmployeeSelector.vue";
+import ProviderContactSelector from "./ProviderContactSelector.vue";
 import RouteSelector from "./RouteSelector.vue";
 import { dateToYYYYMMDD } from "../utils";
 
@@ -81,6 +92,7 @@ export default Vue.extend({
     Case,
     CountrySelector,
     EmployeeSelector,
+    ProviderContactSelector,
     RouteSelector,
     VueJsonPretty,
   },
@@ -101,6 +113,10 @@ export default Vue.extend({
   computed: {
     haveEmployee(): boolean {
       return !employeeIsNull(this.case_.employee);
+    },
+
+    haveProcess(): boolean {
+      return !processIsNull(this.case_.process);
     },
   },
 
@@ -139,6 +155,12 @@ export default Vue.extend({
 
     handleChangeProcess(process: ProcessSerializer): void {
       this.case_.process = process;
+    },
+
+    handleChangeProviderContact(
+      providerContact: ProviderContactSerializer
+    ): void {
+      this.case_.provider_contact = providerContact;
     },
 
     handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {

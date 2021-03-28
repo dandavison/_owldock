@@ -196,6 +196,7 @@ class ClientProviderRelationship(BaseModel):
 
     class Meta:
         unique_together = [["client", "provider"]]
+        ordering = ["-preferred"]
 
 
 class ClientContact(BaseModel):
@@ -208,6 +209,15 @@ class ClientContact(BaseModel):
         # TODO: these are employees for which the client contact has what permissions?
         # TODO: ClientEntity
         return Employee.objects.filter(employer_id=self.client_id)
+
+    def provider_contacts(self, process_id: int) -> QuerySet[ProviderContact]:
+        """
+        Return provider contacts of client's providers, sorted by preferred
+        status with ties broken alphabetically.
+        """
+        # FIXME: sorting
+        providers = self.client.providers.filter(routes__processes=process_id)
+        return ProviderContact.objects.filter(provider__in=providers)
 
     @atomic
     def initiate_case(

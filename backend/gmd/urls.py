@@ -29,6 +29,10 @@ urlpatterns = [
         "api/client-contact/list-cases/",
         client_contact.CaseList.as_view(),
     ),
+    path(
+        "api/client-contact/list-provider-contacts/",
+        client_contact.ProviderContactList.as_view(),
+    ),
     path("api/countries/", countries.CountriesList.as_view()),
     path("api/processes/", processes.ProcessList.as_view()),
     # Admin

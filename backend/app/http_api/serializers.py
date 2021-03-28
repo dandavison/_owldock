@@ -129,6 +129,8 @@ class ProviderSerializer(ModelSerializer):
 
 @ts_interface()
 class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     provider = ProviderSerializer()
 
@@ -141,6 +143,7 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 class CaseSerializer(ModelSerializer):
     employee = EmployeeSerializer()
     process = ProcessSerializer()
+    provider_contact = ProviderContactSerializer()
 
     class Meta:
         model = Case
@@ -153,12 +156,16 @@ class CaseSerializer(ModelSerializer):
             "provider_contact",
         ]
 
-    def create(self, validated_data: dict, client_contact: ClientContact):
+    def create_for_client_contact(
+        self, validated_data: dict, client_contact: ClientContact
+    ):
         employee = validated_data.pop("employee")
         process = validated_data.pop("process")
+        provider_contact = validated_data.pop("provider_contact")
         Case.objects.create(
             client_contact=client_contact,
             employee_id=employee["id"],
             process_id=process["id"],
+            provider_contact_id=provider_contact["id"],
             **validated_data,
         )

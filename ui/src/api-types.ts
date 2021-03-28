@@ -73,6 +73,6 @@ export interface CaseSerializer {
     process: ProcessSerializer;
     target_entry_date: string;
     target_exit_date: string;
-    provider_contact?: any;
+    provider_contact: ProviderContactSerializer;
 }
 
