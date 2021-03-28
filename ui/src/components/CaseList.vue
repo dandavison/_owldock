@@ -1,5 +1,6 @@
 <template>
-  <section class="section">
+  <!-- class="section" on the following div makes the table rows vertically aligned -->
+  <div>
     <b-tabs>
       <b-tab-item label="Table">
         <b-table
@@ -13,7 +14,11 @@
           :per-page="10"
         >
           <b-table-column v-slot="props">
-            <case :case_="props.row" :showSteps="false"></case>
+            <case
+              style="width: 100%"
+              :case_="props.row"
+              :showSteps="false"
+            ></case>
           </b-table-column>
         </b-table>
       </b-tab-item>
@@ -27,7 +32,7 @@
         </ul>
       </b-tab-item>
     </b-tabs>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">

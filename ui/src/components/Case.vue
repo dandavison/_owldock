@@ -14,7 +14,7 @@
           </div>
 
           <div class="media-content">
-            <p class="title is-4">
+            <p class="title is-size-6-mobile">
               {{ case_.employee.user.first_name }}
               {{ case_.employee.user.last_name }}
             </p>
