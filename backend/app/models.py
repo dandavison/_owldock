@@ -1,14 +1,11 @@
 import logging
 from datetime import datetime
-from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 from django.utils import timezone
-
-if TYPE_CHECKING:
-    from django.db.models.query import QuerySet
 
 
 logger = logging.getLogger(__name__)
