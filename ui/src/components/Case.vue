@@ -9,7 +9,7 @@
               :key="nationality.code"
               class="image is-4x3"
             >
-              <img v-bind="makeCountryFlagImgProps(nationality, '64x48')" />
+              <img v-bind="makeFlagImgProps(nationality)" />
             </figure>
           </div>
 
@@ -28,12 +28,7 @@
           <div v-if="haveHostCountry" class="media-right">
             <figure class="image is-4x3">
               <img
-                v-bind="
-                  makeCountryFlagImgProps(
-                    case_.process.route.host_country,
-                    '64x48'
-                  )
-                "
+                v-bind="makeFlagImgProps(case_.process.route.host_country)"
               />
             </figure>
           </div>
@@ -79,7 +74,7 @@ import {
   processIsNull,
   providerContactIsNull,
 } from "../factories";
-import { makeCountryFlagImgProps } from "../utils";
+import { makeWavingFlagImgProps as makeFlagImgProps } from "../flags";
 
 export default Vue.extend({
   props: {
@@ -92,7 +87,7 @@ export default Vue.extend({
   data() {
     return {
       employee: null as EmployeeSerializer | null,
-      makeCountryFlagImgProps,
+      makeFlagImgProps,
     };
   },
 
