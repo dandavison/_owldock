@@ -1,0 +1,79 @@
+<template>
+  <div class="field has-addons" style="width: 100%">
+    <p class="control" style="width: 100%">
+      <b-field :label="label">
+        <b-autocomplete
+          v-model="input"
+          :data="filteredProcessCandidatesForRouteSelection"
+          field="route.name"
+          @select="handleSelectProcessForRouteSelection"
+          :openOnFocus="true"
+          dropdown-position="bottom"
+        >
+          <template slot-scope="props">
+            <span class="mr-2">{{ props.option.route.name }}</span>
+          </template>
+        </b-autocomplete>
+      </b-field>
+    </p>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue, { PropType } from "vue";
+import { ProcessSerializer } from "../api-types";
+import { inputMatchesString } from "../utils";
+import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
+
+export default Vue.extend({
+  props: { label: String, processes: Array as PropType<ProcessSerializer[]> },
+
+  data() {
+    return {
+      input: "",
+    };
+  },
+
+  mounted() {
+    dismissMobileKeyboardOnDropdownScroll(this, "autocomplete");
+  },
+
+  computed: {
+    /// Return processes with route matching input route name fragment,
+    /// uniquified on route name.
+    filteredProcessCandidatesForRouteSelection(): ProcessSerializer[] {
+      const processes = [];
+      const seen = new Set();
+      for (let process of this.processes) {
+        let name = process.route.name;
+        if (inputMatchesString(this.input, name)) {
+          if (!seen.has(name)) {
+            seen.add(name);
+            processes.push(process);
+          }
+        }
+      }
+      return processes;
+    },
+  },
+
+  methods: {
+    handleSelectProcessForRouteSelection(process: ProcessSerializer): void {
+      if (!process) {
+        // FIXME: why
+        console.log("ERROR: process is", JSON.stringify(process));
+        return;
+      }
+      const processes = this.processes.filter(
+        (p) => p.route.name === process.route.name
+      );
+      if (processes[0]) {
+        if (processes.length > 1) {
+          alert("TODO: multiple processes match the route and employee data");
+        }
+        this.$emit("change:process", processes[0]);
+      }
+    },
+  },
+});
+</script>

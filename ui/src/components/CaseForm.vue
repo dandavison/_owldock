@@ -26,20 +26,12 @@
         </b-field>
 
         <fieldset :disabled="processes.length === 0">
-          <b-field label="Route">
-            <b-autocomplete
-              v-model="input.route"
-              :data="filteredProcessCandidatesForRouteSelection"
-              field="route.name"
-              @select="handleSelectProcessForRouteSelection"
-              :openOnFocus="true"
-              dropdown-position="bottom"
-            >
-              <template slot-scope="props">
-                <span class="mr-2">{{ props.option.route.name }}</span>
-              </template>
-            </b-autocomplete>
-          </b-field>
+          <route-selector
+            label="Route"
+            :processes="processes"
+            @change:process="handleChangeProcess"
+          >
+          </route-selector>
         </fieldset>
 
         <fieldset>
@@ -81,10 +73,17 @@ import Case from "../components/Case.vue";
 import { NullCase, employeeIsNull } from "@/factories";
 import CountrySelector from "./CountrySelector.vue";
 import EmployeeSelector from "./EmployeeSelector.vue";
-import { dateToYYYYMMDD, inputMatchesString } from "../utils";
+import RouteSelector from "./RouteSelector.vue";
+import { dateToYYYYMMDD } from "../utils";
 
 export default Vue.extend({
-  components: { Case, CountrySelector, EmployeeSelector, VueJsonPretty },
+  components: {
+    Case,
+    CountrySelector,
+    EmployeeSelector,
+    RouteSelector,
+    VueJsonPretty,
+  },
 
   data() {
     return {
@@ -103,23 +102,6 @@ export default Vue.extend({
     haveEmployee(): boolean {
       return !employeeIsNull(this.case_.employee);
     },
-
-    /// Return processes with route matching input route name fragment,
-    /// uniquified on route name.
-    filteredProcessCandidatesForRouteSelection(): ProcessSerializer[] {
-      const processes = [];
-      const seen = new Set();
-      for (let process of this.processes) {
-        let name = process.route.name;
-        if (inputMatchesString(this.input.route, name)) {
-          if (!seen.has(name)) {
-            seen.add(name);
-            processes.push(process);
-          }
-        }
-      }
-      return processes;
-    },
   },
 
   methods: {
@@ -132,6 +114,8 @@ export default Vue.extend({
       this.case_.employee = employee;
     },
 
+    // FIXME: this is updating the processes to match country, nationality, home
+    // country, dates, so it needs to be triggered accordingly.
     handleChangeHostCountry(country: CountrySerializer) {
       if (!country) {
         // FIXME: why
@@ -153,21 +137,8 @@ export default Vue.extend({
       }
     },
 
-    handleSelectProcessForRouteSelection(process: ProcessSerializer): void {
-      if (!process) {
-        // FIXME: why
-        console.log("ERROR: process is", JSON.stringify(process));
-        return;
-      }
-      const processes = this.processes.filter(
-        (p) => p.route.name === process.route.name
-      );
-      if (processes[0]) {
-        if (processes.length > 1) {
-          alert("TODO: multiple processes match the route and employee data");
-        }
-        this.case_.process = processes[0];
-      }
+    handleChangeProcess(process: ProcessSerializer): void {
+      this.case_.process = process;
     },
 
     handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
