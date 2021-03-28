@@ -96,3 +96,9 @@ export function userIsNull(user: UserSerializer): boolean {
 export function employeeIsNull(employee: EmployeeSerializer): boolean {
   return userIsNull(employee.user);
 }
+
+export function providerContactIsNull(
+  providerContact: ProviderContactSerializer
+): boolean {
+  return userIsNull(providerContact.user);
+}
