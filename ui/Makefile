@@ -20,7 +20,7 @@ build: backend-create-typescript-interfaces
 	$(WITH_SERVER_ENV) npm run build
 
 serve: backend-create-typescript-interfaces
-	npm run serve
+	$(WITH_NODE_ENV) npm run serve
 
 watch:
 	fswatch -or src | xargs -n1 -I{} make build
