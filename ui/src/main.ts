@@ -11,7 +11,7 @@ import App from "./App.vue";
 const Portal = () => import("./views/Portal.vue");
 const NewCase = () => import("./views/NewCase.vue");
 const ViewCase = () => import("./views/ViewCase.vue");
-const ClientCaseList = () => import("./views/ClientCaseList.vue");
+const CaseList = () => import("./views/CaseList.vue");
 const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const AccessData = () => import("./views/AccessData.vue");
 
@@ -25,7 +25,7 @@ const routes = [
   { path: "/portal", component: Portal },
   { path: "/portal/my-data", component: AccessData },
   { path: "/portal/new-case", component: NewCase },
-  { path: "/portal/cases", component: ClientCaseList },
+  { path: "/portal/cases", component: CaseList },
   { path: "/portal/case/:id", component: ViewCase },
   { path: "/portal/question", component: AskAQuestion }
 ];

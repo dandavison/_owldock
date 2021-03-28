@@ -22,14 +22,14 @@
       <li>
         <router-link to="/portal/cases">
           <b-button class="is-large m-4" style="background-color: #f8dcf7">
-            View work in progress
+            View active cases
           </b-button>
         </router-link>
       </li>
       <li>
         <router-link to="/portal/my-data">
           <b-button class="is-large m-4" style="background-color: #e3efda">
-            Access data
+            Access my data
           </b-button>
         </router-link>
       </li>
