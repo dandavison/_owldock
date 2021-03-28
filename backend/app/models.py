@@ -46,68 +46,57 @@ class Country(BaseModel):
     unicode_flag = models.CharField(max_length=2)
 
 
-class Client(BaseModel):
+class Activity(BaseModel):
     name = models.CharField(max_length=128)
-    entity_domain_name = models.CharField(max_length=128)
-    logo_url = models.URLField()
 
 
-class ClientContact(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
-    client = models.ForeignKey(
-        Client, on_delete=models.deletion.CASCADE, related_name="contacts"
+class Service(BaseModel):
+    name = models.CharField(max_length=128)
+
+
+class Route(BaseModel):
+    """
+    E.g. 'Work Permit for France'.
+
+    Unlike Process, this depends only on the host country
+    and not on Employee nationalities or home country.
+    """
+
+    name = models.CharField(max_length=128)
+    host_country = models.ForeignKey(
+        Country,
+        on_delete=models.deletion.PROTECT,
+        related_name="routes_for_which_host_country",
     )
 
-    def employees(self) -> "QuerySet[Employee]":
-        # TODO: these are employees for which the client contact has what permissions?
-        # TODO: ClientEntity
-        return Employee.objects.filter(employer_id=self.client_id)
 
-    @atomic
-    def initiate_case(
-        self,
-        employee_id: int,
-        process_id: int,
-        target_entry_date: datetime,
-        target_exit_date: datetime,
-    ) -> "Case":
-        """
-        Create a case associated with this client contact,
-        but not yet offered to any provider.
-        """
-        now = timezone.now()
-        return Case.objects.create(
-            created_at=now,
-            modified_at=now,
-            client_contact=self,
-            employee_id=employee_id,
-            process_id=process_id,
-            target_entry_date=target_entry_date,
-            target_exit_date=target_exit_date,
-        )
+class Process(BaseModel):
+    """
+    A predicted sequence of steps for a Route, given Employee nationalities and home country.
+    """
 
-    @atomic
-    def offer_case_to_provider(
-        self, case: "Case", provider_contact: "ProviderContact"
-    ) -> None:
-        """
-        Offer this case to a provider; they may then accept or reject it.
+    route = models.ForeignKey(
+        Route, on_delete=models.deletion.PROTECT, related_name="processes"
+    )
+    nationality = models.ForeignKey(
+        Country,
+        on_delete=models.deletion.PROTECT,
+        related_name="processes_for_which_nationality",
+    )
+    home_country = models.ForeignKey(
+        Country,
+        null=True,
+        on_delete=models.deletion.PROTECT,
+        related_name="processes_for_which_home_country",
+    )
 
-        The case may be offered iff:
-        - This client contact has write access to it
-        - It is offerable (i.e. the case state machine features a transition
-          from its current state to offered)
-        """
-        if not self.has_case_write_permission(case):
-            raise CaseCannotBeOffered(
-                f"{self} does not have permission to edit {case}."
-            )
-        if not case.can_be_offered():
-            raise CaseCannotBeOffered(f"{case} is not in an offerable state.")
-        CaseContract.objects.create(case=case, provider_contact=provider_contact)
 
-    def has_case_write_permission(self, case: "Case") -> bool:
-        return case.client_contact == self
+class ProcessStep(BaseModel):
+    process = models.ForeignKey(
+        Process, on_delete=models.deletion.PROTECT, related_name="steps"
+    )
+    service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
+    sequence_number = models.FloatField()
 
 
 class Provider(BaseModel):
@@ -195,6 +184,70 @@ class ProviderContact(BaseModel):
         )
 
 
+class Client(BaseModel):
+    name = models.CharField(max_length=128)
+    entity_domain_name = models.CharField(max_length=128)
+    logo_url = models.URLField()
+
+
+class ClientContact(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
+    client = models.ForeignKey(
+        Client, on_delete=models.deletion.CASCADE, related_name="contacts"
+    )
+
+    def employees(self) -> "QuerySet[Employee]":
+        # TODO: these are employees for which the client contact has what permissions?
+        # TODO: ClientEntity
+        return Employee.objects.filter(employer_id=self.client_id)
+
+    @atomic
+    def initiate_case(
+        self,
+        employee_id: int,
+        process_id: int,
+        target_entry_date: datetime,
+        target_exit_date: datetime,
+    ) -> "Case":
+        """
+        Create a case associated with this client contact,
+        but not yet offered to any provider.
+        """
+        now = timezone.now()
+        return Case.objects.create(
+            created_at=now,
+            modified_at=now,
+            client_contact=self,
+            employee_id=employee_id,
+            process_id=process_id,
+            target_entry_date=target_entry_date,
+            target_exit_date=target_exit_date,
+        )
+
+    @atomic
+    def offer_case_to_provider(
+        self, case: "Case", provider_contact: "ProviderContact"
+    ) -> None:
+        """
+        Offer this case to a provider; they may then accept or reject it.
+
+        The case may be offered iff:
+        - This client contact has write access to it
+        - It is offerable (i.e. the case state machine features a transition
+          from its current state to offered)
+        """
+        if not self.has_case_write_permission(case):
+            raise CaseCannotBeOffered(
+                f"{self} does not have permission to edit {case}."
+            )
+        if not case.can_be_offered():
+            raise CaseCannotBeOffered(f"{case} is not in an offerable state.")
+        CaseContract.objects.create(case=case, provider_contact=provider_contact)
+
+    def has_case_write_permission(self, case: "Case") -> bool:
+        return case.client_contact == self
+
+
 class Employee(BaseModel):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     employer = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
@@ -204,59 +257,6 @@ class Employee(BaseModel):
     nationalities = models.ManyToManyField(
         Country, related_name="employees_national_of"
     )
-
-
-class Activity(BaseModel):
-    name = models.CharField(max_length=128)
-
-
-class Service(BaseModel):
-    name = models.CharField(max_length=128)
-
-
-class Route(BaseModel):
-    """
-    E.g. 'Work Permit for France'.
-
-    Unlike Process, this depends only on the host country
-    and not on Employee nationalities or home country.
-    """
-
-    name = models.CharField(max_length=128)
-    host_country = models.ForeignKey(
-        Country,
-        on_delete=models.deletion.PROTECT,
-        related_name="routes_for_which_host_country",
-    )
-
-
-class Process(BaseModel):
-    """
-    A predicted sequence of steps for a Route, given Employee nationalities and home country.
-    """
-
-    route = models.ForeignKey(
-        Route, on_delete=models.deletion.PROTECT, related_name="processes"
-    )
-    nationality = models.ForeignKey(
-        Country,
-        on_delete=models.deletion.PROTECT,
-        related_name="processes_for_which_nationality",
-    )
-    home_country = models.ForeignKey(
-        Country,
-        null=True,
-        on_delete=models.deletion.PROTECT,
-        related_name="processes_for_which_home_country",
-    )
-
-
-class ProcessStep(BaseModel):
-    process = models.ForeignKey(
-        Process, on_delete=models.deletion.PROTECT, related_name="steps"
-    )
-    service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
-    sequence_number = models.FloatField()
 
 
 class Case(BaseModel):

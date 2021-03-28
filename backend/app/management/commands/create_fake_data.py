@@ -9,7 +9,14 @@ from django.db.models import Model
 from django.db.transaction import atomic
 from django_seed import Seed
 
-from app import models
+from app.models import (
+    Country,
+    Client,
+    ClientContact,
+    Provider,
+    ProviderContact,
+    ClientProviderRelationship,
+)
 from app.constants import GroupName
 
 
@@ -27,8 +34,8 @@ class Command(BaseCommand):
         self._create_countries()
         self._create_services()
         self._create_superusers()
-        self._create_client_contacts()
         self._create_provider_contacts()
+        self._create_client_contacts()
         self._create_employees(10)
         self._create_activities(3)
         call_command("load_processes_fixture")
@@ -37,7 +44,7 @@ class Command(BaseCommand):
         print("Creating countries")
         for (code, _) in django_countries.countries:
             country = django_countries.fields.Country(code)
-            models.Country.objects.create(
+            Country.objects.create(
                 code=country.code,
                 name=country.name,
                 unicode_flag=country.unicode_flag,
@@ -45,57 +52,23 @@ class Command(BaseCommand):
 
     def _create_services(self) -> None:
         print("Creating services")
-        models.Service.objects.create(name="Complete and submit petition")
-        models.Service.objects.create(name="Book consular appointment")
-        models.Service.objects.create(name="Escort employee to consular appointment")
+        Service.objects.create(name="Complete and submit petition")
+        Service.objects.create(name="Book consular appointment")
+        Service.objects.create(name="Escort employee to consular appointment")
 
     def _create_activities(self, n: int):
         print("Creating activities")
         for name in ["Give presentation", "Fix engine", "Training"]:
-            models.Activity.objects.create(name=name)
-
-    def _create_client_contacts(self) -> None:
-        print("Creating client contacts")
-        group = Group.objects.create(name=GroupName.CLIENT_CONTACTS.value)
-        for (
-            first_name,
-            last_name,
-            client_name,
-            client_entity_domain_name,
-            logo_url,
-        ) in [
-            (
-                "Carlos",
-                "Carlero",
-                "Coca-Cola",
-                "cocacola.com",
-                "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
-            ),
-            (
-                "Petra",
-                "Petrasson",
-                "Pepsi",
-                "pepsi.com",
-                "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
-            ),
-        ]:
-            email = _make_email(first_name, client_entity_domain_name)
-            user = self._create_user(first_name, last_name, email, group)
-            client, _ = models.Client.objects.get_or_create(
-                name=client_name,
-                entity_domain_name=client_entity_domain_name,
-                logo_url=logo_url,
-            )
-            models.ClientContact.objects.create(client=client, user=user)
+            Activity.objects.create(name=name)
 
     def _create_employees(self, n: int) -> None:
         print("Creating employees")
         countries = [
-            models.Country.objects.get(code="GB"),
-            models.Country.objects.get(code="US"),
+            Country.objects.get(code="GB"),
+            Country.objects.get(code="US"),
         ]
-        all_countries = list(models.Country.objects.all())
-        for (i, client) in enumerate(models.Client.objects.all()):
+        all_countries = list(Country.objects.all())
+        for (i, client) in enumerate(Client.objects.all()):
             country = countries[i % len(countries)]
             seen: Set[str] = set()
             done = 0
@@ -110,7 +83,7 @@ class Command(BaseCommand):
 
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
-                employee = models.Employee.objects.create(
+                employee = Employee.objects.create(
                     user=user,
                     employer=client,
                     home_country=country,
@@ -154,10 +127,44 @@ class Command(BaseCommand):
         ]:
             email = _make_email(first_name, client_entity_domain_name)
             user = self._create_user(first_name, last_name, email, group)
-            provider, _ = models.Provider.objects.get_or_create(
+            provider, _ = Provider.objects.get_or_create(
                 name=provider_name, logo_url=logo_url
             )
-            models.ProviderContact.objects.create(provider=provider, user=user)
+            ProviderContact.objects.create(provider=provider, user=user)
+
+    def _create_client_contacts(self) -> None:
+        print("Creating client contacts")
+        group = Group.objects.create(name=GroupName.CLIENT_CONTACTS.value)
+        for (
+            first_name,
+            last_name,
+            client_name,
+            client_entity_domain_name,
+            logo_url,
+        ) in [
+            (
+                "Carlos",
+                "Carlero",
+                "Coca-Cola",
+                "cocacola.com",
+                "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
+            ),
+            (
+                "Petra",
+                "Petrasson",
+                "Pepsi",
+                "pepsi.com",
+                "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
+            ),
+        ]:
+            email = _make_email(first_name, client_entity_domain_name)
+            user = self._create_user(first_name, last_name, email, group)
+            client, _ = Client.objects.get_or_create(
+                name=client_name,
+                entity_domain_name=client_entity_domain_name,
+                logo_url=logo_url,
+            )
+            ClientContact.objects.create(client=client, user=user)
 
     def _create_user(
         self,
