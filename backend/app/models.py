@@ -102,6 +102,7 @@ class ProcessStep(BaseModel):
 class Provider(BaseModel):
     name = models.CharField(max_length=128)
     logo_url = models.URLField()
+    routes = models.ManyToManyField(Route, related_name="providers")
 
 
 class ProviderContact(BaseModel):
@@ -188,6 +189,16 @@ class Client(BaseModel):
     name = models.CharField(max_length=128)
     entity_domain_name = models.CharField(max_length=128)
     logo_url = models.URLField()
+    providers = models.ManyToManyField(Provider, through="ClientProviderRelationship")
+
+
+class ClientProviderRelationship(BaseModel):
+    client = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
+    preferred = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = [["client", "provider"]]
 
 
 class ClientContact(BaseModel):

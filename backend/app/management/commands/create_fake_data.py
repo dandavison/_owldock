@@ -10,12 +10,15 @@ from django.db.transaction import atomic
 from django_seed import Seed
 
 from app.models import (
-    Country,
+    Activity,
     Client,
     ClientContact,
+    ClientProviderRelationship,
+    Country,
+    Employee,
     Provider,
     ProviderContact,
-    ClientProviderRelationship,
+    Service,
 )
 from app.constants import GroupName
 
@@ -39,6 +42,7 @@ class Command(BaseCommand):
         self._create_employees(10)
         self._create_activities(3)
         call_command("load_processes_fixture")
+        call_command("set_provider_routes")
 
     def _create_countries(self) -> None:
         print("Creating countries")
@@ -141,6 +145,7 @@ class Command(BaseCommand):
             client_name,
             client_entity_domain_name,
             logo_url,
+            (preferred_provider, *other_providers),
         ) in [
             (
                 "Carlos",
@@ -148,6 +153,7 @@ class Command(BaseCommand):
                 "Coca-Cola",
                 "cocacola.com",
                 "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
+                ["Corporate Relocations", "Acme"],
             ),
             (
                 "Petra",
@@ -155,6 +161,7 @@ class Command(BaseCommand):
                 "Pepsi",
                 "pepsi.com",
                 "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
+                ["Deloitte", "Acme"],
             ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
@@ -165,6 +172,17 @@ class Command(BaseCommand):
                 logo_url=logo_url,
             )
             ClientContact.objects.create(client=client, user=user)
+            ClientProviderRelationship.objects.create(
+                client=client,
+                provider=Provider.objects.get(name=preferred_provider),
+                preferred=True,
+            )
+            for provider in other_providers:
+                ClientProviderRelationship.objects.create(
+                    client=client,
+                    provider=Provider.objects.get(name=provider),
+                    preferred=False,
+                )
 
     def _create_user(
         self,
