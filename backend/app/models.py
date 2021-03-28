@@ -37,7 +37,7 @@ class BaseModel(models.Model):
             data = self.user.email  # type: ignore # pylint: disable=no-member
         else:
             data = self.id  # type: ignore
-        return f"{self.__class__.__name__}({data})"
+        return f"{data}"
 
 
 class Country(BaseModel):
