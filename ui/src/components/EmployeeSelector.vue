@@ -26,6 +26,7 @@ import { inputMatchesString } from "@/utils";
 import Vue from "vue";
 import { EmployeeSerializer } from "../api-types";
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
+import { employeeUnicodeFlags } from "../methods";
 
 export default Vue.extend({
   props: { label: String },
@@ -50,9 +51,7 @@ export default Vue.extend({
         .map((employee) => {
           return Object.assign(employee, {
             displayName: displayName(employee),
-            flags: employee.nationalities
-              .map((nationality) => nationality.unicode_flag)
-              .join(" "),
+            flags: employeeUnicodeFlags(employee),
           });
         });
     },

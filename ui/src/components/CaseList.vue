@@ -13,28 +13,28 @@
           @dblclick="navigateToRowDetailView"
           :per-page="10"
         >
-          <b-table-column field="firstName" label="Name" v-slot="props">
-            {{ props.row.employee.user.first_name }}
-          </b-table-column>
-
-          <b-table-column field="lastName" label="Surname" v-slot="props">
-            {{ props.row.employee.user.last_name }}
-          </b-table-column>
-
           <b-table-column
-            field="homeCountry"
-            label="Home country"
+            field="employeeNameData"
+            label="Applicant"
             v-slot="props"
           >
-            {{ props.row.employee.home_country }}
+            {{ props.row.employeeNameDisplay }}
           </b-table-column>
 
           <b-table-column
-            field="hostCountry"
+            field="employeeNationalitiesData"
+            label="Nationalities"
+            v-slot="props"
+          >
+            {{ props.row.employeeNationalitiesDisplay }}
+          </b-table-column>
+
+          <b-table-column
+            field="process.route.host_country.name"
             label="Host country"
             v-slot="props"
           >
-            {{ props.row.host_country }}
+            {{ props.row.process.route.host_country.unicode_flag }}
           </b-table-column>
 
           <b-table-column
@@ -47,7 +47,7 @@
 
           <b-table-column
             field="targetDate"
-            label="Target date to enter"
+            label="Target entry date"
             v-slot="props"
           >
             {{ new Date(props.row.target_entry_date).toDateString() }}
@@ -93,19 +93,22 @@ import BTable from "buefy/src/components/table";
 type BTableInstance = InstanceType<typeof BTable>;
 
 import { CaseSerializer } from "../api-types";
+import { employeeUnicodeFlags } from "@/methods";
 
 export default Vue.extend({
   data() {
     return {
-      rows: [],
+      rows: [] as CaseSerializer[],
       selected: {},
     };
   },
 
-  created() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-cases/`)
-      .then((resp) => resp.json())
-      .then((data) => (this.rows = data));
+  async created(): Promise<void> {
+    const resp = await fetch(
+      `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-cases/`
+    );
+    const data = await resp.json();
+    this.rows = data.map(this.transformRow);
   },
 
   mounted() {
@@ -122,6 +125,16 @@ export default Vue.extend({
   methods: {
     navigateToRowDetailView(row: CaseSerializer): void {
       this.$router.push(`/portal/case/${row.id}`);
+    },
+
+    transformRow(row: CaseSerializer): CaseSerializer {
+      const employeeName = `${row.employee.user.first_name} ${row.employee.user.last_name}`;
+      return Object.assign(row, {
+        employeeNameData: employeeName,
+        employeeNameDisplay: employeeName,
+        employeeNationalitiesData: row.employee.nationalities.join(", "),
+        employeeNationalitiesDisplay: employeeUnicodeFlags(row.employee),
+      });
     },
   },
 });

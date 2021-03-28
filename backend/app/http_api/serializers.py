@@ -151,6 +151,7 @@ class CaseSerializer(ModelSerializer):
             "id",
             "employee",
             "process",
+            "created_at",
             "target_entry_date",
             "target_exit_date",
             "provider_contact",
