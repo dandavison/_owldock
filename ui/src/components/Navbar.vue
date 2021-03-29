@@ -8,7 +8,7 @@
         </router-link>
       </b-navbar-item>
 
-      <b-navbar-dropdown label="Global Mobility Dashboard" arrowless>
+      <b-navbar-dropdown label="🦉 owldock" arrowless>
         <b-navbar-item>
           <router-link to="/portal"> Help </router-link>
         </b-navbar-item>

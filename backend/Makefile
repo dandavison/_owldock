@@ -1,7 +1,7 @@
 static-analysis: lint type-check
 
 lint:
-	pylint --rcfile=.pylintrc app gmd
+	pylint --rcfile=.pylintrc app owldock
 
 type-check: type-check-mypy
 
@@ -17,7 +17,7 @@ type-check-mypy:
 	.venv/bin/mypy .
 
 type-check-pyright:
-	pyright --venv-path . app gmd
+	pyright --venv-path . app owldock
 
 repl-python:
 	./manage.py shell_plus
