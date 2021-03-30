@@ -33,6 +33,7 @@
           v-slot="props"
         >
           {{ props.row.process.route.host_country.unicode_flag }}
+          {{ props.row.process.route.host_country.name }}
         </b-table-column>
 
         <b-table-column label="Process" v-slot="props">
