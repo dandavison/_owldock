@@ -35,6 +35,18 @@
           {{ props.row.process.route.host_country.unicode_flag }}
         </b-table-column>
 
+        <b-table-column
+          field="providerContactName"
+          label="Provider Contact"
+          v-slot="props"
+        >
+          {{ props.row.providerContactName }}
+        </b-table-column>
+
+        <b-table-column label="Provider" v-slot="props">
+          {{ props.row.provider_contact.provider.name }}
+        </b-table-column>
+
         <b-table-column label="Process" v-slot="props">
           {{ props.row.process.route.name }}
         </b-table-column>
@@ -119,6 +131,7 @@ export default Vue.extend({
         applicantNameDisplay: applicantName,
         applicantNationalitiesData: row.applicant.nationalities.join(", "),
         applicantNationalitiesDisplay: applicantUnicodeFlags(row.applicant),
+        providerContactName: `${row.provider_contact.user.first_name} ${row.provider_contact.user.last_name}`,
       });
     },
   },
