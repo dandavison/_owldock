@@ -4,7 +4,7 @@
     <ul>
       <li class="m-2">Your entities</li>
       <li class="m-2">Your activities</li>
-      <li class="m-2">Your employees</li>
+      <li class="m-2">Your applicants</li>
       <li class="m-2">Your providers</li>
       <li class="m-2">Your reports</li>
     </ul>

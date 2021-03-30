@@ -18,8 +18,8 @@ urlpatterns = [
     path("", login_required(HomeView.as_view())),
     # HTTP API
     path(
-        "api/client-contact/employees/",
-        login_required(client_contact.EmployeesList.as_view()),
+        "api/client-contact/applicants/",
+        login_required(client_contact.ApplicantsList.as_view()),
     ),
     path(
         "api/client-contact/create-case/",

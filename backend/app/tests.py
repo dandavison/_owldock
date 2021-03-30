@@ -17,14 +17,14 @@ def test_client_provider_case_lifecycle():
     _setup()
 
     clientc, clientc_b = ClientContact.objects.all()[:2]
-    employee = clientc.client.employee_set.earliest("id")
+    applicant = clientc.client.applicant_set.earliest("id")
     process = Process.objects.earliest("id")
     providerc_a, providerc_b = ProviderContact.objects.all()[:2]
 
     # Client contact creates a case
     now = datetime.now()
     case = clientc.initiate_case(
-        employee_id=employee.id,
+        applicant_id=applicant.id,
         process_id=process.id,
         target_entry_date=now + timedelta(weeks=6),
         target_exit_date=now + timedelta(weeks=58),

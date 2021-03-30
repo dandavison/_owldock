@@ -1,14 +1,14 @@
   <template>
   <div>
     <section class="section">
-      <case v-if="haveEmployee" :case_="case_"> </case>
+      <case v-if="haveApplicant" :case_="case_"> </case>
 
       <div class="form pt-6">
-        <employee-selector
-          label="Employee"
-          @change:employee="handleChangeEmployee"
+        <applicant-selector
+          label="Applicant"
+          @change:applicant="handleChangeApplicant"
         >
-        </employee-selector>
+        </applicant-selector>
 
         <country-selector
           label="Host country"
@@ -75,14 +75,14 @@ import "vue-json-pretty/lib/styles.css";
 
 import {
   CountrySerializer,
-  EmployeeSerializer,
+  ApplicantSerializer,
   ProcessSerializer,
   ProviderContactSerializer,
 } from "../api-types";
 import Case from "../components/Case.vue";
-import { NullCase, employeeIsNull, processIsNull } from "@/factories";
+import { NullCase, applicantIsNull, processIsNull } from "@/factories";
 import CountrySelector from "./CountrySelector.vue";
-import EmployeeSelector from "./EmployeeSelector.vue";
+import ApplicantSelector from "./ApplicantSelector.vue";
 import ProviderContactSelector from "./ProviderContactSelector.vue";
 import RouteSelector from "./RouteSelector.vue";
 import { dateToYYYYMMDD } from "../utils";
@@ -91,7 +91,7 @@ export default Vue.extend({
   components: {
     Case,
     CountrySelector,
-    EmployeeSelector,
+    ApplicantSelector,
     ProviderContactSelector,
     RouteSelector,
     VueJsonPretty,
@@ -103,7 +103,7 @@ export default Vue.extend({
       input: {
         route: "",
       },
-      // All processes matching country, employee nationalities & home country, dates
+      // All processes matching country, applicant nationalities & home country, dates
       processes: [] as ProcessSerializer[],
       // Subset of those processes matching selected route
       validationErrors: null as object | null,
@@ -111,8 +111,8 @@ export default Vue.extend({
   },
 
   computed: {
-    haveEmployee(): boolean {
-      return !employeeIsNull(this.case_.employee);
+    haveApplicant(): boolean {
+      return !applicantIsNull(this.case_.applicant);
     },
 
     haveProcess(): boolean {
@@ -121,13 +121,13 @@ export default Vue.extend({
   },
 
   methods: {
-    handleChangeEmployee(employee: EmployeeSerializer) {
-      if (!employee) {
+    handleChangeApplicant(applicant: ApplicantSerializer) {
+      if (!applicant) {
         // FIXME: why
-        console.log("ERROR: employee is", JSON.stringify(employee));
+        console.log("ERROR: applicant is", JSON.stringify(applicant));
         return;
       }
-      this.case_.employee = employee;
+      this.case_.applicant = applicant;
     },
 
     // FIXME: this is updating the processes to match country, nationality, home
@@ -139,8 +139,8 @@ export default Vue.extend({
         return;
       }
       this.case_.process.route.host_country = country;
-      if (this.case_.employee.nationalities) {
-        const nationalityCodes = this.case_.employee.nationalities.map(
+      if (this.case_.applicant.nationalities) {
+        const nationalityCodes = this.case_.applicant.nationalities.map(
           (country) => country.code
         );
         fetch(

@@ -5,7 +5,7 @@
         <div class="media">
           <div class="media-left">
             <figure
-              v-for="nationality of case_.employee.nationalities"
+              v-for="nationality of case_.applicant.nationalities"
               :key="nationality.code"
               class="image is-4x3"
             >
@@ -15,12 +15,12 @@
 
           <div class="media-content">
             <p class="title is-size-6-mobile">
-              {{ case_.employee.user.first_name }}
-              {{ case_.employee.user.last_name }}
+              {{ case_.applicant.user.first_name }}
+              {{ case_.applicant.user.last_name }}
             </p>
             <p class="subtitle is-6">
-              <a :href="`mailto:${case_.employee.user.email}`">
-                {{ case_.employee.user.email }}
+              <a :href="`mailto:${case_.applicant.user.email}`">
+                {{ case_.applicant.user.email }}
               </a>
             </p>
           </div>
@@ -65,12 +65,12 @@
 
 import Vue, { PropType } from "vue";
 
-import EmployeeSelector from "./EmployeeSelector.vue";
+import ApplicantSelector from "./ApplicantSelector.vue";
 import Process from "./Process.vue";
-import { CaseSerializer, EmployeeSerializer } from "../api-types";
+import { CaseSerializer, ApplicantSerializer } from "../api-types";
 import {
   countryIsNull,
-  employeeIsNull,
+  applicantIsNull,
   processIsNull,
   providerContactIsNull,
 } from "../factories";
@@ -82,18 +82,18 @@ export default Vue.extend({
     showSteps: { type: Boolean, default: true },
   },
 
-  components: { EmployeeSelector, Process },
+  components: { ApplicantSelector, Process },
 
   data() {
     return {
-      employee: null as EmployeeSerializer | null,
+      applicant: null as ApplicantSerializer | null,
       makeFlagImgProps,
     };
   },
 
   computed: {
-    haveEmployee(): boolean {
-      return !employeeIsNull(this.case_.employee);
+    haveApplicant(): boolean {
+      return !applicantIsNull(this.case_.applicant);
     },
 
     haveHostCountry(): boolean {
@@ -112,8 +112,8 @@ export default Vue.extend({
   },
 
   methods: {
-    handleSelectEmployee(employee: EmployeeSerializer) {
-      this.$emit("select:employee", employee);
+    handleSelectApplicant(applicant: ApplicantSerializer) {
+      this.$emit("select:applicant", applicant);
     },
   },
 });

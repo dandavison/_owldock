@@ -24,7 +24,7 @@ from app.models import (
     Client,
     ClientContact,
     Country,
-    Employee,
+    Applicant,
     Route,
     Process,
     ProcessStep,
@@ -97,7 +97,7 @@ class ClientSerializer(ModelSerializer):
 
 
 @ts_interface()
-class EmployeeSerializer(CountryFieldMixin, ModelSerializer):
+class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     id = IntegerField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
@@ -106,7 +106,7 @@ class EmployeeSerializer(CountryFieldMixin, ModelSerializer):
     nationalities = CountrySerializer(many=True)
 
     class Meta:
-        model = Employee
+        model = Applicant
         fields = ["id", "user", "employer", "home_country", "nationalities"]
 
 
@@ -141,7 +141,7 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
 @ts_interface()
 class CaseSerializer(ModelSerializer):
-    employee = EmployeeSerializer()
+    applicant = ApplicantSerializer()
     process = ProcessSerializer()
     provider_contact = ProviderContactSerializer()
 
@@ -149,7 +149,7 @@ class CaseSerializer(ModelSerializer):
         model = Case
         fields = [
             "id",
-            "employee",
+            "applicant",
             "process",
             "created_at",
             "target_entry_date",
@@ -160,12 +160,12 @@ class CaseSerializer(ModelSerializer):
     def create_for_client_contact(
         self, validated_data: dict, client_contact: ClientContact
     ):
-        employee = validated_data.pop("employee")
+        applicant = validated_data.pop("applicant")
         process = validated_data.pop("process")
         provider_contact = validated_data.pop("provider_contact")
         Case.objects.create(
             client_contact=client_contact,
-            employee_id=employee["id"],
+            applicant_id=applicant["id"],
             process_id=process["id"],
             provider_contact_id=provider_contact["id"],
             **validated_data,

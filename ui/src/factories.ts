@@ -2,7 +2,7 @@ import {
   CaseSerializer,
   ClientSerializer,
   CountrySerializer,
-  EmployeeSerializer,
+  ApplicantSerializer,
   ProcessSerializer,
   ProviderContactSerializer,
   ProviderSerializer,
@@ -43,7 +43,7 @@ function NullClient(): ClientSerializer {
   return { name: "" };
 }
 
-export function NullEmployee(): EmployeeSerializer {
+export function NullApplicant(): ApplicantSerializer {
   return {
     user: NullUser(),
     employer: NullClient(),
@@ -68,7 +68,7 @@ export function NullProviderContact(): ProviderContactSerializer {
 export function NullCase(): CaseSerializer {
   return {
     id: undefined,
-    employee: NullEmployee(),
+    applicant: NullApplicant(),
     process: NullProcess(),
     provider_contact: NullProviderContact(),
     target_entry_date: "",
@@ -93,8 +93,8 @@ export function userIsNull(user: UserSerializer): boolean {
   return !user.first_name;
 }
 
-export function employeeIsNull(employee: EmployeeSerializer): boolean {
-  return userIsNull(employee.user);
+export function applicantIsNull(applicant: ApplicantSerializer): boolean {
+  return userIsNull(applicant.user);
 }
 
 export function providerContactIsNull(

@@ -7,7 +7,7 @@
           v-model="input"
           field="displayName"
           :data="filteredCandidates"
-          @select="(employee) => $emit('change:employee', employee)"
+          @select="(applicant) => $emit('change:applicant', applicant)"
           :openOnFocus="true"
           dropdown-position="bottom"
           max-height="100vh"
@@ -24,9 +24,9 @@
 <script lang="ts">
 import { inputMatchesString } from "@/utils";
 import Vue from "vue";
-import { EmployeeSerializer } from "../api-types";
+import { ApplicantSerializer } from "../api-types";
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
-import { employeeUnicodeFlags } from "../methods";
+import { applicantUnicodeFlags } from "../methods";
 
 export default Vue.extend({
   props: { label: String },
@@ -34,7 +34,7 @@ export default Vue.extend({
   data() {
     return {
       input: "",
-      employees: [] as EmployeeSerializer[],
+      applicants: [] as ApplicantSerializer[],
     };
   },
 
@@ -43,28 +43,28 @@ export default Vue.extend({
   },
 
   computed: {
-    filteredCandidates(): EmployeeSerializer[] {
-      return this.employees
-        .filter((employee) =>
-          inputMatchesString(this.input, displayName(employee))
+    filteredCandidates(): ApplicantSerializer[] {
+      return this.applicants
+        .filter((applicant) =>
+          inputMatchesString(this.input, displayName(applicant))
         )
-        .map((employee) => {
-          return Object.assign(employee, {
-            displayName: displayName(employee),
-            flags: employeeUnicodeFlags(employee),
+        .map((applicant) => {
+          return Object.assign(applicant, {
+            displayName: displayName(applicant),
+            flags: applicantUnicodeFlags(applicant),
           });
         });
     },
   },
 
   created() {
-    fetch(`${process.env.VUE_APP_SERVER_URL}/api/client-contact/employees/`)
+    fetch(`${process.env.VUE_APP_SERVER_URL}/api/client-contact/applicants/`)
       .then((resp) => resp.json())
-      .then((data) => (this.employees = data));
+      .then((data) => (this.applicants = data));
   },
 });
 
-function displayName(employee: EmployeeSerializer): string {
-  return `${employee.user.first_name} ${employee.user.last_name}`;
+function displayName(applicant: ApplicantSerializer): string {
+  return `${applicant.user.first_name} ${applicant.user.last_name}`;
 }
 </script>

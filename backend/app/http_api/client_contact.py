@@ -3,7 +3,7 @@ from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
 
 from app.models import ClientContact, ProviderContact
-from .serializers import CaseSerializer, EmployeeSerializer, ProviderContactSerializer
+from .serializers import CaseSerializer, ApplicantSerializer, ProviderContactSerializer
 
 
 class _ClientContactView(View):
@@ -17,10 +17,10 @@ class _ClientContactView(View):
             raise Http404 from exc
 
 
-class EmployeesList(_ClientContactView):
+class ApplicantsList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        employees = self.client_contact.employees().order_by("user__last_name")
-        serializer = EmployeeSerializer(data=employees, many=True)
+        applicants = self.client_contact.applicants().order_by("user__last_name")
+        serializer = ApplicantSerializer(data=applicants, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
 

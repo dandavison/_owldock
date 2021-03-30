@@ -56,7 +56,7 @@ class Route(BaseModel):
     E.g. 'Work Permit for France'.
 
     Unlike Process, this depends only on the host country
-    and not on Employee nationalities or home country.
+    and not on Applicant nationalities or home country.
     """
 
     name = models.CharField(max_length=128)
@@ -69,7 +69,7 @@ class Route(BaseModel):
 
 class Process(BaseModel):
     """
-    A predicted sequence of steps for a Route, given Employee nationalities and home country.
+    A predicted sequence of steps for a Route, given Applicant nationalities and home country.
     """
 
     route = models.ForeignKey(
@@ -207,10 +207,10 @@ class ClientContact(BaseModel):
         Client, on_delete=models.deletion.CASCADE, related_name="contacts"
     )
 
-    def employees(self) -> "QuerySet[Employee]":
-        # TODO: these are employees for which the client contact has what permissions?
+    def applicants(self) -> "QuerySet[Applicant]":
+        # TODO: these are applicants for which the client contact has what permissions?
         # TODO: ClientEntity
-        return Employee.objects.filter(employer_id=self.client_id)
+        return Applicant.objects.filter(employer_id=self.client_id)
 
     def provider_contacts(self, process_id: int) -> QuerySet[ProviderContact]:
         """
@@ -224,7 +224,7 @@ class ClientContact(BaseModel):
     @atomic
     def initiate_case(
         self,
-        employee_id: int,
+        applicant_id: int,
         process_id: int,
         target_entry_date: datetime,
         target_exit_date: datetime,
@@ -238,7 +238,7 @@ class ClientContact(BaseModel):
             created_at=now,
             modified_at=now,
             client_contact=self,
-            employee_id=employee_id,
+            applicant_id=applicant_id,
             process_id=process_id,
             target_entry_date=target_entry_date,
             target_exit_date=target_exit_date,
@@ -268,14 +268,14 @@ class ClientContact(BaseModel):
         return case.client_contact == self
 
 
-class Employee(BaseModel):
+class Applicant(BaseModel):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     employer = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
     home_country = models.ForeignKey(
-        Country, on_delete=models.deletion.PROTECT, related_name="employees_based_in"
+        Country, on_delete=models.deletion.PROTECT, related_name="applicants_based_in"
     )
     nationalities = models.ManyToManyField(
-        Country, related_name="employees_national_of"
+        Country, related_name="applicants_national_of"
     )
 
 
@@ -291,8 +291,8 @@ class Case(BaseModel):
     provider_contact = models.ForeignKey(
         ProviderContact, null=True, on_delete=models.deletion.SET_NULL
     )
-    # A case is always associated with an employee.
-    employee = models.ForeignKey(Employee, on_delete=models.deletion.CASCADE)
+    # A case is always associated with an applicant.
+    applicant = models.ForeignKey(Applicant, on_delete=models.deletion.CASCADE)
 
     # The process is a specific sequence of steps that will attain the desired
     # immigration Route.

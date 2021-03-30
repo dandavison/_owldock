@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from app.models import Case, Employee, Process, Provider, ProviderContact
+from app.models import Case, Applicant, Process, Provider, ProviderContact
 
 
 class Command(BaseCommand):
@@ -13,9 +13,9 @@ class Command(BaseCommand):
         self._create_cases(100)
 
     def _create_cases(self, n: int):
-        for employee in Employee.objects.all():
-            valid_client_contacts = employee.employer.contacts.all()
-            valid_providers = Provider.objects.filter(clients=employee.employer)
+        for applicant in Applicant.objects.all():
+            valid_client_contacts = applicant.employer.contacts.all()
+            valid_providers = Provider.objects.filter(clients=applicant.employer)
             valid_provider_contacts = ProviderContact.objects.filter(
                 provider__in=valid_providers
             )
@@ -36,7 +36,7 @@ class Command(BaseCommand):
             Case.objects.create(
                 client_contact=client_contact,
                 provider_contact=provider_contact,
-                employee=employee,
+                applicant=applicant,
                 process=process,
                 target_entry_date=target_entry_date,
                 target_exit_date=target_exit_date,

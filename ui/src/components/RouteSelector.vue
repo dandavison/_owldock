@@ -69,7 +69,7 @@ export default Vue.extend({
       );
       if (processes[0]) {
         if (processes.length > 1) {
-          alert("TODO: multiple processes match the route and employee data");
+          alert("TODO: multiple processes match the route and applicant data");
         }
         this.$emit("change:process", processes[0]);
       }

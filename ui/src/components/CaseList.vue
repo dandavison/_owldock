@@ -12,19 +12,19 @@
         :per-page="50"
       >
         <b-table-column
-          field="employeeNameData"
+          field="applicantNameData"
           label="Applicant"
           v-slot="props"
         >
-          {{ props.row.employeeNameDisplay }}
+          {{ props.row.applicantNameDisplay }}
         </b-table-column>
 
         <b-table-column
-          field="employeeNationalitiesData"
+          field="applicantNationalitiesData"
           label="Nationalities"
           v-slot="props"
         >
-          {{ props.row.employeeNationalitiesDisplay }}
+          {{ props.row.applicantNationalitiesDisplay }}
         </b-table-column>
 
         <b-table-column
@@ -79,7 +79,7 @@ import BTable from "buefy/src/components/table";
 type BTableInstance = InstanceType<typeof BTable>;
 
 import { CaseSerializer } from "../api-types";
-import { employeeUnicodeFlags } from "@/methods";
+import { applicantUnicodeFlags } from "@/methods";
 
 export default Vue.extend({
   data() {
@@ -114,12 +114,12 @@ export default Vue.extend({
     },
 
     transformRow(row: CaseSerializer): CaseSerializer {
-      const employeeName = `${row.employee.user.first_name} ${row.employee.user.last_name}`;
+      const applicantName = `${row.applicant.user.first_name} ${row.applicant.user.last_name}`;
       return Object.assign(row, {
-        employeeNameData: employeeName,
-        employeeNameDisplay: employeeName,
-        employeeNationalitiesData: row.employee.nationalities.join(", "),
-        employeeNationalitiesDisplay: employeeUnicodeFlags(row.employee),
+        applicantNameData: applicantName,
+        applicantNameDisplay: applicantName,
+        applicantNationalitiesData: row.applicant.nationalities.join(", "),
+        applicantNationalitiesDisplay: applicantUnicodeFlags(row.applicant),
       });
     },
   },

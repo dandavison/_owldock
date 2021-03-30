@@ -15,7 +15,7 @@ from app.models import (
     ClientContact,
     ClientProviderRelationship,
     Country,
-    Employee,
+    Applicant,
     Provider,
     ProviderContact,
     Service,
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         self._create_superusers()
         self._create_provider_contacts()
         self._create_client_contacts()
-        self._create_employees(10)
+        self._create_applicants(10)
         self._create_activities(3)
         call_command("load_processes_fixture")
         call_command("set_provider_routes")
@@ -58,15 +58,15 @@ class Command(BaseCommand):
         print("Creating services")
         Service.objects.create(name="Complete and submit petition")
         Service.objects.create(name="Book consular appointment")
-        Service.objects.create(name="Escort employee to consular appointment")
+        Service.objects.create(name="Escort applicant to consular appointment")
 
     def _create_activities(self, n: int):
         print("Creating activities")
         for name in ["Give presentation", "Fix engine", "Training"]:
             Activity.objects.create(name=name)
 
-    def _create_employees(self, n: int) -> None:
-        print("Creating employees")
+    def _create_applicants(self, n: int) -> None:
+        print("Creating applicants")
         countries = [
             Country.objects.get(code="GB"),
             Country.objects.get(code="US"),
@@ -87,15 +87,15 @@ class Command(BaseCommand):
 
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
-                employee = Employee.objects.create(
+                applicant = Applicant.objects.create(
                     user=user,
                     employer=client,
                     home_country=country,
                 )
-                employee.nationalities.add(country)
+                applicant.nationalities.add(country)
                 is_dual_national = random.uniform(0, 1) < 1 / 3
                 if is_dual_national:
-                    employee.nationalities.add(random.sample(all_countries, 1)[0])
+                    applicant.nationalities.add(random.sample(all_countries, 1)[0])
 
     def _create_provider_contacts(self) -> None:
         print("Creating provider contacts")

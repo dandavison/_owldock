@@ -42,7 +42,7 @@ export interface ClientSerializer {
     name: string;
 }
 
-export interface EmployeeSerializer {
+export interface ApplicantSerializer {
     id?: number;
     user: UserSerializer;
     employer: ClientSerializer;
@@ -69,7 +69,7 @@ export interface ProviderContactSerializer {
 
 export interface CaseSerializer {
     id?: number;
-    employee: EmployeeSerializer;
+    applicant: ApplicantSerializer;
     process: ProcessSerializer;
     created_at?: string;
     target_entry_date: string;
