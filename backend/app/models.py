@@ -186,7 +186,9 @@ class Client(BaseModel):
     name = models.CharField(max_length=128)
     entity_domain_name = models.CharField(max_length=128)
     logo_url = models.URLField()
-    providers = models.ManyToManyField(Provider, through="ClientProviderRelationship")
+    providers = models.ManyToManyField(
+        Provider, through="ClientProviderRelationship", related_name="clients"
+    )
 
 
 class ClientProviderRelationship(BaseModel):
