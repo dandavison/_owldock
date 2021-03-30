@@ -9,7 +9,7 @@
         hoverable
         paginated
         @dblclick="navigateToRowDetailView"
-        :per-page="10"
+        :per-page="50"
       >
         <b-table-column
           field="employeeNameData"
