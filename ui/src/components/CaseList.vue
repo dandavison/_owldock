@@ -1,90 +1,75 @@
 <template>
-  <section class="section">
-    <p class="m-4 is-size-2">Active cases</p>
-    <b-tabs>
-      <b-tab-item label="Table">
-        <b-table
-          ref="table"
-          :data="rows"
-          :selected.sync="selected"
-          focusable
-          hoverable
-          paginated
-          @dblclick="navigateToRowDetailView"
-          :per-page="10"
+  <b-tabs>
+    <b-tab-item label="Table">
+      <b-table
+        ref="table"
+        :data="rows"
+        :selected.sync="selected"
+        focusable
+        hoverable
+        paginated
+        @dblclick="navigateToRowDetailView"
+        :per-page="10"
+      >
+        <b-table-column
+          field="employeeNameData"
+          label="Applicant"
+          v-slot="props"
         >
-          <b-table-column
-            field="employeeNameData"
-            label="Applicant"
-            v-slot="props"
-          >
-            {{ props.row.employeeNameDisplay }}
-          </b-table-column>
+          {{ props.row.employeeNameDisplay }}
+        </b-table-column>
 
-          <b-table-column
-            field="employeeNationalitiesData"
-            label="Nationalities"
-            v-slot="props"
-          >
-            {{ props.row.employeeNationalitiesDisplay }}
-          </b-table-column>
+        <b-table-column
+          field="employeeNationalitiesData"
+          label="Nationalities"
+          v-slot="props"
+        >
+          {{ props.row.employeeNationalitiesDisplay }}
+        </b-table-column>
 
-          <b-table-column
-            field="process.route.host_country.name"
-            label="Host country"
-            v-slot="props"
-          >
-            {{ props.row.process.route.host_country.unicode_flag }}
-          </b-table-column>
+        <b-table-column
+          field="process.route.host_country.name"
+          label="Host country"
+          v-slot="props"
+        >
+          {{ props.row.process.route.host_country.unicode_flag }}
+        </b-table-column>
 
-          <b-table-column
-            field="dateInitiated"
-            label="Date initiated"
-            v-slot="props"
-          >
-            {{ new Date(props.row.created_at).toDateString() }}
-          </b-table-column>
+        <b-table-column label="Process" v-slot="props">
+          {{ props.row.process.route.name }}
+        </b-table-column>
 
-          <b-table-column
-            field="targetDate"
-            label="Target entry date"
-            v-slot="props"
-          >
-            {{ new Date(props.row.target_entry_date).toDateString() }}
-          </b-table-column>
+        <b-table-column
+          field="dateInitiated"
+          label="Date initiated"
+          v-slot="props"
+        >
+          {{ new Date(props.row.created_at).toDateString() }}
+        </b-table-column>
 
-          <b-table-column field="progress" label="Progress" v-slot="props">
-            {{ props.row.progress }}%
-          </b-table-column>
+        <b-table-column
+          field="targetDate"
+          label="Target entry date"
+          v-slot="props"
+        >
+          {{ new Date(props.row.target_entry_date).toDateString() }}
+        </b-table-column>
 
-          <b-table-column
-            field="currentStatus"
-            label="Current status"
-            v-slot="props"
-          >
-            {{ props.row.status }}
-          </b-table-column>
+        <b-table-column field="progress" label="Progress" v-slot="props">
+          0 / {{ props.row.process.steps.length }}
+        </b-table-column>
+      </b-table>
+    </b-tab-item>
 
-          <b-table-column field="service" label="Service" v-slot="props">
-            {{ props.row.service }}
-          </b-table-column>
-
-          <b-table-column field="process" label="Process" v-slot="props">
-            {{ props.row.process.name }}
-          </b-table-column>
-        </b-table>
-      </b-tab-item>
-
-      <b-tab-item label="Selected">
-        <ul>
-          <li>Milestones completed</li>
-          <li>Documents</li>
-          <li>Exchange documents</li>
-          <li>Send notification / message to provider</li>
-        </ul>
-      </b-tab-item>
-    </b-tabs>
-  </section>
+    <b-tab-item label="Selected">
+      <ul>
+        <li>Milestones completed</li>
+        <li>Documents</li>
+        <li>Exchange documents</li>
+        <li>Send notification / message to provider</li>
+      </ul>
+    </b-tab-item>
+  </b-tabs>
 </template>
 
 <script lang="ts">
