@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import List
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -136,6 +136,5 @@ STATIC_ROOT = "static"
 CORS_ALLOW_ALL_ORIGINS = True
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
-PROJECT_ROOT = Path(__file__).parent.parent
 
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case

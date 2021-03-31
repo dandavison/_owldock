@@ -12,7 +12,7 @@ from app.models import Country, Route, Process, Service
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        with open(settings.PROJECT_ROOT / "app/fixtures/processes.csv") as fh:
+        with open(settings.BASE_DIR / "app/fixtures/processes.csv") as fh:
             self._load_processes_fixture(fh)
 
     @atomic
