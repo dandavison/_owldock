@@ -8,10 +8,32 @@ import "buefy/dist/buefy.css";
 import "../node_modules/@fortawesome/fontawesome-free/js/all.js";
 
 import App from "./App.vue";
-const Portal = () => import("./views/Portal.vue");
+import { getRole, Role } from "./role";
+
+function Portal() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/ClientPortal.vue");
+    case Role.ProviderContact:
+      return import("./views/ProviderPortal.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
+function CaseList() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/ClientCaseList.vue");
+    case Role.ProviderContact:
+      return import("./views/ProviderCaseList.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
 const NewCase = () => import("./views/NewCase.vue");
 const ViewCase = () => import("./views/ViewCase.vue");
-const CaseList = () => import("./views/CaseList.vue");
 const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const AccessData = () => import("./views/AccessData.vue");
 

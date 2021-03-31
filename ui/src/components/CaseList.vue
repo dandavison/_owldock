@@ -36,6 +36,7 @@
         </b-table-column>
 
         <b-table-column
+          v-if="role !== Role.ProviderContact"
           field="providerContactName"
           label="Provider Contact"
           v-slot="props"
@@ -43,7 +44,11 @@
           {{ props.row.providerContactName }}
         </b-table-column>
 
-        <b-table-column label="Provider" v-slot="props">
+        <b-table-column
+          v-if="role !== Role.ProviderContact"
+          label="Provider"
+          v-slot="props"
+        >
           {{ props.row.provider_contact.provider.name }}
         </b-table-column>
 
@@ -85,27 +90,27 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import BTable from "buefy/src/components/table";
 type BTableInstance = InstanceType<typeof BTable>;
 
+import { Role } from "../role";
 import { CaseSerializer } from "../api-types";
 import { applicantUnicodeFlags } from "@/methods";
 
 export default Vue.extend({
+  props: { role: Number as PropType<Role> },
+
   data() {
     return {
       rows: [] as CaseSerializer[],
       selected: {},
+      Role,
     };
   },
 
   async created(): Promise<void> {
-    const resp = await fetch(
-      `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-cases/`
-    );
-    const data = await resp.json();
-    this.rows = data.map(this.transformRow);
+    this.fetchCaseList();
   },
 
   mounted() {
@@ -120,6 +125,22 @@ export default Vue.extend({
   },
 
   methods: {
+    async fetchCaseList(): Promise<void> {
+      switch (this.role) {
+        case Role.ClientContact:
+          var url = `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-cases/`;
+          break;
+        case Role.ProviderContact:
+          var url = `${process.env.VUE_APP_SERVER_URL}/api/provider-contact/list-cases/`;
+          break;
+        case Role.Invalid:
+          return;
+      }
+      const resp = await fetch(url);
+      const data = await resp.json();
+      this.rows = data.map(this.transformRow);
+    },
+
     navigateToRowDetailView(row: CaseSerializer): void {
       this.$router.push(`/portal/case/${row.id}`);
     },
