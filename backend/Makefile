@@ -35,7 +35,7 @@ recreate-db:
 	&& rm -rf app/migrations/* \
 	&& ./manage.py makemigrations app \
 	&& ./manage.py migrate \
-	&& ./manage.py create_fake_data $$GMD_DEV_PASSWORD
+	&& ./manage.py create_fake_data $$OWLDOCK_DEV_PASSWORD
 
 db-graph:
 	$(MANAGE) graph_models app --no-inheritance --exclude-models '*BaseModel' --output /tmp/db.svg

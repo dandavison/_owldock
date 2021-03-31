@@ -19,11 +19,11 @@ test-live: backend-create-typescript-interfaces
 build: backend-create-typescript-interfaces
 	$(WITH_SERVER_ENV) npm run build
 
+build-watch: backend-create-typescript-interfaces
+	$(WITH_SERVER_ENV) npm run build-watch
+
 serve: backend-create-typescript-interfaces
 	$(WITH_NODE_ENV) npm run serve
-
-watch:
-	fswatch -or src | xargs -n1 -I{} make build
 
 vscode:
 	code .
