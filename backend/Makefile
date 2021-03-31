@@ -1,3 +1,5 @@
+MANAGE=.venv/bin/python manage.py
+
 static-analysis: lint type-check
 
 lint:
@@ -11,7 +13,7 @@ test:
 test-all: lint type-check test
 
 serve:
-	./manage.py runserver
+	$(MANAGE) runserver --settings=owldock.settings.dev 0.0.0.0:8000
 
 type-check-mypy:
 	.venv/bin/mypy .
@@ -20,13 +22,13 @@ type-check-pyright:
 	pyright --venv-path . app owldock
 
 repl-python:
-	./manage.py shell_plus
+	$(MANAGE) shell_plus
 
 create-fake_data:
-	.venv/bin/python manage.py create_fake_data
+	$(MANAGE) create_fake_data
 
 create-typescript-interfaces:
-	.venv/bin/python manage.py create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
+	$(MANAGE) create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
 
 recreate-db:
 	rm -f db.sqlite3 \
@@ -36,7 +38,7 @@ recreate-db:
 	&& ./manage.py create_fake_data $$GMD_DEV_PASSWORD
 
 db-graph:
-	.venv/bin/python manage.py graph_models app --no-inheritance --exclude-models '*BaseModel' --output /tmp/db.svg
+	$(MANAGE) graph_models app --no-inheritance --exclude-models '*BaseModel' --output /tmp/db.svg
 
 vscode:
 	code .
