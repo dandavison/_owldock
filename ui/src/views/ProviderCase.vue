@@ -1,0 +1,30 @@
+<template>
+  <section class="section">
+    <case :case_="case_" v-if="case_"></case>
+  </section>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+
+import { CaseSerializer } from "../api-types";
+import Case from "../components/Case.vue";
+
+export default Vue.extend({
+  components: { Case },
+
+  data() {
+    return {
+      case_: null as CaseSerializer | null,
+    };
+  },
+
+  created() {
+    fetch(
+      `${process.env.VUE_APP_SERVER_URL}/api/provider-contact/case/${this.$route.params.id}/`
+    )
+      .then((resp) => resp.json())
+      .then((data) => (this.case_ = data));
+  },
+});
+</script>

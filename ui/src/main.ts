@@ -21,6 +21,17 @@ function Portal() {
   }
 }
 
+function Case() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/ClientCase.vue");
+    case Role.ProviderContact:
+      return import("./views/ProviderCase.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
 function CaseList() {
   switch (getRole()) {
     case Role.ClientContact:
@@ -33,7 +44,6 @@ function CaseList() {
 }
 
 const NewCase = () => import("./views/NewCase.vue");
-const ViewCase = () => import("./views/ViewCase.vue");
 const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const AccessData = () => import("./views/AccessData.vue");
 
@@ -48,7 +58,7 @@ const routes = [
   { path: "/portal/my-data", component: AccessData },
   { path: "/portal/new-case", component: NewCase },
   { path: "/portal/cases", component: CaseList },
-  { path: "/portal/case/:id", component: ViewCase },
+  { path: "/portal/case/:id", component: Case },
   { path: "/portal/question", component: AskAQuestion }
 ];
 
