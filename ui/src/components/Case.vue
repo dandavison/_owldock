@@ -2,34 +2,22 @@
   <div>
     <div class="card" style="overflow: visible">
       <div class="card-content">
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <applicant :applicant="case_.applicant"></applicant>
-            </div>
+        <applicant :applicant="case_.applicant"></applicant>
 
-            <div class="level-item">
-              <provider-contact
-                v-if="haveProviderContact"
-                :provider_contact="case_.provider_contact"
-              >
-              </provider-contact>
-            </div>
-          </div>
+        <provider-contact
+          v-if="haveProviderContact"
+          :provider_contact="case_.provider_contact"
+        >
+        </provider-contact>
 
-          <div class="level-right">
-            <div class="level-item">
-              <process
-                v-if="haveProcess"
-                :process="case_.process"
-                :showRoute="false"
-                :showSteps="showSteps"
-                class="mt-4"
-              >
-              </process>
-            </div>
-          </div>
-        </div>
+        <process
+          v-if="haveProcess"
+          :process="case_.process"
+          :showRoute="false"
+          :showSteps="showSteps"
+          class="mt-4"
+        >
+        </process>
       </div>
     </div>
   </div>
