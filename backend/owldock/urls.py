@@ -27,6 +27,10 @@ urlpatterns = [
         client_contact.CreateCase.as_view(),
     )),
     login_required(path(
+        "api/client-contact/case/<int:id>/",
+        client_contact.Case.as_view(),
+    )),
+    login_required(path(
         "api/client-contact/list-cases/",
         client_contact.CaseList.as_view(),
     )),

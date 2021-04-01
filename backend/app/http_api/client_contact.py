@@ -1,6 +1,7 @@
 import json
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
+from django.shortcuts import get_object_or_404
 
 from app.models import ClientContact, ProviderContact
 from .serializers import CaseSerializer, ApplicantSerializer, ProviderContactSerializer
@@ -21,6 +22,14 @@ class ApplicantsList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         applicants = self.client_contact.applicants().order_by("user__last_name")
         serializer = ApplicantSerializer(data=applicants, many=True)
+        serializer.is_valid()
+        return JsonResponse(serializer.data, safe=False)
+
+
+class Case(_ClientContactView):
+    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+        case = get_object_or_404(self.client_contact.case_set.all(), id=id)
+        serializer = CaseSerializer(data=case)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
 
