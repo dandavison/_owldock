@@ -16,9 +16,9 @@ class Command(BaseCommand):
         ]
 
         for (provider_name, route_group) in [
-            ("Acme", group_b),
-            ("Deloitte", group_a),
-            ("Corporate Relocations", group_a),
+            ("Acme", group_a),
+            ("Deloitte", group_b),
+            ("Corporate Relocations", group_b),
         ]:
 
             provider = Provider.objects.get(name=provider_name)
