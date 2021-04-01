@@ -24,7 +24,7 @@ type-check-pyright:
 repl-python:
 	$(MANAGE) shell_plus
 
-create-fake_data:
+create-fake-data:
 	$(MANAGE) create_fake_data
 
 create-typescript-interfaces:
