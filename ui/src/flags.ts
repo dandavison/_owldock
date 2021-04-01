@@ -34,7 +34,7 @@ function makeDimensionSeries(width: number, height: number): DimensionsSeries {
 }
 
 // TODO: enforce valid values at compile time using an enum.
-export function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
+function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
   const code = country.code.toLowerCase();
   if (isMobile) {
     var width = 24;
@@ -54,3 +54,5 @@ export function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
     alt: country.name
   };
 }
+
+export const makeFlagImgProps = makeWavingFlagImgProps;
