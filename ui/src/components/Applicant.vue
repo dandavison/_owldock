@@ -16,7 +16,7 @@
         {{ applicant.user.last_name }}
       </p>
       <p class="subtitle is-size-6">
-        <a :href="`mailto:${applicant.user.email}`">
+        <a :href="`mailto:${applicant.user.email}`" target="#">
           {{ applicant.user.email }}
         </a>
       </p>

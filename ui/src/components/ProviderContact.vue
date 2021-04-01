@@ -8,7 +8,7 @@
         {{ provider_contact.user.last_name }}
       </p>
       <p class="subtitle is-size-6">
-        <a :href="`mailto:${provider_contact.user.email}`">
+        <a :href="`mailto:${provider_contact.user.email}`" target="#">
           {{ provider_contact.user.email }}
         </a>
       </p>
