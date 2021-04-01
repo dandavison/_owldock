@@ -18,28 +18,28 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("", login_required(HomeView.as_view())),
     # HTTP API
-    path(
+    login_required(path(
         "api/client-contact/applicants/",
         login_required(client_contact.ApplicantsList.as_view()),
-    ),
-    path(
+    )),
+    login_required(path(
         "api/client-contact/create-case/",
         client_contact.CreateCase.as_view(),
-    ),
-    path(
+    )),
+    login_required(path(
         "api/client-contact/list-cases/",
         client_contact.CaseList.as_view(),
-    ),
-    path(
+    )),
+    login_required(path(
         "api/client-contact/list-provider-contacts/",
         client_contact.ProviderContactList.as_view(),
-    ),
-    path("api/countries/", countries.CountriesList.as_view()),
-    path(
+    )),
+    login_required(path("api/countries/", countries.CountriesList.as_view())),
+    login_required(path(
         "api/provider-contact/list-cases/",
         provider_contact.CaseList.as_view(),
-    ),
-    path("api/processes/", processes.ProcessList.as_view()),
+    )),
+    login_required(path("api/processes/", processes.ProcessList.as_view())),
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
