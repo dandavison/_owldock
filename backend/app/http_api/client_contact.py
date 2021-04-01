@@ -3,8 +3,12 @@ from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
 from django.shortcuts import get_object_or_404
 
+from app.http_api.serializers import (
+    CaseSerializer,
+    ApplicantSerializer,
+    ProviderContactSerializer,
+)
 from app.models import ClientContact, ProviderContact
-from .serializers import CaseSerializer, ApplicantSerializer, ProviderContactSerializer
 
 
 class _ClientContactView(View):
@@ -21,24 +25,21 @@ class _ClientContactView(View):
 class ApplicantsList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         applicants = self.client_contact.applicants().order_by("user__last_name")
-        serializer = ApplicantSerializer(data=applicants, many=True)
-        serializer.is_valid()
+        serializer = ApplicantSerializer(applicants, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
 class Case(_ClientContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
         case = get_object_or_404(self.client_contact.case_set.all(), id=id)
-        serializer = CaseSerializer(data=case)
-        serializer.is_valid()
+        serializer = CaseSerializer(case)
         return JsonResponse(serializer.data, safe=False)
 
 
 class CaseList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         cases = self.client_contact.case_set.all()
-        serializer = CaseSerializer(data=cases, many=True)
-        serializer.is_valid()
+        serializer = CaseSerializer(cases, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
@@ -61,6 +62,5 @@ class ProviderContactList(_ClientContactView):
         except (KeyError, ValueError, TypeError):
             raise Http404("process_id must be supplied in URL parameters")
         provider_contacts = self.client_contact.provider_contacts(process_id)
-        serializer = ProviderContactSerializer(data=provider_contacts, many=True)
-        serializer.is_valid()
+        serializer = ProviderContactSerializer(provider_contacts, many=True)
         return JsonResponse(serializer.data, safe=False)
