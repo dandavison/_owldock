@@ -13,12 +13,21 @@
           @dblclick="navigateToRowDetailView"
           :per-page="10"
         >
-          <b-table-column v-slot="props">
-            <case
-              style="width: 100%"
-              :case_="props.row"
-              :showSteps="false"
-            ></case>
+          <b-table-column label="Applicant" v-slot="props">
+            <applicant :applicant="props.row.applicant"></applicant>
+          </b-table-column>
+
+          <b-table-column
+            label="Provider"
+            v-if="role !== Role.ProviderContact"
+            v-slot="props"
+          >
+            <provider-contact :provider_contact="props.row.provider_contact">
+            </provider-contact>
+          </b-table-column>
+
+          <b-table-column label="Route" v-slot="props">
+            <process :process="props.row.process" :showSteps="false"> </process>
           </b-table-column>
         </b-table>
       </b-tab-item>
@@ -42,15 +51,21 @@ type BTableInstance = InstanceType<typeof BTable>;
 
 import { Role } from "../role";
 import { CaseSerializer } from "../api-types";
-import Case from "../components/Case.vue";
+import Applicant from "../components/Applicant.vue";
+import ProviderContact from "../components/ProviderContact.vue";
+import Process from "../components/Process.vue";
+import { processIsNull, providerContactIsNull } from "../factories";
 
 export default Vue.extend({
   props: { role: Number as PropType<Role> },
-  components: { Case },
+  components: { Applicant, ProviderContact, Process },
   data() {
     return {
       rows: [] as CaseSerializer[],
       selected: {},
+      processIsNull,
+      providerContactIsNull,
+      Role,
     };
   },
 

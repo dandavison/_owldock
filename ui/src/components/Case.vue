@@ -13,9 +13,7 @@
         <process
           v-if="haveProcess"
           :process="case_.process"
-          :showRoute="false"
           :showSteps="showSteps"
-          class="mt-4"
         >
         </process>
       </div>

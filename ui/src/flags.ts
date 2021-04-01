@@ -39,7 +39,7 @@ function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
   if (isMobile) {
     var width = 24;
   } else {
-    var width = 64;
+    var width = 32;
   }
   var height = (width * 3) / 4;
   const dimensionSeries = makeDimensionSeries(width, height);

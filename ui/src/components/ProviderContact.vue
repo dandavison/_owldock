@@ -3,11 +3,11 @@
     <div class="media-left"></div>
 
     <div class="media-content">
-      <p class="title is-size-6-mobile">
+      <p class="title is-size-6">
         {{ provider_contact.user.first_name }}
         {{ provider_contact.user.last_name }}
       </p>
-      <p class="subtitle is-6">
+      <p class="subtitle is-size-6">
         <a :href="`mailto:${provider_contact.user.email}`">
           {{ provider_contact.user.email }}
         </a>

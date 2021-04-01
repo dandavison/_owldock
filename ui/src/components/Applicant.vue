@@ -11,11 +11,11 @@
     </div>
 
     <div class="media-content">
-      <p class="title is-size-6-mobile">
+      <p class="title is-size-6">
         {{ applicant.user.first_name }}
         {{ applicant.user.last_name }}
       </p>
-      <p class="subtitle is-6">
+      <p class="subtitle is-size-6">
         <a :href="`mailto:${applicant.user.email}`">
           {{ applicant.user.email }}
         </a>
