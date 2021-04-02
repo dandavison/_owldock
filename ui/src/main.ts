@@ -43,9 +43,9 @@ function CaseList() {
   }
 }
 
-const NewCase = () => import("./views/NewCase.vue");
-const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const AccessData = () => import("./views/AccessData.vue");
+const AskAQuestion = () => import("./views/AskAQuestion.vue");
+const NewCase = () => import("./views/NewCase.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {

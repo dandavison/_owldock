@@ -27,6 +27,9 @@ repl-python:
 create-fake-data:
 	$(MANAGE) create_fake_data
 
+create-fake-cases:
+	$(MANAGE) create_fake_cases
+
 create-typescript-interfaces:
 	$(MANAGE) create_typescript_interfaces ../ui/src/api-types.ts > /dev/null
 

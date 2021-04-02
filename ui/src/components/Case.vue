@@ -55,13 +55,11 @@ export default Vue.extend({
     },
 
     haveProcess(): boolean {
-      let ret = !processIsNull(this.case_.process);
-      return ret;
+      return !processIsNull(this.case_.process);
     },
 
     haveProviderContact(): boolean {
-      let ret = !providerContactIsNull(this.case_.provider_contact);
-      return ret;
+      return !providerContactIsNull(this.case_.provider_contact);
     },
   },
 
