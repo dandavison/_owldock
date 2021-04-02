@@ -46,7 +46,6 @@ function CaseList() {
 const AccessData = () => import("./views/AccessData.vue");
 const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const NewCase = () => import("./views/NewCase.vue");
-const ProcessStep = () => import("./views/.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {
@@ -60,8 +59,7 @@ const routes = [
   { path: "/portal/new-case", component: NewCase },
   { path: "/portal/cases", component: CaseList },
   { path: "/portal/case/:id", component: Case },
-  { path: "/portal/question", component: AskAQuestion },
-  { path: "/portal/case/:caseId/step/:sequenceNumber", component: ProcessStep }
+  { path: "/portal/question", component: AskAQuestion }
 ];
 
 const router = new VueRouter({ mode: "history", routes });
