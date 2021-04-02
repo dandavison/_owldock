@@ -33,12 +33,7 @@
       </b-tab-item>
 
       <b-tab-item label="Selected">
-        <ul>
-          <li>Milestones completed</li>
-          <li>Documents</li>
-          <li>Exchange documents</li>
-          <li>Send notification / message to provider</li>
-        </ul>
+        <case v-if="isGenuineCaseObject(selected)" :case_="selected"></case>
       </b-tab-item>
     </b-tabs>
   </div>
@@ -52,13 +47,14 @@ type BTableInstance = InstanceType<typeof BTable>;
 import { Role } from "../role";
 import { CaseSerializer } from "../api-types";
 import Applicant from "../components/Applicant.vue";
+import Case from "../components/Case.vue";
 import ProviderContact from "../components/ProviderContact.vue";
 import Process from "../components/Process.vue";
 import { processIsNull, providerContactIsNull } from "../factories";
 
 export default Vue.extend({
   props: { role: Number as PropType<Role> },
-  components: { Applicant, ProviderContact, Process },
+  components: { Applicant, Case, ProviderContact, Process },
   data() {
     return {
       rows: [] as CaseSerializer[],
@@ -102,6 +98,12 @@ export default Vue.extend({
 
     navigateToRowDetailView(row: CaseSerializer): void {
       this.$router.push(`/portal/case/${row.id}`);
+    },
+
+    // TODO: The 'selected' feature of buefy table seems to be being triggered
+    // with an empty/non-genuine Case object.
+    isGenuineCaseObject(case_: CaseSerializer): boolean {
+      return !!case_.applicant;
     },
   },
 });
