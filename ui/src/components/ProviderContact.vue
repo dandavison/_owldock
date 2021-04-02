@@ -1,6 +1,7 @@
 <template>
   <div class="media">
     <div class="media-left"></div>
+    <figure :class="`image is-${makeFlagImgDimensionString()}`"></figure>
 
     <div class="media-content">
       <p class="title is-size-6">
@@ -20,8 +21,14 @@
 import { ProviderContactSerializer } from "@/api-types";
 import Vue, { PropType } from "vue";
 
+import { makeFlagImgDimensionString } from "../flags";
+
 export default Vue.extend({
   props: { provider_contact: Object as PropType<ProviderContactSerializer> },
+
+  data() {
+    return { makeFlagImgDimensionString };
+  },
 });
 </script>
 
