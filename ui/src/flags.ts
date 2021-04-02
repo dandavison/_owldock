@@ -25,7 +25,10 @@ function makeDimensionString(
   return `${width * scale}x${height * scale}`;
 }
 
-function makeDimensionSeries(width: number, height: number): DimensionsSeries {
+function makeDimensionStringSeries(
+  width: number,
+  height: number
+): DimensionsSeries {
   return {
     "1x": makeDimensionString(width, height, 1),
     "2x": makeDimensionString(width, height, 2),
@@ -33,16 +36,25 @@ function makeDimensionSeries(width: number, height: number): DimensionsSeries {
   };
 }
 
-// TODO: enforce valid values at compile time using an enum.
-function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
-  const code = country.code.toLowerCase();
+function makeFlagImgDimensions(): { width: number; height: number } {
   if (isMobile) {
     var width = 24;
   } else {
     var width = 32;
   }
   var height = (width * 3) / 4;
-  const dimensionSeries = makeDimensionSeries(width, height);
+  return { width, height };
+}
+
+export function makeFlagImgDimensionString(): string {
+  const { width, height } = makeFlagImgDimensions();
+  return makeDimensionString(width, height, 1);
+}
+
+function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
+  const code = country.code.toLowerCase();
+  const { width, height } = makeFlagImgDimensions();
+  const dimensionSeries = makeDimensionStringSeries(width, height);
   return {
     src: `https://flagcdn.com/${dimensionSeries["1x"]}/${code}.png`,
     srcset: `
