@@ -1,7 +1,15 @@
 <template>
   <div class="media">
+    <div class="media-left">
+      <figure class="image is-4x3">
+        <img v-bind="makeFlagImgProps(process.route.host_country)" />
+      </figure>
+    </div>
+
     <div class="media-content">
-      {{ process.route.host_country.unicode_flag }} {{ process.route.name }}
+      <p class="title is-size-6">
+        {{ process.route.name }}
+      </p>
       <process-steps v-if="showSteps" :steps="process.steps"></process-steps>
     </div>
   </div>
