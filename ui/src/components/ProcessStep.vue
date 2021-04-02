@@ -2,15 +2,10 @@
   <div>
     <div>
       <div class="card">
-        <header class="card-header">
+        <header class="card-header" @click="showDetail = !showDetail">
           <p class="card-header-title">
             {{ step.sequence_number }}. {{ step.service.name }}
           </p>
-          <button class="card-header-icon" @click="showDetail = !showDetail">
-            <span class="icon">
-              <i class="fas fa-angle-down"></i>
-            </span>
-          </button>
         </header>
         <div v-if="showDetail" class="card-content">
           <div class="content">
