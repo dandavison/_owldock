@@ -93,7 +93,7 @@ class ProcessStep(BaseModel):
         Process, on_delete=models.deletion.PROTECT, related_name="steps"
     )
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
-    sequence_number = models.FloatField()
+    sequence_number = models.PositiveIntegerField()
 
 
 class Provider(BaseModel):
