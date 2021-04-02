@@ -4,7 +4,7 @@
       <div class="card">
         <header class="card-header" @click="showDetail = !showDetail">
           <p class="card-header-title">
-            {{ step.sequence_number }}. {{ step.service.name }}
+            {{ step.sequence_number }}. {{ step.process_step.service.name }}
           </p>
         </header>
         <div v-if="showDetail" class="card-content">
@@ -14,7 +14,11 @@
         </div>
         <footer v-if="showDetail" class="card-footer">
           <a href="#" class="card-footer-item">
-            <i class="fas fa-upload"></i> <span class="ml-2">Upload file</span>
+            <vue-file-agent
+              :uploadUrl="uploadUrl"
+              :uploadHeaders="uploadHeaders"
+              :multiple="true"
+            ></vue-file-agent>
           </a>
         </footer>
       </div>
@@ -24,15 +28,20 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-
-import { ProcessStepSerializer } from "../api-types";
+import VueFileAgent from "vue-file-agent";
+import "vue-file-agent/dist/vue-file-agent.css";
+Vue.use(VueFileAgent);
+import Cookies from "js-cookie";
+import { CaseStepSerializer } from "../api-types";
 
 export default Vue.extend({
-  props: { step: Object as PropType<ProcessStepSerializer> },
+  props: { step: Object as PropType<CaseStepSerializer> },
 
   data() {
     return {
       showDetail: false,
+      uploadUrl: `${process.env.VUE_APP_SERVER_URL}/api/case-step/${this.step.id}/upload-files/`,
+      uploadHeaders: { "X-CSRFToken": Cookies.get("csrftoken") },
     };
   },
 });

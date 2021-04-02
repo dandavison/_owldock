@@ -11,8 +11,8 @@
         </provider-contact>
 
         <process
-          v-if="haveProcess"
-          :process="case_.process"
+          v-if="case_ && haveProcess"
+          :case_="case_"
           :showSteps="showSteps"
         >
         </process>

@@ -69,8 +69,9 @@ export function NullCase(): CaseSerializer {
   return {
     id: undefined,
     applicant: NullApplicant(),
-    process: NullProcess(),
     provider_contact: NullProviderContact(),
+    process: NullProcess(),
+    steps: [],
     target_entry_date: "",
     target_exit_date: ""
   };

@@ -27,7 +27,7 @@
           </b-table-column>
 
           <b-table-column label="Route" v-slot="props">
-            <process :process="props.row.process" :showSteps="false"> </process>
+            <process :case_="props.row" :showSteps="false"> </process>
           </b-table-column>
         </b-table>
       </b-tab-item>

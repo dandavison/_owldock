@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 from django.db.models import (
     CharField,
@@ -9,16 +10,25 @@ from django.db.models import (
     PositiveIntegerField,
 )
 
-from app.models import BaseModel
+from app.models.base import BaseModel
 
 
-class FileTypes(models.TextChoices):
+class ApplicationFileType(models.TextChoices):
     PROVIDER_CONTACT_UPLOAD = ("PROVIDER_CONTACT_UPLOAD",)
 
 
-class File(BaseModel):
-    created_by = ForeignKey(settings.AUTH_USER_MODEL, on_delete=deletion.PROTECT)
-    type = CharField(max_length=64, choices=FileTypes.choices)
+class StoredFile(BaseModel):
+    # {'_name': 'babel.config.js', 'charset': None, 'content_type': 'text/javascript', 'content_type_extra': {}, 'field_name': 'file', 'file': <_io.BytesIO object ...106c56450>, 'size': 66}
     file = FileField(upload_to="uploads/%Y/%m/")
-    content_type = ForeignKey(ContentType, on_delete=deletion.PROTECT)
-    object_id = PositiveIntegerField()
+    created_by = ForeignKey(settings.AUTH_USER_MODEL, on_delete=deletion.PROTECT)
+    application_file_type = CharField(
+        max_length=64, choices=ApplicationFileType.choices
+    )
+
+    # GFK
+    associated_object_content_type = ForeignKey(ContentType, on_delete=deletion.PROTECT)
+    associated_object_id = PositiveIntegerField()
+    associated_object = GenericForeignKey(
+        "associated_object_content_type",
+        "associated_object_id",
+    )

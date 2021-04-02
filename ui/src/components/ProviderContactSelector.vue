@@ -53,11 +53,7 @@ export default Vue.extend({
   },
 
   watch: {
-    process: function (
-      value: ProcessSerializer,
-      oldValue: ProcessSerializer
-    ): void {
-      console.log("process changed:", oldValue, "->", value);
+    process: function (value: ProcessSerializer): void {
       this.fetchProviderContacts(value);
     },
   },

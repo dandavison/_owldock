@@ -2,15 +2,15 @@
   <div class="media">
     <div class="media-left">
       <figure class="image is-4x3">
-        <img v-bind="makeFlagImgProps(process.route.host_country)" />
+        <img v-bind="makeFlagImgProps(case_.process.route.host_country)" />
       </figure>
     </div>
 
     <div class="media-content">
       <p class="title is-size-6">
-        {{ process.route.name }}
+        {{ case_.process.route.name }}
       </p>
-      <process-steps v-if="showSteps" :steps="process.steps"></process-steps>
+      <case-steps v-if="showSteps" :steps="case_.steps"></case-steps>
     </div>
   </div>
 </template>
@@ -18,18 +18,18 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 
-import { ProcessSerializer } from "../api-types";
-import ProcessSteps from "./ProcessSteps.vue";
+import { CaseSerializer } from "../api-types";
+import CaseSteps from "./CaseSteps.vue";
 
 import { makeFlagImgProps } from "../flags";
 
 export default Vue.extend({
   props: {
-    process: Object as PropType<ProcessSerializer>,
+    case_: Object as PropType<CaseSerializer>,
     showSteps: { type: Boolean, default: true },
   },
 
-  components: { ProcessSteps },
+  components: { CaseSteps },
 
   data() {
     return {

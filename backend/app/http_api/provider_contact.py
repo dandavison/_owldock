@@ -1,9 +1,16 @@
 import json
+
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views import View
+from django.shortcuts import get_object_or_404
 
-from app.models import ProviderContact, ProviderContact
-from .serializers import CaseSerializer, ApplicantSerializer, ProviderContactSerializer
+from app.exceptions import PermissionDenied
+from app.models import CaseStep, ProviderContact
+from app.http_api.serializers import (
+    CaseSerializer,
+    ApplicantSerializer,
+    ProviderContactSerializer,
+)
 
 
 class _ProviderContactView(View):
@@ -23,3 +30,15 @@ class CaseList(_ProviderContactView):
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
+
+
+class CaseStepUploadFiles(_ProviderContactView):
+    def post(self, request: HttpRequest, step_id: int) -> HttpResponse:
+        try:
+            self.provider_contact.add_files_to_case_step(
+                request.FILES.getlist("file"), step_id=step_id
+            )
+        except (PermissionDenied, CaseStep.DoesNotExist) as exc:
+            raise Http404
+        else:
+            return JsonResponse({"errors": None})

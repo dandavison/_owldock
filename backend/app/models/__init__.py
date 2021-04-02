@@ -1,11 +1,16 @@
 import logging
 from datetime import datetime
+from typing import List
 
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 from django.utils import timezone
+
+from app.models.base import BaseModel
+from app.models.file import ApplicationFileType, StoredFile
 
 
 logger = logging.getLogger(__name__)
@@ -18,23 +23,6 @@ class CaseCannotBeOffered(Exception):
 
 class CaseNotAvailableToProvider(Exception):
     pass
-
-
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-    def __str__(self) -> str:
-        if hasattr(self, "name"):
-            data = self.name  # type: ignore # pylint: disable=no-member
-        elif hasattr(self, "user"):
-            data = self.user.email  # type: ignore # pylint: disable=no-member
-        else:
-            data = self.id  # type: ignore
-        return f"{data}"
 
 
 class Country(BaseModel):
@@ -107,6 +95,25 @@ class ProviderContact(BaseModel):
     provider = models.ForeignKey(
         Provider, on_delete=models.deletion.CASCADE, related_name="contacts"
     )
+
+    @atomic
+    def add_files_to_case_step(self, in_memory_files: List[UploadedFile], step_id: int):
+        step = self.get_case_step_with_write_permissions(step_id)
+        for in_memory_file in in_memory_files:
+            file = StoredFile(
+                file=in_memory_file,
+                created_by=self.user,
+                application_file_type=ApplicationFileType.PROVIDER_CONTACT_UPLOAD,
+                associated_object=step,
+            )
+            file.save()
+
+    def get_case_step_with_write_permissions(self, step_id: int) -> "CaseStep":
+        """
+        Provider contact P may write to CaseStep S if S belongs to a case
+        assigned to P.
+        """
+        return CaseStep.objects.filter(case__provider_contact=self).get(id=step_id)
 
     def available_cases(self) -> "QuerySet[Case]":
         """
@@ -294,7 +301,7 @@ class Case(BaseModel):
     # A case is always associated with an applicant.
     applicant = models.ForeignKey(Applicant, on_delete=models.deletion.CASCADE)
 
-    # The process is a specific sequence of steps that will attain the desired
+    # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.
     process = models.ForeignKey(Process, on_delete=models.deletion.PROTECT)
 
@@ -312,6 +319,18 @@ class Case(BaseModel):
         # Given the current state of this case, does the case state machine
         # accept an 'offered-case' event which transitions to an 'on-offer' state?
         return not self.contracts.filter(rejected_at=None).exists()
+
+
+class CaseStep(BaseModel):
+    # Case steps are concrete steps attached to a case instance. Typically, they
+    # will be in 1-1 correspondence with the abstract case.process.steps.
+    # However, it may sometimes be desirable to modify a case's steps so that
+    # they no longer exactly match any abstract process's steps.
+    case = models.ForeignKey(
+        Case, related_name="steps", on_delete=models.deletion.CASCADE
+    )
+    process_step = models.ForeignKey(ProcessStep, on_delete=models.deletion.PROTECT)
+    sequence_number = models.PositiveIntegerField()
 
 
 class CaseContract(BaseModel):

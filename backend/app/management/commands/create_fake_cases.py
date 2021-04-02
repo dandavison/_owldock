@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 days=int(random.uniform(50, 600))
             )
 
-            Case.objects.create(
+            case = Case.objects.create(
                 client_contact=client_contact,
                 provider_contact=provider_contact,
                 applicant=applicant,
@@ -41,3 +41,5 @@ class Command(BaseCommand):
                 target_entry_date=target_entry_date,
                 target_exit_date=target_exit_date,
             )
+            for i, process_step in enumerate(process.steps.order_by("sequence_number")):
+                case.steps.create(process_step=process_step, sequence_number=i)

@@ -3,7 +3,7 @@
     <h3 class="subtitle is-5 mb-2">Steps</h3>
     <ul>
       <li v-for="step of steps" :key="step.sequence_number">
-        <process-step :step="step"></process-step>
+        <case-step :step="step"></case-step>
       </li>
     </ul>
   </div>
@@ -12,12 +12,12 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 
-import ProcessStep from "./ProcessStep.vue";
-import { ProcessStepSerializer } from "../api-types";
+import CaseStep from "./CaseStep.vue";
+import { CaseStepSerializer } from "../api-types";
 
 export default Vue.extend({
-  components: { ProcessStep },
+  components: { CaseStep },
 
-  props: { steps: Array as PropType<ProcessStepSerializer[]> },
+  props: { steps: Array as PropType<CaseStepSerializer[]> },
 });
 </script>

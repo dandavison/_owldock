@@ -19,17 +19,18 @@ from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import ModelSerializer, IntegerField
 
-from app.models import Case
 from app.models import (
+    Applicant,
+    Case,
+    CaseStep,
     Client,
     ClientContact,
     Country,
-    Applicant,
-    Route,
     Process,
     ProcessStep,
     Provider,
     ProviderContact,
+    Route,
     Service,
 )
 
@@ -59,6 +60,8 @@ class RouteSerializer(ModelSerializer):
 
 @ts_interface()
 class ProcessStepSerializer(ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False)
     service = ServiceSerializer()
 
     class Meta:
@@ -140,33 +143,51 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
 
 @ts_interface()
+class CaseStepSerializer(ModelSerializer):
+    process_step = ProcessStepSerializer()
+
+    class Meta:
+        model = CaseStep
+        fields = ["id", "process_step", "sequence_number"]
+        ordering = ["sequence_number"]
+
+
+@ts_interface()
 class CaseSerializer(ModelSerializer):
     applicant = ApplicantSerializer()
-    process = ProcessSerializer()
     provider_contact = ProviderContactSerializer()
+    process = ProcessSerializer()
+    steps = CaseStepSerializer(many=True)
 
     class Meta:
         model = Case
         fields = [
             "id",
             "applicant",
+            "provider_contact",
             "process",
+            "steps",
             "created_at",
             "target_entry_date",
             "target_exit_date",
-            "provider_contact",
         ]
 
     def create_for_client_contact(
         self, validated_data: dict, client_contact: ClientContact
     ):
         applicant = validated_data.pop("applicant")
-        process = validated_data.pop("process")
         provider_contact = validated_data.pop("provider_contact")
-        Case.objects.create(
+        process = validated_data.pop("process")
+        case_steps = validated_data.pop("steps")
+        case = Case.objects.create(
             client_contact=client_contact,
             applicant_id=applicant["id"],
             process_id=process["id"],
             provider_contact_id=provider_contact["id"],
             **validated_data,
         )
+        for case_step in case_steps:
+            case.steps.create(
+                process_step_id=case_step["process_step"]["id"],
+                sequence_number=case_step["sequence_number"],
+            )

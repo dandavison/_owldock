@@ -155,6 +155,11 @@ export default Vue.extend({
 
     handleChangeProcess(process: ProcessSerializer): void {
       this.case_.process = process;
+      // Create case steps as a copy of process steps.
+      this.case_.steps = process.steps.map((s, i) => ({
+        process_step: s,
+        sequence_number: i + 1,
+      }));
     },
 
     handleChangeProviderContact(

@@ -67,13 +67,20 @@ export interface ProviderContactSerializer {
     provider: ProviderSerializer;
 }
 
+export interface CaseStepSerializer {
+    id?: number;
+    process_step: ProcessStepSerializer;
+    sequence_number: number;
+}
+
 export interface CaseSerializer {
     id?: number;
     applicant: ApplicantSerializer;
+    provider_contact: ProviderContactSerializer;
     process: ProcessSerializer;
+    steps: CaseStepSerializer[];
     created_at?: string;
     target_entry_date: string;
     target_exit_date: string;
-    provider_contact: ProviderContactSerializer;
 }
 
