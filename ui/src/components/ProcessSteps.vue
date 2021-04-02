@@ -3,7 +3,9 @@
     <h3 class="subtitle is-5 mb-2">Steps</h3>
     <ol class="ml-6">
       <li v-for="step of steps" :key="step.sequence_number">
-        {{ step.service.name }}
+        <router-link :to="`/step/${step.sequence_number}`">
+          {{ step.service.name }}
+        </router-link>
       </li>
     </ol>
   </div>
