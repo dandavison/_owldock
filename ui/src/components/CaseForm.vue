@@ -159,6 +159,7 @@ export default Vue.extend({
       this.case_.steps = process.steps.map((s, i) => ({
         process_step: s,
         sequence_number: i + 1,
+        stored_files: [],
       }));
     },
 

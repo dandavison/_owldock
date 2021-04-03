@@ -37,6 +37,14 @@ export interface UserSerializer {
     email?: string;
 }
 
+export interface StoredFileSerializer {
+    created_by: UserSerializer;
+    id?: number;
+    media_type: string;
+    name: string;
+    size: number;
+}
+
 export interface ClientSerializer {
     id?: number;
     name: string;
@@ -71,7 +79,7 @@ export interface CaseStepSerializer {
     id?: number;
     process_step: ProcessStepSerializer;
     sequence_number: number;
-    stored_files: any[];
+    stored_files: StoredFileSerializer[];
 }
 
 export interface CaseSerializer {

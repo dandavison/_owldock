@@ -40,6 +40,10 @@ urlpatterns = [
     ),
     path("api/countries/", login_required(countries.CountriesList.as_view())),
     path(
+        "api/provider-contact/case/<int:id>/",
+        login_required(provider_contact.Case.as_view()),
+    ),
+    path(
         "api/provider-contact/list-cases/",
         login_required(provider_contact.CaseList.as_view()),
     ),

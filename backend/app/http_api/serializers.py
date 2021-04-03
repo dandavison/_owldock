@@ -26,6 +26,7 @@ from app.models import (
     Client,
     ClientContact,
     Country,
+    StoredFile,
     Process,
     ProcessStep,
     Provider,
@@ -93,6 +94,15 @@ class UserSerializer(ModelSerializer):
 
 
 @ts_interface()
+class StoredFileSerializer(ModelSerializer):
+    created_by = UserSerializer()
+
+    class Meta:
+        model = StoredFile
+        fields = ["created_by", "id", "media_type", "name", "size"]
+
+
+@ts_interface()
 class ClientSerializer(ModelSerializer):
     class Meta:
         model = Client
@@ -145,10 +155,11 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 @ts_interface()
 class CaseStepSerializer(ModelSerializer):
     process_step = ProcessStepSerializer()
+    stored_files = StoredFileSerializer(many=True)
 
     class Meta:
         model = CaseStep
-        fields = ["id", "process_step", "sequence_number"]
+        fields = ["id", "process_step", "sequence_number", "stored_files"]
         ordering = ["sequence_number"]
 
 

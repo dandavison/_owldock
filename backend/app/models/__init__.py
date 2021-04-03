@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List
 
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models.query import QuerySet
@@ -96,17 +97,24 @@ class ProviderContact(BaseModel):
         Provider, on_delete=models.deletion.CASCADE, related_name="contacts"
     )
 
-    @atomic
-    def add_files_to_case_step(self, in_memory_files: List[UploadedFile], step_id: int):
+    @atomic  # TODO: are storage writes rolled back?
+    def add_uploaded_files_to_case_step(
+        self,
+        uploaded_files: List[UploadedFile],
+        step_id: int,
+    ):
         step = self.get_case_step_with_write_permissions(step_id)
-        for in_memory_file in in_memory_files:
-            file = StoredFile(
-                file=in_memory_file,
-                created_by=self.user,
-                application_file_type=ApplicationFileType.PROVIDER_CONTACT_UPLOAD,
-                associated_object=step,
+        for uploaded_file in uploaded_files:
+            stored_file = StoredFile.from_uploaded_file(uploaded_file)
+            stored_file.created_by = self.user
+            stored_file.associated_object = step
+            stored_file.application_file_type = (
+                ApplicationFileType.PROVIDER_CONTACT_UPLOAD
             )
-            file.save()
+            stored_file.save()
+
+    def get_case_with_read_permissions(self, case_id) -> "Case":
+        return self.case_set.get(id=case_id)
 
     def get_case_step_with_write_permissions(self, step_id: int) -> "CaseStep":
         """
@@ -331,6 +339,9 @@ class CaseStep(BaseModel):
     )
     process_step = models.ForeignKey(ProcessStep, on_delete=models.deletion.PROTECT)
     sequence_number = models.PositiveIntegerField()
+    stored_files = GenericRelation(
+        StoredFile, "associated_object_id", "associated_object_content_type"
+    )
 
 
 class CaseContract(BaseModel):

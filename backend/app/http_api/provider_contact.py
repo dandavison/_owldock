@@ -24,6 +24,13 @@ class _ProviderContactView(View):
             raise Http404 from exc
 
 
+class Case(_ProviderContactView):
+    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+        case = self.provider_contact.get_case_with_read_permissions(case_id=id)
+        serializer = CaseSerializer(case)
+        return JsonResponse(serializer.data, safe=False)
+
+
 class CaseList(_ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         cases = self.provider_contact.case_set.all()
@@ -35,7 +42,7 @@ class CaseList(_ProviderContactView):
 class CaseStepUploadFiles(_ProviderContactView):
     def post(self, request: HttpRequest, step_id: int) -> HttpResponse:
         try:
-            self.provider_contact.add_files_to_case_step(
+            self.provider_contact.add_uploaded_files_to_case_step(
                 request.FILES.getlist("file"), step_id=step_id
             )
         except (PermissionDenied, CaseStep.DoesNotExist) as exc:
