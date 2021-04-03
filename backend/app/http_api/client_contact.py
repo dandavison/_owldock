@@ -1,16 +1,23 @@
 import json
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.conf import settings
+from django.http import (
+    Http404,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseForbidden,
+    JsonResponse,
+)
 from django.views import View
-from django.shortcuts import get_object_or_404
 
 from app.http_api.serializers import (
     CaseSerializer,
     ApplicantSerializer,
     ProviderContactSerializer,
 )
-from app.models import ClientContact, ProviderContact
+from app.models import ClientContact
 
 
+# TODO: Refactor to share implementation with _ProviderContactView
 class _ClientContactView(View):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
@@ -19,7 +26,16 @@ class _ClientContactView(View):
                 user=self.request.user  # type: ignore
             )
         except ClientContact.DoesNotExist as exc:
-            raise Http404 from exc
+            self.client_contact = None
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        if not self.client_contact:
+            if settings.DEBUG:
+                return HttpResponseForbidden("User is not a client contact")
+            else:
+                raise Http404
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
 class ApplicantsList(_ClientContactView):
@@ -31,7 +47,7 @@ class ApplicantsList(_ClientContactView):
 
 class Case(_ClientContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
-        case = get_object_or_404(self.client_contact.case_set.all(), id=id)
+        case = self.client_contact.get_case_with_read_permissions(id=id)
         serializer = CaseSerializer(case)
         return JsonResponse(serializer.data, safe=False)
 

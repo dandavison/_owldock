@@ -1,18 +1,22 @@
-import json
-
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.conf import settings
+from django.http import (
+    Http404,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+    JsonResponse,
+)
 from django.views import View
-from django.shortcuts import get_object_or_404
 
 from app.exceptions import PermissionDenied
 from app.models import CaseStep, ProviderContact
 from app.http_api.serializers import (
     CaseSerializer,
-    ApplicantSerializer,
-    ProviderContactSerializer,
 )
 
 
+# TODO: Refactor to share implementation with _ClientContactView
 class _ProviderContactView(View):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
@@ -21,7 +25,16 @@ class _ProviderContactView(View):
                 user=self.request.user  # type: ignore
             )
         except ProviderContact.DoesNotExist as exc:
-            raise Http404 from exc
+            self.provider_contact = None
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        if not self.provider_contact:
+            if settings.DEBUG:
+                return HttpResponseForbidden("User is not a provider contact")
+            else:
+                raise Http404
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
 class Case(_ProviderContactView):
@@ -45,7 +58,17 @@ class CaseStepUploadFiles(_ProviderContactView):
             self.provider_contact.add_uploaded_files_to_case_step(
                 request.FILES.getlist("file"), step_id=step_id
             )
-        except (PermissionDenied, CaseStep.DoesNotExist) as exc:
-            raise Http404
+        except PermissionDenied:
+            if settings.DEBUG:
+                return HttpResponseForbidden(
+                    f"User {request.user} does not have permission to upload files to case step {step_id}"
+                )
+            else:
+                raise Http404
+        except CaseStep.DoesNotExist:
+            if settings.DEBUG:
+                return HttpResponseNotFound(f"Case step {step_id} does not exist")
+            else:
+                raise Http404
         else:
             return JsonResponse({"errors": None})
