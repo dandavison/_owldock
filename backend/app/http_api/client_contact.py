@@ -14,6 +14,7 @@ from app.http_api.serializers import (
     ApplicantSerializer,
     ProviderContactSerializer,
 )
+from app import models
 from app.models import ClientContact
 
 
@@ -47,7 +48,16 @@ class ApplicantsList(_ClientContactView):
 
 class Case(_ClientContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
-        case = self.client_contact.get_case_with_read_permissions(id=id)
+        try:
+            case = self.client_contact.cases_with_read_permission.get(id=id)
+        except models.Case.DoesNotExist:
+            if settings.DEBUG:
+                raise Http404(
+                    f"Case {id} does not exist "
+                    f"or {self.client_contact} does not have read permission for it."
+                )
+            else:
+                raise Http404
         serializer = CaseSerializer(case)
         return JsonResponse(serializer.data, safe=False)
 
@@ -63,9 +73,7 @@ class CreateCase(_ClientContactView):
     def post(self, request: HttpRequest) -> HttpResponse:
         serializer = CaseSerializer(data=json.loads(request.body))
         if serializer.is_valid():
-            serializer.create_for_client_contact(
-                serializer.validated_data, client_contact=self.client_contact
-            )
+            serializer.create_for_client_contact(client_contact=self.client_contact)
             return JsonResponse({"errors": None})
         else:
             return JsonResponse({"errors": serializer.errors})

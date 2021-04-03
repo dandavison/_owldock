@@ -156,17 +156,23 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 class CaseStepSerializer(ModelSerializer):
     process_step = ProcessStepSerializer()
     stored_files = StoredFileSerializer(many=True)
+    provider_contact = ProviderContactSerializer()
 
     class Meta:
         model = CaseStep
-        fields = ["id", "process_step", "sequence_number", "stored_files"]
+        fields = [
+            "id",
+            "process_step",
+            "provider_contact",
+            "sequence_number",
+            "stored_files",
+        ]
         ordering = ["sequence_number"]
 
 
 @ts_interface()
 class CaseSerializer(ModelSerializer):
     applicant = ApplicantSerializer()
-    provider_contact = ProviderContactSerializer()
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
 
@@ -175,7 +181,6 @@ class CaseSerializer(ModelSerializer):
         fields = [
             "id",
             "applicant",
-            "provider_contact",
             "process",
             "steps",
             "created_at",
@@ -183,22 +188,20 @@ class CaseSerializer(ModelSerializer):
             "target_exit_date",
         ]
 
-    def create_for_client_contact(
-        self, validated_data: dict, client_contact: ClientContact
-    ):
-        applicant = validated_data.pop("applicant")
-        provider_contact = validated_data.pop("provider_contact")
-        process = validated_data.pop("process")
-        case_steps = validated_data.pop("steps")
+    def create_for_client_contact(self, client_contact: ClientContact) -> Case:
+        applicant = self.validated_data.pop("applicant")
+        process = self.validated_data.pop("process")
+        case_steps = self.validated_data.pop("steps")
         case = Case.objects.create(
             client_contact=client_contact,
             applicant_id=applicant["id"],
             process_id=process["id"],
-            provider_contact_id=provider_contact["id"],
-            **validated_data,
+            **self.validated_data,
         )
         for case_step in case_steps:
             case.steps.create(
                 process_step_id=case_step["process_step"]["id"],
                 sequence_number=case_step["sequence_number"],
+                provider_contact_id=case_step["provider_contact"]["id"],
             )
+        return case

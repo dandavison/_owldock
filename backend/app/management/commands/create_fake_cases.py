@@ -35,11 +35,14 @@ class Command(BaseCommand):
 
             case = Case.objects.create(
                 client_contact=client_contact,
-                provider_contact=provider_contact,
                 applicant=applicant,
                 process=process,
                 target_entry_date=target_entry_date,
                 target_exit_date=target_exit_date,
             )
             for i, process_step in enumerate(process.steps.order_by("sequence_number")):
-                case.steps.create(process_step=process_step, sequence_number=i)
+                case.steps.create(
+                    process_step=process_step,
+                    sequence_number=i,
+                    provider_contact=provider_contact,
+                )

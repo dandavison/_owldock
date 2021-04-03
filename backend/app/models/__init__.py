@@ -103,7 +103,7 @@ class ProviderContact(BaseModel):
         uploaded_files: List[UploadedFile],
         step_id: int,
     ):
-        step = self.get_case_step_with_write_permissions(step_id)
+        step = self.case_steps_with_write_permission.get(id=step_id)
         for uploaded_file in uploaded_files:
             stored_file = StoredFile.from_uploaded_file(uploaded_file)
             stored_file.created_by = self.user
@@ -113,15 +113,18 @@ class ProviderContact(BaseModel):
             )
             stored_file.save()
 
-    def get_case_with_read_permissions(self, case_id) -> "Case":
-        return self.case_set.get(id=case_id)
+    @property
+    def cases_with_read_permission(self) -> "QuerySet[Case]":
+        return Case.objects.filter(steps__provider_contact=self).distinct()
 
-    def get_case_step_with_write_permissions(self, step_id: int) -> "CaseStep":
+    @property
+    def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":
         """
         Provider contact P may write to CaseStep S if S belongs to a case
         assigned to P.
         """
-        return CaseStep.objects.filter(case__provider_contact=self).get(id=step_id)
+
+        return CaseStep.objects.filter(provider_contact=self)
 
     def available_cases(self) -> "QuerySet[Case]":
         """
@@ -236,6 +239,10 @@ class ClientContact(BaseModel):
         providers = self.client.providers.filter(routes__processes=process_id)
         return ProviderContact.objects.filter(provider__in=providers)
 
+    @property
+    def cases_with_read_permission(self) -> "QuerySet[Case]":
+        return self.case_set.all()
+
     @atomic
     def initiate_case(
         self,
@@ -248,7 +255,7 @@ class ClientContact(BaseModel):
         Create a case associated with this client contact,
         but not yet offered to any provider.
         """
-        now = timezone.now()
+        now = timezone.now()  # TODO: is this not added automatically?
         return Case.objects.create(
             created_at=now,
             modified_at=now,
@@ -302,10 +309,6 @@ class Case(BaseModel):
     client_contact = models.ForeignKey(
         ClientContact, null=True, on_delete=models.deletion.SET_NULL
     )
-    # A case is born without a provider_contact; one is assigned later.
-    provider_contact = models.ForeignKey(
-        ProviderContact, null=True, on_delete=models.deletion.SET_NULL
-    )
     # A case is always associated with an applicant.
     applicant = models.ForeignKey(Applicant, on_delete=models.deletion.CASCADE)
 
@@ -336,6 +339,9 @@ class CaseStep(BaseModel):
     # they no longer exactly match any abstract process's steps.
     case = models.ForeignKey(
         Case, related_name="steps", on_delete=models.deletion.CASCADE
+    )
+    provider_contact = models.ForeignKey(
+        ProviderContact, null=True, on_delete=models.deletion.SET_NULL
     )
     process_step = models.ForeignKey(ProcessStep, on_delete=models.deletion.PROTECT)
     sequence_number = models.PositiveIntegerField()

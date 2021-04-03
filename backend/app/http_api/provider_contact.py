@@ -10,6 +10,7 @@ from django.http import (
 from django.views import View
 
 from app.exceptions import PermissionDenied
+from app import models
 from app.models import CaseStep, ProviderContact
 from app.http_api.serializers import (
     CaseSerializer,
@@ -39,14 +40,23 @@ class _ProviderContactView(View):
 
 class Case(_ProviderContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
-        case = self.provider_contact.get_case_with_read_permissions(case_id=id)
+        try:
+            case = self.provider_contact.cases_with_read_permission.get(id=id)
+        except models.Case.DoesNotExist:
+            if settings.DEBUG:
+                raise Http404(
+                    f"Case {id} does not exist "
+                    f"or {self.provider_contact} does not have read permission for it."
+                )
+            else:
+                raise Http404
         serializer = CaseSerializer(case)
         return JsonResponse(serializer.data, safe=False)
 
 
 class CaseList(_ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        cases = self.provider_contact.case_set.all()
+        cases = self.provider_contact.cases_with_read_permission.order_by("-created_at")
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
