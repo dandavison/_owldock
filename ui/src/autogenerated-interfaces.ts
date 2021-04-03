@@ -78,6 +78,7 @@ export interface ProviderContactSerializer {
 export interface CaseStepSerializer {
     id?: number;
     process_step: ProcessStepSerializer;
+    provider_contact: ProviderContactSerializer;
     sequence_number: number;
     stored_files: StoredFileSerializer[];
 }
@@ -85,7 +86,6 @@ export interface CaseStepSerializer {
 export interface CaseSerializer {
     id?: number;
     applicant: ApplicantSerializer;
-    provider_contact: ProviderContactSerializer;
     process: ProcessSerializer;
     steps: CaseStepSerializer[];
     created_at?: string;
