@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { ModalProgrammatic as Modal } from "buefy";
 
 export function devModeUrl(url: string): string {
   const username = Cookies.get("username");
@@ -17,21 +18,11 @@ function makeFetchWrapper(fetch: any): any {
   async function fetchWrapper(url: string, init: any): Promise<any> {
     const response = await fetch(devModeUrl(url), init);
     if (!response.ok) {
-      alert(`
-      ${response.status}
-
-      ${init.method || "GET"} ${url}
-
-      Request headers:
-
-      ${JSON.stringify(init.headers)}
-
-      Request body:
-
-      ${JSON.stringify(init.body)}
-      `);
+      const html = await response.text();
+      Modal.open({ content: html });
+    } else {
+      return response;
     }
-    return response;
   }
   return fetchWrapper;
 }

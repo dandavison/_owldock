@@ -26,3 +26,5 @@ if UI_DEV_MODE:
     MIDDLEWARE.append(
         "app.middleware.dev.auto_authenticate_according_to_requested_endpoint",
     )
+
+    LOGIN_REDIRECT_URL = "http://192.168.1.3:8080/portal/"
