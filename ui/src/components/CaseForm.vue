@@ -58,7 +58,7 @@
           v-if="validationErrors"
           :path="'res'"
           :data="validationErrors"
-          @click="handleClick"
+          class="mt-4"
         >
         </vue-json-pretty>
       </div>
