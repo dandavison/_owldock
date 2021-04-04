@@ -21,6 +21,7 @@
               :uploadHeaders="uploadHeaders"
               :multiple="true"
               v-model="fileRecords"
+              @upload:error="handleFileUploadError"
             ></vue-file-agent>
           </a>
         </div>
@@ -56,6 +57,12 @@ export default Vue.extend({
         (f) => new VueFileAgentFileRecord(f)
       ),
     };
+  },
+
+  methods: {
+    handleFileUploadError(error: Error): void {
+      alert(`File upload error: ${error}`);
+    },
   },
 });
 </script>
