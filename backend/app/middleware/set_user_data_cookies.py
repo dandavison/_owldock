@@ -19,7 +19,7 @@ Middleware = Callable[[HttpRequest], HttpResponse]
 def set_user_data_cookies(get_response: Middleware) -> Middleware:
     def middleware(request: HttpRequest) -> HttpResponse:
         response = get_response(request)
-        if request.user:
+        if request.user.is_authenticated:
             _set_user_attribute_cookie("first_name", request.user, response)
             _set_user_attribute_cookie("username", request.user, response)
             logger.info(
@@ -35,10 +35,9 @@ def set_user_data_cookies(get_response: Middleware) -> Middleware:
                 or _set_provider_cookies(request.user, response)
             ):
                 logger.error(
-                    "request.user is neither client nor provider: username=%s, email=%s, id=%s",
-                    request.user.username,
-                    getattr(request.user, "email", "<no email>"),
-                    getattr(request.user, "id", "<no id>"),
+                    "request %s %s is neither client nor provider",
+                    request,
+                    request.user,
                 )
 
         return response
