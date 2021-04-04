@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import include
@@ -55,10 +56,14 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
+]
+
+if not getattr(settings, "UI_DEV_MODE", False):
     # client-side routes handled by Vue router
     # https://stackoverflow.com/questions/42864641/handling-single-page-application-url-and-django-url
-    re_path(
-        r"^portal(/.*)?$",
-        login_required(TemplateView.as_view(template_name="app/index.html")),
-    ),
-]
+    urlpatterns.append(
+        re_path(
+            r"^portal(/.*)?$",
+            login_required(TemplateView.as_view(template_name="app/index.html")),
+        )
+    )

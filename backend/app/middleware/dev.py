@@ -17,19 +17,6 @@ logger = logging.getLogger(__file__)
 Middleware = Callable[[HttpRequest], HttpResponse]
 
 
-def assert_this_is_a_development_environment():
-    from app.models import Provider
-
-    assert settings.DEBUG
-    assert sys.platform == "darwin"
-    assert os.environ["USER"] == "dan"
-    assert Provider.objects.filter(name="Acme").exists()
-    assert Provider.objects.count() == 3
-
-
-assert_this_is_a_development_environment()
-
-
 def auto_authenticate_according_to_requested_endpoint(
     get_response: Middleware,
 ) -> Middleware:
@@ -44,25 +31,28 @@ def auto_authenticate_according_to_requested_endpoint(
             )
         )
         if not request.user.is_authenticated:
-            if user := _get_user_according_to_requested_endpoint(request.path):
-                login(request, user)
-                print(red(f"request auto-logged in as {user}"))
+            if username := request.GET.get("username"):
+                user_model = get_user_model()
+                try:
+                    user = user_model.objects.get(username=username)
+                except user_model.DoesNotExist:
+                    logger.warning(f"No user exists for username: {username}")
+                else:
+                    login(request, user)
+                    print(
+                        red(
+                            f"UI dev mode: request {request} insecurely authenticated as {user}"
+                        )
+                    )
         return get_response(request)
 
     return middleware
 
 
-def _get_user_according_to_requested_endpoint(
-    endpoint: str,
-) -> Optional[User]:
-    client_prefixes = ["/api/client-contact/"]
-    provider_prefixes = ["/api/provider-contact/"]
-    make_client_contact = any(endpoint.startswith(p) for p in client_prefixes)
-    make_provider_contact = any(endpoint.startswith(p) for p in provider_prefixes)
-    assert not (make_client_contact and make_provider_contact)
-    if make_client_contact:
-        return get_user_model().objects.get(email="petra@pepsi.com")
-    elif make_provider_contact:
-        return get_user_model().objects.get(email="dimitri@deloitte.com")
-    else:
-        return None
+def assert_this_is_a_development_environment():
+    assert settings.DEBUG
+    assert sys.platform == "darwin"
+    assert os.environ["USER"] == "dan"
+
+
+assert_this_is_a_development_environment()
