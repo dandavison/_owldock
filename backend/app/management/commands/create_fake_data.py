@@ -108,22 +108,22 @@ class Command(BaseCommand):
             logo_url,
         ) in [
             (
-                "Alice",
-                "Alisson",
+                "Archy",
+                "Archimedes",
                 "Acme",
                 "acme.com",
                 "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png/revision/latest/scale-to-width-down/596",
             ),
             (
-                "Cuthbert",
-                "Cuthbertson",
+                "Constantin",
+                "Carathéodory",
                 "Corporate Relocations",
                 "corporaterelocations.gr",
                 "https://corporaterelocations.gr/wp-content/uploads/2016/01/FAV.png",
             ),
             (
-                "Dimitri",
-                "Dimitros",
+                "Dietrich",
+                "Dedekind",
                 "Deloitte",
                 "deloitte.com",
                 "https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg",
@@ -149,7 +149,7 @@ class Command(BaseCommand):
         ) in [
             (
                 "Carlos",
-                "Carlero",
+                "Cantor",
                 "Coca-Cola",
                 "cocacola.com",
                 "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
@@ -157,7 +157,7 @@ class Command(BaseCommand):
             ),
             (
                 "Petra",
-                "Petrasson",
+                "Pythagoras",
                 "Pepsi",
                 "pepsi.com",
                 "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
@@ -224,4 +224,5 @@ M = TypeVar("M", bound=Model)
 
 
 def _make_email(name: str, entity_domain_name: str) -> str:
-    return f"{name.lower()}@{entity_domain_name}"
+    company = entity_domain_name.split(".")[0]
+    return f"{name.lower()}-{company}@example.com"
