@@ -4,7 +4,7 @@ from owldock.settings import *
 
 ALLOWED_HOSTS[:] = ["*"]
 
-UI_DEV_MODE = False
+UI_DEV_MODE = True
 
 if UI_DEV_MODE:
     # In UI dev mode, the javascript client is running in a page served by a
