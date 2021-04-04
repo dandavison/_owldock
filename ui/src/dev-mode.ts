@@ -13,11 +13,27 @@ export function devModeUrl(url: string): string {
   }
 }
 
-function makeFetchWrapper(fetch: any) {
-  function fetchWrapper(url: string, init: any) {
-    return fetch(devModeUrl(url), init);
+function makeFetchWrapper(fetch: any): any {
+  async function fetchWrapper(url: string, init: any): Promise<any> {
+    const response = await fetch(devModeUrl(url), init);
+    if (!response.ok) {
+      alert(`
+      ${response.status}
+
+      ${init.method || "GET"} ${url}
+
+      Request headers:
+
+      ${JSON.stringify(init.headers)}
+
+      Request body:
+
+      ${JSON.stringify(init.body)}
+      `);
+    }
+    return response;
   }
   return fetchWrapper;
 }
 
-window.fetch = makeFetchWrapper(window.fetch) as any;
+window.fetch = makeFetchWrapper(window.fetch);
