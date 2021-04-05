@@ -1,5 +1,5 @@
 <template>
-  <b-table :data="steps" detailed :show-detail-icon="true">
+  <b-table :data="steps" detailed :show-detail-icon="false">
     <b-table-column label="Step" v-slot="props">
       {{ props.row.sequence_number }}. {{ props.row.process_step.service.name }}
     </b-table-column>
@@ -12,6 +12,12 @@
       >
       </provider-contact>
       <div v-else>[No provider contact assigned]</div>
+    </b-table-column>
+
+    <b-table-column v-slot="props">
+      <template>
+        <a @click="props.toggleDetails(props.row)"> Files </a>
+      </template>
     </b-table-column>
 
     <template #detail="props">
