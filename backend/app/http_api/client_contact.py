@@ -21,13 +21,14 @@ from app.models import ClientContact
 # TODO: Refactor to share implementation with _ProviderContactView
 class _ClientContactView(View):
     def setup(self, *args, **kwargs):
+        self.client_contact: ClientContact
         super().setup(*args, **kwargs)
         try:
             self.client_contact = ClientContact.objects.get(  # pylint: disable=attribute-defined-outside-init  # noqa
                 user=self.request.user  # type: ignore
             )
         except ClientContact.DoesNotExist:
-            self.client_contact = None
+            self.client_contact = None  # type: ignore
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         if not self.client_contact:

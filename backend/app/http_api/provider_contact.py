@@ -20,13 +20,15 @@ from app.http_api.serializers import (
 # TODO: Refactor to share implementation with _ClientContactView
 class _ProviderContactView(View):
     def setup(self, *args, **kwargs):
+        self.provider_contact: ProviderContact
+
         super().setup(*args, **kwargs)
         try:
             self.provider_contact = ProviderContact.objects.get(  # pylint: disable=attribute-defined-outside-init  # noqa
                 user=self.request.user  # type: ignore
             )
         except ProviderContact.DoesNotExist:
-            self.provider_contact = None
+            self.provider_contact = None  # type: ignore
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         if not self.provider_contact:

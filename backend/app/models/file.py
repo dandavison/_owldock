@@ -43,7 +43,7 @@ class StoredFile(BaseModel):
     def from_uploaded_file(cls, uploaded_file: UploadedFile) -> "StoredFile":
         return StoredFile(
             file=uploaded_file,
-            media_type=uploaded_file.content_type,
+            media_type=uploaded_file.content_type or "",
             charset=uploaded_file.charset,
             name=uploaded_file.name,
             size=uploaded_file.size,
