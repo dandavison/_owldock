@@ -14,9 +14,6 @@ test-all: lint type-check test
 serve:
 	$(MANAGE) runserver --settings=owldock.settings.dev 0.0.0.0:8000
 
-lint-pylint:
-	pylint --rcfile=.pylintrc app owldock
-
 lint-flake8:
 	flake8 app owldock
 

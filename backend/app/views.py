@@ -1,7 +1,7 @@
 import logging
 from typing import Optional, Union
 
-from django.contrib.auth.models import (  # pylint: disable=imported-auth-user
+from django.contrib.auth.models import (
     AnonymousUser,
     User,
 )

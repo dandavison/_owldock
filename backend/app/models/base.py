@@ -10,9 +10,9 @@ class BaseModel(models.Model):
 
     def __str__(self) -> str:
         if hasattr(self, "name"):
-            data = self.name  # type: ignore # pylint: disable=no-member
+            data = self.name  # type: ignore
         elif hasattr(self, "user"):
-            data = self.user.email  # type: ignore # pylint: disable=no-member
+            data = self.user.email  # type: ignore
         else:
             data = self.id  # type: ignore
         return f"{data}"

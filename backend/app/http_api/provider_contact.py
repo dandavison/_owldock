@@ -24,7 +24,7 @@ class _ProviderContactView(View):
 
         super().setup(*args, **kwargs)
         try:
-            self.provider_contact = ProviderContact.objects.get(  # pylint: disable=attribute-defined-outside-init  # noqa
+            self.provider_contact = ProviderContact.objects.get(
                 user=self.request.user  # type: ignore
             )
         except ProviderContact.DoesNotExist:

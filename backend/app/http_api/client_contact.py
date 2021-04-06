@@ -24,7 +24,7 @@ class _ClientContactView(View):
         self.client_contact: ClientContact
         super().setup(*args, **kwargs)
         try:
-            self.client_contact = ClientContact.objects.get(  # pylint: disable=attribute-defined-outside-init  # noqa
+            self.client_contact = ClientContact.objects.get(
                 user=self.request.user  # type: ignore
             )
         except ClientContact.DoesNotExist:

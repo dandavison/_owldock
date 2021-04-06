@@ -14,7 +14,7 @@ create a case, in order to look up the process.
 allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
-from django.contrib.auth.models import User  # pylint: disable=imported-auth-user
+from django.contrib.auth.models import User
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import ModelSerializer, IntegerField
