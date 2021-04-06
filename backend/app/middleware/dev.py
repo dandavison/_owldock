@@ -1,12 +1,11 @@
 import logging
 import os
 import sys
-from typing import Callable, Optional
+from typing import Callable
 
+import clint
 from django.conf import settings
 from django.contrib.auth import login, get_user_model
-
-from django.contrib.auth.models import User  # pylint: disable=imported-auth-user
 
 from django.http import HttpRequest
 from django.http import HttpResponse
@@ -17,12 +16,17 @@ logger = logging.getLogger(__file__)
 Middleware = Callable[[HttpRequest], HttpResponse]
 
 
+def red(s: str):
+    return clint.textui.colored.red(s, always=True, bold=True)
+
+
+def blue(s: str):
+    return clint.textui.colored.blue(s, always=True, bold=True)
+
+
 def auto_authenticate_according_to_requested_endpoint(
     get_response: Middleware,
 ) -> Middleware:
-    red = lambda s: __import__("clint").textui.colored.red(s, always=True, bold=True)
-    blue = lambda s: __import__("clint").textui.colored.blue(s, always=True, bold=True)
-
     def middleware(request: HttpRequest) -> HttpResponse:
         print(
             blue(

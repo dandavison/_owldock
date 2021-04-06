@@ -50,13 +50,13 @@ class ProviderContact(BaseModel):
             stored_file.save()
 
     @property
-    def cases_with_read_permission(self) -> "QuerySet[Case]":
+    def cases_with_read_permission(self) -> "QuerySet[Case]":  # noqa
         from app.models.client import Case
 
         return Case.objects.filter(steps__provider_contact=self).distinct()
 
     @property
-    def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":
+    def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":  # noqa
         """
         Provider contact P may write to CaseStep S if S belongs to a case
         assigned to P.
@@ -65,7 +65,7 @@ class ProviderContact(BaseModel):
 
         return CaseStep.objects.filter(provider_contact=self)
 
-    def available_cases(self) -> "QuerySet[Case]":
+    def available_cases(self) -> "QuerySet[Case]":  # noqa
         """
         Return a queryset of cases that are available for this provider to accept.
 
@@ -76,7 +76,7 @@ class ProviderContact(BaseModel):
 
         return Case.objects.filter(id__in=self._open_contracts().values("case_id"))
 
-    def assigned_cases(self) -> "QuerySet[Case]":
+    def assigned_cases(self) -> "QuerySet[Case]":  # noqa
         """
         Return a queryset of cases that are assigned to this provider to work on.
 
@@ -88,7 +88,7 @@ class ProviderContact(BaseModel):
         return Case.objects.filter(id__in=self._accepted_contracts().values("case_id"))
 
     @atomic
-    def accept_case(self, case: "Case") -> None:
+    def accept_case(self, case: "Case") -> None:  # noqa
         """
         Accept an offered case, i.e. undertake to do the work.
         """
@@ -97,7 +97,7 @@ class ProviderContact(BaseModel):
         contract.save()
 
     @atomic
-    def reject_case(self, case: "Case") -> None:
+    def reject_case(self, case: "Case") -> None:  # noqa
         """
         Reject an offered case.
         """
@@ -105,7 +105,7 @@ class ProviderContact(BaseModel):
         contract.rejected_at = timezone.now()
         contract.save()
 
-    def _open_contract(self, case: "Case") -> "CaseContract":
+    def _open_contract(self, case: "Case") -> "CaseContract":  # noqa
         """
         Return the unique open contract for `case`.
 
@@ -124,7 +124,7 @@ class ProviderContact(BaseModel):
             logger.exception(msg)
             raise CaseNotAvailableToProvider(msg) from exc
 
-    def _open_contracts(self) -> "QuerySet[CaseContract]":
+    def _open_contracts(self) -> "QuerySet[CaseContract]":  # noqa
         """
         Return all open contracts.
         """
@@ -136,7 +136,7 @@ class ProviderContact(BaseModel):
             rejected_at__isnull=True,
         )
 
-    def _accepted_contracts(self) -> "QuerySet[CaseContract]":
+    def _accepted_contracts(self) -> "QuerySet[CaseContract]":  # noqa
         """
         Return all accepted contracts.
         """

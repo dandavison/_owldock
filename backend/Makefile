@@ -2,8 +2,7 @@ MANAGE=.venv/bin/python manage.py
 
 static-analysis: lint type-check
 
-lint:
-	pylint --rcfile=.pylintrc app owldock
+lint: lint-flake8
 
 type-check: type-check-mypy
 
@@ -14,6 +13,12 @@ test-all: lint type-check test
 
 serve:
 	$(MANAGE) runserver --settings=owldock.settings.dev 0.0.0.0:8000
+
+lint-pylint:
+	pylint --rcfile=.pylintrc app owldock
+
+lint-flake8:
+	flake8 app owldock
 
 type-check-mypy:
 	.venv/bin/mypy .

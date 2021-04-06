@@ -1,5 +1,5 @@
 import random
-from typing import List, Set, Type, TypeVar, Optional
+from typing import Set, TypeVar, Optional
 
 import django_countries.fields
 from django.contrib.auth.models import Group, User
@@ -112,7 +112,7 @@ class Command(BaseCommand):
                 "Archimedes",
                 "Acme",
                 "acme.com",
-                "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png/revision/latest/scale-to-width-down/596",
+                "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png/revision/latest/scale-to-width-down/596",  # noqa
             ),
             (
                 "Constantin",

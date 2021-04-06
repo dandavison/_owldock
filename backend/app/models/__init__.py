@@ -1,3 +1,3 @@
-from app.models.client import *
-from app.models.process import *
-from app.models.provider import *
+from app.models.client import *  # noqa
+from app.models.process import *  # noqa
+from app.models.provider import *  # noqa

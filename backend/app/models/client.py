@@ -1,6 +1,5 @@
 import logging
 from datetime import datetime
-from typing import List
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation

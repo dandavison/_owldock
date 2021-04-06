@@ -11,12 +11,9 @@ from datetime import datetime, timedelta
 
 import pytest
 from django.core.management import call_command
-from rest_framework.renderers import JSONRenderer
 
 from app.models import (
     Applicant,
-    CaseCannotBeOffered,
-    CaseNotAvailableToProvider,
     ClientContact,
     Process,
     ProviderContact,

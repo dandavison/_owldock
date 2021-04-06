@@ -22,10 +22,10 @@ class _ProviderContactView(View):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
         try:
-            self.provider_contact = ProviderContact.objects.get(  # pylint: disable=attribute-defined-outside-init
+            self.provider_contact = ProviderContact.objects.get(  # pylint: disable=attribute-defined-outside-init  # noqa
                 user=self.request.user  # type: ignore
             )
-        except ProviderContact.DoesNotExist as exc:
+        except ProviderContact.DoesNotExist:
             self.provider_contact = None
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
@@ -71,7 +71,10 @@ class CaseStepUploadFiles(_ProviderContactView):
         except PermissionDenied:
             if settings.DEBUG:
                 return HttpResponseForbidden(
-                    f"User {request.user} does not have permission to upload files to case step {step_id}"
+                    (
+                        f"User {request.user} does not have permission to upload files to "
+                        f"case step {step_id}"
+                    )
                 )
             else:
                 raise Http404

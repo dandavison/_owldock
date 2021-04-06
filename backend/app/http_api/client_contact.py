@@ -23,10 +23,10 @@ class _ClientContactView(View):
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
         try:
-            self.client_contact = ClientContact.objects.get(  # pylint: disable=attribute-defined-outside-init
+            self.client_contact = ClientContact.objects.get(  # pylint: disable=attribute-defined-outside-init  # noqa
                 user=self.request.user  # type: ignore
             )
-        except ClientContact.DoesNotExist as exc:
+        except ClientContact.DoesNotExist:
             self.client_contact = None
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:

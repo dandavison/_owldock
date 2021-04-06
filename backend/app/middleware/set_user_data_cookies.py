@@ -5,13 +5,13 @@ from django.contrib.auth.models import (  # pylint: disable=imported-auth-user
     AnonymousUser,
     User,
 )
-
 from django.http import HttpRequest
 from django.http import HttpResponse
 
-logger = logging.getLogger(__file__)
-
 from app.models import Client, Provider
+
+
+logger = logging.getLogger(__file__)
 
 Middleware = Callable[[HttpRequest], HttpResponse]
 

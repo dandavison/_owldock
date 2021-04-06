@@ -1,8 +1,6 @@
-from typing import List
+from owldock.settings import *  # noqa
 
-from owldock.settings import *
-
-ALLOWED_HOSTS[:] = ["*"]
+ALLOWED_HOSTS[:] = ["*"]  # noqa
 
 UI_DEV_MODE = True
 
@@ -20,10 +18,10 @@ if UI_DEV_MODE:
     # the following code should never be executed in a production environment.
 
     # 1. Remove CSRF protection
-    MIDDLEWARE.remove("django.middleware.csrf.CsrfViewMiddleware")
+    MIDDLEWARE.remove("django.middleware.csrf.CsrfViewMiddleware")  # noqa
 
     # 2. Automatically authenticate Ajax requests as an appropriate User.
-    MIDDLEWARE.append(
+    MIDDLEWARE.append(  # noqa
         "app.middleware.dev.auto_authenticate_according_to_requested_endpoint",
     )
 

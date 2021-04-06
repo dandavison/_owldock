@@ -34,7 +34,16 @@ class Command(BaseCommand):
                 if processes_string == "N/A":
                     continue
                 # Hack
-                # E.g. '1. Entry Visa Approval Application; 2. Consular Visa Application; 3. Work Permit Application; 4. Multiple Entry Work Visa Application; 5. Residence Visa Application [Work Permit (Highly Skilled)]; 1. Entry Visa Approval Application (BSA); 2. Consular Visa Application; 3. Residence Visa Application [Work Visa (BSA/SOFA Contractor)]'
+                # E.g. '1. Entry Visa Approval Application; \
+                #       2. Consular Visa Application; \
+                #       3. Work Permit Application; \
+                #       4. Multiple Entry Work Visa Application; \
+                #       5. Residence Visa Application
+                #       [Work Permit (Highly Skilled)]; \
+                #       1. Entry Visa Approval Application (BSA); \
+                #       2. Consular Visa Application; \
+                #       3. Residence Visa Application \
+                #       [Work Visa (BSA/SOFA Contractor)]'
                 for process_string in processes_string.split("];"):
                     if not process_string.endswith("]"):
                         process_string += "]"
@@ -57,7 +66,7 @@ def _parse_process(process_string: str) -> Tuple[str, List[Tuple[float, str]]]:
     """
     E.g. '1. Employment Visa Application; 2. FRRO Registration [Employment Visa]'
     """
-    match = re.match("^([^]]+) +\[([^]]+)\]$", process_string)
+    match = re.match(r"^([^]]+) +\[([^]]+)\]$", process_string)
     assert match, f"'{process_string}'"
     steps, process = [s.strip() for s in match.groups()]
     return (process, _parse_steps(steps))
