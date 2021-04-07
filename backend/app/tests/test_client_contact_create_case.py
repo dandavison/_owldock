@@ -1,4 +1,9 @@
+from datetime import datetime, timedelta
 from typing import List, Tuple
+
+import pytest
+from django.core.management import call_command
+
 from app.http_api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
@@ -7,11 +12,6 @@ from app.http_api.serializers import (
     ProcessStepSerializer,
     ProviderContactSerializer,
 )
-from datetime import datetime, timedelta
-
-import pytest
-from django.core.management import call_command
-
 from app.models import (
     Applicant,
     ClientContact,
