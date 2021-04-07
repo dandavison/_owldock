@@ -1,4 +1,2 @@
 .vscode
-db.sqlite3
-junk.*
 node_modules
