@@ -15,6 +15,7 @@ allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
 from django.contrib.auth.models import User
+from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import ModelSerializer, IntegerField
@@ -188,6 +189,7 @@ class CaseSerializer(ModelSerializer):
             "target_exit_date",
         ]
 
+    @atomic
     def create_for_client_contact(self, client_contact: ClientContact) -> Case:
         applicant = self.validated_data.pop("applicant")
         process = self.validated_data.pop("process")
