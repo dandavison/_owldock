@@ -7,7 +7,7 @@ lint: lint-flake8
 type-check: type-check-mypy
 
 test:
-	.venv/bin/pytest
+	.venv/bin/pytest --pdb
 
 test-all: lint type-check test
 
@@ -24,10 +24,10 @@ type-check-pyright:
 	pyright --venv-path . app owldock
 
 repl-python:
-	$(MANAGE) shell_plus
+	$(MANAGE) shell_plus --settings=owldock.settings.dev
 
 create-fake-data:
-	$(MANAGE) create_fake_data
+	$(MANAGE) create_fake_data $$OWLDOCK_DEV_PASSWORD
 
 create-fake-cases:
 	$(MANAGE) create_fake_cases
