@@ -1,6 +1,8 @@
 Django==3.2
 django-cors-headers==3.7.0
 django-countries==7.1
+django-fsm-log==2.0.1
+django-fsm==2.7.1
 django-grappelli==2.14.3
 django-rest-framework==0.1.0
 django-typomatic==1.2.1
