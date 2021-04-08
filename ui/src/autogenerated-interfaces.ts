@@ -1,29 +1,29 @@
 export interface CountrySerializer {
-    id?: number;
+    id?: string;
     name: string;
     code: string;
     unicode_flag: string;
 }
 
 export interface ServiceSerializer {
-    id?: number;
+    id?: string;
     name: string;
 }
 
 export interface RouteSerializer {
-    id?: number;
+    id?: string;
     name: string;
     host_country: CountrySerializer;
 }
 
 export interface ProcessStepSerializer {
-    id?: number;
+    id?: string;
     sequence_number: number;
     service: ServiceSerializer;
 }
 
 export interface ProcessSerializer {
-    id?: number;
+    id?: string;
     route: RouteSerializer;
     nationality: CountrySerializer;
     home_country?: CountrySerializer;
@@ -39,19 +39,19 @@ export interface UserSerializer {
 
 export interface StoredFileSerializer {
     created_by: UserSerializer;
-    id?: number;
+    id?: string;
     media_type: string;
     name: string;
     size: number;
 }
 
 export interface ClientSerializer {
-    id?: number;
+    id?: string;
     name: string;
 }
 
 export interface ApplicantSerializer {
-    id?: number;
+    id?: string;
     user: UserSerializer;
     employer: ClientSerializer;
     home_country: CountrySerializer;
@@ -59,24 +59,24 @@ export interface ApplicantSerializer {
 }
 
 export interface ClientContactSerializer {
-    id?: number;
+    id?: string;
     user: UserSerializer;
     client: ClientSerializer;
 }
 
 export interface ProviderSerializer {
-    id?: number;
+    id?: string;
     name: string;
 }
 
 export interface ProviderContactSerializer {
-    id?: number;
+    id?: string;
     user: UserSerializer;
     provider: ProviderSerializer;
 }
 
 export interface CaseStepSerializer {
-    id?: number;
+    id?: string;
     process_step: ProcessStepSerializer;
     provider_contact: ProviderContactSerializer;
     sequence_number: number;
@@ -84,7 +84,7 @@ export interface CaseStepSerializer {
 }
 
 export interface CaseSerializer {
-    id?: number;
+    id?: string;
     applicant: ApplicantSerializer;
     process: ProcessSerializer;
     steps: CaseStepSerializer[];

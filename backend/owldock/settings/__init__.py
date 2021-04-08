@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "app",
+    "client",
 ]
 
 MIDDLEWARE = [
@@ -84,13 +85,21 @@ WSGI_APPLICATION = "owldock.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+DEFAULT_DB_NAME = "default"
+CLIENT_DB_NAME = "client"
+
 DATABASES = {
-    "default": {
+    DEFAULT_DB_NAME: {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "NAME": BASE_DIR / f"{DEFAULT_DB_NAME}.sqlite3",
+    },
+    CLIENT_DB_NAME: {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / f"{CLIENT_DB_NAME}.sqlite3",
+    },
 }
 
+DATABASE_ROUTERS = ["owldock.database_router.Router"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -136,5 +145,3 @@ STATIC_ROOT = "static"
 CORS_ALLOW_ALL_ORIGINS = True
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
-
-SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case

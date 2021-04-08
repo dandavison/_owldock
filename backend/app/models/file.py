@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models import (
@@ -9,9 +8,10 @@ from django.db.models import (
     FileField,
     ForeignKey,
     PositiveIntegerField,
+    UUIDField,
 )
 
-from app.models.base import BaseModel
+from owldock.models import BaseModel
 
 
 class ApplicationFileType(models.TextChoices):
@@ -31,13 +31,9 @@ class StoredFile(BaseModel):
     application_file_type = CharField(
         max_length=64, choices=ApplicationFileType.choices
     )
-    # GFK
+    # Not actually using a Django GFK due to our multiple database setup
     associated_object_content_type = ForeignKey(ContentType, on_delete=deletion.PROTECT)
-    associated_object_id = PositiveIntegerField()
-    associated_object = GenericForeignKey(
-        "associated_object_content_type",
-        "associated_object_id",
-    )
+    associated_object_id = UUIDField()
 
     @classmethod
     def from_uploaded_file(cls, uploaded_file: UploadedFile) -> "StoredFile":

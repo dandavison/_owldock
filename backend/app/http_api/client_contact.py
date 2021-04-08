@@ -1,4 +1,6 @@
 import json
+from uuid import UUID
+
 from django.conf import settings
 from django.http import (
     Http404,
@@ -14,8 +16,7 @@ from app.http_api.serializers import (
     ApplicantSerializer,
     ProviderContactSerializer,
 )
-from app import models
-from app.models import ClientContact
+from client.models import Case, ClientContact
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
@@ -25,7 +26,7 @@ class _ClientContactView(View):
         super().setup(*args, **kwargs)
         try:
             self.client_contact = ClientContact.objects.get(
-                user=self.request.user  # type: ignore
+                user_id=self.request.user.id  # type: ignore
             )
         except ClientContact.DoesNotExist:
             self.client_contact = None  # type: ignore
@@ -42,16 +43,17 @@ class _ClientContactView(View):
 
 class ApplicantsList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        applicants = self.client_contact.applicants().order_by("user__last_name")
+        # TODO: sorting
+        applicants = self.client_contact.applicants()
         serializer = ApplicantSerializer(applicants, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
-class Case(_ClientContactView):
+class CaseView(_ClientContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
         try:
             case = self.client_contact.cases_with_read_permission.get(id=id)
-        except models.Case.DoesNotExist:
+        except Case.DoesNotExist:
             if settings.DEBUG:
                 raise Http404(
                     f"Case {id} does not exist "
@@ -83,9 +85,11 @@ class CreateCase(_ClientContactView):
 class ProviderContactList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         try:
-            process_id = int(request.GET["process_id"])
+            process_id = UUID(request.GET["process_id"])
         except (KeyError, ValueError, TypeError):
-            raise Http404("process_id must be supplied in URL parameters")
-        provider_contacts = self.client_contact.provider_contacts(process_id)
+            raise Http404("process_id key of URL parameters must be a valid UUID")
+        provider_contacts = self.client_contact.provider_contacts_for_process(
+            process_id
+        )
         serializer = ProviderContactSerializer(provider_contacts, many=True)
         return JsonResponse(serializer.data, safe=False)

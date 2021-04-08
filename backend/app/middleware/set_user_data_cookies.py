@@ -1,14 +1,11 @@
 import logging
-from typing import Callable, Union
+from typing import Callable
 
-from django.contrib.auth.models import (
-    AnonymousUser,
-    User,
-)
 from django.http import HttpRequest
 from django.http import HttpResponse
 
-from app.models import Client, Provider
+from client.models import Client
+from app.models import Provider
 
 
 logger = logging.getLogger(__file__)
@@ -45,9 +42,7 @@ def set_user_data_cookies(get_response: Middleware) -> Middleware:
     return middleware
 
 
-def _set_user_attribute_cookie(
-    attr: str, user: Union[User, AnonymousUser], response: HttpResponse
-) -> None:
+def _set_user_attribute_cookie(attr: str, user, response: HttpResponse) -> None:
     try:
         value = getattr(user, attr)
     except AttributeError:
@@ -57,11 +52,9 @@ def _set_user_attribute_cookie(
             response.set_cookie(attr, value)
 
 
-def _set_client_cookies(
-    user: Union[User, AnonymousUser], response: HttpResponse
-) -> bool:
+def _set_client_cookies(user, response: HttpResponse) -> bool:
     try:
-        client = Client.objects.get(contacts__user__username=user.username)
+        client = Client.objects.get(clientcontact__user_id=user.id)
     except Client.DoesNotExist:
         return False
     else:
@@ -70,11 +63,9 @@ def _set_client_cookies(
         return True
 
 
-def _set_provider_cookies(
-    user: Union[User, AnonymousUser], response: HttpResponse
-) -> bool:
+def _set_provider_cookies(user, response: HttpResponse) -> bool:
     try:
-        provider = Provider.objects.get(contacts__user__username=user.username)
+        provider = Provider.objects.get(providercontact__user_id=user.id)
     except Provider.DoesNotExist:
         return False
     else:

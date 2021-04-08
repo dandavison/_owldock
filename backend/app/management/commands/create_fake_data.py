@@ -2,7 +2,9 @@ import random
 from typing import Set, TypeVar, Optional
 
 import django_countries.fields
-from django.contrib.auth.models import Group, User
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db.models import Model
@@ -11,14 +13,17 @@ from django_seed import Seed
 
 from app.models import (
     Activity,
-    Client,
-    ClientContact,
-    ClientProviderRelationship,
     Country,
-    Applicant,
     Provider,
     ProviderContact,
     Service,
+)
+from client.models import (
+    Client,
+    ClientContact,
+    ClientProviderRelationship,
+    Applicant,
+    ApplicantNationality,
 )
 from app.constants import GroupName
 
@@ -88,14 +93,20 @@ class Command(BaseCommand):
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
                 applicant = Applicant.objects.create(
-                    user=user,
-                    employer=client,
-                    home_country=country,
+                    user_id=user.id,
+                    employer_id=client.id,
+                    home_country_id=country.id,
                 )
-                applicant.nationalities.add(country)
+                ApplicantNationality.objects.create(
+                    applicant_id=applicant.id, country_id=country.id
+                )
                 is_dual_national = random.uniform(0, 1) < 1 / 3
                 if is_dual_national:
-                    applicant.nationalities.add(random.sample(all_countries, 1)[0])
+                    other_countries = list(set(all_countries) - {country})
+                    second_country = random.choice(other_countries)
+                    ApplicantNationality.objects.create(
+                        applicant_id=applicant.id, country_id=second_country.id
+                    )
 
     def _create_provider_contacts(self) -> None:
         print("Creating provider contacts")
@@ -134,7 +145,7 @@ class Command(BaseCommand):
             provider, _ = Provider.objects.get_or_create(
                 name=provider_name, logo_url=logo_url
             )
-            ProviderContact.objects.create(provider=provider, user=user)
+            ProviderContact.objects.create(provider_id=provider.id, user_id=user.id)
 
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
@@ -171,16 +182,16 @@ class Command(BaseCommand):
                 entity_domain_name=client_entity_domain_name,
                 logo_url=logo_url,
             )
-            ClientContact.objects.create(client=client, user=user)
+            ClientContact.objects.create(client=client, user_id=user.id)
             ClientProviderRelationship.objects.create(
                 client=client,
-                provider=Provider.objects.get(name=preferred_provider),
+                provider_id=Provider.objects.get(name=preferred_provider).id,
                 preferred=True,
             )
             for provider in other_providers:
                 ClientProviderRelationship.objects.create(
                     client=client,
-                    provider=Provider.objects.get(name=provider),
+                    provider_id=Provider.objects.get(name=provider).id,
                     preferred=False,
                 )
 
@@ -190,8 +201,8 @@ class Command(BaseCommand):
         last_name: str,
         email: str,
         group: Optional[Group],
-    ) -> User:
-        user = User.objects.create_user(
+    ) -> settings.AUTH_USER_MODEL:
+        user = get_user_model().objects.create_user(
             username=email,
             email=email,
             first_name=first_name,
@@ -209,7 +220,7 @@ class Command(BaseCommand):
             ("maria.kouri@corporaterelocations.gr", "Maria", "Kouri"),
             ("sophy@owlimmigration.com", "Sophy", "King"),
         ]:
-            User.objects.create_user(
+            get_user_model().objects.create_user(
                 username=email,
                 email=email,
                 first_name=first_name,

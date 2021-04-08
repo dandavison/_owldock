@@ -10,11 +10,11 @@ from django.http import (
 from django.views import View
 
 from app.exceptions import PermissionDenied
-from app import models
-from app.models import CaseStep, ProviderContact
+from app.models import ProviderContact
 from app.http_api.serializers import (
     CaseSerializer,
 )
+from client.models import Case, CaseStep
 
 
 # TODO: Refactor to share implementation with _ClientContactView
@@ -25,7 +25,7 @@ class _ProviderContactView(View):
         super().setup(*args, **kwargs)
         try:
             self.provider_contact = ProviderContact.objects.get(
-                user=self.request.user  # type: ignore
+                user_id=self.request.user.id  # type: ignore
             )
         except ProviderContact.DoesNotExist:
             self.provider_contact = None  # type: ignore
@@ -40,11 +40,11 @@ class _ProviderContactView(View):
             return super().dispatch(request, *args, **kwargs)
 
 
-class Case(_ProviderContactView):
+class CaseView(_ProviderContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
         try:
             case = self.provider_contact.cases_with_read_permission.get(id=id)
-        except models.Case.DoesNotExist:
+        except Case.DoesNotExist:
             if settings.DEBUG:
                 raise Http404(
                     f"Case {id} does not exist "

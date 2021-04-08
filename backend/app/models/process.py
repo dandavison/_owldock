@@ -1,6 +1,6 @@
 from django.db import models
 
-from app.models.base import BaseModel
+from owldock.models import BaseModel
 
 
 class Country(BaseModel):

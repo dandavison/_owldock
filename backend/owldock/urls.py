@@ -28,8 +28,8 @@ urlpatterns = [
         login_required(client_contact.CreateCase.as_view()),
     ),
     path(
-        "api/client-contact/case/<int:id>/",
-        login_required(client_contact.Case.as_view()),
+        "api/client-contact/case/<uuid:id>/",
+        login_required(client_contact.CaseView.as_view()),
     ),
     path(
         "api/client-contact/list-cases/",
@@ -41,15 +41,15 @@ urlpatterns = [
     ),
     path("api/countries/", login_required(countries.CountriesList.as_view())),
     path(
-        "api/provider-contact/case/<int:id>/",
-        login_required(provider_contact.Case.as_view()),
+        "api/provider-contact/case/<uuid:id>/",
+        login_required(provider_contact.CaseView.as_view()),
     ),
     path(
         "api/provider-contact/list-cases/",
         login_required(provider_contact.CaseList.as_view()),
     ),
     path(
-        "api/case-step/<int:step_id>/upload-files/",
+        "api/case-step/<uuid:step_id>/upload-files/",
         login_required(provider_contact.CaseStepUploadFiles.as_view()),
     ),
     path("api/processes/", login_required(processes.ProcessList.as_view())),

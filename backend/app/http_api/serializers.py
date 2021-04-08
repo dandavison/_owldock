@@ -14,18 +14,13 @@ create a case, in order to look up the process.
 allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
-from rest_framework.serializers import ModelSerializer, IntegerField
+from rest_framework.serializers import ModelSerializer, UUIDField
 
 from app.models import (
-    Applicant,
-    Case,
-    CaseStep,
-    Client,
-    ClientContact,
     Country,
     StoredFile,
     Process,
@@ -35,6 +30,7 @@ from app.models import (
     Route,
     Service,
 )
+from client.models import Applicant, Case, CaseStep, Client, ClientContact
 
 
 @ts_interface()
@@ -63,7 +59,7 @@ class RouteSerializer(ModelSerializer):
 @ts_interface()
 class ProcessStepSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = IntegerField(read_only=False, allow_null=True, required=False)
+    id = UUIDField(read_only=False, allow_null=True, required=False)
     service = ServiceSerializer()
 
     class Meta:
@@ -75,7 +71,7 @@ class ProcessStepSerializer(ModelSerializer):
 @ts_interface()
 class ProcessSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = IntegerField(read_only=False, allow_null=True, required=False)
+    id = UUIDField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
     nationality = CountrySerializer()
     home_country = CountrySerializer(allow_null=True, required=False)
@@ -89,7 +85,7 @@ class ProcessSerializer(ModelSerializer):
 @ts_interface()
 class UserSerializer(ModelSerializer):
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ["id", "first_name", "last_name", "email"]
         depth = 2
 
@@ -113,7 +109,7 @@ class ClientSerializer(ModelSerializer):
 @ts_interface()
 class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = IntegerField(read_only=False, allow_null=True, required=False)
+    id = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     employer = ClientSerializer()
     home_country = CountrySerializer()
@@ -144,7 +140,7 @@ class ProviderSerializer(ModelSerializer):
 @ts_interface()
 class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = IntegerField(read_only=False, allow_null=True, required=False)
+    id = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     provider = ProviderSerializer()
 

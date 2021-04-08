@@ -8,13 +8,12 @@ from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 from django.utils import timezone
 
-from app.models.base import BaseModel
 from app.models.process import Route
 from app.models.file import ApplicationFileType, StoredFile
+from owldock.models import BaseModel
 
 
 logger = logging.getLogger(__name__)
-User = get_user_model()
 
 
 class CaseNotAvailableToProvider(Exception):
@@ -28,10 +27,8 @@ class Provider(BaseModel):
 
 
 class ProviderContact(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
-    provider = models.ForeignKey(
-        Provider, on_delete=models.deletion.CASCADE, related_name="contacts"
-    )
+    user = models.ForeignKey(get_user_model(), on_delete=models.deletion.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
 
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(
@@ -43,7 +40,8 @@ class ProviderContact(BaseModel):
         for uploaded_file in uploaded_files:
             stored_file = StoredFile.from_uploaded_file(uploaded_file)
             stored_file.created_by = self.user
-            stored_file.associated_object = step
+            stored_file.associated_object_id = step.id
+            stored_file.associated_object_content_type = step.content_type
             stored_file.application_file_type = (
                 ApplicationFileType.PROVIDER_CONTACT_UPLOAD
             )
@@ -51,9 +49,9 @@ class ProviderContact(BaseModel):
 
     @property
     def cases_with_read_permission(self) -> "QuerySet[Case]":  # noqa
-        from app.models.client import Case
+        from client.models import Case
 
-        return Case.objects.filter(steps__provider_contact=self).distinct()
+        return Case.objects.filter(steps__provider_contact_id=self.id).distinct()
 
     @property
     def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":  # noqa
@@ -61,9 +59,9 @@ class ProviderContact(BaseModel):
         Provider contact P may write to CaseStep S if S belongs to a case
         assigned to P.
         """
-        from app.models.client import CaseStep
+        from client.models import CaseStep
 
-        return CaseStep.objects.filter(provider_contact=self)
+        return CaseStep.objects.filter(provider_contact_id=self.id)
 
     def available_cases(self) -> "QuerySet[Case]":  # noqa
         """
@@ -72,7 +70,7 @@ class ProviderContact(BaseModel):
         A case C is available to provider contact P if a case contract exists for
         (C, P), and that case contract has been neither accepted nor rejected.
         """
-        from app.models.client import Case
+        from client.models import Case
 
         return Case.objects.filter(id__in=self._open_contracts().values("case_id"))
 
@@ -83,7 +81,7 @@ class ProviderContact(BaseModel):
         A case C is available to provider contact P if a case contract exists for
         (C, P), and that case contract has been neither accepted nor rejected.
         """
-        from app.models.client import Case
+        from client.models import Case
 
         return Case.objects.filter(id__in=self._accepted_contracts().values("case_id"))
 
@@ -111,7 +109,7 @@ class ProviderContact(BaseModel):
 
         A contract is open if it is neither accepted nor rejected.
         """
-        from app.models.client import CaseContract
+        from client.models import CaseContract
 
         try:
             return self._open_contracts().get(case_id=case.id)
@@ -128,7 +126,7 @@ class ProviderContact(BaseModel):
         """
         Return all open contracts.
         """
-        from app.models.client import CaseContract
+        from client.models import CaseContract
 
         return CaseContract.objects.filter(
             provider_contact_id=self.id,
@@ -140,7 +138,7 @@ class ProviderContact(BaseModel):
         """
         Return all accepted contracts.
         """
-        from app.models.client import CaseContract
+        from client.models import CaseContract
 
         return CaseContract.objects.filter(
             provider_contact_id=self.id,

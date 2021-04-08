@@ -13,10 +13,12 @@ from app.http_api.serializers import (
     ProviderContactSerializer,
 )
 from app.models import (
-    Applicant,
-    ClientContact,
     Process,
     ProviderContact,
+)
+from client.models import (
+    Applicant,
+    ClientContact,
 )
 
 

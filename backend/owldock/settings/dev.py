@@ -1,7 +1,7 @@
 from owldock.settings import *  # noqa
 
 ALLOWED_HOSTS[:] = ["*"]  # noqa
-
+SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
 UI_DEV_MODE = True
 
 if UI_DEV_MODE:

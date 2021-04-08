@@ -1,10 +1,6 @@
 import logging
-from typing import Optional, Union
+from typing import Optional
 
-from django.contrib.auth.models import (
-    AnonymousUser,
-    User,
-)
 from django.views.generic import RedirectView
 
 from app.constants import GroupName
@@ -22,7 +18,7 @@ class HomeView(RedirectView):
             return "/accounts/logout/"
 
 
-def get_role(user: Union[User, AnonymousUser]) -> Optional[Role]:
+def get_role(user) -> Optional[Role]:
     # FIXME
     groups = {g.name for g in user.groups.all()}  # type: ignore
     is_client_contact = GroupName.CLIENT_CONTACTS.value in groups

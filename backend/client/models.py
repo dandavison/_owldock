@@ -1,21 +1,21 @@
 import logging
-from datetime import datetime
+from uuid import UUID
 
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import deletion
 from django.db.models.query import QuerySet
 from django.db.transaction import atomic
-from django.utils import timezone
 
-from app.models.base import BaseModel
 from app.models.process import Country, Process, ProcessStep
 from app.models.provider import Provider, ProviderContact
 from app.models.file import StoredFile
+from owldock.models import BaseModel
+from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 logger = logging.getLogger(__name__)
-User = get_user_model()
 
 
 class CaseCannotBeOffered(Exception):
@@ -26,68 +26,49 @@ class Client(BaseModel):
     name = models.CharField(max_length=128)
     entity_domain_name = models.CharField(max_length=128)
     logo_url = models.URLField()
-    providers = models.ManyToManyField(
-        Provider, through="ClientProviderRelationship", related_name="clients"
-    )
 
 
 class ClientProviderRelationship(BaseModel):
-    client = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
-    provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
+    client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
+    provider_id = UUIDPseudoForeignKeyField(Provider)
     preferred = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = [["client", "provider"]]
+        unique_together = [["client", "provider_id"]]
         ordering = ["-preferred"]
 
 
 class ClientContact(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
-    client = models.ForeignKey(
-        Client, on_delete=models.deletion.CASCADE, related_name="contacts"
-    )
+    user_id = UUIDPseudoForeignKeyField(get_user_model())
+    client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
     def applicants(self) -> "QuerySet[Applicant]":
         # TODO: these are applicants for which the client contact has what permissions?
         # TODO: ClientEntity
         return Applicant.objects.filter(employer_id=self.client_id)
 
-    def provider_contacts(self, process_id: int) -> QuerySet[ProviderContact]:
+    # TODO: provider contacts perform steps, not necessarily entire processes.
+    def provider_contacts_for_process(
+        self, process_id: UUID
+    ) -> QuerySet[ProviderContact]:
         """
-        Return provider contacts of client's providers, sorted by preferred
-        status with ties broken alphabetically.
+        Return suggested provider contacts that can perform the process.
+
+        These are contacts working for the client's providers. They are sorted
+        by preferred status with ties broken alphabetically.
         """
         # FIXME: sorting
-        providers = self.client.providers.filter(routes__processes=process_id)
-        return ProviderContact.objects.filter(provider__in=providers)
+        provider_ids = [
+            r.provider_id
+            for r in ClientProviderRelationship.objects.filter(client=self.client)
+        ]
+        return ProviderContact.objects.filter(provider__in=provider_ids)
 
     @property
     def cases_with_read_permission(self) -> "QuerySet[Case]":
         return self.case_set.all()
 
-    @atomic
-    def initiate_case(
-        self,
-        applicant_id: int,
-        process_id: int,
-        target_entry_date: datetime,
-        target_exit_date: datetime,
-    ) -> "Case":
-        """
-        Create a case associated with this client contact,
-        but not yet offered to any provider.
-        """
-        now = timezone.now()  # TODO: is this not added automatically?
-        return Case.objects.create(
-            created_at=now,
-            modified_at=now,
-            client_contact=self,
-            applicant_id=applicant_id,
-            process_id=process_id,
-            target_entry_date=target_entry_date,
-            target_exit_date=target_exit_date,
-        )
-
+    # TODO: move to serializer?
     @atomic
     def offer_case_to_provider(
         self, case: "Case", provider_contact: "ProviderContact"
@@ -106,21 +87,28 @@ class ClientContact(BaseModel):
             )
         if not case.can_be_offered():
             raise CaseCannotBeOffered(f"{case} is not in an offerable state.")
-        CaseContract.objects.create(case=case, provider_contact=provider_contact)
+        CaseContract.objects.create(case=case, provider_contact_id=provider_contact.id)
 
     def has_case_write_permission(self, case: "Case") -> bool:
         return case.client_contact == self
 
 
 class Applicant(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
-    employer = models.ForeignKey(Client, on_delete=models.deletion.CASCADE)
-    home_country = models.ForeignKey(
-        Country, on_delete=models.deletion.PROTECT, related_name="applicants_based_in"
-    )
-    nationalities = models.ManyToManyField(
-        Country, related_name="applicants_national_of"
-    )
+    user_id = UUIDPseudoForeignKeyField(get_user_model())
+    employer = models.ForeignKey(Client, on_delete=deletion.CASCADE)
+    home_country_id = UUIDPseudoForeignKeyField(Country)
+
+    @property
+    def nationalities(self) -> QuerySet[Country]:
+        country_ids = ApplicantNationality.objects.filter(applicant=self).values_list(
+            "country_id", flat=True
+        )
+        return Country.objects.filter(id__in=list(country_ids))
+
+
+class ApplicantNationality(BaseModel):
+    applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
+    country_id = UUIDPseudoForeignKeyField(Country)
 
 
 class Case(BaseModel):
@@ -129,14 +117,14 @@ class Case(BaseModel):
     # A case is initiated by a client_contact and it will usually stay non-null.
     # It may become null if a ClientContact ceases to be employed by a Client.
     client_contact = models.ForeignKey(
-        ClientContact, null=True, on_delete=models.deletion.SET_NULL
+        ClientContact, null=True, on_delete=deletion.SET_NULL
     )
     # A case is always associated with an applicant.
-    applicant = models.ForeignKey(Applicant, on_delete=models.deletion.CASCADE)
+    applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
 
     # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.
-    process = models.ForeignKey(Process, on_delete=models.deletion.PROTECT)
+    process_id = UUIDPseudoForeignKeyField(Process)
 
     # Case data
     target_entry_date = models.DateField()
@@ -159,26 +147,23 @@ class CaseStep(BaseModel):
     # will be in 1-1 correspondence with the abstract case.process.steps.
     # However, it may sometimes be desirable to modify a case's steps so that
     # they no longer exactly match any abstract process's steps.
-    case = models.ForeignKey(
-        Case, related_name="steps", on_delete=models.deletion.CASCADE
-    )
-    provider_contact = models.ForeignKey(
-        ProviderContact, null=True, on_delete=models.deletion.SET_NULL
-    )
-    process_step = models.ForeignKey(ProcessStep, on_delete=models.deletion.PROTECT)
+    case = models.ForeignKey(Case, related_name="steps", on_delete=deletion.CASCADE)
+    provider_contact_id = UUIDPseudoForeignKeyField(ProviderContact, null=True)
+    process_step_id = UUIDPseudoForeignKeyField(ProcessStep)
     sequence_number = models.PositiveIntegerField()
-    stored_files = GenericRelation(
-        StoredFile, "associated_object_id", "associated_object_content_type"
-    )
+
+    @property
+    def stored_files(self) -> QuerySet[StoredFile]:
+        # GenericRelation is not working with our multiple database setup
+        return StoredFile.objects.filter(
+            associated_object_id=self.id,
+            associated_object_content_type=ContentType.objects.get_for_model(CaseStep),
+        )
 
 
 class CaseContract(BaseModel):
-    case = models.ForeignKey(
-        Case, on_delete=models.deletion.CASCADE, related_name="contracts"
-    )
-    provider_contact = models.ForeignKey(
-        ProviderContact, on_delete=models.deletion.CASCADE
-    )
+    case = models.ForeignKey(Case, on_delete=deletion.CASCADE, related_name="contracts")
+    provider_contact_id = UUIDPseudoForeignKeyField(ProviderContact)
     # TODO: db-level constraint that at most one of these may be non-null
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)
