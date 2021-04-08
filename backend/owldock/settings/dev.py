@@ -1,6 +1,12 @@
 from owldock.settings import *  # noqa
 
 ALLOWED_HOSTS[:] = ["*"]  # noqa
+INSTALLED_APPS.extend(  # noqa
+    [
+        "django_extensions",
+        "django_seed",
+    ]
+)
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
 UI_DEV_MODE = True
 
