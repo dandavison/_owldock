@@ -27,6 +27,13 @@
         </router-link>
       </li>
       <li>
+        <router-link to="/portal/providers">
+          <b-button class="is-large m-4" style="background-color: #f8dcf7">
+            View providers
+          </b-button>
+        </router-link>
+      </li>
+      <li>
         <router-link to="/portal/my-data">
           <b-button class="is-large m-4" style="background-color: #e3efda">
             Access my data

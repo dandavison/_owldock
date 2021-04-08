@@ -1,4 +1,5 @@
 import logging
+from typing import List
 from uuid import UUID
 
 from django.contrib.auth import get_user_model
@@ -8,7 +9,7 @@ from django.db.models import deletion
 from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 
-from app.models.process import Country, Process, ProcessStep
+from app.models.process import Country, Process, ProcessStep, Route
 from app.models.provider import Provider, ProviderContact
 from app.models.file import StoredFile
 from owldock.models import BaseModel
@@ -26,6 +27,13 @@ class Client(BaseModel):
     name = models.CharField(max_length=128)
     entity_domain_name = models.CharField(max_length=128)
     logo_url = models.URLField()
+
+    def provider_relationships(self) -> "QuerySet[ClientProviderRelationship]":
+        return ClientProviderRelationship.objects.filter(client_id=self.id)
+
+    def provider_contacts(self) -> QuerySet[ProviderContact]:
+        provider_ids = [r.id for r in self.provider_relationships()]
+        return ProviderContact.objects.filter(provider_id__in=provider_ids)
 
 
 class ClientProviderRelationship(BaseModel):
@@ -47,6 +55,9 @@ class ClientContact(BaseModel):
         # TODO: ClientEntity
         return Applicant.objects.filter(employer_id=self.client_id)
 
+    def provider_relationships(self) -> QuerySet[ClientProviderRelationship]:
+        return self.client.provider_relationships()
+
     # TODO: provider contacts perform steps, not necessarily entire processes.
     def provider_contacts_for_process(
         self, process_id: UUID
@@ -57,12 +68,10 @@ class ClientContact(BaseModel):
         These are contacts working for the client's providers. They are sorted
         by preferred status with ties broken alphabetically.
         """
-        # FIXME: sorting
-        provider_ids = [
-            r.provider_id
-            for r in ClientProviderRelationship.objects.filter(client=self.client)
-        ]
-        return ProviderContact.objects.filter(provider__in=provider_ids)
+        return ProviderContact.objects.filter(
+            provider_id__in=self.client.provider_relationships().values("provider_id"),
+            provider__routes__processes=process_id,
+        ).distinct()
 
     @property
     def cases_with_read_permission(self) -> "QuerySet[Case]":

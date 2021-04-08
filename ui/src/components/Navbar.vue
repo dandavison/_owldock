@@ -8,11 +8,9 @@
         </router-link>
       </b-navbar-item>
 
-      <b-navbar-dropdown label="🦉 owldock" arrowless>
-        <b-navbar-item>
-          <router-link to="/portal"> Help </router-link>
-        </b-navbar-item>
-      </b-navbar-dropdown>
+      <b-navbar-item>
+        <router-link to="/portal"> 🦉 owldock </router-link>
+      </b-navbar-item>
     </template>
 
     <template slot="end">

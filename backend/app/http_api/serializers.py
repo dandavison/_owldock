@@ -30,7 +30,14 @@ from app.models import (
     Route,
     Service,
 )
-from client.models import Applicant, Case, CaseStep, Client, ClientContact
+from client.models import (
+    Applicant,
+    Case,
+    CaseStep,
+    Client,
+    ClientContact,
+    ClientProviderRelationship,
+)
 
 
 @ts_interface()
@@ -134,7 +141,19 @@ class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
 class ProviderSerializer(ModelSerializer):
     class Meta:
         model = Provider
-        fields = ["id", "name"]
+        fields = ["id", "logo_url", "name"]
+
+
+@ts_interface()
+class ClientProviderRelationshipSerializer(ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    id = UUIDField(read_only=False, allow_null=True, required=False)
+    client = ClientSerializer()
+    provider = ProviderSerializer()
+
+    class Meta:
+        model = ClientProviderRelationship
+        fields = ["id", "client", "provider", "preferred"]
 
 
 @ts_interface()

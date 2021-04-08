@@ -66,7 +66,15 @@ export interface ClientContactSerializer {
 
 export interface ProviderSerializer {
     id?: string;
+    logo_url: string;
     name: string;
+}
+
+export interface ClientProviderRelationshipSerializer {
+    id?: string;
+    client: ClientSerializer;
+    provider: ProviderSerializer;
+    preferred?: boolean;
 }
 
 export interface ProviderContactSerializer {

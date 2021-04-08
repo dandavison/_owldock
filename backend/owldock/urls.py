@@ -39,6 +39,10 @@ urlpatterns = [
         "api/client-contact/list-provider-contacts/",
         login_required(client_contact.ProviderContactList.as_view()),
     ),
+    path(
+        "api/client-contact/list-provider-relationships/",
+        login_required(client_contact.ClientProviderRelationshipList.as_view()),
+    ),
     path("api/countries/", login_required(countries.CountriesList.as_view())),
     path(
         "api/provider-contact/case/<uuid:id>/",

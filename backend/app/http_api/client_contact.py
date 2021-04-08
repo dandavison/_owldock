@@ -13,7 +13,9 @@ from django.views import View
 
 from app.http_api.serializers import (
     CaseSerializer,
+    ClientProviderRelationshipSerializer,
     ApplicantSerializer,
+    ProviderSerializer,
     ProviderContactSerializer,
 )
 from client.models import Case, ClientContact
@@ -80,6 +82,15 @@ class CreateCase(_ClientContactView):
             return JsonResponse({"errors": None})
         else:
             return JsonResponse({"errors": serializer.errors})
+
+
+class ClientProviderRelationshipList(_ClientContactView):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        provider_relationships = self.client_contact.provider_relationships()
+        serializer = ClientProviderRelationshipSerializer(
+            provider_relationships, many=True
+        )
+        return JsonResponse(serializer.data, safe=False)
 
 
 class ProviderContactList(_ClientContactView):

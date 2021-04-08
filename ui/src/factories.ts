@@ -54,6 +54,7 @@ export function NullApplicant(): ApplicantSerializer {
 
 export function NullProvider(): ProviderSerializer {
   return {
+    logo_url: "",
     name: ""
   };
 }
