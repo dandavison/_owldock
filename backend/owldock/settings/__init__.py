@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_countries",
-    "django_fsm_log",
     "corsheaders",
     "rest_framework",
     "app",
