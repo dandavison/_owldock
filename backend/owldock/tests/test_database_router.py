@@ -46,7 +46,9 @@ def test_db_router_allow_migrate(db: str, app_label: str, expected: bool):
         (ProviderContact, Process, True),
     ]
 )
-def test_db_router_allow_relation(model1: Model, model2: Model, expected: bool):
+def test_db_router_allow_relation(
+    model1: Type[Model], model2: Type[Model], expected: bool
+):
     obj1, obj2 = model1(), model2()
     assert router.allow_relation(obj1, obj1)
     assert router.allow_relation(obj2, obj2)

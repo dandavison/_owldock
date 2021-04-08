@@ -47,6 +47,19 @@ class ProviderContact(BaseModel):
             )
             stored_file.save()
 
+    def applicants(self) -> "QuerySet[Applicant]":
+        """
+        Return all applicants associated with any non-rejected contract
+        involving this provider contact.
+        """
+        from client.models import Applicant, Case
+
+        # TODO: inefficient SQL?
+        case_ids = self._all_contracts().values("case_id")
+        return Applicant.objects.filter(
+            id__in=Case.objects.filter(id__in=case_ids).values("applicant_id")
+        )
+
     @property
     def cases_with_read_permission(self) -> "QuerySet[Case]":  # noqa
         from client.models import Case
@@ -122,26 +135,25 @@ class ProviderContact(BaseModel):
             logger.exception(msg)
             raise CaseNotAvailableToProvider(msg) from exc
 
-    def _open_contracts(self) -> "QuerySet[CaseContract]":  # noqa
+    def _all_contracts(self) -> "QuerySet[CaseContract]":  # noqa
         """
-        Return all open contracts.
+        Return all non-rejected contracts, accepted or not.
         """
         from client.models import CaseContract
 
         return CaseContract.objects.filter(
             provider_contact_id=self.id,
-            accepted_at__isnull=True,
             rejected_at__isnull=True,
         )
+
+    def _open_contracts(self) -> "QuerySet[CaseContract]":  # noqa
+        """
+        Return all open contracts.
+        """
+        return self._all_contracts().filter(accepted_at__isnull=True)
 
     def _accepted_contracts(self) -> "QuerySet[CaseContract]":  # noqa
         """
         Return all accepted contracts.
         """
-        from client.models import CaseContract
-
-        return CaseContract.objects.filter(
-            provider_contact_id=self.id,
-            accepted_at__isnull=False,
-            rejected_at__isnull=True,
-        )
+        return self._all_contracts().filter(accepted_at__isnull=False)

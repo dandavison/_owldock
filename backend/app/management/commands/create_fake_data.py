@@ -123,7 +123,7 @@ class Command(BaseCommand):
                 "Archimedes",
                 "Acme",
                 "acme.com",
-                "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png",
+                "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png",  # noqa
             ),
             (
                 "Constantin",

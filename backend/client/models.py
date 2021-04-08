@@ -1,5 +1,4 @@
 import logging
-from typing import List
 from uuid import UUID
 
 from django.contrib.auth import get_user_model
@@ -9,7 +8,7 @@ from django.db.models import deletion
 from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 
-from app.models.process import Country, Process, ProcessStep, Route
+from app.models.process import Country, Process, ProcessStep
 from app.models.provider import Provider, ProviderContact
 from app.models.file import StoredFile
 from owldock.models import BaseModel

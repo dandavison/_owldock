@@ -12,6 +12,7 @@ from django.views import View
 from app.exceptions import PermissionDenied
 from app.models import ProviderContact
 from app.http_api.serializers import (
+    ApplicantSerializer,
     CaseSerializer,
 )
 from client.models import Case, CaseStep
@@ -53,6 +54,13 @@ class CaseView(_ProviderContactView):
             else:
                 raise Http404
         serializer = CaseSerializer(case)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class ApplicantList(_ProviderContactView):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        applicants = self.provider_contact.applicants().all()
+        serializer = ApplicantSerializer(applicants, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 

@@ -15,7 +15,6 @@ from app.http_api.serializers import (
     CaseSerializer,
     ClientProviderRelationshipSerializer,
     ApplicantSerializer,
-    ProviderSerializer,
     ProviderContactSerializer,
 )
 from client.models import Case, ClientContact
@@ -64,6 +63,13 @@ class CaseView(_ClientContactView):
             else:
                 raise Http404
         serializer = CaseSerializer(case)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class ApplicantList(_ClientContactView):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        applicants = self.client_contact.applicants().all()
+        serializer = ApplicantSerializer(applicants, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 

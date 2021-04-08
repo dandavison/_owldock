@@ -11,6 +11,13 @@
           </b-button>
         </router-link>
       </li>
+      <li>
+        <router-link to="/portal/applicants">
+          <b-button class="is-large m-4" style="background-color: #f8dcf7">
+            View applicants
+          </b-button>
+        </router-link>
+      </li>
     </ul>
   </section>
 </template>

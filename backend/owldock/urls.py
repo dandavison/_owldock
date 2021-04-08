@@ -32,6 +32,10 @@ urlpatterns = [
         login_required(client_contact.CaseView.as_view()),
     ),
     path(
+        "api/client-contact/list-applicants/",
+        login_required(client_contact.ApplicantList.as_view()),
+    ),
+    path(
         "api/client-contact/list-cases/",
         login_required(client_contact.CaseList.as_view()),
     ),
@@ -47,6 +51,10 @@ urlpatterns = [
     path(
         "api/provider-contact/case/<uuid:id>/",
         login_required(provider_contact.CaseView.as_view()),
+    ),
+    path(
+        "api/provider-contact/list-applicants/",
+        login_required(provider_contact.ApplicantList.as_view()),
     ),
     path(
         "api/provider-contact/list-cases/",
