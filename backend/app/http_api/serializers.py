@@ -33,10 +33,13 @@ from app.models import (
 from client.models import (
     Applicant,
     Case,
-    CaseStep,
     Client,
     ClientContact,
     ClientProviderRelationship,
+)
+from client.models.case_step import (
+    CaseStep,
+    CaseStepContract,
 )
 
 
@@ -169,17 +172,27 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
 
 @ts_interface()
+class CaseStepContractSerializer(ModelSerializer):
+    provider_contact = ProviderContactSerializer()
+    # TODO: cannot serialize case_step due to cycle in foreign key dependency graph
+
+    class Meta:
+        model = CaseStepContract
+        fields = ["case_step_id", "provider_contact", "accepted_at", "rejected_at"]
+
+@ts_interface()
 class CaseStepSerializer(ModelSerializer):
+    active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
     stored_files = StoredFileSerializer(many=True)
-    provider_contact = ProviderContactSerializer()
 
     class Meta:
         model = CaseStep
         fields = [
             "id",
+            "state",
+            "active_contract",
             "process_step",
-            "provider_contact",
             "sequence_number",
             "stored_files",
         ]
@@ -206,19 +219,24 @@ class CaseSerializer(ModelSerializer):
 
     @atomic
     def create_for_client_contact(self, client_contact: ClientContact) -> Case:
-        applicant = self.validated_data.pop("applicant")
-        process = self.validated_data.pop("process")
-        case_steps = self.validated_data.pop("steps")
+        applicant_data = self.validated_data.pop("applicant")
+        process_data = self.validated_data.pop("process")
+        case_steps_data = self.validated_data.pop("steps")
         case = Case.objects.create(
             client_contact=client_contact,
-            applicant_id=applicant["id"],
-            process_id=process["id"],
+            applicant_id=applicant_data["id"],
+            process_id=process_data["id"],
             **self.validated_data,
         )
-        for case_step in case_steps:
-            case.steps.create(
-                process_step_id=case_step["process_step"]["id"],
-                sequence_number=case_step["sequence_number"],
-                provider_contact_id=case_step["provider_contact"]["id"],
+        for case_step_data in case_steps_data:
+            case_step = case.casestep_set.create(
+                process_step_id=case_step_data["process_step"]["id"],
+                sequence_number=case_step_data["sequence_number"],
             )
+            provider_contact = ProviderContact.objects.get(
+                id=case_step_data["provider_contact"]["id"]
+            )
+            case_step.offer(provider_contact)
+            case_step.save()
+
         return case

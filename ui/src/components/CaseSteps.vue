@@ -6,12 +6,16 @@
 
     <b-table-column label="Provider contact" v-slot="props">
       <provider-contact
-        v-if="props.row.provider_contact"
-        :provider_contact="props.row.provider_contact"
+        v-if="props.row.active_contract && props.row.active_contract.provider_contact"
+        :provider_contact="props.row.active_contract.provider_contact"
         class="mr-3"
       >
       </provider-contact>
       <div v-else>[No provider contact assigned]</div>
+    </b-table-column>
+
+    <b-table-column label="Status" v-slot="props">
+      {{ props.row.state }}
     </b-table-column>
 
     <b-table-column v-slot="props">

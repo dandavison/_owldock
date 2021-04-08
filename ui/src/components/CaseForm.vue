@@ -170,7 +170,9 @@ export default Vue.extend({
       // each step to the provider contact that the user has chosen (or the
       // initial null value).
       this.case_.steps = process.steps.map((s, i) => ({
-        provider_contact: this.defaultProviderContact,
+        active_contract: {
+          provider_contact: this.defaultProviderContact,
+        },
         process_step: s,
         sequence_number: i + 1,
         stored_files: [],
@@ -182,7 +184,7 @@ export default Vue.extend({
     ): void {
       this.defaultProviderContact = providerContact;
       for (let step of this.case_.steps) {
-        step.provider_contact = providerContact;
+        step.active_contract.provider_contact = providerContact;
       }
     },
 

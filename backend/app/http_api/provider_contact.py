@@ -14,8 +14,9 @@ from app.models import ProviderContact
 from app.http_api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
+    CaseStepSerializer,
 )
-from client.models import Case, CaseStep
+from client.models.case_step import Case, CaseStep
 
 
 # TODO: Refactor to share implementation with _ClientContactView
@@ -41,10 +42,17 @@ class _ProviderContactView(View):
             return super().dispatch(request, *args, **kwargs)
 
 
+class ApplicantList(_ProviderContactView):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        applicants = self.provider_contact.applicants().all()
+        serializer = ApplicantSerializer(applicants, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
 class CaseView(_ProviderContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
         try:
-            case = self.provider_contact.cases_with_read_permission.get(id=id)
+            case = self.provider_contact.cases().get(id=id)
         except Case.DoesNotExist:
             if settings.DEBUG:
                 raise Http404(
@@ -57,16 +65,11 @@ class CaseView(_ProviderContactView):
         return JsonResponse(serializer.data, safe=False)
 
 
-class ApplicantList(_ProviderContactView):
-    def get(self, request: HttpRequest) -> HttpResponse:
-        applicants = self.provider_contact.applicants().all()
-        serializer = ApplicantSerializer(applicants, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-
 class CaseList(_ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        cases = self.provider_contact.cases_with_read_permission.order_by("-created_at")
+        cases = self.provider_contact.cases().order_by(
+            "-created_at"
+        )
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)

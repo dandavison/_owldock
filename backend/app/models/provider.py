@@ -30,6 +30,22 @@ class ProviderContact(BaseModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.deletion.CASCADE)
     provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
 
+    def cases(self) -> "QuerySet[Case]":
+        """
+        All cases relevant to this provider contact.
+
+        A case C is included in this set iff any of the following are true:
+
+        - C contains a case step for which the active contract is asssigned to
+          this provider contact
+
+        TODO: control visibility of case steps to provider contact.
+        """
+        from client.models import Case
+
+        return (Case.objects
+                .filter(casestep__active_contract__provider_contact_id=self.id).distinct())
+
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(
         self,
@@ -55,104 +71,116 @@ class ProviderContact(BaseModel):
         from client.models import Applicant, Case
 
         # TODO: inefficient SQL?
-        case_ids = self._all_contracts().values("case_id")
+        case_ids = self._all_contracts().values("case_step__case_id")
         return Applicant.objects.filter(
             id__in=Case.objects.filter(id__in=case_ids).values("applicant_id")
         )
 
     @property
-    def cases_with_read_permission(self) -> "QuerySet[Case]":  # noqa
-        from client.models import Case
+    def cases_steps_with_read_permission(self) -> "QuerySet[CaseStep]":  # noqa
+        from client.models.case_step import CaseStep
 
-        return Case.objects.filter(steps__provider_contact_id=self.id).distinct()
+        return CaseStep.objects.filter(
+            id__in=self._all_contracts().values("case_step_id")
+        ).distinct()
 
     @property
     def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":  # noqa
         """
-        Provider contact P may write to CaseStep S if S belongs to a case
-        assigned to P.
+        Provider contact P may write to CaseStep S if S belongs to a case step
+        assigned to P and the contract is accepted.
         """
-        from client.models import CaseStep
+        from client.models.case_step import CaseStep
 
-        return CaseStep.objects.filter(provider_contact_id=self.id)
+        return CaseStep.objects.filter(
+            id__in=self._accepted_contracts().values("case_step_id")
+        ).distinct()
 
-    def available_cases(self) -> "QuerySet[Case]":  # noqa
+    def open_case_steps(self) -> "QuerySet[CaseStep]":  # noqa
         """
-        Return a queryset of cases that are available for this provider to accept.
+        Return a queryset of case steps that are open    for this provider to
+        accept.
 
-        A case C is available to provider contact P if a case contract exists for
-        (C, P), and that case contract has been neither accepted nor rejected.
+        A case step S is available to provider contact P if a case step contract
+        exists for (S, P), and that contract has been neither accepted nor
+        rejected.
         """
-        from client.models import Case
+        from client.models.case_step import CaseStep
 
-        return Case.objects.filter(id__in=self._open_contracts().values("case_id"))
+        return CaseStep.objects.filter(
+            id__in=self._open_contracts().values("case_step_id")
+        ).distinct()
 
-    def assigned_cases(self) -> "QuerySet[Case]":  # noqa
+    def assigned_case_steps(self) -> "QuerySet[Case]":  # noqa
         """
-        Return a queryset of cases that are assigned to this provider to work on.
+        Return a queryset of case steps that are assigned to this provider to
+        work on.
 
-        A case C is available to provider contact P if a case contract exists for
-        (C, P), and that case contract has been neither accepted nor rejected.
+        A case step S is assigned to provider contact P if a case step contract
+        exists for (S, P), and that case contract has been signed and not
+        rejected.
         """
-        from client.models import Case
+        from client.models.case_step import CaseStep
 
-        return Case.objects.filter(id__in=self._accepted_contracts().values("case_id"))
+        return CaseStep.objects.filter(
+            id__in=self._accepted_contracts().values("case_step_id")
+        )
 
     @atomic
-    def accept_case(self, case: "Case") -> None:  # noqa
+    def accept_case_step(self, case_step: "CaseStep") -> None:  # noqa
         """
-        Accept an offered case, i.e. undertake to do the work.
+        Accept an offered case step, i.e. undertake to do the work.
         """
-        contract = self._open_contract(case)
+        contract = self._get_open_contract(case_step)
         contract.accepted_at = timezone.now()
         contract.save()
 
     @atomic
-    def reject_case(self, case: "Case") -> None:  # noqa
+    def reject_case_step(self, case_step: "CaseStep") -> None:  # noqa
         """
-        Reject an offered case.
+        Reject an offered case step.
         """
-        contract = self._open_contract(case)
+        contract = self._get_open_contract(case_step)
         contract.rejected_at = timezone.now()
         contract.save()
 
-    def _open_contract(self, case: "Case") -> "CaseContract":  # noqa
+    def _get_open_contract(self, case_step: "CaseStep") -> "CaseStepContract":  # noqa
         """
-        Return the unique open contract for `case`.
+        Return the unique open contract for `case_step`.
 
         A contract is open if it is neither accepted nor rejected.
         """
-        from client.models import CaseContract
+        from client.models.case_step import CaseStepContract
 
         try:
-            return self._open_contracts().get(case_id=case.id)
-        except CaseContract.DoesNotExist as exc:
+            return self._open_contracts().get(case_step_id=case_step.id)
+        except CaseStepContract.DoesNotExist as exc:
             raise CaseNotAvailableToProvider(
-                f"{case} is not available to {self}"
+                f"{case_step} is not available to {self}"
             ) from exc
-        except CaseContract.MultipleObjectsReturned as exc:
-            msg = f"Multiple contracts exist for {self} and {case}"
+        except CaseStepContract.MultipleObjectsReturned as exc:
+            msg = f"Multiple contracts exist for {self} and {case_step}"
             logger.exception(msg)
             raise CaseNotAvailableToProvider(msg) from exc
 
-    def _all_contracts(self) -> "QuerySet[CaseContract]":  # noqa
+    def _all_contracts(self) -> "QuerySet[CaseStepContract]":  # noqa
         """
         Return all non-rejected contracts, accepted or not.
         """
-        from client.models import CaseContract
+        from client.models.case_step import CaseStepContract
 
-        return CaseContract.objects.filter(
+        return CaseStepContract.objects.filter(
             provider_contact_id=self.id,
             rejected_at__isnull=True,
         )
 
-    def _open_contracts(self) -> "QuerySet[CaseContract]":  # noqa
+    def _open_contracts(self) -> "QuerySet[CaseStepContract]":  # noqa
         """
         Return all open contracts.
         """
         return self._all_contracts().filter(accepted_at__isnull=True)
 
-    def _accepted_contracts(self) -> "QuerySet[CaseContract]":  # noqa
+    def _accepted_contracts(self) -> "QuerySet[CaseStepContract]":  # noqa
         """
         Return all accepted contracts.
         """

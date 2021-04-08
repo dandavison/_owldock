@@ -83,10 +83,18 @@ export interface ProviderContactSerializer {
     provider: ProviderSerializer;
 }
 
+export interface CaseStepContractSerializer {
+    case_step_id?: any;
+    provider_contact: ProviderContactSerializer;
+    accepted_at?: string;
+    rejected_at?: string;
+}
+
 export interface CaseStepSerializer {
     id?: string;
+    state?: string;
+    active_contract: CaseStepContractSerializer;
     process_step: ProcessStepSerializer;
-    provider_contact: ProviderContactSerializer;
     sequence_number: number;
     stored_files: StoredFileSerializer[];
 }

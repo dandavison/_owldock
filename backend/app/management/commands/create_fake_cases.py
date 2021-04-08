@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 target_exit_date=target_exit_date,
             )
             for i, process_step in enumerate(process.steps.order_by("sequence_number")):
-                case.steps.create(
+                case.casestep_set.create(
                     process_step_id=process_step.id,
                     sequence_number=i,
                     provider_contact_id=provider_contact.id,

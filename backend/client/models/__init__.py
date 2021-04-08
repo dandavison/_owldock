@@ -2,15 +2,12 @@ import logging
 from uuid import UUID
 
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import deletion
 from django.db.models.query import QuerySet
-from django.db.transaction import atomic
 
-from app.models.process import Country, Process, ProcessStep
+from app.models.process import Country, Process
 from app.models.provider import Provider, ProviderContact
-from app.models.file import StoredFile
 from owldock.models import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
@@ -68,34 +65,13 @@ class ClientContact(BaseModel):
         by preferred status with ties broken alphabetically.
         """
         return ProviderContact.objects.filter(
-            provider_id__in=self.client.provider_relationships().values("provider_id"),
+            provider_id__in=[r.provider_id for r in self.client.provider_relationships()],
             provider__routes__processes=process_id,
         ).distinct()
 
     @property
     def cases_with_read_permission(self) -> "QuerySet[Case]":
         return self.case_set.all()
-
-    # TODO: move to serializer?
-    @atomic
-    def offer_case_to_provider(
-        self, case: "Case", provider_contact: "ProviderContact"
-    ) -> None:
-        """
-        Offer this case to a provider; they may then accept or reject it.
-
-        The case may be offered iff:
-        - This client contact has write access to it
-        - It is offerable (i.e. the case state machine features a transition
-          from its current state to offered)
-        """
-        if not self.has_case_write_permission(case):
-            raise CaseCannotBeOffered(
-                f"{self} does not have permission to edit {case}."
-            )
-        if not case.can_be_offered():
-            raise CaseCannotBeOffered(f"{case} is not in an offerable state.")
-        CaseContract.objects.create(case=case, provider_contact_id=provider_contact.id)
 
     def has_case_write_permission(self, case: "Case") -> bool:
         return case.client_contact == self
@@ -138,40 +114,6 @@ class Case(BaseModel):
     target_entry_date = models.DateField()
     target_exit_date = models.DateField()
 
-    def can_be_offered(self):
-        """
-        A case can be offered iff:
-        - It is not assigned to a provider
-        - It is not on-offer to a provider
-        """
-        # TODO: This can be viewed as answering the question:
-        # Given the current state of this case, does the case state machine
-        # accept an 'offered-case' event which transitions to an 'on-offer' state?
-        return not self.contracts.filter(rejected_at=None).exists()
-
-
-class CaseStep(BaseModel):
-    # Case steps are concrete steps attached to a case instance. Typically, they
-    # will be in 1-1 correspondence with the abstract case.process.steps.
-    # However, it may sometimes be desirable to modify a case's steps so that
-    # they no longer exactly match any abstract process's steps.
-    case = models.ForeignKey(Case, related_name="steps", on_delete=deletion.CASCADE)
-    provider_contact_id = UUIDPseudoForeignKeyField(ProviderContact, null=True)
-    process_step_id = UUIDPseudoForeignKeyField(ProcessStep)
-    sequence_number = models.PositiveIntegerField()
-
     @property
-    def stored_files(self) -> QuerySet[StoredFile]:
-        # GenericRelation is not working with our multiple database setup
-        return StoredFile.objects.filter(
-            associated_object_id=self.id,
-            associated_object_content_type=ContentType.objects.get_for_model(CaseStep),
-        )
-
-
-class CaseContract(BaseModel):
-    case = models.ForeignKey(Case, on_delete=deletion.CASCADE, related_name="contracts")
-    provider_contact_id = UUIDPseudoForeignKeyField(ProviderContact)
-    # TODO: db-level constraint that at most one of these may be non-null
-    accepted_at = models.DateTimeField(null=True)
-    rejected_at = models.DateTimeField(null=True)
+    def steps(self) -> "QuerySet[CaseStep]":
+        return self.casestep_set.all()

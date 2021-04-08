@@ -20,6 +20,7 @@ from client.models import (
     Applicant,
     ClientContact,
 )
+from client.models.case_step import State as CaseStepState
 
 
 def _make_post_data_for_client_contact_case_create_endpoint(
@@ -89,9 +90,10 @@ def test_client_provider_case_lifecycle():
     case_serializer = CaseSerializer(data=post_data)
     assert case_serializer.is_valid(), case_serializer.errors
     case = case_serializer.create_for_client_contact(client_contact=client_contact)
-    assert case.steps.exists()
-    for case_step in case.steps.all():
-        assert case_step.provider_contact == provider_contact
+    assert case.casestep_set.exists()
+    for case_step in case.casestep_set.all():
+        assert case_step.active_contract.provider_contact == provider_contact
+        assert case_step.state == CaseStepState.OFFERED
 
 
 def _setup():
