@@ -48,4 +48,7 @@ a,
 a:hover {
   color: currentColor;
 }
+.media {
+  border-top: none;
+}
 </style>
