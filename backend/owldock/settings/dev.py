@@ -1,4 +1,7 @@
 from owldock.settings import *  # noqa
+from owldock.dev.traceback import patch_exception_handler
+
+patch_exception_handler()
 
 ALLOWED_HOSTS[:] = ["*"]  # noqa
 INSTALLED_APPS.extend(  # noqa
@@ -7,6 +10,7 @@ INSTALLED_APPS.extend(  # noqa
         "django_seed",
     ]
 )
+MIDDLEWARE.append("app.middleware.process_exception.process_exception")  # noqa
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
 UI_DEV_MODE = True
 
