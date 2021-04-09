@@ -18,7 +18,14 @@ from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
-from rest_framework.serializers import Field, ModelSerializer, UUIDField
+from rest_framework.serializers import (
+    CharField,
+    Field,
+    ModelSerializer,
+    Serializer,
+    UUIDField,
+    URLField,
+)
 
 from app.models import (
     Country,
@@ -45,13 +52,15 @@ from client.models.case_step import (
 
 
 class EnumField(Field):
-
     def __init__(self, enum, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.enum = enum
 
     def to_representation(self, value):
         return self.enum[value].value
+
+    def to_internal_value(self, data):
+        return self.enum[data]
 
 
 @ts_interface()
@@ -101,6 +110,13 @@ class ProcessSerializer(ModelSerializer):
     class Meta:
         model = Process
         fields = ["id", "route", "nationality", "home_country", "steps"]
+
+
+@ts_interface()
+class ActionSerializer(Serializer):
+    display_name = CharField()
+    name = CharField()
+    url = URLField()
 
 
 @ts_interface()
@@ -191,21 +207,24 @@ class CaseStepContractSerializer(ModelSerializer):
         model = CaseStepContract
         fields = ["case_step_id", "provider_contact", "accepted_at", "rejected_at"]
 
+
 @ts_interface()
 class CaseStepSerializer(ModelSerializer):
+    actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
-    stored_files = StoredFileSerializer(many=True)
     state = EnumField(CaseStepState)
+    stored_files = StoredFileSerializer(many=True)
 
     class Meta:
         model = CaseStep
         fields = [
-            "id",
-            "state",
+            "actions",
             "active_contract",
+            "id",
             "process_step",
             "sequence_number",
+            "state",
             "stored_files",
         ]
         ordering = ["sequence_number"]
@@ -246,7 +265,7 @@ class CaseSerializer(ModelSerializer):
                 sequence_number=case_step_data["sequence_number"],
             )
             provider_contact = ProviderContact.objects.get(
-                id=case_step_data["provider_contact"]["id"]
+                id=case_step_data["active_contract"]["provider_contact"]["id"]
             )
             case_step.offer(provider_contact)
             case_step.save()

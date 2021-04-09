@@ -1,10 +1,11 @@
-from django.conf import settings
+from typing import TypeVar
+from uuid import UUID
+
+from django.db.models import Model
+from django.db.transaction import atomic
 from django.http import (
-    Http404,
     HttpRequest,
     HttpResponse,
-    HttpResponseForbidden,
-    HttpResponseNotFound,
     JsonResponse,
 )
 from django.views import View
@@ -17,6 +18,15 @@ from app.http_api.serializers import (
     CaseStepSerializer,
 )
 from client.models.case_step import Case, CaseStep
+from owldock.api.http import (
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+    make_explanatory_http_response,
+)
+from app.http_api.case_step_utils import perform_case_step_transition
+
+
+M = TypeVar("M", bound=Model)
 
 
 # TODO: Refactor to share implementation with _ClientContactView
@@ -34,10 +44,7 @@ class _ProviderContactView(View):
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         if not self.provider_contact:
-            if settings.DEBUG:
-                return HttpResponseForbidden("User is not a provider contact")
-            else:
-                raise Http404
+            return HttpResponseForbidden("User is not a provider contact")
         else:
             return super().dispatch(request, *args, **kwargs)
 
@@ -51,50 +58,81 @@ class ApplicantList(_ProviderContactView):
 
 class CaseView(_ProviderContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
+        qs = self.provider_contact.cases()
         try:
-            case = self.provider_contact.cases().get(id=id)
+            case = qs.get(id=id)
         except Case.DoesNotExist:
-            if settings.DEBUG:
-                raise Http404(
-                    f"Case {id} does not exist "
-                    f"or {self.provider_contact} does not have read permission for it."
-                )
-            else:
-                raise Http404
+            return make_explanatory_http_response(qs, "provider_contact.cases()", id=id)
         serializer = CaseSerializer(case)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class CaseStepView(_ProviderContactView):
+    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+        qs = self.provider_contact.case_steps()
+        try:
+            case_step = qs.get(id=id)
+        except CaseStep.DoesNotExist:
+            return make_explanatory_http_response(
+                qs, "provider_contact.case_steps()", id=id
+            )
+        serializer = CaseStepSerializer(case_step)
         return JsonResponse(serializer.data, safe=False)
 
 
 class CaseList(_ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        cases = self.provider_contact.cases().order_by(
-            "-created_at"
-        )
+        cases = self.provider_contact.cases().order_by("-created_at")
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
 
 
 class CaseStepUploadFiles(_ProviderContactView):
-    def post(self, request: HttpRequest, step_id: int) -> HttpResponse:
+    @atomic
+    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
         try:
             self.provider_contact.add_uploaded_files_to_case_step(
-                request.FILES.getlist("file"), step_id=step_id
+                request.FILES.getlist("file"), step_id=id
             )
         except PermissionDenied:
-            if settings.DEBUG:
-                return HttpResponseForbidden(
-                    (
-                        f"User {request.user} does not have permission to upload files to "
-                        f"case step {step_id}"
-                    )
+            return HttpResponseForbidden(
+                (
+                    f"User {request.user} does not have permission to upload files to "
+                    f"case step {id}"
                 )
-            else:
-                raise Http404
+            )
         except CaseStep.DoesNotExist:
-            if settings.DEBUG:
-                return HttpResponseNotFound(f"Case step {step_id} does not exist")
-            else:
-                raise Http404
+            return HttpResponseNotFound(f"Case step {id} does not exist")
         else:
             return JsonResponse({"errors": None})
+
+
+class AcceptCaseStep(_ProviderContactView):
+    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+        return perform_case_step_transition(
+            "accept",
+            self.provider_contact.case_steps(),
+            "provider_contact.case_steps()",
+            id=id,
+        )
+
+
+class RejectCaseStep(_ProviderContactView):
+    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+        return perform_case_step_transition(
+            "reject",
+            self.provider_contact.case_steps(),
+            "provider_contact.case_steps()",
+            id=id,
+        )
+
+
+class CompleteCaseStep(_ProviderContactView):
+    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+        return perform_case_step_transition(
+            "complete",
+            self.provider_contact.case_steps(),
+            "provider_contact.case_steps()",
+            id=id,
+        )

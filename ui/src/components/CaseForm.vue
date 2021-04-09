@@ -90,6 +90,7 @@ import CountrySelector from "./CountrySelector.vue";
 import ApplicantSelector from "./ApplicantSelector.vue";
 import ProviderContactSelector from "./ProviderContactSelector.vue";
 import RouteSelector from "./RouteSelector.vue";
+import http from "../http";
 import { dateToYYYYMMDD } from "../utils";
 
 export default Vue.extend({
@@ -154,11 +155,12 @@ export default Vue.extend({
         const nationalityCodes = this.case_.applicant.nationalities.map(
           (country) => country.code
         );
-        fetch(
-          `${process.env.VUE_APP_SERVER_URL}/api/processes/?host_country=${
-            country.code
-          }&nationalities=${nationalityCodes.join(",")}`
-        )
+        http
+          .get(
+            `${process.env.VUE_APP_SERVER_URL}/api/processes/?host_country=${
+              country.code
+            }&nationalities=${nationalityCodes.join(",")}`
+          )
           .then((resp) => resp.json())
           .then((data) => (this.processes = data));
       }
@@ -173,6 +175,8 @@ export default Vue.extend({
         active_contract: {
           provider_contact: this.defaultProviderContact,
         },
+        state: "FREE",
+        actions: [],
         process_step: s,
         sequence_number: i + 1,
         stored_files: [],

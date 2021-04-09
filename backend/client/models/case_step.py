@@ -1,29 +1,53 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import deletion, QuerySet
 from django.db.transaction import atomic
-from django_fsm import FSMField, transition
+from django.urls import reverse
 
 from app.models.file import StoredFile
 from app.models.process import ProcessStep
 from app.models.provider import ProviderContact
 from client.models import Case
+from owldock.state_machine.action import Action
+from owldock.state_machine.django_fsm_utils import FSMField, transition
+from owldock.state_machine.role import Role
 from owldock.models import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 class State(models.TextChoices):
-    FREE = "FREE"
+    FREE = "Waiting for client to offer to provider"
     OFFERED = "Waiting for provider to accept"
     # TODO: Introduce concept of step being accepted but not ready to work on
     # (e.g. due to dependencies)
     # ACCEPTED = "ACCEPTED"
-    IN_PROGRESS = "IN_PROGRESS"
-    COMPLETE = "COMPLETE"
+    IN_PROGRESS = "In progress"
+    COMPLETE = "Complete"
+
+
+ACTIONS = {
+    (Role.CLIENT_CONTACT, State.FREE.name): [
+        ("Offer", "client_contract_offer_case_step"),
+    ],
+    (Role.CLIENT_CONTACT, State.OFFERED.name): [
+        ("Retract", "client_contract_retract_case_step"),
+    ],
+    (Role.PROVIDER_CONTACT, State.OFFERED.name): [
+        ("Accept", "provider_contract_accept_case_step"),
+        ("Reject", "provider_contract_reject_case_step"),
+    ],
+    (Role.CLIENT_CONTACT, State.IN_PROGRESS.name): [
+        ("Retract", "client_contract_retract_case_step"),
+    ],
+    (Role.PROVIDER_CONTACT, State.IN_PROGRESS.name): [
+        ("Mark completed", "provider_contract_complete_case_step"),
+        ("Reject", "provider_contract_reject_case_step"),
+    ],
+}
 
 
 def client_contact_can_offer_case_step(
@@ -80,7 +104,7 @@ class CaseStep(BaseModel):
     active_contract = models.OneToOneField(
         "CaseStepContract", null=True, on_delete=deletion.SET_NULL
     )
-    state = FSMField(default=State.FREE)
+    state = FSMField(default=State.FREE.name, protected=True)
 
     def has_active_contract(self) -> bool:
         return bool(self.active_contract)
@@ -145,6 +169,33 @@ class CaseStep(BaseModel):
             active_contract.save()
             self.active_contract = None
             self.save()
+
+    def get_actions(self, user=None) -> List[Action]:
+        # TODO: Better separation of HTTP API from models.py
+        # This method is currently implemented here on the model class in order
+        # that it is available to a DRF serializer.
+
+        from django_tools.middlewares.ThreadLocal import get_current_user
+        from owldock.state_machine.role import get_role
+
+        user = user or get_current_user()
+        if not user:
+            return []
+        role = get_role(user)
+        if not role:
+            return []
+
+        actions = ACTIONS.get((role, self.state), [])
+        ret = [
+            Action(
+                display_name=display_name,
+                name=name,
+                url=reverse(name, kwargs={"id": self.id}),
+            )
+            for (display_name, name) in actions
+        ]
+        print(f"actions for case step {self.id}: {actions}")
+        return ret
 
     @property
     def stored_files(self) -> QuerySet[StoredFile]:

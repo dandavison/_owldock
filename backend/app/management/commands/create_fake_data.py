@@ -25,7 +25,7 @@ from client.models import (
     Applicant,
     ApplicantNationality,
 )
-from app.constants import GroupName
+from owldock.state_machine.role import GroupName
 
 
 class Command(BaseCommand):

@@ -1,23 +1,32 @@
 import json
 from uuid import UUID
 
-from django.conf import settings
+from django.db.transaction import atomic
 from django.http import (
-    Http404,
     HttpRequest,
     HttpResponse,
-    HttpResponseForbidden,
     JsonResponse,
 )
 from django.views import View
 
+from app.http_api.case_step_utils import perform_case_step_transition
 from app.http_api.serializers import (
     CaseSerializer,
+    CaseStepSerializer,
     ClientProviderRelationshipSerializer,
     ApplicantSerializer,
     ProviderContactSerializer,
 )
+from app.models import ProviderContact
 from client.models import Case, ClientContact
+from client.models.case_step import CaseStep
+from owldock.api.http import (
+    HttpResponseBadRequest,
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+    make_explanatory_http_response,
+)
+from owldock.state_machine.django_fsm_utils import can_proceed, why_cant_proceed
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
@@ -34,10 +43,7 @@ class _ClientContactView(View):
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         if not self.client_contact:
-            if settings.DEBUG:
-                return HttpResponseForbidden("User is not a client contact")
-            else:
-                raise Http404
+            return HttpResponseForbidden("User is not a client contact")
         else:
             return super().dispatch(request, *args, **kwargs)
 
@@ -52,16 +58,14 @@ class ApplicantsList(_ClientContactView):
 
 class CaseView(_ClientContactView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
+        qs = self.client_contact.cases()
+        kwargs = {"id": id}
         try:
-            case = self.client_contact.cases_with_read_permission.get(id=id)
+            case = qs.get(**kwargs)
         except Case.DoesNotExist:
-            if settings.DEBUG:
-                raise Http404(
-                    f"Case {id} does not exist "
-                    f"or {self.client_contact} does not have read permission for it."
-                )
-            else:
-                raise Http404
+            return make_explanatory_http_response(
+                qs, "client_contact.cases()", **kwargs
+            )
         serializer = CaseSerializer(case)
         return JsonResponse(serializer.data, safe=False)
 
@@ -81,6 +85,7 @@ class CaseList(_ClientContactView):
 
 
 class CreateCase(_ClientContactView):
+    @atomic
     def post(self, request: HttpRequest) -> HttpResponse:
         serializer = CaseSerializer(data=json.loads(request.body))
         if serializer.is_valid():
@@ -88,6 +93,63 @@ class CreateCase(_ClientContactView):
             return JsonResponse({"errors": None})
         else:
             return JsonResponse({"errors": serializer.errors})
+
+
+class OfferCaseStep(_ClientContactView):
+    @atomic
+    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+        try:
+            case_step_data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest(
+                # TODO: handle non utf-8
+                f"Request body could not be deserialized as JSON: {request.body.decode('utf-8')}"
+            )
+        try:
+            provider_contact_id = case_step_data["active_contract"][
+                "provider_contact_id"
+            ]
+        except (KeyError, TypeError):
+            return HttpResponseBadRequest(
+                "POST data must contain active_contract.provider_contact_id"
+            )
+
+        try:
+            provider_contact = ProviderContact.objects.get(id=provider_contact_id)
+        except ProviderContact.DoesNotExist:
+            return HttpResponseNotFound(
+                f"ProviderContact {provider_contact_id} does not exist"
+            )
+
+        qs = self.client_contact.case_steps()
+        kwargs = {"id": id}
+        try:
+            case_step = qs.get(id=id)
+        except CaseStep.DoesNotExist:
+            return make_explanatory_http_response(
+                qs, "client_contact.case_steps()", **kwargs
+            )
+
+        transition = case_step.offer
+        if not can_proceed(transition):
+            return HttpResponseForbidden(
+                f"Case step {case_step} cannot do transition: {transition.__name__}:\n"
+                f"{why_cant_proceed(transition)}"
+            )
+        transition(provider_contact=provider_contact)
+        case_step.save()
+        serializer = CaseStepSerializer(case_step)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class RetractCaseStep(_ClientContactView):
+    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+        return perform_case_step_transition(
+            "reject",
+            self.client_contact.case_steps(),
+            "client_contact.case_steps()",
+            id=id,
+        )
 
 
 class ClientProviderRelationshipList(_ClientContactView):
@@ -104,7 +166,9 @@ class ProviderContactList(_ClientContactView):
         try:
             process_id = UUID(request.GET["process_id"])
         except (KeyError, ValueError, TypeError):
-            raise Http404("process_id key of URL parameters must be a valid UUID")
+            raise HttpResponseBadRequest(
+                "process_id key of URL parameters must be a valid UUID"
+            )
         provider_contacts = self.client_contact.provider_contacts_for_process(
             process_id
         )

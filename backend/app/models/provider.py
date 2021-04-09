@@ -1,6 +1,6 @@
 import logging
-import UUID
 from typing import List
+from uuid import UUID
 
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import UploadedFile
@@ -44,9 +44,12 @@ class ProviderContact(BaseModel):
         """
         from client.models import Case
 
-        return Case.objects.filter(
-            casestep__active_contract__provider_contact_id=self.id
-        ).distinct()
+        return Case.objects.filter(id__in=self.case_steps().values("case_id"))
+
+    def case_steps(self) -> "QuerySet[CaseStep]":
+        from client.models.case_step import CaseStep
+
+        return CaseStep.objects.filter(active_contract__provider_contact_id=self.id)
 
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(

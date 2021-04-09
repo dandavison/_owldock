@@ -6,6 +6,6 @@
             "name": "Vue Dev Server",
             "request": "launch",
             "type": "node-terminal"
-        },
+        }
     ]
 }

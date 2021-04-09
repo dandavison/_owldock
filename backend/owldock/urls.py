@@ -40,6 +40,16 @@ urlpatterns = [
         login_required(client_contact.CaseList.as_view()),
     ),
     path(
+        "api/client-contact/offer-case-step/<uuid:id>",
+        login_required(client_contact.OfferCaseStep.as_view()),
+        name="client_contract_offer_case_step",
+    ),
+    path(
+        "api/client-contact/retract-case-step-contract/<uuid:id>",
+        login_required(client_contact.RetractCaseStep.as_view()),
+        name="client_contract_retract_case_step",
+    ),
+    path(
         "api/client-contact/list-provider-contacts/",
         login_required(client_contact.ProviderContactList.as_view()),
     ),
@@ -53,12 +63,31 @@ urlpatterns = [
         login_required(provider_contact.CaseView.as_view()),
     ),
     path(
+        "api/provider-contact/case-step/<uuid:id>/",
+        login_required(provider_contact.CaseStepView.as_view()),
+    ),
+    path(
         "api/provider-contact/list-applicants/",
         login_required(provider_contact.ApplicantList.as_view()),
     ),
     path(
         "api/provider-contact/list-cases/",
         login_required(provider_contact.CaseList.as_view()),
+    ),
+    path(
+        "api/provider-contact/accept-case-step/<uuid:id>",
+        login_required(provider_contact.AcceptCaseStep.as_view()),
+        name="provider_contract_accept_case_step",
+    ),
+    path(
+        "api/provider-contact/reject-case-step-contract/<uuid:id>",
+        login_required(provider_contact.RejectCaseStep.as_view()),
+        name="provider_contract_reject_case_step",
+    ),
+    path(
+        "api/provider-contact/complete-case-step-contract/<uuid:id>",
+        login_required(provider_contact.CompleteCaseStep.as_view()),
+        name="provider_contract_complete_case_step",
     ),
     path(
         "api/case-step/<uuid:id>/upload-files/",

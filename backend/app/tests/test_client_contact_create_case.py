@@ -62,9 +62,13 @@ def _create_case_steps_from_process_steps(
     for i, (process_step, provider_contact) in enumerate(process_steps, 1):
         case_step = CaseStepSerializer(
             data={
+                "actions": [],
+                "active_contract": {
+                    "provider_contact": provider_contact.data,
+                },
                 "process_step": process_step.data,
-                "provider_contact": provider_contact.data,
                 "sequence_number": i,
+                "state": CaseStepState.FREE.value,
                 "stored_files": [],
             }
         )
@@ -75,7 +79,7 @@ def _create_case_steps_from_process_steps(
 
 @pytest.mark.django_db
 def test_client_provider_case_lifecycle():
-    _setup()
+    call_command("create_fake_data", "test-password")
 
     client_contact = ClientContact.objects.earliest("id")
     applicant = client_contact.client.applicant_set.earliest("id")
@@ -91,10 +95,10 @@ def test_client_provider_case_lifecycle():
     assert case_serializer.is_valid(), case_serializer.errors
     case = case_serializer.create_for_client_contact(client_contact=client_contact)
     assert case.casestep_set.exists()
+
+    # All case steps are in OFFERED state
     for case_step in case.casestep_set.all():
         assert case_step.active_contract.provider_contact == provider_contact
-        assert case_step.state == CaseStepState.OFFERED
+        assert case_step.state == CaseStepState.OFFERED.name
 
-
-def _setup():
-    call_command("create_fake_data", "test-password")
+    # All case steps are in provider contact's offered list

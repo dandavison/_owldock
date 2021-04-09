@@ -46,6 +46,14 @@ class ClientContact(BaseModel):
     user_id = UUIDPseudoForeignKeyField(get_user_model())
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
+    def cases(self) -> "QuerySet[Case]":
+        return self.case_set.all()
+
+    def case_steps(self) -> "QuerySet[CaseStep]":
+        from client.models.case_step import CaseStep
+
+        return CaseStep.objects.filter(case__client_contact_id=self.id)
+
     def applicants(self) -> "QuerySet[Applicant]":
         # TODO: these are applicants for which the client contact has what permissions?
         # TODO: ClientEntity
@@ -70,10 +78,6 @@ class ClientContact(BaseModel):
             ],
             provider__routes__processes=process_id,
         ).distinct()
-
-    @property
-    def cases_with_read_permission(self) -> "QuerySet[Case]":
-        return self.case_set.all()
 
     def has_case_write_permission(self, case: "Case") -> bool:
         return case.client_contact == self

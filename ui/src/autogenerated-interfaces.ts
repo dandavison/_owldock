@@ -30,6 +30,12 @@ export interface ProcessSerializer {
     steps: ProcessStepSerializer[];
 }
 
+export interface ActionSerializer {
+    display_name: string;
+    name: string;
+    url: string;
+}
+
 export interface UserSerializer {
     id?: number;
     first_name?: string;
@@ -92,10 +98,11 @@ export interface CaseStepContractSerializer {
 
 export interface CaseStepSerializer {
     id?: string;
-    state?: string;
+    actions: ActionSerializer[];
     active_contract: CaseStepContractSerializer;
     process_step: ProcessStepSerializer;
     sequence_number: number;
+    state: any;
     stored_files: StoredFileSerializer[];
 }
 
