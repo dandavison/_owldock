@@ -1,4 +1,5 @@
 import logging
+import UUID
 from typing import List
 
 from django.contrib.auth import get_user_model
@@ -50,7 +51,7 @@ class ProviderContact(BaseModel):
     def add_uploaded_files_to_case_step(
         self,
         uploaded_files: List[UploadedFile],
-        step_id: int,
+        step_id: UUID,
     ):
         step = self.case_steps_with_write_permission.get(id=step_id)
         for uploaded_file in uploaded_files:
