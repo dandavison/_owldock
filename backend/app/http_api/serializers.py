@@ -18,7 +18,7 @@ from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
-from rest_framework.serializers import ModelSerializer, UUIDField
+from rest_framework.serializers import Field, ModelSerializer, UUIDField
 
 from app.models import (
     Country,
@@ -40,7 +40,18 @@ from client.models import (
 from client.models.case_step import (
     CaseStep,
     CaseStepContract,
+    State as CaseStepState,
 )
+
+
+class EnumField(Field):
+
+    def __init__(self, enum, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.enum = enum
+
+    def to_representation(self, value):
+        return self.enum[value].value
 
 
 @ts_interface()
@@ -185,6 +196,7 @@ class CaseStepSerializer(ModelSerializer):
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
     stored_files = StoredFileSerializer(many=True)
+    state = EnumField(CaseStepState)
 
     class Meta:
         model = CaseStep

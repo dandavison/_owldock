@@ -18,7 +18,7 @@ from owldock.models.fields import UUIDPseudoForeignKeyField
 
 class State(models.TextChoices):
     FREE = "FREE"
-    OFFERED = "OFFERED"
+    OFFERED = "Waiting for provider to accept"
     # TODO: Introduce concept of step being accepted but not ready to work on
     # (e.g. due to dependencies)
     # ACCEPTED = "ACCEPTED"
