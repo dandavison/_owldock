@@ -65,7 +65,9 @@ class ClientContact(BaseModel):
         by preferred status with ties broken alphabetically.
         """
         return ProviderContact.objects.filter(
-            provider_id__in=[r.provider_id for r in self.client.provider_relationships()],
+            provider_id__in=[
+                r.provider_id for r in self.client.provider_relationships()
+            ],
             provider__routes__processes=process_id,
         ).distinct()
 

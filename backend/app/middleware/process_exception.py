@@ -5,7 +5,6 @@ from owldock.dev.traceback import render_stack
 
 
 class process_exception:
-
     def __init__(self, get_response):
         self.get_response = get_response
 

@@ -44,8 +44,9 @@ class ProviderContact(BaseModel):
         """
         from client.models import Case
 
-        return (Case.objects
-                .filter(casestep__active_contract__provider_contact_id=self.id).distinct())
+        return Case.objects.filter(
+            casestep__active_contract__provider_contact_id=self.id
+        ).distinct()
 
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(
