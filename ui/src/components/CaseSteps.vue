@@ -4,7 +4,7 @@
       {{ props.row.sequence_number }}. {{ props.row.process_step.service.name }}
     </b-table-column>
 
-    <b-table-column label="Provider contact" v-slot="props">
+    <b-table-column label="Provider" v-slot="props">
       <provider-contact
         v-if="props.row.active_contract && props.row.active_contract.provider_contact"
         :provider_contact="props.row.active_contract.provider_contact"
@@ -20,7 +20,7 @@
 
     <b-table-column v-slot="props">
       <template>
-        <a @click="props.toggleDetails(props.row)"> Files </a>
+        <a @click="props.toggleDetails(props.row)"> Manage files </a>
       </template>
     </b-table-column>
 
@@ -44,3 +44,11 @@ export default Vue.extend({
   props: { steps: Array as PropType<CaseStepSerializer[]> },
 });
 </script>
+
+<style scoped>
+a,
+a:hover {
+  color: currentColor;
+  text-decoration: underline;
+}
+</style>
