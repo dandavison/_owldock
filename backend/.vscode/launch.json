@@ -6,7 +6,13 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/manage.py",
-      "args": ["runserver", "--settings", "owldock.settings.dev", "0.0.0.0:8000"],
+      "args": [
+        "runserver",
+        "--settings",
+        "owldock.settings.dev",
+        "0.0.0.0:8000",
+        "2>/tmp/stderr"
+      ],
       "django": true
     }
   ]

@@ -12,7 +12,7 @@ test:
 test-all: lint type-check test
 
 serve:
-	$(MANAGE) runserver --settings=owldock.settings.dev 0.0.0.0:8000
+	$(MANAGE) runserver --settings=owldock.settings.dev 0.0.0.0:8000 2> /tmp/stderr
 
 lint-flake8:
 	flake8 app client owldock
