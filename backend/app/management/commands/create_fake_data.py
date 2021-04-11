@@ -46,7 +46,7 @@ class Command(BaseCommand):
         self._create_client_contacts()
         self._create_applicants(10)
         self._create_activities(3)
-        call_command("load_processes_fixture")
+        call_command("load_process_fixture")
         call_command("set_provider_routes")
 
     def _create_countries(self) -> None:

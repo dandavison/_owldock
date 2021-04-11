@@ -1,36 +1,19 @@
 import csv
 import re
-import sys
 from typing import List, Tuple
 
 from django.conf import settings
-from django.core.management.base import BaseCommand
-from django.db.transaction import atomic
-
-from app.models import Country, Route, Process, Service
 
 
-class Command(BaseCommand):
-    def handle(self, *args, **kwargs):
-        with open(settings.BASE_DIR / "app/fixtures/processes.csv") as fh:
-            self._load_processes_fixture(fh)
-
-    @atomic
-    def _load_processes_fixture(self, fh):
+def read_process_fixture():
+    with open(settings.BASE_DIR / "app/fixtures/process.csv") as fh:
         reader = csv.DictReader(fh)
-        us = Country.objects.get(name="United States of America")
-        uk = Country.objects.get(name="United Kingdom")
+        us_name = "United States of America"
+        uk_name = "United Kingdom"
         for row in reader:
-            try:
-                host_country = Country.objects.get(name=row["Host Country"])
-            except Country.DoesNotExist:
-                print(
-                    f"Country name from fixture does not exist: {row['Host Country']}",
-                    file=sys.stderr,
-                )
-                continue
-            for nationality in [us, uk]:
-                processes_string = row[nationality.name]
+            host_country_name = row["Host Country"]
+            for nationality_name in [us_name, uk_name]:
+                processes_string = row[nationality_name]
                 if processes_string == "N/A":
                     continue
                 # Hack
@@ -49,17 +32,7 @@ class Command(BaseCommand):
                         process_string += "]"
                     process_string = process_string.strip()
                     process_name, process_steps = _parse_process(process_string)
-                    route = Route.objects.create(
-                        name=process_name,
-                        host_country=host_country,
-                    )
-                    process = Process.objects.create(
-                        route=route,
-                        nationality=nationality,
-                    )
-                    for (n, service_name) in process_steps:
-                        service, _ = Service.objects.get_or_create(name=service_name)
-                        process.steps.create(sequence_number=n, service=service)
+                    yield host_country_name, process_name, nationality_name, process_steps
 
 
 def _parse_process(process_string: str) -> Tuple[str, List[Tuple[float, str]]]:
