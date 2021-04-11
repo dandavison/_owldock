@@ -1,7 +1,5 @@
 from uuid import UUID
 
-import django_countries
-import django_countries.fields
 import factory
 from django.contrib.auth import get_user_model
 from factory.django import DjangoModelFactory
@@ -61,19 +59,6 @@ class _HasUserFactory(BaseModelFactory):
     user_id = UUIDPseudoForeignKeyFactory(UserFactory, fixme_int_uuid=True)
 
 
-class CountryFactory(BaseModelFactory):
-    class Meta:
-        model = Country
-
-    code = factory.Iterator(code for (code, _) in django_countries.countries)
-    name = factory.LazyAttribute(
-        lambda obj: django_countries.fields.Country(obj.code).name
-    )
-    name = factory.LazyAttribute(
-        lambda obj: django_countries.fields.Country(obj.code).unicode_flag
-    )
-
-
 class ClientFactory(DjangoModelFactory):
     class Meta:
         model = Client
@@ -90,7 +75,7 @@ class ApplicantFactory(_HasUserFactory):
         database = "client"
 
     employer = factory.SubFactory(ClientFactory)
-    home_country_id = UUIDPseudoForeignKeyFactory(CountryFactory)
+    home_country_id = factory.Iterator(Country.objects.all(), getter=lambda c: c.id)
 
 
 class ClientContactFactory(_HasUserFactory):

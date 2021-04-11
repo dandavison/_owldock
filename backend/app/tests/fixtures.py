@@ -27,12 +27,12 @@ def process_B(load_process_fixture):
 
 
 @pytest.fixture
-def applicant_A():
+def applicant_A(load_country_fixture):
     return factories.ApplicantFactory()
 
 
 @pytest.fixture
-def applicant_B():
+def applicant_B(load_country_fixture):
     return factories.ApplicantFactory()
 
 
