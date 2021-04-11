@@ -57,10 +57,18 @@ class EnumField(Field):
         self.enum = enum
 
     def to_representation(self, value):
-        return self.enum[value].value
+        # We return the human readable 'value' so that this is what is displayed in the UI.
+        # TODO: serialize both 'name' and 'value'?
+        # TODO: `value` is an enum member e.g. when instantiating the serializer
+        # from dict data in a test, but a string at other times. Is this avoidable?
+        try:
+            return value.value
+        except AttributeError:
+            return self.enum[value].value
 
-    def to_internal_value(self, data):
-        return self.enum[data]
+    def to_internal_value(self, value):
+        [el] = [el for el in self.enum if el.value == value]
+        return el
 
 
 @ts_interface()
