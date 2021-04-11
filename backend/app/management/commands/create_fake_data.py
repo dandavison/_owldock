@@ -1,7 +1,6 @@
 import random
 from typing import Set, TypeVar, Optional
 
-import django_countries.fields
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -11,6 +10,7 @@ from django.db.models import Model
 from django.db.transaction import atomic
 from django_seed import Seed
 
+from app.fixtures.country import load_country_fixture
 from app.models import (
     Activity,
     Country,
@@ -39,7 +39,7 @@ class Command(BaseCommand):
     @atomic
     def handle(self, *args, **kwargs):
         self.password = kwargs["password"]
-        self._create_countries()
+        load_country_fixture()
         self._create_services()
         self._create_superusers()
         self._create_provider_contacts()
@@ -48,16 +48,6 @@ class Command(BaseCommand):
         self._create_activities(3)
         call_command("load_process_fixture")
         call_command("set_provider_routes")
-
-    def _create_countries(self) -> None:
-        print("Creating countries")
-        for (code, _) in django_countries.countries:
-            country = django_countries.fields.Country(code)
-            Country.objects.create(
-                code=country.code,
-                name=country.name,
-                unicode_flag=country.unicode_flag,
-            )
 
     def _create_services(self) -> None:
         print("Creating services")

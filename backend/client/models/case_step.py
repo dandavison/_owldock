@@ -156,12 +156,14 @@ class CaseStep(BaseModel):
     def complete(self) -> None:
         pass
 
-    @transition(
+    _reject_transition = transition(
         field=state,
         source=list(set(State) - {State.FREE}),
         target=State.FREE,
         conditions=[has_active_contract],
     )
+
+    @_reject_transition
     def reject(self) -> None:
         with atomic():
             active_contract = self.active_contract
@@ -169,6 +171,14 @@ class CaseStep(BaseModel):
             active_contract.save()
             self.active_contract = None
             self.save()
+
+    # retract and reject are identical (they make it so the case step is no
+    # longer offered to the provider contact), but it makes sense to use the word
+    # "reject" when the transition is done by the provider contract themselves
+    # and "retract" when it is done by the client contact who owns the case.
+    @_reject_transition
+    def retract(self) -> None:
+        self.reject()
 
     def get_actions(self, user=None) -> List[Action]:
         # TODO: Better separation of HTTP API from models.py
