@@ -1,11 +1,11 @@
 import random
-from datetime import datetime, timedelta
 
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
+from app.tests.fake_create_case import fake_create_case
 from app.models import Process, Provider, ProviderContact
-from client.models import Case, Applicant, ClientProviderRelationship
+from client.models import Applicant, ClientProviderRelationship
 
 
 class Command(BaseCommand):
@@ -32,23 +32,4 @@ class Command(BaseCommand):
             client_contact = random.choice(list(valid_client_contacts))
             provider_contact = random.choice(list(valid_provider_contacts))
             process = random.choice(list(valid_processes))
-
-            now = datetime.now()
-            target_entry_date = now + timedelta(days=int(random.uniform(10, 600)))
-            target_exit_date = target_entry_date + timedelta(
-                days=int(random.uniform(50, 600))
-            )
-
-            case = Case.objects.create(
-                client_contact_id=client_contact.id,
-                applicant_id=applicant.id,
-                process_id=process.id,
-                target_entry_date=target_entry_date,
-                target_exit_date=target_exit_date,
-            )
-            for i, process_step in enumerate(process.steps.order_by("sequence_number")):
-                case.casestep_set.create(
-                    process_step_id=process_step.id,
-                    sequence_number=i,
-                    provider_contact_id=provider_contact.id,
-                )
+            fake_create_case(applicant, client_contact, process, provider_contact)
