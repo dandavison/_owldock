@@ -20,6 +20,7 @@ class ApplicationFileType(models.TextChoices):
 
 class StoredFile(BaseModel):
     # File attributes
+    created_by = ForeignKey(settings.AUTH_USER_MODEL, on_delete=deletion.PROTECT)
     file = FileField(upload_to="uploads/%Y/%m/")
     name = CharField(max_length=256)
     media_type = CharField(max_length=128)

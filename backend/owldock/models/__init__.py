@@ -1,11 +1,7 @@
 import uuid
 
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-
-from owldock.api.http.utils import get_current_user_uuid
-from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 class BaseModel(models.Model):
@@ -30,12 +26,6 @@ class BaseModel(models.Model):
         editable=False,
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by_id = UUIDPseudoForeignKeyField(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        default=lambda: get_current_user_uuid,
-        to_field="uuid",
-    )
     modified_at = models.DateTimeField(auto_now=True)
 
     class Meta:
