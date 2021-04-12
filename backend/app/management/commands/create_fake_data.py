@@ -25,7 +25,6 @@ from client.models import (
     Applicant,
     ApplicantNationality,
 )
-from owldock.state_machine.role import GroupName
 
 
 class Command(BaseCommand):
@@ -100,7 +99,6 @@ class Command(BaseCommand):
 
     def _create_provider_contacts(self) -> None:
         print("Creating provider contacts")
-        group = Group.objects.create(name=GroupName.PROVIDER_CONTACTS.value)
         for (
             first_name,
             last_name,
@@ -131,7 +129,7 @@ class Command(BaseCommand):
             ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
-            user = self._create_user(first_name, last_name, email, group)
+            user = self._create_user(first_name, last_name, email)
             provider, _ = Provider.objects.get_or_create(
                 name=provider_name, logo_url=logo_url
             )
@@ -139,7 +137,6 @@ class Command(BaseCommand):
 
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
-        group = Group.objects.create(name=GroupName.CLIENT_CONTACTS.value)
         for (
             first_name,
             last_name,
@@ -166,7 +163,7 @@ class Command(BaseCommand):
             ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
-            user = self._create_user(first_name, last_name, email, group)
+            user = self._create_user(first_name, last_name, email)
             client, _ = Client.objects.get_or_create(
                 name=client_name,
                 entity_domain_name=client_entity_domain_name,
@@ -190,7 +187,7 @@ class Command(BaseCommand):
         first_name: str,
         last_name: str,
         email: str,
-        group: Optional[Group],
+        group: Optional[Group] = None,
     ) -> settings.AUTH_USER_MODEL:
         user = get_user_model().objects.create_user(
             username=email,

@@ -42,12 +42,12 @@ urlpatterns = [
     path(
         "api/client-contact/offer-case-step/<uuid:id>",
         login_required(client_contact.OfferCaseStep.as_view()),
-        name="client_contract_offer_case_step",
+        name="client_contact_offer_case_step",
     ),
     path(
         "api/client-contact/retract-case-step-contract/<uuid:id>",
         login_required(client_contact.RetractCaseStep.as_view()),
-        name="client_contract_retract_case_step",
+        name="client_contact_retract_case_step",
     ),
     path(
         "api/client-contact/list-provider-contacts/",
@@ -77,17 +77,17 @@ urlpatterns = [
     path(
         "api/provider-contact/accept-case-step/<uuid:id>",
         login_required(provider_contact.AcceptCaseStep.as_view()),
-        name="provider_contract_accept_case_step",
+        name="provider_contact_accept_case_step",
     ),
     path(
         "api/provider-contact/reject-case-step-contract/<uuid:id>",
         login_required(provider_contact.RejectCaseStep.as_view()),
-        name="provider_contract_reject_case_step",
+        name="provider_contact_reject_case_step",
     ),
     path(
         "api/provider-contact/complete-case-step-contract/<uuid:id>",
         login_required(provider_contact.CompleteCaseStep.as_view()),
-        name="provider_contract_complete_case_step",
+        name="provider_contact_complete_case_step",
     ),
     path(
         "api/case-step/<uuid:id>/upload-files/",

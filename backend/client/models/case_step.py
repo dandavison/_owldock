@@ -14,7 +14,7 @@ from app.models.provider import ProviderContact
 from client.models import Case
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
-from owldock.state_machine.role import Role
+from owldock.state_machine.role import get_role, Role
 from owldock.models import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
@@ -31,21 +31,21 @@ class State(models.TextChoices):
 
 ACTIONS = {
     (Role.CLIENT_CONTACT, State.FREE.name): [
-        ("Offer", "client_contract_offer_case_step"),
+        ("Offer", "client_contact_offer_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.OFFERED.name): [
-        ("Retract", "client_contract_retract_case_step"),
+        ("Retract", "client_contact_retract_case_step"),
     ],
     (Role.PROVIDER_CONTACT, State.OFFERED.name): [
-        ("Accept", "provider_contract_accept_case_step"),
-        ("Reject", "provider_contract_reject_case_step"),
+        ("Accept", "provider_contact_accept_case_step"),
+        ("Reject", "provider_contact_reject_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.IN_PROGRESS.name): [
-        ("Retract", "client_contract_retract_case_step"),
+        ("Retract", "client_contact_retract_case_step"),
     ],
     (Role.PROVIDER_CONTACT, State.IN_PROGRESS.name): [
-        ("Mark completed", "provider_contract_complete_case_step"),
-        ("Reject", "provider_contract_reject_case_step"),
+        ("Mark completed", "provider_contact_complete_case_step"),
+        ("Reject", "provider_contact_reject_case_step"),
     ],
 }
 
@@ -64,15 +64,25 @@ def _get_active_contract_for_provider_contact(
     active_contract = case_step.active_contract
     if not active_contract:
         return None
-    # TODO: Http404
-    provider_contact = user.providercontact_set.get()
+    try:
+        provider_contact = user.providercontact_set.get()
+    except ProviderContact.DoesNotExist:
+        return None
     if (
-        active_contract.provider_contract_id == provider_contact.id
+        active_contract.provider_contact_id == provider_contact.id
         and not active_contract.rejected_at
     ):
         return active_contract
     else:
         return None
+
+
+def is_client_contact(_, user: settings.AUTH_USER_MODEL) -> bool:
+    return get_role(user) == Role.CLIENT_CONTACT
+
+
+def is_provider_contact(_, user: settings.AUTH_USER_MODEL) -> bool:
+    return get_role(user) == Role.PROVIDER_CONTACT
 
 
 def provider_contact_can_accept_case_step(
@@ -156,14 +166,17 @@ class CaseStep(BaseModel):
     def complete(self) -> None:
         pass
 
-    _reject_transition = transition(
+    # retract (client contact) and reject (provider contact) are the same
+    # operation done by users in different roles: they both make it so the case
+    # step is no longer offered to the provider contact.
+    _reject_or_retract_kwargs = dict(
         field=state,
         source=list(set(State) - {State.FREE}),
         target=State.FREE,
         conditions=[has_active_contract],
     )
 
-    @_reject_transition
+    @transition(permission=is_provider_contact, **_reject_or_retract_kwargs)
     def reject(self) -> None:
         with atomic():
             active_contract = self.active_contract
@@ -172,11 +185,7 @@ class CaseStep(BaseModel):
             self.active_contract = None
             self.save()
 
-    # retract and reject are identical (they make it so the case step is no
-    # longer offered to the provider contact), but it makes sense to use the word
-    # "reject" when the transition is done by the provider contract themselves
-    # and "retract" when it is done by the client contact who owns the case.
-    @_reject_transition
+    @transition(permission=is_client_contact, **_reject_or_retract_kwargs)
     def retract(self) -> None:
         self.reject()
 
