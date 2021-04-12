@@ -1,7 +1,7 @@
 import logging
 from uuid import UUID
 
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.db import models
 from django.db.models import deletion
 from django.db.models.query import QuerySet
@@ -43,7 +43,7 @@ class ClientProviderRelationship(BaseModel):
 
 
 class ClientContact(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model())
+    user_id = UUIDPseudoForeignKeyField(settings.AUTH_USER_MODEL)
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
     def cases(self) -> "QuerySet[Case]":
@@ -84,7 +84,7 @@ class ClientContact(BaseModel):
 
 
 class Applicant(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model())
+    user_id = UUIDPseudoForeignKeyField(settings.AUTH_USER_MODEL)
     employer = models.ForeignKey(Client, on_delete=deletion.CASCADE)
     home_country_id = UUIDPseudoForeignKeyField(Country)
 

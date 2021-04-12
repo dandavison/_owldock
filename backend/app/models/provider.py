@@ -2,7 +2,7 @@ import logging
 from typing import List
 from uuid import UUID
 
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models.query import QuerySet
@@ -28,7 +28,9 @@ class Provider(BaseModel):
 
 
 class ProviderContact(BaseModel):
-    user = models.ForeignKey(get_user_model(), on_delete=models.deletion.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
+    )
     provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
 
     def cases(self) -> "QuerySet[Case]":
