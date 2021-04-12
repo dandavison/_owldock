@@ -139,7 +139,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = "static"
 
 # App-specific settings
-
+AUTH_USER_MODEL = "app.User"
 CORS_ALLOW_ALL_ORIGINS = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
