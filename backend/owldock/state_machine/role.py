@@ -14,8 +14,8 @@ def get_role(user) -> Optional[Role]:
     from client.models import ClientContact
     from app.models import ProviderContact
 
-    is_client_contact = ClientContact.objects.filter(user_id=user.id).exists()
-    is_provider_contact = ProviderContact.objects.filter(user_id=user.id).exists()
+    is_client_contact = ClientContact.objects.filter(user_id=user.uuid).exists()
+    is_provider_contact = ProviderContact.objects.filter(user_id=user.uuid).exists()
     if is_client_contact and is_provider_contact:
         logger.error(
             "User %s is in both client-contact and provider-contact groups",

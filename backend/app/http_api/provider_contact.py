@@ -37,7 +37,7 @@ class _ProviderContactView(View):
         super().setup(*args, **kwargs)
         try:
             self.provider_contact = ProviderContact.objects.get(
-                user_id=self.request.user.id  # type: ignore
+                user_id=self.request.user.uuid  # type: ignore
             )
         except ProviderContact.DoesNotExist:
             self.provider_contact = None  # type: ignore

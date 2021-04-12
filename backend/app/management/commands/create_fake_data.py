@@ -82,7 +82,7 @@ class Command(BaseCommand):
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
                 applicant = Applicant.objects.create(
-                    user_id=user.id,
+                    user_id=user.uuid,
                     employer_id=client.id,
                     home_country_id=country.id,
                 )
@@ -133,7 +133,7 @@ class Command(BaseCommand):
             provider, _ = Provider.objects.get_or_create(
                 name=provider_name, logo_url=logo_url
             )
-            ProviderContact.objects.create(provider_id=provider.id, user_id=user.id)
+            ProviderContact.objects.create(provider_id=provider.id, user_id=user.uuid)
 
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
@@ -169,7 +169,7 @@ class Command(BaseCommand):
                 entity_domain_name=client_entity_domain_name,
                 logo_url=logo_url,
             )
-            ClientContact.objects.create(client=client, user_id=user.id)
+            ClientContact.objects.create(client=client, user_id=user.uuid)
             ClientProviderRelationship.objects.create(
                 client=client,
                 provider_id=Provider.objects.get(name=preferred_provider).id,

@@ -43,7 +43,7 @@ class ClientProviderRelationship(BaseModel):
 
 
 class ClientContact(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model())
+    user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
     def cases(self) -> "QuerySet[Case]":
@@ -84,7 +84,7 @@ class ClientContact(BaseModel):
 
 
 class Applicant(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model())
+    user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
     employer = models.ForeignKey(Client, on_delete=deletion.CASCADE)
     home_country_id = UUIDPseudoForeignKeyField(Country)
 

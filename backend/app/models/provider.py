@@ -12,6 +12,7 @@ from django.utils import timezone
 from app.models.process import Route
 from app.models.file import ApplicationFileType, StoredFile
 from owldock.models import BaseModel
+from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 logger = logging.getLogger(__name__)
@@ -28,7 +29,7 @@ class Provider(BaseModel):
 
 
 class ProviderContact(BaseModel):
-    user = models.ForeignKey(get_user_model(), on_delete=models.deletion.CASCADE)
+    user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
     provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
 
     def cases(self) -> "QuerySet[Case]":

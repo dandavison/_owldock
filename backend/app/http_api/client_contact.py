@@ -36,7 +36,7 @@ class _ClientContactView(View):
         super().setup(*args, **kwargs)
         try:
             self.client_contact = ClientContact.objects.get(
-                user_id=self.request.user.id  # type: ignore
+                user_id=self.request.user.uuid  # type: ignore
             )
         except ClientContact.DoesNotExist:
             self.client_contact = None  # type: ignore

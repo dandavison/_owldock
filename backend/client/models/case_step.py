@@ -65,7 +65,7 @@ def _get_active_contract_for_provider_contact(
     if not active_contract:
         return None
     try:
-        provider_contact = user.providercontact_set.get()
+        provider_contact = ProviderContact.objects.get(user_id=user.uuid)
     except ProviderContact.DoesNotExist:
         return None
     if (

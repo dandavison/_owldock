@@ -16,20 +16,11 @@ class BaseModelFactory(DjangoModelFactory):
         abstract = True
 
 
-def UUIDPseudoForeignKeyFactory(
-    factory_cls: Factory, to_field="id", fixme_int_uuid=False
-) -> LazyAttribute:
+def UUIDPseudoForeignKeyFactory(factory_cls: Factory, to_field="id") -> LazyAttribute:
     def _get_uuid(_) -> UUID:
         to_value = getattr(factory_cls(), to_field)
-        if fixme_int_uuid:
-            # TODO: User.id is currently a conventional integer PK so, despite being
-            # wrapped in the UUID object, the value in that case is a small
-            # non-random integer.
-            assert isinstance(to_value, int)
-            return UUID(int=to_value)
-        else:
-            assert isinstance(to_value, UUID)
-            return to_value
+        assert isinstance(to_value, UUID)
+        return to_value
 
     return factory.LazyAttribute(_get_uuid)
 
@@ -56,7 +47,7 @@ class _HasUserFactory(BaseModelFactory):
     class Meta:
         abstract = True
 
-    user_id = UUIDPseudoForeignKeyFactory(UserFactory, fixme_int_uuid=True)
+    user_id = UUIDPseudoForeignKeyFactory(UserFactory, to_field="uuid")
 
 
 class ClientFactory(DjangoModelFactory):
