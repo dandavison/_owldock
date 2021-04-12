@@ -3,7 +3,6 @@ import pytest
 from django.contrib.auth import get_user_model
 
 from app.models import Country, Provider, ProviderContact
-from app.tests.fixtures import *  # noqa
 from client.models import Applicant, Client, ClientContact
 from owldock.state_machine.role import get_role, Role
 
