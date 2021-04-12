@@ -2,7 +2,7 @@
 https://docs.djangoproject.com/en/3.1/howto/custom-model-fields/
 
 """
-from typing import Type
+from typing import Type, Union
 
 from django.db import models
 
@@ -76,7 +76,7 @@ class UUIDPseudoForeignKeyField(models.UUIDField):
 
     def __init__(
         self,
-        to: Type[models.Model],
+        to: Union[Type[models.Model], str],
         *args,
         to_field="id",
         db_index=True,
