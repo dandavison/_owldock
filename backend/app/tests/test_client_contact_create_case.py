@@ -1,6 +1,6 @@
 import pytest
-from django.core.management import call_command
 
+from app.fake.create_fake_world import create_fake_world
 from app.models import Process, ProviderContact
 from app.tests.fake_create_case import fake_create_case
 from client.models import ClientContact
@@ -9,7 +9,7 @@ from client.models.case_step import State as CaseStepState
 
 @pytest.mark.django_db
 def test_client_provider_case_lifecycle():
-    call_command("create_fake_data", "test-password")
+    create_fake_world("password")
 
     client_contact = ClientContact.objects.earliest("id")
     applicant = client_contact.client.applicant_set.earliest("id")

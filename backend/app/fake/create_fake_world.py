@@ -4,13 +4,13 @@ from typing import Set, TypeVar, Optional
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from django.core.management import call_command
-from django.core.management.base import BaseCommand
 from django.db.models import Model
 from django.db.transaction import atomic
 from django_seed import Seed
 
+from app.fake.set_provider_routes import set_provider_routes
 from app.fixtures.country import load_country_fixture
+from app.fixtures.process import load_process_fixture
 from app.models import (
     Activity,
     Country,
@@ -27,17 +27,17 @@ from client.models import (
 )
 
 
-class Command(BaseCommand):
-    def add_arguments(self, parser):
-        parser.add_argument("password", type=str)
+def create_fake_world(password: str):
+    _FakeWorldCreator(password).create()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+
+class _FakeWorldCreator:
+    def __init__(self, password):
+        self.password = password
         self.seeder = Seed.seeder()
 
     @atomic
-    def handle(self, *args, **kwargs):
-        self.password = kwargs["password"]
+    def create(self):
         load_country_fixture()
         self._create_services()
         self._create_superusers()
@@ -45,8 +45,8 @@ class Command(BaseCommand):
         self._create_client_contacts()
         self._create_applicants(10)
         self._create_activities(3)
-        call_command("load_process_fixture")
-        call_command("set_provider_routes")
+        load_process_fixture()
+        set_provider_routes()
 
     def _create_services(self) -> None:
         print("Creating services")

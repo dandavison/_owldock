@@ -26,8 +26,8 @@ type-check-pyright:
 repl-python:
 	$(MANAGE) shell_plus --settings=owldock.settings.dev
 
-create-fake-data:
-	$(MANAGE) create_fake_data $$OWLDOCK_DEV_PASSWORD
+create-fake-world:
+	$(MANAGE) create_fake_world $$OWLDOCK_DEV_PASSWORD
 
 create-fake-cases:
 	$(MANAGE) create_fake_cases
@@ -41,7 +41,7 @@ recreate-db:
 	$(MANAGE) makemigrations app client
 	$(MANAGE) migrate
 	$(MANAGE) migrate --database client
-	$(MANAGE) create_fake_data $$OWLDOCK_DEV_PASSWORD
+	$(MANAGE) create_fake_world $$OWLDOCK_DEV_PASSWORD
 
 db-graph:
 	$(MANAGE) graph_models app client --no-inheritance --exclude-models '*BaseModel' --output /tmp/db.svg
