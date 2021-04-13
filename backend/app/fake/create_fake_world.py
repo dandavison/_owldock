@@ -222,5 +222,5 @@ M = TypeVar("M", bound=Model)
 
 
 def _make_email(name: str, entity_domain_name: str) -> str:
-    company = entity_domain_name.split(".")[0]
-    return f"{name.lower()}-{company}@example.com"
+    company = entity_domain_name.split(".")[0].translate({" ": "-", ",": "-"})
+    return f"{name}-{company}@example.com".lower()
