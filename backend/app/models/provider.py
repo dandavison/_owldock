@@ -11,7 +11,7 @@ from django.utils import timezone
 
 from app.models.process import Route
 from app.models.file import ApplicationFileType, StoredFile
-from owldock.models import BaseModel
+from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
 

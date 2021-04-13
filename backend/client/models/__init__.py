@@ -8,7 +8,7 @@ from django.db.models.query import QuerySet
 
 from app.models.process import Country, Process
 from app.models.provider import Provider, ProviderContact
-from owldock.models import BaseModel
+from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
 

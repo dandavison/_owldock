@@ -11,7 +11,7 @@ from django.db.models import (
     UUIDField,
 )
 
-from owldock.models import BaseModel
+from owldock.models.base import BaseModel
 
 
 class ApplicationFileType(models.TextChoices):

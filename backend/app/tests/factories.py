@@ -7,7 +7,7 @@ from factory import Factory, LazyAttribute
 
 from app.models import Country, Provider, ProviderContact, Route
 from client.models import Applicant, Client, ClientContact
-from owldock.models import BaseModel
+from owldock.models.base import BaseModel
 
 
 class BaseModelFactory(DjangoModelFactory):

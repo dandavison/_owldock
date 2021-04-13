@@ -15,7 +15,7 @@ from client.models import Case
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
 from owldock.state_machine.role import get_role, Role
-from owldock.models import BaseModel
+from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
