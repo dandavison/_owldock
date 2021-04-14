@@ -152,23 +152,24 @@ def _make_case_step_FREE_assertions(
     assert set(transitions) == {offer}
 
     # Owning Client contact should be able to do: {offer}
-    assert set(case_step.get_available_user_state_transitions(client_contact.user)) == {
-        offer
-    }
-    assert (
-        set(case_step.get_available_user_state_transitions(other_client_contact.user))
-        == set()
+    client_contact_transitions = case_step.get_available_user_state_transitions(
+        client_contact.user
     )
+    assert set(client_contact_transitions) == {offer}
+    other_client_contact_transitions = case_step.get_available_user_state_transitions(
+        other_client_contact.user
+    )
+    assert set(other_client_contact_transitions) == set()
 
     # Provider contacts should be able to do nothing
-    assert (
-        set(case_step.get_available_user_state_transitions(provider_contact.user))
-        == set()
+    provider_contact_transitions = case_step.get_available_user_state_transitions(
+        provider_contact.user
     )
-    assert (
-        set(case_step.get_available_user_state_transitions(other_provider_contact.user))
-        == set()
+    assert set(provider_contact_transitions) == set()
+    other_provider_contact_transitions = case_step.get_available_user_state_transitions(
+        other_provider_contact.user
     )
+    assert set(other_provider_contact_transitions) == set()
 
 
 def _make_case_step_OFFERED_assertions(
@@ -195,22 +196,25 @@ def _make_case_step_OFFERED_assertions(
     assert set(transitions) == {retract, accept, reject}
 
     # Owning client contact should be able to do: {retract}
-    assert set(case_step.get_available_user_state_transitions(client_contact.user)) == {
-        retract
-    }
-    assert (
-        set(case_step.get_available_user_state_transitions(other_client_contact.user))
-        == set()
+    client_contact_transitions = case_step.get_available_user_state_transitions(
+        client_contact.user
     )
+    assert set(client_contact_transitions) == {retract}
+    other_client_contact_transitions = case_step.get_available_user_state_transitions(
+        other_client_contact.user
+    )
+    assert set(other_client_contact_transitions) == set()
 
     # Offeree Provider contact should be able to do: {accept, reject}
-    assert set(
-        case_step.get_available_user_state_transitions(provider_contact.user)
-    ) == {accept, reject}
-    assert (
-        set(case_step.get_available_user_state_transitions(other_provider_contact.user))
-        == set()
+    provider_contact_transitions = case_step.get_available_user_state_transitions(
+        provider_contact.user
     )
+    assert set(provider_contact_transitions) == {accept, reject}
+
+    other_provider_contact_transitions = case_step.get_available_user_state_transitions(
+        other_provider_contact.user
+    )
+    assert set(other_provider_contact_transitions) == set()
 
 
 def _make_case_step_IN_PROGRESS_assertions(
