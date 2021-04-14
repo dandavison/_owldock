@@ -11,7 +11,7 @@ from django.urls import reverse
 from app.models.file import StoredFile
 from app.models.process import ProcessStep
 from app.models.provider import ProviderContact
-from client.models import Case
+from client.models.client import Case
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
 from owldock.state_machine.role import get_role, Role
