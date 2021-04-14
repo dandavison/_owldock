@@ -1,10 +1,7 @@
-import pytest
-
 from client.models.case_step import State
 from client.tests.fake_create_case import fake_create_case
 
 
-@pytest.mark.django_db
 def test_creation_by_client_contact(
     applicant_A,
     applicant_B,

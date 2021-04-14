@@ -7,7 +7,6 @@ from client.models import Applicant, Client, ClientContact
 from owldock.state_machine.role import get_role, Role
 
 
-@pytest.mark.django_db
 def test_applicant_factory(applicant_A, applicant_B):
     _make_applicant_assertions(applicant_A)
     _make_applicant_assertions(applicant_B)
@@ -19,9 +18,10 @@ def _make_applicant_assertions(applicant: Applicant) -> None:
     assert get_role(applicant.user) is None
     assert isinstance(applicant.user, get_user_model())
     assert isinstance(applicant.home_country, Country)
+    assert applicant.user_uuid
+    assert applicant.user_uuid == applicant.user.uuid
 
 
-@pytest.mark.django_db
 def test_client_contact_factory(client_A, client_contact_A, client_B, client_contact_B):
     _make_client_contact_assertions(client_A, client_contact_A)
     _make_client_contact_assertions(client_B, client_contact_B)

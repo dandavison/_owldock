@@ -2,8 +2,15 @@ import factory
 from django.contrib.auth import get_user_model
 from factory.django import DjangoModelFactory
 
-from app.models import Provider, ProviderContact, Route
+from app.models import Activity, Provider, ProviderContact, Route
 from owldock.tests.factories import BaseModelFactory
+
+
+class ActivityFactory(DjangoModelFactory):
+    class Meta:
+        model = Activity
+
+    name = factory.Faker("job")
 
 
 class UserFactory(DjangoModelFactory):

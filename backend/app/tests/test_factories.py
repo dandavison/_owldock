@@ -6,7 +6,11 @@ from app.models import Provider, ProviderContact
 from owldock.state_machine.role import get_role, Role
 
 
-@pytest.mark.django_db
+def test_activity_factory(activity_A, activity_B):
+    assert activity_A != activity_B
+    assert activity_A.name != activity_B.name
+
+
 def test_provider_contact_factory(
     provider_A, provider_contact_A, provider_B, provider_contact_B
 ):

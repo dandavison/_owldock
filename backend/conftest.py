@@ -4,7 +4,7 @@ from django.conf import settings
 
 from app.fixtures import country as country_fixture
 from app.fixtures import process as process_fixture
-from app.models import Process
+from app.models import Country, Process
 from app.tests import factories
 
 
@@ -32,6 +32,26 @@ def load_country_fixture():
 @pytest.fixture()
 def load_process_fixture(load_country_fixture):
     process_fixture.load_process_fixture()
+
+
+@pytest.fixture
+def country_A(load_country_fixture):
+    return Country.objects.order_by("id")[0]
+
+
+@pytest.fixture
+def country_B(load_country_fixture):
+    return Country.objects.order_by("id")[1]
+
+
+@pytest.fixture
+def activity_A():
+    return factories.ActivityFactory()
+
+
+@pytest.fixture
+def activity_B():
+    return factories.ActivityFactory()
 
 
 @pytest.fixture
