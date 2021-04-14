@@ -1,16 +1,13 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Callable, List
 
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import deletion, QuerySet
+from django.db.models import deletion, Model, QuerySet
 from django.db.transaction import atomic
 from django.urls import reverse
 
-from app.models.file import StoredFile
-from app.models.process import ProcessStep
-from app.models.provider import ProviderContact
+from app.models import ProcessStep, ProviderContact, StoredFile, User
 from client.models.client import Case
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
@@ -50,57 +47,32 @@ ACTIONS = {
 }
 
 
-def client_contact_can_offer_case_step(
-    case_step: "CaseStep", user: settings.AUTH_USER_MODEL
-) -> bool:
-    # TODO: Http404
-    client_contact = user.clientcontact_set.get()
-    return case_step.case.client_contact == client_contact
+def permission_checker(action: str) -> Callable[[Model, User], bool]:
+    """
+    Return a django-fsm permission-checker function.
 
+    I.e. a function mapping (instance, user) -> bool.
+    """
 
-def _get_active_contract_for_provider_contact(
-    case_step: "CaseStep", user: settings.AUTH_USER_MODEL
-) -> "Optional[CaseContract]":
-    active_contract = case_step.active_contract
-    if not active_contract:
-        return None
-    try:
-        provider_contact = ProviderContact.objects.get(user=user)
-    except ProviderContact.DoesNotExist:
-        return None
-    if (
-        active_contract.provider_contact_uuid == provider_contact.uuid
-        and not active_contract.rejected_at
-    ):
-        return active_contract
-    else:
-        return None
+    def checker(instance: "CaseStep", user: User) -> bool:
+        assert isinstance(instance, CaseStep)
+        roles = {
+            role
+            for (role, _), actions in ACTIONS.items()
+            if action in [a for (_, a) in actions]
+        }
+        role = get_role(user)
+        if role not in roles:
+            return False
+        if role == Role.CLIENT_CONTACT:
+            return instance.case.client_contact.user == user
+        elif role == Role.PROVIDER_CONTACT:
+            contract = instance.active_contract
+            return contract and contract.provider_contact.user == user
+        else:
+            raise AssertionError(f"Invalid role: {role}")
 
-
-def is_client_contact(_, user: settings.AUTH_USER_MODEL) -> bool:
-    return get_role(user) == Role.CLIENT_CONTACT
-
-
-def is_provider_contact(_, user: settings.AUTH_USER_MODEL) -> bool:
-    return get_role(user) == Role.PROVIDER_CONTACT
-
-
-def provider_contact_can_accept_case_step(
-    case_step: "CaseStep", user: settings.AUTH_USER_MODEL
-) -> bool:
-    active_contract = _get_active_contract_for_provider_contact(case_step, user)
-    if not active_contract:
-        return False
-    return not active_contract.accepted_at
-
-
-def provider_contact_can_complete_case_step(
-    case_step: "CaseStep", user: settings.AUTH_USER_MODEL
-) -> bool:
-    active_contract = _get_active_contract_for_provider_contact(case_step, user)
-    if not active_contract:
-        return False
-    return active_contract.accepted_at
+    return checker
 
 
 class CaseStep(BaseModel):
@@ -127,7 +99,7 @@ class CaseStep(BaseModel):
         source=State.FREE,
         target=State.OFFERED,
         conditions=[does_not_have_active_contract],
-        permission=client_contact_can_offer_case_step,
+        permission=permission_checker("client_contact_offer_case_step"),
     )
     def offer(self, provider_contact: ProviderContact) -> None:
         """
@@ -150,7 +122,7 @@ class CaseStep(BaseModel):
         source=State.OFFERED,
         target=State.IN_PROGRESS,
         conditions=[has_active_contract],
-        permission=provider_contact_can_accept_case_step,
+        permission=permission_checker("provider_contact_accept_case_step"),
     )
     def accept(self) -> None:
         self.active_contract.accepted_at = datetime.now()
@@ -161,7 +133,7 @@ class CaseStep(BaseModel):
         source=State.IN_PROGRESS,
         target=State.COMPLETE,
         conditions=[has_active_contract],
-        permission=provider_contact_can_complete_case_step,
+        permission=permission_checker("provider_contact_complete_case_step"),
     )
     def complete(self) -> None:
         pass
@@ -176,7 +148,10 @@ class CaseStep(BaseModel):
         conditions=[has_active_contract],
     )
 
-    @transition(permission=is_provider_contact, **_reject_or_retract_kwargs)
+    @transition(
+        permission=permission_checker("provider_contact_reject_case_step"),
+        **_reject_or_retract_kwargs,
+    )
     def reject(self) -> None:
         with atomic():
             active_contract = self.active_contract
@@ -185,7 +160,10 @@ class CaseStep(BaseModel):
             self.active_contract = None
             self.save()
 
-    @transition(permission=is_client_contact, **_reject_or_retract_kwargs)
+    @transition(
+        permission=permission_checker("client_contact_retract_case_step"),
+        **_reject_or_retract_kwargs,
+    )
     def retract(self) -> None:
         self.reject()
 
@@ -213,7 +191,6 @@ class CaseStep(BaseModel):
             )
             for (display_name, name) in actions
         ]
-        print(f"actions for case step {self.uuid}: {actions}")
         return ret
 
     @property
