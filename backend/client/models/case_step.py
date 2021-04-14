@@ -143,7 +143,7 @@ class CaseStep(BaseModel):
     # step is no longer offered to the provider contact.
     _reject_or_retract_kwargs = dict(
         field=state,
-        source=list(set(State) - {State.FREE}),
+        source=list(set(State) - {State.FREE} - {State.COMPLETE}),
         target=State.FREE,
         conditions=[has_active_contract],
     )
