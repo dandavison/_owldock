@@ -36,7 +36,7 @@ function NullProcess(): ProcessSerializer {
 }
 
 function NullUser(): UserSerializer {
-  return {};
+  return { email: "" };
 }
 
 function NullClient(): ClientSerializer {
