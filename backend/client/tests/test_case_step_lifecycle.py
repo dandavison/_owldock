@@ -60,8 +60,16 @@ def _make_case_step_OFFERED_assertions(
     assert set(case_step.get_available_user_state_transitions(client_contact.user)) == {
         retract
     }
+    assert (
+        set(case_step.get_available_user_state_transitions(other_client_contact.user))
+        == set()
+    )
 
     # Provider contact should be able to do: {accept, reject}
     assert set(
         case_step.get_available_user_state_transitions(provider_contact.user)
     ) == {accept, reject}
+    assert (
+        set(case_step.get_available_user_state_transitions(other_provider_contact.user))
+        == set()
+    )
