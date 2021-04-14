@@ -25,9 +25,8 @@ def load_process_fixture():
         try:
             host_country = Country.objects.get(name=host_country_name)
         except Country.DoesNotExist:
-            print(
-                f"Country name from fixture does not exist: {host_country_name}",
-                file=sys.stderr,
+            logger.warning(
+                f"Country name from fixture does not exist: {host_country_name}"
             )
             continue
         route, _ = Route.objects.get_or_create(
@@ -46,7 +45,6 @@ def load_process_fixture():
                     f"for {host_country_name} {process_name}"
                 )
                 logger.error(msg)
-                print(msg, file=sys.stderr)
                 continue
             else:
                 seen.add(service_name)
