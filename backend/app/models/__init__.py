@@ -11,8 +11,17 @@ class User(AbstractUser):
         db_index=True,
         editable=False,
     )
+    # TODO: what is the role of the username field?
+    email = models.EmailField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("email",), name="user__email__unique_constraint"
+            )
+        ]
 
 
 from app.models.process import *  # noqa

@@ -1,4 +1,5 @@
 import csv
+import logging
 import re
 import sys
 from typing import List, Tuple
@@ -7,6 +8,9 @@ from django.conf import settings
 from django.db.transaction import atomic
 
 from app.models import Country, Route, Process, Service
+
+
+logger = logging.getLogger(__file__)
 
 
 @atomic
@@ -26,7 +30,7 @@ def load_process_fixture():
                 file=sys.stderr,
             )
             continue
-        route = Route.objects.create(
+        route, _ = Route.objects.get_or_create(
             name=process_name,
             host_country=host_country,
         )
@@ -34,7 +38,18 @@ def load_process_fixture():
             route=route,
             nationality=Country.objects.get(name=nationality_name),
         )
+        seen = set()
         for (n, service_name) in process_steps:
+            if service_name in seen:
+                msg = (
+                    f"Duplicate service name ({service_name}) "
+                    f"for {host_country_name} {process_name}"
+                )
+                logger.error(msg)
+                print(msg, file=sys.stderr)
+                continue
+            else:
+                seen.add(service_name)
             service, _ = Service.objects.get_or_create(name=service_name)
             process.steps.create(sequence_number=n, service=service)
 

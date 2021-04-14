@@ -24,6 +24,17 @@ class Client(BaseModel):
     entity_domain_name = models.CharField(max_length=128)
     logo_url = models.URLField()
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name",), name="client__name__unique_constraint"
+            ),
+            models.UniqueConstraint(
+                fields=("entity_domain_name",),
+                name="client__entity_domain_name__unique_constraint",
+            ),
+        ]
+
     def provider_relationships(self) -> "QuerySet[ClientProviderRelationship]":
         return ClientProviderRelationship.objects.filter(client_id=self.id)
 
@@ -45,6 +56,14 @@ class ClientProviderRelationship(BaseModel):
 class ClientContact(BaseModel):
     user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("user_uuid",),
+                name="client_contact__user_uuid__unique_constraint",
+            )
+        ]
 
     def cases(self) -> "QuerySet[Case]":
         return self.case_set.all()
@@ -88,6 +107,13 @@ class Applicant(BaseModel):
     employer = models.ForeignKey(Client, on_delete=deletion.CASCADE)
     home_country_id = UUIDPseudoForeignKeyField(Country)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("user_uuid",), name="applicant__user_uuid__unique_constraint"
+            )
+        ]
+
     @property
     def nationalities(self) -> QuerySet[Country]:
         country_ids = ApplicantNationality.objects.filter(applicant=self).values_list(
@@ -99,6 +125,14 @@ class Applicant(BaseModel):
 class ApplicantNationality(BaseModel):
     applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
     country_id = UUIDPseudoForeignKeyField(Country)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("applicant", "country_uuid"),
+                name="applicant_nationality__applcant__country_uuid__unique_constraint",
+            )
+        ]
 
 
 class Case(BaseModel):

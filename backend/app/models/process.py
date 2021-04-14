@@ -1,3 +1,10 @@
+# Regarding use of Meta.constraints rather than unique=True in the field
+# declaration:
+# Suppose some POST data has been received by a DRF serializer, and the plan is
+# to create Service entries with get_or_create semantics. The DRF serializer
+# will fail its validity check if the new Service entries look like they are
+# going to try to create duplicates. But only if the unique_contraint is added
+# in the Django field definition.
 from django.db import models
 
 from owldock.models.base import BaseModel
@@ -8,13 +15,31 @@ class Country(BaseModel):
     code = models.CharField(max_length=2)
     unicode_flag = models.CharField(max_length=2)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name",),
+                name="country__name__unique_constraint",
+            ),
+            models.UniqueConstraint(
+                fields=("code",), name="country__code__unique_constraint"
+            ),
+        ]
+
 
 class Activity(BaseModel):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
 
 
 class Service(BaseModel):
     name = models.CharField(max_length=128)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name",), name="service__name__unique_constraint"
+            )
+        ]
 
 
 class Route(BaseModel):
@@ -31,6 +56,14 @@ class Route(BaseModel):
         on_delete=models.deletion.PROTECT,
         related_name="routes_for_which_host_country",
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name", "host_country"),
+                name="route__host_country__name__unique_constraint",
+            ),
+        ]
 
 
 class Process(BaseModel):
@@ -53,6 +86,14 @@ class Process(BaseModel):
         related_name="processes_for_which_home_country",
     )
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("home_country", "nationality", "route"),
+                name="process__home_country__nationality__route__unique_constraint",
+            ),
+        ]
+
 
 class ProcessStep(BaseModel):
     process = models.ForeignKey(
@@ -60,3 +101,15 @@ class ProcessStep(BaseModel):
     )
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
     sequence_number = models.PositiveIntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("process_id", "sequence_number"),
+                name="process_step__process__sequence_number__unique_constraint",
+            ),
+            models.UniqueConstraint(
+                fields=("process_id", "service"),
+                name="process_step__process__service__unique_constraint",
+            ),
+        ]

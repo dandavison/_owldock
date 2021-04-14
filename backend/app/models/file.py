@@ -22,6 +22,7 @@ class StoredFile(BaseModel):
     # File attributes
     created_by = ForeignKey(settings.AUTH_USER_MODEL, on_delete=deletion.PROTECT)
     file = FileField(upload_to="uploads/%Y/%m/")
+    # TODO: Prevent file name clashes
     name = CharField(max_length=256)
     media_type = CharField(max_length=128)
     size = PositiveIntegerField()
@@ -34,6 +35,13 @@ class StoredFile(BaseModel):
     # Not actually using a Django GFK due to our multiple database setup
     associated_object_content_type = ForeignKey(ContentType, on_delete=deletion.PROTECT)
     associated_object_id = UUIDField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name",), name="stored_file__name__unique_constraint"
+            )
+        ]
 
     @classmethod
     def from_uploaded_file(cls, uploaded_file: UploadedFile) -> "StoredFile":

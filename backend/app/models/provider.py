@@ -27,10 +27,24 @@ class Provider(BaseModel):
     logo_url = models.URLField()
     routes = models.ManyToManyField(Route, related_name="providers")
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name",), name="provider__name__unique_constraint"
+            )
+        ]
+
 
 class ProviderContact(BaseModel):
     user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
     provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("user",), name="provider_contact__user__unique_constraint"
+            )
+        ]
 
     def cases(self) -> "QuerySet[Case]":
         """
