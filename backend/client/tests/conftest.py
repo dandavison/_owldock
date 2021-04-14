@@ -14,10 +14,20 @@ def applicant_B(load_country_fixture):
 
 
 @pytest.fixture
-def client_contact_A():
-    return factories.ClientContactFactory()
+def client_A():
+    return factories.ClientFactory()
 
 
 @pytest.fixture
-def client_contact_B():
-    return factories.ClientContactFactory()
+def client_B():
+    return factories.ClientFactory()
+
+
+@pytest.fixture
+def client_contact_A(client_A):
+    return factories.ClientContactFactory(client=client_A)
+
+
+@pytest.fixture
+def client_contact_B(client_B):
+    return factories.ClientContactFactory(client=client_B)

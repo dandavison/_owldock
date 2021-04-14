@@ -45,10 +45,20 @@ def process_B(load_process_fixture):
 
 
 @pytest.fixture
-def provider_contact_A():
-    return factories.ProviderContactFactory()
+def provider_A():
+    return factories.ProviderFactory()
 
 
 @pytest.fixture
-def provider_contact_B():
-    return factories.ProviderContactFactory()
+def provider_B():
+    return factories.ProviderFactory()
+
+
+@pytest.fixture
+def provider_contact_A(provider_A):
+    return factories.ProviderContactFactory(provider=provider_A)
+
+
+@pytest.fixture
+def provider_contact_B(provider_B):
+    return factories.ProviderContactFactory(provider=provider_B)
