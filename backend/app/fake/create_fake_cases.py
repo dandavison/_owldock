@@ -2,9 +2,9 @@ import random
 
 from django.db.transaction import atomic
 
-from app.tests.fake_create_case import fake_create_case
 from app.models import Process, Provider, ProviderContact
 from client.models import Applicant, ClientProviderRelationship
+from client.tests.fake_create_case import fake_create_case
 
 
 @atomic

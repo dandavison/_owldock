@@ -2,9 +2,9 @@ import pytest
 
 from app.fake.create_fake_world import create_fake_world
 from app.models import Process, ProviderContact
-from app.tests.fake_create_case import fake_create_case
 from client.models import ClientContact
 from client.models.case_step import State as CaseStepState
+from client.tests.fake_create_case import fake_create_case
 
 
 @pytest.mark.django_db

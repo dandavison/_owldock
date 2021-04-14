@@ -1,32 +1,9 @@
-from uuid import UUID
-import random
-
 import factory
 from django.contrib.auth import get_user_model
 from factory.django import DjangoModelFactory
-from factory import Factory, LazyAttribute
 
-from app.models import Country, Provider, ProviderContact, Route
-from client.models import Applicant, Client, ClientContact
-from owldock.models.base import BaseModel
-
-
-random.seed("owldock")
-
-
-class BaseModelFactory(DjangoModelFactory):
-    class Meta:
-        model = BaseModel
-        abstract = True
-
-
-def UUIDPseudoForeignKeyFactory(factory_cls: Factory, to_field="uuid") -> LazyAttribute:
-    def _get_uuid(_) -> UUID:
-        to_value = getattr(factory_cls(), to_field)
-        assert isinstance(to_value, UUID)
-        return to_value
-
-    return factory.LazyAttribute(_get_uuid)
+from app.models import Provider, ProviderContact, Route
+from owldock.tests.factories import BaseModelFactory
 
 
 class UserFactory(DjangoModelFactory):
@@ -52,46 +29,6 @@ class _HasUserFactory(BaseModelFactory):
         abstract = True
 
     user = factory.SubFactory(UserFactory)
-
-
-class _HasUserUUIDFactory(BaseModelFactory):
-    """
-    An owldock model, inheriting from BaseModel, with a UUID link to auth.User.
-    """
-
-    class Meta:
-        abstract = True
-
-    user_uuid = UUIDPseudoForeignKeyFactory(UserFactory, to_field="uuid")
-
-
-class ClientFactory(DjangoModelFactory):
-    class Meta:
-        model = Client
-        database = "client"
-
-    name = factory.Faker("company")
-    entity_domain_name = factory.LazyAttribute(lambda obj: f"{obj.name}.com")
-    logo_url = factory.Faker("url")
-
-
-class ApplicantFactory(_HasUserUUIDFactory):
-    class Meta:
-        model = Applicant
-        database = "client"
-
-    employer = factory.SubFactory(ClientFactory)
-    home_country_uuid = factory.LazyAttribute(
-        lambda _: random.choice(Country.objects.all()).uuid
-    )
-
-
-class ClientContactFactory(_HasUserUUIDFactory):
-    class Meta:
-        model = ClientContact
-        database = "client"
-
-    client = factory.SubFactory(ClientFactory)
 
 
 class ProviderFactory(DjangoModelFactory):
