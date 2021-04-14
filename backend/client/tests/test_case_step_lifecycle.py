@@ -77,12 +77,9 @@ def _make_case_step_FREE_assertions(
     assert case_step not in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
 
-    transitions = {
-        t for t in case_step.get_all_state_transitions() if t.source == case_step.state
-    }
+    transitions = set(case_step.get_available_state_transitions())
     [offer] = [t for t in transitions if t.name == "offer"]
-
-    assert set(case_step.get_available_state_transitions()) == {offer}
+    assert set(transitions) == {offer}
 
     # Owning Client contact should be able to do: {offer}
     assert set(case_step.get_available_user_state_transitions(client_contact.user)) == {
@@ -121,21 +118,11 @@ def _make_case_step_OFFERED_assertions(
     assert case_step in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
 
-    transitions = {
-        t for t in case_step.get_all_state_transitions() if t.source == case_step.state
-    }
+    transitions = set(case_step.get_available_state_transitions())
     [accept] = [t for t in transitions if t.name == "accept"]
     [reject] = [t for t in transitions if t.name == "reject"]
     [retract] = [t for t in transitions if t.name == "retract"]
-
-    assert set(case_step.get_available_state_transitions()) == {
-        retract,
-        accept,
-        reject,
-    }
-
-    # TODO: If this passes then clean up the above code
-    assert set(case_step.get_available_state_transitions()) == transitions
+    assert set(transitions) == {retract, accept, reject}
 
     # Owning client contact should be able to do: {retract}
     assert set(case_step.get_available_user_state_transitions(client_contact.user)) == {
