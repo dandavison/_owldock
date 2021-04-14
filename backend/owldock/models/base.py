@@ -9,18 +9,8 @@ class BaseModel(models.Model):
     A base class for owldock models.
     """
 
-    # We use UUID primary keys instead of the familiar auto-incrementing
-    # integers. The reason is that our tables are split across multiple
-    # databases (tables holding client data fields are in a different database
-    # from tables holding non-client data fields), so in several cases where we
-    # would want a foreign key, we cannot use one, instead storing a unique
-    # identifier without the referential integrity guarantee of a true FK. UUIDs
-    # are an appropriate choice for such unique identifiers. Rather than have
-    # some tables with integer 'id' primary keys only, and some with integer
-    # 'id' primary key and UUID, we elect to just use UUID primary keys on all
-    # tables. We name the UUID primary key 'id'.
-    id = models.UUIDField(
-        primary_key=True,
+    uuid = models.UUIDField(
+        unique=True,
         default=uuid.uuid4,
         db_index=True,
         editable=False,
@@ -41,5 +31,5 @@ class BaseModel(models.Model):
         elif hasattr(self, "user"):
             data = self.user.email  # type: ignore
         else:
-            data = self.id  # type: ignore
+            data = self.uuid  # type: ignore
         return f"{data}"

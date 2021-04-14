@@ -12,11 +12,11 @@ def create_fake_cases(self, n: int):
     for applicant in Applicant.objects.all():
         client = applicant.employer
         valid_client_contacts = client.clientcontact_set.all()
-        provider_ids = [
-            r.provider_id
-            for r in ClientProviderRelationship.objects.filter(client_id=client.id)
+        provider_uuids = [
+            r.provider_uuid
+            for r in ClientProviderRelationship.objects.filter(client=client)
         ]
-        valid_providers = Provider.objects.filter(id__in=provider_ids)
+        valid_providers = Provider.objects.filter(uuid__in=provider_uuids)
         valid_provider_contacts = ProviderContact.objects.filter(
             provider__in=valid_providers
         )

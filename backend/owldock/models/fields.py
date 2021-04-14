@@ -55,7 +55,7 @@ class UUIDPseudoForeignKeyField(models.UUIDField):
     in a table in a different database. Accordingly, it always creates an index.
     A target model class (`to`) must be supplied to indicate intent, although
     currently nothing is done with it. The target field (`to_field`) is an
-    optional argument, defaulting to "id".
+    optional argument, defaulting to "uuid".
     """
 
     # Although we are creating a custom model field here, this is intended to be
@@ -64,7 +64,7 @@ class UUIDPseudoForeignKeyField(models.UUIDField):
     #
     # Suppose it is used like this:
     #
-    # parent_id = UUIDPseudoForeignKeyField(Parent)
+    # parent_uuid = UUIDPseudoForeignKeyField(Parent)
     #
     # Then, a python property named 'parent' will be added to the model instance
     # object. This property, when accessed, will attempt to execute
@@ -78,7 +78,7 @@ class UUIDPseudoForeignKeyField(models.UUIDField):
         self,
         to: Type[models.Model],
         *args,
-        to_field="id",
+        to_field="uuid",
         db_index=True,
         **kwargs,
     ):
@@ -90,14 +90,14 @@ class UUIDPseudoForeignKeyField(models.UUIDField):
         # https://docs.djangoproject.com/en/3.1/howto/custom-model-fields/#field-deconstruction
         name, path, args, kwargs = super().deconstruct()
         args = [self.to] + list(args)
-        kwargs.setdefault("to_field", "id")
+        kwargs.setdefault("to_field", "uuid")
         kwargs.setdefault("db_index", True)
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name, **kwargs):
         super().contribute_to_class(cls, name, **kwargs)
-        forward_related_accessor_name, sep, suffix = self.name.rpartition("_id")
-        assert sep == "_id" and not suffix, f"Expected {self.name} to end in '_id'"
+        forward_related_accessor_name, sep, suffix = self.name.rpartition("_uuid")
+        assert sep == "_uuid" and not suffix, f"Expected {self.name} to end in '_uuid'"
         setattr(
             cls,
             forward_related_accessor_name,

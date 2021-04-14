@@ -82,19 +82,19 @@ class _FakeWorldCreator:
                 email = _make_email(first_name, client.entity_domain_name)
                 user = self._create_user(first_name, last_name, email, None)
                 applicant = Applicant.objects.create(
-                    user_id=user.uuid,
-                    employer_id=client.id,
-                    home_country_id=country.id,
+                    employer=client,
+                    home_country_uuid=country.uuid,
+                    user_uuid=user.uuid,
                 )
                 ApplicantNationality.objects.create(
-                    applicant_id=applicant.id, country_id=country.id
+                    applicant=applicant, country_uuid=country.uuid
                 )
                 is_dual_national = random.uniform(0, 1) < 1 / 3
                 if is_dual_national:
                     other_countries = list(set(all_countries) - {country})
                     second_country = random.choice(other_countries)
                     ApplicantNationality.objects.create(
-                        applicant_id=applicant.id, country_id=second_country.id
+                        applicant=applicant, country_uuid=second_country.uuid
                     )
 
     def _create_provider_contacts(self) -> None:
@@ -133,7 +133,7 @@ class _FakeWorldCreator:
             provider, _ = Provider.objects.get_or_create(
                 name=provider_name, logo_url=logo_url
             )
-            ProviderContact.objects.create(provider_id=provider.id, user_id=user.uuid)
+            ProviderContact.objects.create(provider=provider, user=user)
 
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
@@ -169,16 +169,16 @@ class _FakeWorldCreator:
                 entity_domain_name=client_entity_domain_name,
                 logo_url=logo_url,
             )
-            ClientContact.objects.create(client=client, user_id=user.uuid)
+            ClientContact.objects.create(client=client, user_uuid=user.uuid)
             ClientProviderRelationship.objects.create(
                 client=client,
-                provider_id=Provider.objects.get(name=preferred_provider).id,
+                provider_uuid=Provider.objects.get(name=preferred_provider).uuid,
                 preferred=True,
             )
             for provider in other_providers:
                 ClientProviderRelationship.objects.create(
                     client=client,
-                    provider_id=Provider.objects.get(name=provider).id,
+                    provider_uuid=Provider.objects.get(name=provider).uuid,
                     preferred=False,
                 )
 

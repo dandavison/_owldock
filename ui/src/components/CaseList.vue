@@ -86,7 +86,7 @@ export default Vue.extend({
     },
 
     navigateToRowDetailView(row: CaseSerializer): void {
-      this.$router.push(`/portal/case/${row.id}`);
+      this.$router.push(`/portal/case/${row.uuid}`);
     },
 
     // TODO: The 'selected' feature of buefy table seems to be being triggered

@@ -1,29 +1,29 @@
 export interface CountrySerializer {
-    id?: string;
+    uuid?: string;
     name: string;
     code: string;
     unicode_flag: string;
 }
 
 export interface ServiceSerializer {
-    id?: string;
+    uuid?: string;
     name: string;
 }
 
 export interface RouteSerializer {
-    id?: string;
+    uuid?: string;
     name: string;
     host_country: CountrySerializer;
 }
 
 export interface ProcessStepSerializer {
-    id?: string;
+    uuid?: string;
     sequence_number: number;
     service: ServiceSerializer;
 }
 
 export interface ProcessSerializer {
-    id?: string;
+    uuid?: string;
     route: RouteSerializer;
     nationality: CountrySerializer;
     home_country?: CountrySerializer;
@@ -37,7 +37,7 @@ export interface ActionSerializer {
 }
 
 export interface UserSerializer {
-    id?: number;
+    uuid?: string;
     first_name?: string;
     last_name?: string;
     email?: string;
@@ -45,19 +45,19 @@ export interface UserSerializer {
 
 export interface StoredFileSerializer {
     created_by: UserSerializer;
-    id?: string;
+    uuid?: string;
     media_type: string;
     name: string;
     size: number;
 }
 
 export interface ClientSerializer {
-    id?: string;
+    uuid?: string;
     name: string;
 }
 
 export interface ApplicantSerializer {
-    id?: string;
+    uuid?: string;
     user: UserSerializer;
     employer: ClientSerializer;
     home_country: CountrySerializer;
@@ -65,41 +65,41 @@ export interface ApplicantSerializer {
 }
 
 export interface ClientContactSerializer {
-    id?: string;
+    uuid?: string;
     user: UserSerializer;
     client: ClientSerializer;
 }
 
 export interface ProviderSerializer {
-    id?: string;
+    uuid?: string;
     logo_url: string;
     name: string;
 }
 
 export interface ClientProviderRelationshipSerializer {
-    id?: string;
+    uuid?: string;
     client: ClientSerializer;
     provider: ProviderSerializer;
     preferred?: boolean;
 }
 
 export interface ProviderContactSerializer {
-    id?: string;
+    uuid?: string;
     user: UserSerializer;
     provider: ProviderSerializer;
 }
 
 export interface CaseStepContractSerializer {
-    case_step_id?: any;
+    case_step_uuid?: string;
     provider_contact: ProviderContactSerializer;
     accepted_at?: string;
     rejected_at?: string;
 }
 
 export interface CaseStepSerializer {
-    id?: string;
     actions: ActionSerializer[];
     active_contract: CaseStepContractSerializer;
+    uuid?: string;
     process_step: ProcessStepSerializer;
     sequence_number: number;
     state: any;
@@ -107,7 +107,7 @@ export interface CaseStepSerializer {
 }
 
 export interface CaseSerializer {
-    id?: string;
+    uuid?: string;
     applicant: ApplicantSerializer;
     process: ProcessSerializer;
     steps: CaseStepSerializer[];

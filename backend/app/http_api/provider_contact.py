@@ -37,7 +37,7 @@ class _ProviderContactView(View):
         super().setup(*args, **kwargs)
         try:
             self.provider_contact = ProviderContact.objects.get(
-                user_id=self.request.user.uuid  # type: ignore
+                user=self.request.user  # type: ignore
             )
         except ProviderContact.DoesNotExist:
             self.provider_contact = None  # type: ignore
@@ -90,31 +90,31 @@ class CaseList(_ProviderContactView):
 
 class CaseStepUploadFiles(_ProviderContactView):
     @atomic
-    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         try:
             self.provider_contact.add_uploaded_files_to_case_step(
-                request.FILES.getlist("file"), step_id=id
+                request.FILES.getlist("file"), step_uuid=uuid
             )
         except PermissionDenied:
             return HttpResponseForbidden(
                 (
                     f"User {request.user} does not have permission to upload files to "
-                    f"case step {id}"
+                    f"case step {uuid}"
                 )
             )
         except CaseStep.DoesNotExist:
-            return HttpResponseNotFound(f"Case step {id} does not exist")
+            return HttpResponseNotFound(f"Case step {uuid} does not exist")
         else:
             return JsonResponse({"errors": None})
 
 
 class AcceptCaseStep(_ProviderContactView):
-    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         return perform_case_step_transition(
             "accept",
             self.provider_contact.case_steps(),
             "provider_contact.case_steps()",
-            id=id,
+            uuid=uuid,
         )
 
 

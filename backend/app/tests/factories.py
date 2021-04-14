@@ -20,7 +20,7 @@ class BaseModelFactory(DjangoModelFactory):
         abstract = True
 
 
-def UUIDPseudoForeignKeyFactory(factory_cls: Factory, to_field="id") -> LazyAttribute:
+def UUIDPseudoForeignKeyFactory(factory_cls: Factory, to_field="uuid") -> LazyAttribute:
     def _get_uuid(_) -> UUID:
         to_value = getattr(factory_cls(), to_field)
         assert isinstance(to_value, UUID)
@@ -45,13 +45,24 @@ class UserFactory(DjangoModelFactory):
 
 class _HasUserFactory(BaseModelFactory):
     """
+    An owldock model, inheriting from BaseModel, with a foreign key to auth.User.
+    """
+
+    class Meta:
+        abstract = True
+
+    user = factory.SubFactory(UserFactory)
+
+
+class _HasUserUUIDFactory(BaseModelFactory):
+    """
     An owldock model, inheriting from BaseModel, with a UUID link to auth.User.
     """
 
     class Meta:
         abstract = True
 
-    user_id = UUIDPseudoForeignKeyFactory(UserFactory, to_field="uuid")
+    user_uuid = UUIDPseudoForeignKeyFactory(UserFactory, to_field="uuid")
 
 
 class ClientFactory(DjangoModelFactory):
@@ -64,18 +75,18 @@ class ClientFactory(DjangoModelFactory):
     logo_url = factory.Faker("url")
 
 
-class ApplicantFactory(_HasUserFactory):
+class ApplicantFactory(_HasUserUUIDFactory):
     class Meta:
         model = Applicant
         database = "client"
 
     employer = factory.SubFactory(ClientFactory)
-    home_country_id = factory.LazyAttribute(
-        lambda _: random.choice(Country.objects.all()).id
+    home_country_uuid = factory.LazyAttribute(
+        lambda _: random.choice(Country.objects.all()).uuid
     )
 
 
-class ClientContactFactory(_HasUserFactory):
+class ClientContactFactory(_HasUserUUIDFactory):
     class Meta:
         model = ClientContact
         database = "client"

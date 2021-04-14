@@ -36,25 +36,25 @@ class Client(BaseModel):
         ]
 
     def provider_relationships(self) -> "QuerySet[ClientProviderRelationship]":
-        return ClientProviderRelationship.objects.filter(client_id=self.id)
+        return ClientProviderRelationship.objects.filter(client=self)
 
     def provider_contacts(self) -> QuerySet[ProviderContact]:
-        provider_ids = [r.id for r in self.provider_relationships()]
-        return ProviderContact.objects.filter(provider_id__in=provider_ids)
+        provider_uuids = [r.uuid for r in self.provider_relationships()]
+        return ProviderContact.objects.filter(provider_uuid__in=provider_uuids)
 
 
 class ClientProviderRelationship(BaseModel):
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
-    provider_id = UUIDPseudoForeignKeyField(Provider)
+    provider_uuid = UUIDPseudoForeignKeyField(Provider)
     preferred = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = [["client", "provider_id"]]
+        unique_together = [["client", "provider_uuid"]]
         ordering = ["-preferred"]
 
 
 class ClientContact(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
+    user_uuid = UUIDPseudoForeignKeyField(get_user_model())
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
     class Meta:
@@ -71,7 +71,7 @@ class ClientContact(BaseModel):
     def case_steps(self) -> "QuerySet[CaseStep]":
         from client.models.case_step import CaseStep
 
-        return CaseStep.objects.filter(case__client_contact_id=self.id)
+        return CaseStep.objects.filter(case__client_contact=self)
 
     def applicants(self) -> "QuerySet[Applicant]":
         # TODO: these are applicants for which the client contact has what permissions?
@@ -83,7 +83,7 @@ class ClientContact(BaseModel):
 
     # TODO: provider contacts perform steps, not necessarily entire processes.
     def provider_contacts_for_process(
-        self, process_id: UUID
+        self, process_uuid: UUID
     ) -> QuerySet[ProviderContact]:
         """
         Return suggested provider contacts that can perform the process.
@@ -92,10 +92,10 @@ class ClientContact(BaseModel):
         by preferred status with ties broken alphabetically.
         """
         return ProviderContact.objects.filter(
-            provider_id__in=[
-                r.provider_id for r in self.client.provider_relationships()
+            provider_uuid__in=[
+                r.provider_uuid for r in self.client.provider_relationships()
             ],
-            provider__routes__processes=process_id,
+            provider__routes__processes=process_uuid,
         ).distinct()
 
     def has_case_write_permission(self, case: "Case") -> bool:
@@ -103,9 +103,9 @@ class ClientContact(BaseModel):
 
 
 class Applicant(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
+    user_uuid = UUIDPseudoForeignKeyField(get_user_model())
     employer = models.ForeignKey(Client, on_delete=deletion.CASCADE)
-    home_country_id = UUIDPseudoForeignKeyField(Country)
+    home_country_uuid = UUIDPseudoForeignKeyField(Country)
 
     class Meta:
         constraints = [
@@ -116,15 +116,15 @@ class Applicant(BaseModel):
 
     @property
     def nationalities(self) -> QuerySet[Country]:
-        country_ids = ApplicantNationality.objects.filter(applicant=self).values_list(
-            "country_id", flat=True
+        country_uuids = ApplicantNationality.objects.filter(applicant=self).values_list(
+            "country_uuid", flat=True
         )
-        return Country.objects.filter(id__in=list(country_ids))
+        return Country.objects.filter(uuid__in=list(country_uuids))
 
 
 class ApplicantNationality(BaseModel):
     applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
-    country_id = UUIDPseudoForeignKeyField(Country)
+    country_uuid = UUIDPseudoForeignKeyField(Country)
 
     class Meta:
         constraints = [
@@ -148,7 +148,7 @@ class Case(BaseModel):
 
     # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.
-    process_id = UUIDPseudoForeignKeyField(Process)
+    process_uuid = UUIDPseudoForeignKeyField(Process)
 
     # Case data
     target_entry_date = models.DateField()

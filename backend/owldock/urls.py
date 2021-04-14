@@ -28,7 +28,7 @@ urlpatterns = [
         login_required(client_contact.CreateCase.as_view()),
     ),
     path(
-        "api/client-contact/case/<uuid:id>/",
+        "api/client-contact/case/<uuid:uuid>/",
         login_required(client_contact.CaseView.as_view()),
     ),
     path(
@@ -40,12 +40,12 @@ urlpatterns = [
         login_required(client_contact.CaseList.as_view()),
     ),
     path(
-        "api/client-contact/offer-case-step/<uuid:id>",
+        "api/client-contact/offer-case-step/<uuid:uuid>",
         login_required(client_contact.OfferCaseStep.as_view()),
         name="client_contact_offer_case_step",
     ),
     path(
-        "api/client-contact/retract-case-step-contract/<uuid:id>",
+        "api/client-contact/retract-case-step-contract/<uuid:uuid>",
         login_required(client_contact.RetractCaseStep.as_view()),
         name="client_contact_retract_case_step",
     ),
@@ -59,11 +59,11 @@ urlpatterns = [
     ),
     path("api/countries/", login_required(countries.CountriesList.as_view())),
     path(
-        "api/provider-contact/case/<uuid:id>/",
+        "api/provider-contact/case/<uuid:uuid>/",
         login_required(provider_contact.CaseView.as_view()),
     ),
     path(
-        "api/provider-contact/case-step/<uuid:id>/",
+        "api/provider-contact/case-step/<uuid:uuid>/",
         login_required(provider_contact.CaseStepView.as_view()),
     ),
     path(
@@ -75,22 +75,22 @@ urlpatterns = [
         login_required(provider_contact.CaseList.as_view()),
     ),
     path(
-        "api/provider-contact/accept-case-step/<uuid:id>",
+        "api/provider-contact/accept-case-step/<uuid:uuid>",
         login_required(provider_contact.AcceptCaseStep.as_view()),
         name="provider_contact_accept_case_step",
     ),
     path(
-        "api/provider-contact/reject-case-step-contract/<uuid:id>",
+        "api/provider-contact/reject-case-step-contract/<uuid:uuid>",
         login_required(provider_contact.RejectCaseStep.as_view()),
         name="provider_contact_reject_case_step",
     ),
     path(
-        "api/provider-contact/complete-case-step-contract/<uuid:id>",
+        "api/provider-contact/complete-case-step-contract/<uuid:uuid>",
         login_required(provider_contact.CompleteCaseStep.as_view()),
         name="provider_contact_complete_case_step",
     ),
     path(
-        "api/case-step/<uuid:id>/upload-files/",
+        "api/case-step/<uuid:uuid>/upload-files/",
         login_required(provider_contact.CaseStepUploadFiles.as_view()),
     ),
     path("api/processes/", login_required(processes.ProcessList.as_view())),

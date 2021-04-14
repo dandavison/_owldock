@@ -7,7 +7,7 @@ thing that happens is they generate typescript interface definitions from
 these serializer classes. Thus, there will be typescript compiler error messages
 if the backend and frontend code have got out of sync.
 
-By default, DRF will not make 'id' available in serializer.validated_data,
+By default, DRF will not make 'uuid' available in serializer.validated_data,
 because it is a read-only field. But we need it when handling a POST to
 create a case, in order to look up the process.
 
@@ -75,14 +75,14 @@ class EnumField(Field):
 class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
-        fields = ["id", "name", "code", "unicode_flag"]
+        fields = ["uuid", "name", "code", "unicode_flag"]
 
 
 @ts_interface()
 class ServiceSerializer(ModelSerializer):
     class Meta:
         model = Service
-        fields = ["id", "name"]
+        fields = ["uuid", "name"]
 
 
 @ts_interface()
@@ -91,25 +91,25 @@ class RouteSerializer(ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ["id", "name", "host_country"]
+        fields = ["uuid", "name", "host_country"]
 
 
 @ts_interface()
 class ProcessStepSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = UUIDField(read_only=False, allow_null=True, required=False)
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     service = ServiceSerializer()
 
     class Meta:
         model = ProcessStep
-        fields = ["id", "sequence_number", "service"]
+        fields = ["uuid", "sequence_number", "service"]
         ordering = ["sequence_number"]
 
 
 @ts_interface()
 class ProcessSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = UUIDField(read_only=False, allow_null=True, required=False)
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
     nationality = CountrySerializer()
     home_country = CountrySerializer(allow_null=True, required=False)
@@ -117,7 +117,7 @@ class ProcessSerializer(ModelSerializer):
 
     class Meta:
         model = Process
-        fields = ["id", "route", "nationality", "home_country", "steps"]
+        fields = ["uuid", "route", "nationality", "home_country", "steps"]
 
 
 @ts_interface()
@@ -131,7 +131,7 @@ class ActionSerializer(Serializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ["id", "first_name", "last_name", "email"]
+        fields = ["uuid", "first_name", "last_name", "email"]
         depth = 2
 
 
@@ -141,20 +141,20 @@ class StoredFileSerializer(ModelSerializer):
 
     class Meta:
         model = StoredFile
-        fields = ["created_by", "id", "media_type", "name", "size"]
+        fields = ["created_by", "uuid", "media_type", "name", "size"]
 
 
 @ts_interface()
 class ClientSerializer(ModelSerializer):
     class Meta:
         model = Client
-        fields = ["id", "name"]
+        fields = ["uuid", "name"]
 
 
 @ts_interface()
 class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = UUIDField(read_only=False, allow_null=True, required=False)
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     employer = ClientSerializer()
     home_country = CountrySerializer()
@@ -162,7 +162,7 @@ class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
 
     class Meta:
         model = Applicant
-        fields = ["id", "user", "employer", "home_country", "nationalities"]
+        fields = ["uuid", "user", "employer", "home_country", "nationalities"]
 
 
 @ts_interface()
@@ -172,48 +172,53 @@ class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
 
     class Meta:
         model = ClientContact
-        fields = ["id", "user", "client"]
+        fields = ["uuid", "user", "client"]
 
 
 @ts_interface()
 class ProviderSerializer(ModelSerializer):
     class Meta:
         model = Provider
-        fields = ["id", "logo_url", "name"]
+        fields = ["uuid", "logo_url", "name"]
 
 
 @ts_interface()
 class ClientProviderRelationshipSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = UUIDField(read_only=False, allow_null=True, required=False)
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     client = ClientSerializer()
     provider = ProviderSerializer()
 
     class Meta:
         model = ClientProviderRelationship
-        fields = ["id", "client", "provider", "preferred"]
+        fields = ["uuid", "client", "provider", "preferred"]
 
 
 @ts_interface()
 class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
-    id = UUIDField(read_only=False, allow_null=True, required=False)
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     provider = ProviderSerializer()
 
     class Meta:
         model = ProviderContact
-        fields = ["id", "user", "provider"]
+        fields = ["uuid", "user", "provider"]
 
 
 @ts_interface()
 class CaseStepContractSerializer(ModelSerializer):
+    # The case FK will never be null, but we have to set required=False here
+    # because we sometimes validate the data before creating a
+    # case-with-its-case-steps-and-contracts in one go.
+    case_step_uuid = CharField(source="case_step.uuid", required=False)
     provider_contact = ProviderContactSerializer()
     # TODO: cannot serialize case_step due to cycle in foreign key dependency graph
 
     class Meta:
         model = CaseStepContract
-        fields = ["case_step_id", "provider_contact", "accepted_at", "rejected_at"]
+
+        fields = ["case_step_uuid", "provider_contact", "accepted_at", "rejected_at"]
 
 
 @ts_interface()
@@ -229,7 +234,7 @@ class CaseStepSerializer(ModelSerializer):
         fields = [
             "actions",
             "active_contract",
-            "id",
+            "uuid",
             "process_step",
             "sequence_number",
             "state",
@@ -247,7 +252,7 @@ class CaseSerializer(ModelSerializer):
     class Meta:
         model = Case
         fields = [
-            "id",
+            "uuid",
             "applicant",
             "process",
             "steps",
@@ -263,17 +268,17 @@ class CaseSerializer(ModelSerializer):
         case_steps_data = self.validated_data.pop("steps")
         case = Case.objects.create(
             client_contact=client_contact,
-            applicant_id=applicant_data["id"],
-            process_id=process_data["id"],
+            applicant=Applicant.objects.get(uuid=applicant_data["uuid"]),
+            process_uuid=process_data["uuid"],
             **self.validated_data,
         )
         for case_step_data in case_steps_data:
             case_step = case.casestep_set.create(
-                process_step_id=case_step_data["process_step"]["id"],
+                process_step_uuid=case_step_data["process_step"]["uuid"],
                 sequence_number=case_step_data["sequence_number"],
             )
             provider_contact = ProviderContact.objects.get(
-                id=case_step_data["active_contract"]["provider_contact"]["id"]
+                uuid=case_step_data["active_contract"]["provider_contact"]["uuid"]
             )
             case_step.offer(provider_contact)
             case_step.save()

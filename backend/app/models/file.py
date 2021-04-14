@@ -34,7 +34,7 @@ class StoredFile(BaseModel):
     )
     # Not actually using a Django GFK due to our multiple database setup
     associated_object_content_type = ForeignKey(ContentType, on_delete=deletion.PROTECT)
-    associated_object_id = UUIDField()
+    associated_object_uuid = UUIDField()
 
     class Meta:
         constraints = [

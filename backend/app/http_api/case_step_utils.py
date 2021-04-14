@@ -15,7 +15,7 @@ def perform_case_step_transition(transition_name, queryset, queryset_name, **kwa
     try:
         case_step = queryset.get(**kwargs)
     except CaseStep.DoesNotExist:
-        return make_explanatory_http_response(queryset, queryset_name, id=id)
+        return make_explanatory_http_response(queryset, queryset_name, **kwargs)
     transition = getattr(case_step, transition_name)
     if not can_proceed(transition):
         return HttpResponseForbidden(

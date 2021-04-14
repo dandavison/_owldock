@@ -54,7 +54,7 @@ def _set_user_attribute_cookie(attr: str, user, response: HttpResponse) -> None:
 
 def _set_client_cookies(user, response: HttpResponse) -> bool:
     try:
-        client = Client.objects.get(clientcontact__user_id=user.uuid)
+        client = Client.objects.get(clientcontact__user_uuid=user.uuid)
     except Client.DoesNotExist:
         return False
     else:
@@ -65,7 +65,7 @@ def _set_client_cookies(user, response: HttpResponse) -> bool:
 
 def _set_provider_cookies(user, response: HttpResponse) -> bool:
     try:
-        provider = Provider.objects.get(providercontact__user_id=user.uuid)
+        provider = Provider.objects.get(providercontact__user=user)
     except Provider.DoesNotExist:
         return False
     else:

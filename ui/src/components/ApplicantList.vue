@@ -78,7 +78,7 @@ export default Vue.extend({
     },
 
     navigateToRowDetailView(row: ApplicantSerializer): void {
-      this.$router.push(`/portal/applicant/${row.id}`);
+      this.$router.push(`/portal/applicant/${row.uuid}`);
     },
   },
 });

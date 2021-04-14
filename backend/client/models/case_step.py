@@ -65,11 +65,11 @@ def _get_active_contract_for_provider_contact(
     if not active_contract:
         return None
     try:
-        provider_contact = ProviderContact.objects.get(user_id=user.uuid)
+        provider_contact = ProviderContact.objects.get(user=user)
     except ProviderContact.DoesNotExist:
         return None
     if (
-        active_contract.provider_contact_id == provider_contact.id
+        active_contract.provider_contact_uuid == provider_contact.uuid
         and not active_contract.rejected_at
     ):
         return active_contract
@@ -109,7 +109,7 @@ class CaseStep(BaseModel):
     # However, it may sometimes be desirable to modify a case's steps so that
     # they no longer exactly match any abstract process's steps.
     case = models.ForeignKey(Case, on_delete=deletion.CASCADE)
-    process_step_id = UUIDPseudoForeignKeyField(ProcessStep)
+    process_step_uuid = UUIDPseudoForeignKeyField(ProcessStep)
     sequence_number = models.PositiveIntegerField()
     active_contract = models.OneToOneField(
         "CaseStepContract", null=True, on_delete=deletion.SET_NULL
@@ -140,7 +140,7 @@ class CaseStep(BaseModel):
         """
         with atomic():
             contract = CaseStepContract.objects.create(
-                case_step_id=self.id, provider_contact_id=provider_contact.id
+                case_step=self, provider_contact_uuid=provider_contact.uuid
             )
             self.active_contract = contract
             self.save()
@@ -209,25 +209,25 @@ class CaseStep(BaseModel):
             Action(
                 display_name=display_name,
                 name=name,
-                url=reverse(name, kwargs={"id": self.id}),
+                url=reverse(name, kwargs={"uuid": self.uuid}),
             )
             for (display_name, name) in actions
         ]
-        print(f"actions for case step {self.id}: {actions}")
+        print(f"actions for case step {self.uuid}: {actions}")
         return ret
 
     @property
     def stored_files(self) -> QuerySet[StoredFile]:
         # GenericRelation is not working with our multiple database setup
         return StoredFile.objects.filter(
-            associated_object_id=self.id,
+            associated_object_uuid=self.uuid,
             associated_object_content_type=ContentType.objects.get_for_model(CaseStep),
         )
 
 
 class CaseStepContract(BaseModel):
     case_step = models.ForeignKey(CaseStep, on_delete=deletion.CASCADE)
-    provider_contact_id = UUIDPseudoForeignKeyField(ProviderContact)
+    provider_contact_uuid = UUIDPseudoForeignKeyField(ProviderContact)
     # TODO: db-level constraint that at most one of these may be non-null
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)

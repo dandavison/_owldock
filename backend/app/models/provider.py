@@ -2,7 +2,7 @@ import logging
 from typing import List
 from uuid import UUID
 
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models.query import QuerySet
@@ -12,7 +12,6 @@ from django.utils import timezone
 from app.models.process import Route
 from app.models.file import ApplicationFileType, StoredFile
 from owldock.models.base import BaseModel
-from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 logger = logging.getLogger(__name__)
@@ -36,7 +35,9 @@ class Provider(BaseModel):
 
 
 class ProviderContact(BaseModel):
-    user_id = UUIDPseudoForeignKeyField(get_user_model(), to_field="uuid")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
+    )
     provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
 
     class Meta:
@@ -64,19 +65,19 @@ class ProviderContact(BaseModel):
     def case_steps(self) -> "QuerySet[CaseStep]":
         from client.models.case_step import CaseStep
 
-        return CaseStep.objects.filter(active_contract__provider_contact_id=self.id)
+        return CaseStep.objects.filter(active_contract__provider_contact_uuid=self.uuid)
 
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(
         self,
         uploaded_files: List[UploadedFile],
-        step_id: UUID,
+        step_uuid: UUID,
     ):
-        step = self.case_steps_with_write_permission.get(id=step_id)
+        step = self.case_steps_with_write_permission.get(id=step_uuid)
         for uploaded_file in uploaded_files:
             stored_file = StoredFile.from_uploaded_file(uploaded_file)
             stored_file.created_by = self.user
-            stored_file.associated_object_id = step.id
+            stored_file.associated_object_uuid = step.uuid
             stored_file.associated_object_content_type = step.content_type
             stored_file.application_file_type = (
                 ApplicationFileType.PROVIDER_CONTACT_UPLOAD
@@ -173,7 +174,7 @@ class ProviderContact(BaseModel):
         from client.models.case_step import CaseStepContract
 
         try:
-            return self._open_contracts().get(case_step_id=case_step.id)
+            return self._open_contracts().get(case_step=case_step)
         except CaseStepContract.DoesNotExist as exc:
             raise CaseNotAvailableToProvider(
                 f"{case_step} is not available to {self}"
@@ -190,7 +191,7 @@ class ProviderContact(BaseModel):
         from client.models.case_step import CaseStepContract
 
         return CaseStepContract.objects.filter(
-            provider_contact_id=self.id,
+            provider_contact_uuid=self.uuid,
             rejected_at__isnull=True,
         )
 

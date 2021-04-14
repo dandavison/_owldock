@@ -36,7 +36,7 @@ class _ClientContactView(View):
         super().setup(*args, **kwargs)
         try:
             self.client_contact = ClientContact.objects.get(
-                user_id=self.request.user.uuid  # type: ignore
+                user_uuid=self.request.user.uuid  # type: ignore
             )
         except ClientContact.DoesNotExist:
             self.client_contact = None  # type: ignore
@@ -106,19 +106,19 @@ class OfferCaseStep(_ClientContactView):
                 f"Request body could not be deserialized as JSON: {request.body.decode('utf-8')}"
             )
         try:
-            provider_contact_id = case_step_data["active_contract"][
-                "provider_contact_id"
+            provider_contact_uuid = case_step_data["active_contract"][
+                "provider_contact_uuid"
             ]
         except (KeyError, TypeError):
             return HttpResponseBadRequest(
-                "POST data must contain active_contract.provider_contact_id"
+                "POST data must contain active_contract.provider_contact_uuid"
             )
 
         try:
-            provider_contact = ProviderContact.objects.get(id=provider_contact_id)
+            provider_contact = ProviderContact.objects.get(uuid=provider_contact_uuid)
         except ProviderContact.DoesNotExist:
             return HttpResponseNotFound(
-                f"ProviderContact {provider_contact_id} does not exist"
+                f"ProviderContact {provider_contact_uuid} does not exist"
             )
 
         qs = self.client_contact.case_steps()
@@ -164,13 +164,13 @@ class ClientProviderRelationshipList(_ClientContactView):
 class ProviderContactList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         try:
-            process_id = UUID(request.GET["process_id"])
+            process_uuid = UUID(request.GET["process_uuid"])
         except (KeyError, ValueError, TypeError):
             raise HttpResponseBadRequest(
-                "process_id key of URL parameters must be a valid UUID"
+                "process_uuid key of URL parameters must be a valid UUID"
             )
         provider_contacts = self.client_contact.provider_contacts_for_process(
-            process_id
+            process_uuid
         )
         serializer = ProviderContactSerializer(provider_contacts, many=True)
         return JsonResponse(serializer.data, safe=False)

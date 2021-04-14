@@ -74,7 +74,7 @@ export default Vue.extend({
     },
 
     navigateToRowDetailView(row: ClientProviderRelationshipSerializer): void {
-      this.$router.push(`/portal/provider/${row.id}`);
+      this.$router.push(`/portal/provider/${row.uuid}`);
     },
   },
 });

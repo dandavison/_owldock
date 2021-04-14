@@ -77,12 +77,12 @@ export default Vue.extend({
 
   methods: {
     fetchProviderContacts(process_: ProcessSerializer) {
-      if (!process_.id) {
+      if (!process_.uuid) {
         // TODO: why?
         return;
       }
       fetch(
-        `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-provider-contacts/?process_id=${process_.id}`
+        `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-provider-contacts/?process_uuid=${process_.uuid}`
       )
         .then((resp) => resp.json())
         .then((data) => (this.providerContacts = data));

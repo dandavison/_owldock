@@ -27,7 +27,7 @@ function NullRoute(): RouteSerializer {
 
 function NullProcess(): ProcessSerializer {
   return {
-    id: undefined,
+    uuid: undefined,
     route: NullRoute(),
     nationality: NullCountry(),
     home_country: NullCountry(),
@@ -68,7 +68,7 @@ export function NullProviderContact(): ProviderContactSerializer {
 
 export function NullCase(): CaseSerializer {
   return {
-    id: undefined,
+    uuid: undefined,
     applicant: NullApplicant(),
     process: NullProcess(),
     steps: [],

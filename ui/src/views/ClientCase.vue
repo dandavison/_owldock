@@ -21,7 +21,7 @@ export default Vue.extend({
 
   created() {
     fetch(
-      `${process.env.VUE_APP_SERVER_URL}/api/client-contact/case/${this.$route.params.id}/`
+      `${process.env.VUE_APP_SERVER_URL}/api/client-contact/case/${this.$route.params.uuid}/`
     )
       .then((resp) => resp.json())
       .then((data) => (this.case_ = data));

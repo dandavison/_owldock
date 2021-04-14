@@ -27,7 +27,7 @@ export default Vue.extend({
     return {
       showDetail: false,
       uploadUrl: devModeUrl(
-        `${process.env.VUE_APP_SERVER_URL}/api/case-step/${this.step.id}/upload-files/`
+        `${process.env.VUE_APP_SERVER_URL}/api/case-step/${this.step.uuid}/upload-files/`
       ),
       uploadHeaders: { "X-CSRFToken": Cookies.get("csrftoken") },
       fileRecords: this.step.stored_files.map(
