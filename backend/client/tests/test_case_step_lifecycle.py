@@ -17,7 +17,7 @@ def test_client_contact_offer_case_step(
     case = fake_create_case_and_offer_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
-    for case_step in case.steps:
+    for case_step in case.steps[:2]:
         _make_case_step_OFFERED_assertions(
             case_step,
             client_contact_A,
@@ -41,7 +41,7 @@ def test_client_contact_retract_case_step(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
 
-    for case_step in case.steps:
+    for case_step in case.steps[:2]:
         perform_case_step_transition(
             "retract",
             client_contact_A.case_steps(),
@@ -73,7 +73,7 @@ def test_client_contact_accept_case_step(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
 
-    for case_step in case.steps:
+    for case_step in case.steps[:2]:
         perform_case_step_transition(
             "accept",
             client_contact_A.case_steps(),
@@ -105,7 +105,7 @@ def test_client_contact_complete_case_step(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
 
-    for case_step in case.steps:
+    for case_step in case.steps[:2]:
         perform_case_step_transition(
             "accept",
             client_contact_A.case_steps(),
