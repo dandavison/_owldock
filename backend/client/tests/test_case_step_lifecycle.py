@@ -1,6 +1,6 @@
 from app.models import ProviderContact
 from client.models import CaseStep, ClientContact, State
-from client.tests.fake_create_case import fake_create_case
+from client.tests.fake_create_case import fake_create_case_and_offer_steps
 
 
 def test_creation_by_client_contact(
@@ -13,7 +13,7 @@ def test_creation_by_client_contact(
     provider_contact_A,
     provider_contact_B,
 ):
-    case = fake_create_case(
+    case = fake_create_case_and_offer_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
     for case_step in case.steps:

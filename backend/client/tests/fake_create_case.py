@@ -15,7 +15,7 @@ from client.models import Applicant, Case, ClientContact
 from client.models.case_step import State as CaseStepState
 
 
-def fake_create_case(
+def fake_create_case_and_offer_steps(
     applicant: Applicant,
     client_contact: ClientContact,
     process: Process,

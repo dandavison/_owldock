@@ -4,7 +4,9 @@ from app.fake.create_fake_world import create_fake_world
 from app.models import Process, ProviderContact
 from client.models import ClientContact
 from client.models.case_step import State as CaseStepState
-from client.tests.fake_create_case import fake_create_case
+from client.tests.fake_create_case import (
+    fake_create_case_and_offer_steps,
+)
 
 
 def test_client_provider_case_lifecycle():
@@ -14,7 +16,9 @@ def test_client_provider_case_lifecycle():
     applicant = client_contact.client.applicant_set.earliest("id")
     process = Process.objects.earliest("id")
     provider_contact = ProviderContact.objects.earliest("id")
-    case = fake_create_case(applicant, client_contact, process, provider_contact)
+    case = fake_create_case_and_offer_steps(
+        applicant, client_contact, process, provider_contact
+    )
     assert case.casestep_set.exists()
 
     # All case steps are in OFFERED state
