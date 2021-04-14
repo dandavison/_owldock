@@ -1,4 +1,5 @@
 from uuid import UUID
+import random
 
 import factory
 from django.contrib.auth import get_user_model
@@ -8,6 +9,9 @@ from factory import Factory, LazyAttribute
 from app.models import Country, Provider, ProviderContact, Route
 from client.models import Applicant, Client, ClientContact
 from owldock.models.base import BaseModel
+
+
+random.seed("owldock")
 
 
 class BaseModelFactory(DjangoModelFactory):
@@ -66,7 +70,9 @@ class ApplicantFactory(_HasUserFactory):
         database = "client"
 
     employer = factory.SubFactory(ClientFactory)
-    home_country_id = factory.Iterator(Country.objects.all(), getter=lambda c: c.id)
+    home_country_id = factory.LazyAttribute(
+        lambda _: random.choice(Country.objects.all()).id
+    )
 
 
 class ClientContactFactory(_HasUserFactory):
