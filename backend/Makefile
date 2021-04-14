@@ -7,7 +7,7 @@ lint: lint-flake8
 type-check: type-check-mypy
 
 test:
-	.venv/bin/pytest -s --no-header --disable-warnings --pdb
+	.venv/bin/pytest --no-header
 
 test-all: lint type-check test
 
