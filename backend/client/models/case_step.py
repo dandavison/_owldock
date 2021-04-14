@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Callable, List
 
 from django.contrib.contenttypes.models import ContentType
@@ -6,6 +5,7 @@ from django.db import models
 from django.db.models import deletion, Model, QuerySet
 from django.db.transaction import atomic
 from django.urls import reverse
+from django.utils import timezone
 
 from app.models import ProcessStep, ProviderContact, StoredFile, User
 from client.models.client import Case
@@ -125,7 +125,7 @@ class CaseStep(BaseModel):
         permission=permission_checker("provider_contact_accept_case_step"),
     )
     def accept(self) -> None:
-        self.active_contract.accepted_at = datetime.now()
+        self.active_contract.accepted_at = timezone.now()
         self.active_contract.save()
 
     @transition(
@@ -155,7 +155,7 @@ class CaseStep(BaseModel):
     def reject(self) -> None:
         with atomic():
             active_contract = self.active_contract
-            active_contract.rejected_at = datetime.now()
+            active_contract.rejected_at = timezone.now()
             active_contract.save()
             self.active_contract = None
             self.save()

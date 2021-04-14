@@ -1,6 +1,7 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import List, Tuple
 
+from django.utils import timezone
 
 from app.http_api.serializers import (
     ApplicantSerializer,
@@ -51,7 +52,7 @@ def make_post_data_for_client_contact_case_create_endpoint(
         ]
     )
 
-    now = datetime.now()
+    now = timezone.now()
     return {
         "applicant": applicant_srlzr.data,
         "provider_contact": provider_contact_srlzr.data,
