@@ -175,7 +175,8 @@ export default Vue.extend({
         active_contract: {
           provider_contact: this.defaultProviderContact,
         },
-        state: "FREE",
+        // TODO: Use enum labels instead of display names
+        state: "Waiting for client to offer to provider",
         actions: [],
         process_step: s,
         sequence_number: i + 1,

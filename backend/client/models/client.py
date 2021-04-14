@@ -39,8 +39,8 @@ class Client(BaseModel):
         return ClientProviderRelationship.objects.filter(client=self)
 
     def provider_contacts(self) -> QuerySet[ProviderContact]:
-        provider_uuids = [r.uuid for r in self.provider_relationships()]
-        return ProviderContact.objects.filter(provider_uuid__in=provider_uuids)
+        provider_uuids = [r.provider_uuid for r in self.provider_relationships()]
+        return ProviderContact.objects.filter(provider__uuid__in=provider_uuids)
 
 
 class ClientProviderRelationship(BaseModel):
@@ -92,10 +92,10 @@ class ClientContact(BaseModel):
         by preferred status with ties broken alphabetically.
         """
         return ProviderContact.objects.filter(
-            provider_uuid__in=[
+            provider__uuid__in=[
                 r.provider_uuid for r in self.client.provider_relationships()
             ],
-            provider__routes__processes=process_uuid,
+            provider__routes__processes__uuid=process_uuid,
         ).distinct()
 
     def has_case_write_permission(self, case: "Case") -> bool:

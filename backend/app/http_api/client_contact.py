@@ -57,9 +57,9 @@ class ApplicantsList(_ClientContactView):
 
 
 class CaseView(_ClientContactView):
-    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+    def get(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         qs = self.client_contact.cases()
-        kwargs = {"id": id}
+        kwargs = {"uuid": uuid}
         try:
             case = qs.get(**kwargs)
         except Case.DoesNotExist:
@@ -97,7 +97,7 @@ class CreateCase(_ClientContactView):
 
 class OfferCaseStep(_ClientContactView):
     @atomic
-    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         try:
             case_step_data = json.loads(request.body)
         except json.JSONDecodeError:
@@ -122,9 +122,9 @@ class OfferCaseStep(_ClientContactView):
             )
 
         qs = self.client_contact.case_steps()
-        kwargs = {"id": id}
+        kwargs = {"uuid": uuid}
         try:
-            case_step = qs.get(id=id)
+            case_step = qs.get(uuid=uuid)
         except CaseStep.DoesNotExist:
             return make_explanatory_http_response(
                 qs, "client_contact.case_steps()", **kwargs
@@ -143,12 +143,12 @@ class OfferCaseStep(_ClientContactView):
 
 
 class RetractCaseStep(_ClientContactView):
-    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         return perform_case_step_transition(
             "reject",
             self.client_contact.case_steps(),
             "client_contact.case_steps()",
-            id=id,
+            uuid=uuid,
         )
 
 

@@ -67,7 +67,12 @@ class EnumField(Field):
             return self.enum[value].value
 
     def to_internal_value(self, value):
-        [el] = [el for el in self.enum if el.value == value]
+        els = [el for el in self.enum if el.value == value]
+        if len(els) != 1:
+            raise AssertionError(
+                f"Expected {value} to match exactly one element of enum {self.enum}"
+            )
+        [el] = els
         return el
 
 

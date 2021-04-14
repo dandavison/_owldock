@@ -57,24 +57,28 @@ class ApplicantList(_ProviderContactView):
 
 
 class CaseView(_ProviderContactView):
-    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+    def get(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         qs = self.provider_contact.cases()
+        kwargs = {"uuid": uuid}
         try:
-            case = qs.get(id=id)
+            case = qs.get(**kwargs)
         except Case.DoesNotExist:
-            return make_explanatory_http_response(qs, "provider_contact.cases()", id=id)
+            return make_explanatory_http_response(
+                qs, "provider_contact.cases()", **kwargs
+            )
         serializer = CaseSerializer(case)
         return JsonResponse(serializer.data, safe=False)
 
 
 class CaseStepView(_ProviderContactView):
-    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+    def get(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         qs = self.provider_contact.case_steps()
+        kwargs = {"uuid": uuid}
         try:
-            case_step = qs.get(id=id)
+            case_step = qs.get(**kwargs)
         except CaseStep.DoesNotExist:
             return make_explanatory_http_response(
-                qs, "provider_contact.case_steps()", id=id
+                qs, "provider_contact.case_steps()", **kwargs
             )
         serializer = CaseStepSerializer(case_step)
         return JsonResponse(serializer.data, safe=False)
@@ -119,20 +123,20 @@ class AcceptCaseStep(_ProviderContactView):
 
 
 class RejectCaseStep(_ProviderContactView):
-    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         return perform_case_step_transition(
             "reject",
             self.provider_contact.case_steps(),
             "provider_contact.case_steps()",
-            id=id,
+            uuid=uuid,
         )
 
 
 class CompleteCaseStep(_ProviderContactView):
-    def post(self, request: HttpRequest, id: UUID) -> HttpResponse:
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         return perform_case_step_transition(
             "complete",
             self.provider_contact.case_steps(),
             "provider_contact.case_steps()",
-            id=id,
+            uuid=uuid,
         )

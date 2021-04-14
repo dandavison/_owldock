@@ -82,7 +82,7 @@ const routes = [
   { path: "/portal/my-data", component: AccessData },
   { path: "/portal/new-case", component: NewCase },
   { path: "/portal/cases", component: CaseList },
-  { path: "/portal/case/:id", component: Case },
+  { path: "/portal/case/:uuid", component: Case },
   { path: "/portal/applicants", component: ApplicantList },
   { path: "/portal/providers", component: ClientProviderRelationshipList },
   { path: "/portal/question", component: AskAQuestion }
