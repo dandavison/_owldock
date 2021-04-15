@@ -5,8 +5,8 @@
         <b-autocomplete
           ref="autocomplete"
           v-model="input"
-          :data="filteredCandidates"
           field="name"
+          :data="filteredCandidates"
           @select="(country) => $emit('change:country', country)"
           :openOnFocus="true"
           dropdown-position="bottom"

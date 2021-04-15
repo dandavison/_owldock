@@ -37,7 +37,6 @@ export default Vue.extend({
 
   methods: {
     async click(): Promise<void> {
-      console.log(this.action.url);
       const response = await http.post(this.action.url, {
         body: JSON.stringify(this.object),
       });

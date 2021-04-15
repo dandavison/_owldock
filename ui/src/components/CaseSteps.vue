@@ -64,7 +64,7 @@ export default Vue.extend({
   props: { steps: Array as PropType<CaseStepSerializer[]> },
 
   methods: {
-    async updateRow(caseStep: CaseStepSerializer | null, index: number) {
+    updateRow(caseStep: CaseStepSerializer | null, index: number) {
       const table = this.$refs.table as BTableInstance;
       if (caseStep) {
         table.visibleData.splice(index, 1, caseStep);
