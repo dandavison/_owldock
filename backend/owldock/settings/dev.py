@@ -4,6 +4,7 @@ from owldock.dev.traceback import patch_exception_handler
 patch_exception_handler()
 
 ALLOWED_HOSTS[:] = ["*"]  # noqa
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 INSTALLED_APPS.extend(  # noqa
     [
         "django_extensions",

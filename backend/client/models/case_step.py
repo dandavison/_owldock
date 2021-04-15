@@ -128,7 +128,9 @@ class CaseStep(BaseModel):
         """
         Offer this case to a provider; they may then accept or reject it.
         """
-        notify_provider()
+        from app.outbound_messaging import OfferedCaseStepsNotifier
+
+        OfferedCaseStepsNotifier(provider_contact, [self]).notify()
 
     @transition(
         field=state,
