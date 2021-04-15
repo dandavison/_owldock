@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
 
 export default {
-  async get(url: string, init: any = {}): Promise<Response> {
+  get(url: string, init: any = {}): Promise<Response> {
     return fetch(this.transformUrl(url), init);
   },
 
-  async post(url: string, init: any = {}): Promise<Response> {
+  post(url: string, init: any = {}): Promise<Response> {
     const headers = {
       "Content-Type": "application/json"
     } as any;
