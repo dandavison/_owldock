@@ -118,7 +118,7 @@ class AcceptCaseStep(_ProviderContactView):
             "accept",
             self.provider_contact.case_steps(),
             "provider_contact.case_steps()",
-            uuid=uuid,
+            query_kwargs={"uuid": uuid},
         )
 
 
@@ -128,7 +128,7 @@ class RejectCaseStep(_ProviderContactView):
             "reject",
             self.provider_contact.case_steps(),
             "provider_contact.case_steps()",
-            uuid=uuid,
+            query_kwargs={"uuid": uuid},
         )
 
 
@@ -138,5 +138,5 @@ class CompleteCaseStep(_ProviderContactView):
             "complete",
             self.provider_contact.case_steps(),
             "provider_contact.case_steps()",
-            uuid=uuid,
+            query_kwargs={"uuid": uuid},
         )

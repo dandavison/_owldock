@@ -11,20 +11,26 @@ from owldock.state_machine.django_fsm_utils import can_proceed, why_cant_proceed
 
 
 @atomic
-def perform_case_step_transition(transition_name, queryset, queryset_name, **kwargs):
+def perform_case_step_transition(
+    transition_name,
+    queryset,
+    queryset_name,
+    query_kwargs,
+    transition_kwargs=None,
+):
     try:
-        case_step = queryset.get(**kwargs)
+        case_step = queryset.get(**query_kwargs)
     except CaseStep.DoesNotExist:
-        return make_explanatory_http_response(queryset, queryset_name, **kwargs)
+        return make_explanatory_http_response(queryset, queryset_name, **query_kwargs)
     transition = getattr(case_step, transition_name)
     if not can_proceed(transition):
         return HttpResponseForbidden(
             f"Case step {case_step} cannot do transition {transition.__name__}:\n"
             f"{why_cant_proceed(transition)}"
         )
-    transition()
+    transition(**(transition_kwargs or {}))
     case_step.save()
-    if queryset.filter(**kwargs).exists():
+    if queryset.filter(**query_kwargs).exists():
         serializer = CaseStepSerializer(case_step)
         return JsonResponse(serializer.data, safe=False)
     else:

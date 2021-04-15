@@ -149,7 +149,7 @@ class RetractCaseStep(_ClientContactView):
             "reject",
             self.client_contact.case_steps(),
             "client_contact.case_steps()",
-            uuid=uuid,
+            query_kwargs={"uuid": uuid},
         )
 
 
