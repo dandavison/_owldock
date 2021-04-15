@@ -46,7 +46,7 @@ def test_client_contact_retract_case_step(
             "retract",
             client_contact_A.case_steps(),
             "client_contact_A.case_steps()",
-            id=case_step.id,
+            query_kwargs={"id": case_step.id},
         )
         case_step = CaseStep.objects.get(id=case_step.id)
 
@@ -78,7 +78,7 @@ def test_client_contact_accept_case_step(
             "accept",
             client_contact_A.case_steps(),
             "client_contact_A.case_steps()",
-            id=case_step.id,
+            query_kwargs={"id": case_step.id},
         )
         case_step = CaseStep.objects.get(id=case_step.id)
 
@@ -110,13 +110,13 @@ def test_client_contact_complete_case_step(
             "accept",
             client_contact_A.case_steps(),
             "client_contact_A.case_steps()",
-            id=case_step.id,
+            query_kwargs={"id": case_step.id},
         )
         perform_case_step_transition(
             "complete",
             client_contact_A.case_steps(),
             "client_contact_A.case_steps()",
-            id=case_step.id,
+            query_kwargs={"id": case_step.id},
         )
         case_step = CaseStep.objects.get(id=case_step.id)
 
@@ -148,14 +148,14 @@ def _make_case_step_FREE_assertions(
     assert case_step not in other_provider_contact.case_steps()
 
     transitions = set(case_step.get_available_state_transitions())
-    [offer] = [t for t in transitions if t.name == "offer"]
-    assert set(transitions) == {offer}
+    [earmark] = [t for t in transitions if t.name == "earmark"]
+    assert set(transitions) == {earmark}
 
-    # Owning Client contact should be able to do: {offer}
+    # Owning Client contact should be able to do: {earmark}
     client_contact_transitions = case_step.get_available_user_state_transitions(
         client_contact.user
     )
-    assert set(client_contact_transitions) == {offer}
+    assert set(client_contact_transitions) == {earmark}
     other_client_contact_transitions = case_step.get_available_user_state_transitions(
         other_client_contact.user
     )

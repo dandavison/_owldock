@@ -285,6 +285,7 @@ class CaseSerializer(ModelSerializer):
             provider_contact = ProviderContact.objects.get(
                 uuid=case_step_data["active_contract"]["provider_contact"]["uuid"]
             )
+            case_step.earmark(provider_contact)
             case_step.offer(provider_contact)
             case_step.save()
 
