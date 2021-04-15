@@ -5,17 +5,8 @@
     </b-table-column>
 
     <b-table-column label="Provider" v-slot="props">
-      <provider-contact
-        v-if="
-          props.row.active_contract &&
-          props.row.active_contract.provider_contact
-        "
-        :provider_contact="props.row.active_contract.provider_contact"
-        class="mr-3"
-      >
-      </provider-contact>
       <provider-contact-selector
-        v-else
+        v-if="canChangeProviderContact(props.row)"
         placeholder="Select Provider"
         :process="case_.process"
         :initialProviderContacts="providerContacts"
@@ -25,6 +16,15 @@
         "
       >
       </provider-contact-selector>
+      <provider-contact
+        v-else-if="
+          props.row.active_contract &&
+          props.row.active_contract.provider_contact
+        "
+        :provider_contact="props.row.active_contract.provider_contact"
+        class="mr-3"
+      >
+      </provider-contact>
     </b-table-column>
 
     <b-table-column label="Status" v-slot="props">
@@ -109,6 +109,15 @@ export default Vue.extend({
       } else {
         table.visibleData.splice(index, 1);
       }
+    },
+
+    canChangeProviderContact(row: CaseStepSerializer): boolean {
+      for (let action of row.actions) {
+        if (action.name == "client_contact_earmark_case_step") {
+          return true;
+        }
+      }
+      return false;
     },
 
     // TODO: duplicated in ProviderContactSelector.vue

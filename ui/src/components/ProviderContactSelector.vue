@@ -18,7 +18,9 @@
           max-height="100vh"
         >
           <template slot-scope="props">
-            {{ props.option.displayName }}
+            <provider-contact
+              :provider_contact="props.option"
+            ></provider-contact>
           </template>
         </b-autocomplete>
       </b-field>
@@ -36,8 +38,10 @@ import {
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
 import { processIsNull } from "@/factories";
 import http from "../http";
+import ProviderContact from "./ProviderContact.vue";
 
 export default Vue.extend({
+  components: { ProviderContact },
   props: {
     label: String,
     process: Object as PropType<ProcessSerializer>,
