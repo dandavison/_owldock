@@ -29,10 +29,11 @@
 </template>
 
 <script lang="ts">
-import { inputMatchesString } from "@/utils";
 import Vue, { PropType } from "vue";
 import { BAutocomplete as BAutocompleteInstance } from "buefy/src/components/autocomplete";
 type BAutocomplete = InstanceType<typeof BAutocompleteInstance>;
+
+import { inputMatchesString } from "@/utils";
 import {
   ProcessSerializer,
   ProviderContactSerializer,
