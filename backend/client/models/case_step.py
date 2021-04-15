@@ -96,8 +96,12 @@ class CaseStep(BaseModel):
     def has_active_contract(self) -> bool:
         return bool(self.active_contract)
 
-    def does_not_have_active_contract(self) -> bool:
-        return not self.has_active_contract()
+    def has_blank_active_contract(self) -> bool:
+        return (
+            bool(self.active_contract)
+            and self.active_contract.accepted_at is None
+            and self.active_contract.rejected_at is None
+        )
 
     @transition(
         field=state,
@@ -121,7 +125,7 @@ class CaseStep(BaseModel):
         field=state,
         source=State.EARMARKED,
         target=State.OFFERED,
-        conditions=[does_not_have_active_contract],
+        conditions=[has_blank_active_contract],
         permission=permission_checker("client_contact_offer_case_step"),
     )
     def offer(self, provider_contact: ProviderContact) -> None:
