@@ -176,7 +176,10 @@ export default Vue.extend({
           provider_contact: this.defaultProviderContact,
         },
         // TODO: Use enum labels instead of display names
-        state: "Waiting for client to offer to provider",
+        state: {
+          name: "FREE",
+          value: "Waiting for client to offer to provider",
+        },
         actions: [],
         process_step: s,
         sequence_number: i + 1,

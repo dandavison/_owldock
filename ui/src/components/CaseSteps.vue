@@ -32,7 +32,7 @@
     </b-table-column>
 
     <b-table-column label="Status" v-slot="props">
-      {{ props.row.state }}
+      {{ props.row.state.value }}
     </b-table-column>
 
     <b-table-column label="Actions" v-slot="props">

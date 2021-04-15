@@ -20,7 +20,6 @@ from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import (
     CharField,
-    Field,
     ModelSerializer,
     Serializer,
     UUIDField,
@@ -43,37 +42,39 @@ from client.models import (
     Client,
     ClientContact,
     ClientProviderRelationship,
+    State as CaseStepState,
 )
 from client.models.case_step import (
     CaseStep,
     CaseStepContract,
-    State as CaseStepState,
 )
 
 
-class EnumField(Field):
-    def __init__(self, enum, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.enum = enum
+@ts_interface()
+class TextChoicesSerializer(Serializer):
+    """
+    A serializer class for django.models.TextChoices.
 
-    def to_representation(self, value):
-        # We return the human readable 'value' so that this is what is displayed in the UI.
-        # TODO: serialize both 'name' and 'value'?
-        # TODO: `value` is an enum member e.g. when instantiating the serializer
-        # from dict data in a test, but a string at other times. Is this avoidable?
-        try:
-            return value.value
-        except AttributeError:
-            return self.enum[value].value
+    (Which inherit from enum.Enum)
+    """
 
-    def to_internal_value(self, value):
-        els = [el for el in self.enum if el.value == value]
-        if len(els) != 1:
-            raise AssertionError(
-                f"Expected {value} to match exactly one element of enum {self.enum}"
-            )
-        [el] = els
-        return el
+    class Meta:
+        abstract = True
+
+    name = CharField()
+    value = CharField()
+
+    def to_internal_value(self, data):
+        return getattr(self.Meta.enum_cls, data["name"])
+
+    def to_representation(self, instance):
+        enum_element = getattr(self.Meta.enum_cls, instance, instance)
+        return super().to_representation(enum_element)
+
+
+class CaseStepStateSerializer(TextChoicesSerializer):
+    class Meta:
+        enum_cls = CaseStepState
 
 
 @ts_interface()
@@ -231,7 +232,7 @@ class CaseStepSerializer(ModelSerializer):
     actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
-    state = EnumField(CaseStepState)
+    state = CaseStepStateSerializer()
     stored_files = StoredFileSerializer(many=True)
 
     class Meta:

@@ -78,7 +78,10 @@ def _create_case_steps_from_process_steps(
                 },
                 "process_step": process_step.data,
                 "sequence_number": i,
-                "state": CaseStepState.FREE.value,
+                "state": {
+                    "name": CaseStepState.FREE.name,
+                    "value": CaseStepState.FREE.value,
+                },
                 "stored_files": [],
             }
         )

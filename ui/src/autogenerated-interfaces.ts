@@ -1,3 +1,8 @@
+export interface TextChoicesSerializer {
+    name: string;
+    value: string;
+}
+
 export interface CountrySerializer {
     uuid?: string;
     name: string;
