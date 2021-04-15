@@ -31,6 +31,8 @@
 <script lang="ts">
 import { inputMatchesString } from "@/utils";
 import Vue, { PropType } from "vue";
+import { BAutocomplete as BAutocompleteInstance } from "buefy/src/components/autocomplete";
+type BAutocomplete = InstanceType<typeof BAutocompleteInstance>;
 import {
   ProcessSerializer,
   ProviderContactSerializer,
@@ -48,6 +50,10 @@ export default Vue.extend({
     initialProviderContacts: {
       type: Array as PropType<ProviderContactSerializer[]>,
       default: () => [],
+    },
+    current: {
+      type: Object as PropType<ProviderContactSerializer | null>,
+      default: null,
     },
     placeholder: String,
   },
@@ -68,6 +74,14 @@ export default Vue.extend({
   },
 
   mounted() {
+    if (this.current) {
+      const autocomplete = this.$refs.autocomplete as BAutocomplete;
+      autocomplete.setSelected(
+        Object.assign(this.current, {
+          displayName: displayName(this.current),
+        })
+      );
+    }
     dismissMobileKeyboardOnDropdownScroll(this, "autocomplete");
   },
 

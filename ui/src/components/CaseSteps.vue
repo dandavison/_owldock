@@ -9,6 +9,10 @@
         v-if="canChangeProviderContact(props.row)"
         placeholder="Select Provider"
         :process="case_.process"
+        :current="
+          props.row.active_contract &&
+          props.row.active_contract.provider_contact
+        "
         :initialProviderContacts="providerContacts"
         @change:provider-contact="
           (providerContact) =>
