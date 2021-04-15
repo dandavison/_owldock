@@ -7,8 +7,8 @@ from django.http import (
     HttpResponse,
     JsonResponse,
 )
-from django.views import View
 
+from app.http_api.base import BaseView
 from app.http_api.case_step_utils import perform_case_step_transition
 from app.http_api.serializers import (
     CaseSerializer,
@@ -27,7 +27,7 @@ from owldock.api.http import (
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
-class _ClientContactView(View):
+class _ClientContactView(BaseView):
     def setup(self, *args, **kwargs):
         self.client_contact: ClientContact
         super().setup(*args, **kwargs)

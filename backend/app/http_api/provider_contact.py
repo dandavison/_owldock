@@ -8,10 +8,10 @@ from django.http import (
     HttpResponse,
     JsonResponse,
 )
-from django.views import View
 
 from app.exceptions import PermissionDenied
 from app.models import ProviderContact
+from app.http_api.base import BaseView
 from app.http_api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
@@ -30,7 +30,7 @@ M = TypeVar("M", bound=Model)
 
 
 # TODO: Refactor to share implementation with _ClientContactView
-class _ProviderContactView(View):
+class _ProviderContactView(BaseView):
     def setup(self, *args, **kwargs):
         self.provider_contact: ProviderContact
 
