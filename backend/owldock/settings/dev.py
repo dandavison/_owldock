@@ -8,6 +8,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 INSTALLED_APPS.extend(  # noqa
     [
         "django_extensions",
+        "django_fsm",  # for graph_transitions
         "django_seed",
     ]
 )
