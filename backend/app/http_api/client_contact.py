@@ -122,25 +122,13 @@ class OfferCaseStep(_ClientContactView):
                 f"ProviderContact {provider_contact_uuid} does not exist"
             )
 
-        qs = self.client_contact.case_steps()
-        kwargs = {"uuid": uuid}
-        try:
-            case_step = qs.get(uuid=uuid)
-        except CaseStep.DoesNotExist:
-            return make_explanatory_http_response(
-                qs, "client_contact.case_steps()", **kwargs
-            )
-
-        transition = case_step.offer
-        if not can_proceed(transition):
-            return HttpResponseForbidden(
-                f"Case step {case_step} cannot do transition: {transition.__name__}:\n"
-                f"{why_cant_proceed(transition)}"
-            )
-        transition(provider_contact=provider_contact)
-        case_step.save()
-        serializer = CaseStepSerializer(case_step)
-        return JsonResponse(serializer.data, safe=False)
+        return perform_case_step_transition(
+            "offer",
+            self.client_contact.case_steps(),
+            "client_contact.case_steps()",
+            query_kwargs={"uuid": uuid},
+            transition_kwargs={"provider_contact": provider_contact},
+        )
 
 
 class RetractCaseStep(_ClientContactView):
