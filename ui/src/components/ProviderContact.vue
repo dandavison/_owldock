@@ -42,10 +42,10 @@ export default Vue.extend({
 
   computed: {
     isMe(): boolean {
-      const username = Cookies.get("username")
-      return !!username && username === this.provider_contact.user.email
-    }
-  }
+      const username = Cookies.get("username");
+      return !!username && username === this.provider_contact.user.email;
+    },
+  },
 });
 </script>
 
