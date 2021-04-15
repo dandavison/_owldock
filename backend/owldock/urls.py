@@ -40,6 +40,11 @@ urlpatterns = [
         login_required(client_contact.CaseList.as_view()),
     ),
     path(
+        "api/client-contact/earmark-case-step/<uuid:uuid>",
+        login_required(client_contact.EarmarkCaseStep.as_view()),
+        name="client_contact_earmark_case_step",
+    ),
+    path(
         "api/client-contact/offer-case-step/<uuid:uuid>",
         login_required(client_contact.OfferCaseStep.as_view()),
         name="client_contact_offer_case_step",

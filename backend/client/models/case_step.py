@@ -17,7 +17,8 @@ from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 class State(models.TextChoices):
-    FREE = "Waiting for client to offer to provider"
+    FREE = "Waiting for client to select a provider"
+    EARMARKED = "Waiting for client to notify provider"
     OFFERED = "Waiting for provider to accept"
     # TODO: Introduce concept of step being accepted but not ready to work on
     # (e.g. due to dependencies)
@@ -28,7 +29,10 @@ class State(models.TextChoices):
 
 ACTIONS = {
     (Role.CLIENT_CONTACT, State.FREE.name): [
-        ("Offer", "client_contact_offer_case_step"),
+        ("Assign", "client_contact_earmark_case_step"),
+    ],
+    (Role.CLIENT_CONTACT, State.EARMARKED.name): [
+        ("Notify Provider", "client_contact_offer_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.OFFERED.name): [
         ("Retract", "client_contact_retract_case_step"),
@@ -97,18 +101,13 @@ class CaseStep(BaseModel):
     @transition(
         field=state,
         source=State.FREE,
-        target=State.OFFERED,
+        target=State.EARMARKED,
         conditions=[does_not_have_active_contract],
         permission=permission_checker("client_contact_offer_case_step"),
     )
-    def offer(self, provider_contact: ProviderContact) -> None:
+    def earmark(self, provider_contact: ProviderContact) -> None:
         """
-        Offer this case to a provider; they may then accept or reject it.
-
-        The case may be offered iff:
-        - This client contact has write access to it
-        - It is offerable (i.e. the case state machine features a transition
-          from its current state to offered)
+        Associate this case with a provider without notifying the provider.
         """
         with atomic():
             contract = CaseStepContract.objects.create(
@@ -116,6 +115,19 @@ class CaseStep(BaseModel):
             )
             self.active_contract = contract
             self.save()
+
+    @transition(
+        field=state,
+        source=State.EARMARKED,
+        target=State.OFFERED,
+        conditions=[does_not_have_active_contract],
+        permission=permission_checker("client_contact_offer_case_step"),
+    )
+    def offer(self, provider_contact: ProviderContact) -> None:
+        """
+        Offer this case to a provider; they may then accept or reject it.
+        """
+        notify_provider()
 
     @transition(
         field=state,

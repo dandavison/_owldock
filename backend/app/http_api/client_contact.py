@@ -95,6 +95,14 @@ class CreateCase(_ClientContactView):
             return JsonResponse({"errors": serializer.errors})
 
 
+class EarmarkCaseStep(_ClientContactView):
+    @atomic
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
+        return _perform_earmark_or_offer_case_step_transition(
+            request, self.client_contact, uuid, "earmark"
+        )
+
+
 class OfferCaseStep(_ClientContactView):
     @atomic
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
