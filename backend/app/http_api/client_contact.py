@@ -98,37 +98,45 @@ class CreateCase(_ClientContactView):
 class OfferCaseStep(_ClientContactView):
     @atomic
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        try:
-            case_step_data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return HttpResponseBadRequest(
-                # TODO: handle non utf-8
-                f"Request body could not be deserialized as JSON: {request.body.decode('utf-8')}"
-            )
-        try:
-            provider_contact_uuid = case_step_data["active_contract"][
-                "provider_contact"
-            ]["uuid"]
-        except (KeyError, TypeError):
-            return HttpResponseBadRequest(
-                "POST data must contain active_contract.provider_contact.uuid "
-                "or active_contract.provider_contact_uuid"
-            )
-
-        try:
-            provider_contact = ProviderContact.objects.get(uuid=provider_contact_uuid)
-        except ProviderContact.DoesNotExist:
-            return HttpResponseNotFound(
-                f"ProviderContact {provider_contact_uuid} does not exist"
-            )
-
-        return perform_case_step_transition(
-            "offer",
-            self.client_contact.case_steps(),
-            "client_contact.case_steps()",
-            query_kwargs={"uuid": uuid},
-            transition_kwargs={"provider_contact": provider_contact},
+        return _perform_earmark_or_offer_case_step_transition(
+            request, self.client_contact, uuid, "offer"
         )
+
+
+def _perform_earmark_or_offer_case_step_transition(
+    request, client_contact, case_step_uuid, transition: str
+) -> HttpResponse:
+    try:
+        case_step_data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return HttpResponseBadRequest(
+            # TODO: handle non utf-8
+            f"Request body could not be deserialized as JSON: {request.body.decode('utf-8')}"
+        )
+    try:
+        provider_contact_uuid = case_step_data["active_contract"]["provider_contact"][
+            "uuid"
+        ]
+    except (KeyError, TypeError):
+        return HttpResponseBadRequest(
+            "POST data must contain active_contract.provider_contact.uuid "
+            "or active_contract.provider_contact_uuid"
+        )
+
+    try:
+        provider_contact = ProviderContact.objects.get(uuid=provider_contact_uuid)
+    except ProviderContact.DoesNotExist:
+        return HttpResponseNotFound(
+            f"ProviderContact {provider_contact_uuid} does not exist"
+        )
+
+    return perform_case_step_transition(
+        transition,
+        client_contact.case_steps(),
+        "client_contact.case_steps()",
+        query_kwargs={"uuid": case_step_uuid},
+        transition_kwargs={"provider_contact": provider_contact},
+    )
 
 
 class RetractCaseStep(_ClientContactView):
