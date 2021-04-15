@@ -12,21 +12,18 @@ from django.views import View
 from app.http_api.case_step_utils import perform_case_step_transition
 from app.http_api.serializers import (
     CaseSerializer,
-    CaseStepSerializer,
     ClientProviderRelationshipSerializer,
     ApplicantSerializer,
     ProviderContactSerializer,
 )
 from app.models import ProviderContact
 from client.models import Case, ClientContact
-from client.models.case_step import CaseStep
 from owldock.api.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
     HttpResponseNotFound,
     make_explanatory_http_response,
 )
-from owldock.state_machine.django_fsm_utils import can_proceed, why_cant_proceed
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
