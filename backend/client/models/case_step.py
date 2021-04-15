@@ -29,9 +29,10 @@ class State(models.TextChoices):
 
 ACTIONS = {
     (Role.CLIENT_CONTACT, State.FREE.name): [
-        ("Assign", "client_contact_earmark_case_step"),
+        ("Select Provider", "client_contact_earmark_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.EARMARKED.name): [
+        ("Select Provider", "client_contact_earmark_case_step"),
         ("Notify Provider", "client_contact_offer_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.OFFERED.name): [
@@ -100,9 +101,9 @@ class CaseStep(BaseModel):
 
     @transition(
         field=state,
-        source=State.FREE,
+        source=[State.FREE, State.EARMARKED],
         target=State.EARMARKED,
-        conditions=[does_not_have_active_contract],
+        conditions=[],  # does_not_have_accepted_contract?
         permission=permission_checker("client_contact_offer_case_step"),
     )
     def earmark(self, provider_contact: ProviderContact) -> None:
