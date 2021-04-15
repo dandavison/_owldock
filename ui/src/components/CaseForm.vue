@@ -38,6 +38,7 @@
           <provider-contact-selector
             label="Provider"
             :process="case_.process"
+            :initialProviderContacts="[]"
             @change:provider-contact="handleChangeProviderContact"
           >
           </provider-contact-selector>

@@ -13,6 +13,7 @@
           "
           :openOnFocus="true"
           :keep-first="true"
+          :placeholder="placeholder"
           dropdown-position="bottom"
           max-height="100vh"
         >
@@ -37,7 +38,15 @@ import { processIsNull } from "@/factories";
 import http from "../http";
 
 export default Vue.extend({
-  props: { label: String, process: Object as PropType<ProcessSerializer> },
+  props: {
+    label: String,
+    process: Object as PropType<ProcessSerializer>,
+    initialProviderContacts: {
+      type: Array as PropType<ProviderContactSerializer[]>,
+      default: () => [],
+    },
+    placeholder: String,
+  },
 
   data() {
     return {
@@ -47,7 +56,9 @@ export default Vue.extend({
   },
 
   created() {
-    if (!processIsNull(this.process)) {
+    if (this.initialProviderContacts.length > 0) {
+      this.providerContacts = this.initialProviderContacts;
+    } else if (!processIsNull(this.process)) {
       this.fetchProviderContacts(this.process);
     }
   },

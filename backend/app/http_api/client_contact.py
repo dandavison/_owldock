@@ -107,11 +107,12 @@ class OfferCaseStep(_ClientContactView):
             )
         try:
             provider_contact_uuid = case_step_data["active_contract"][
-                "provider_contact_uuid"
-            ]
+                "provider_contact"
+            ]["uuid"]
         except (KeyError, TypeError):
             return HttpResponseBadRequest(
-                "POST data must contain active_contract.provider_contact_uuid"
+                "POST data must contain active_contract.provider_contact.uuid "
+                "or active_contract.provider_contact_uuid"
             )
 
         try:
