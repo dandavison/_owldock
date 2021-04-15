@@ -68,7 +68,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Cookies from "js-cookie";
 
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
@@ -157,7 +156,7 @@ export default Vue.extend({
         );
         http
           .get(
-            `${process.env.VUE_APP_SERVER_URL}/api/processes/?host_country=${
+            `/api/processes/?host_country=${
               country.code
             }&nationalities=${nationalityCodes.join(",")}`
           )
@@ -200,23 +199,9 @@ export default Vue.extend({
 
     async handleSubmit(): Promise<void> {
       // TODO: validation
-
-      const headers = {
-        "Content-Type": "application/json",
-      } as any;
-      const csrf_token = Cookies.get("csrftoken");
-      if (csrf_token) {
-        headers["X-CSRFToken"] = csrf_token;
-      }
-
-      const response = await fetch(
-        `${process.env.VUE_APP_SERVER_URL}/api/client-contact/create-case/`,
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify(this.case_),
-        }
-      );
+      const response = await http.post("/api/client-contact/create-case/", {
+        body: JSON.stringify(this.case_),
+      });
       const data = await response.json();
       if (data.errors) {
         this.validationErrors = data.errors;

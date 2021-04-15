@@ -41,6 +41,7 @@ import Applicant from "../components/Applicant.vue";
 import Case from "../components/Case.vue";
 import Process from "../components/Process.vue";
 import { processIsNull } from "../factories";
+import http from "../http";
 
 export default Vue.extend({
   props: { role: Number as PropType<Role> },
@@ -73,15 +74,15 @@ export default Vue.extend({
     async fetchCaseList(): Promise<void> {
       switch (this.role) {
         case Role.ClientContact:
-          var url = `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-cases/`;
+          var url = "/api/client-contact/list-cases/";
           break;
         case Role.ProviderContact:
-          var url = `${process.env.VUE_APP_SERVER_URL}/api/provider-contact/list-cases/`;
+          var url = "/api/provider-contact/list-cases/";
           break;
         case Role.Invalid:
           return;
       }
-      const resp = await fetch(url);
+      const resp = await http.get(url);
       this.rows = await resp.json();
     },
 
