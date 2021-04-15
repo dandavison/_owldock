@@ -11,10 +11,13 @@
           {{ provider_contact.user.last_name }}
         </p>
         <p class="subtitle is-size-6">
-          <a :href="`mailto:${provider_contact.user.email}`" target="#">
-            {{ provider_contact.user.email }}
-          </a>
-        </p>
+          <div v-if="mailto" >
+            <a :href="`mailto:${provider_contact.user.email}`" target="#">
+              {{ provider_contact.user.email }}
+            </a>
+          </div>
+          <div v-else>{{ provider_contact.user.email }}</div>
+         </p>
       </div>
     </div>
   </div>
@@ -28,7 +31,10 @@ import Vue, { PropType } from "vue";
 import { makeFlagImgDimensionString } from "../flags";
 
 export default Vue.extend({
-  props: { provider_contact: Object as PropType<ProviderContactSerializer> },
+  props: {
+    provider_contact: Object as PropType<ProviderContactSerializer>,
+    mailto: { type: Boolean, default: false },
+  },
 
   data() {
     return { makeFlagImgDimensionString };

@@ -16,9 +16,11 @@
         {{ applicant.user.last_name }}
       </p>
       <p class="subtitle is-size-6">
-        <a :href="`mailto:${applicant.user.email}`" target="#">
-          {{ applicant.user.email }}
-        </a>
+        <div v-if="mailto">
+          <a :href="`mailto:${applicant.user.email}`" target="#">
+            {{ applicant.user.email }}
+          </a>
+        </div>
       </p>
     </div>
   </div>
@@ -31,7 +33,10 @@ import Vue, { PropType } from "vue";
 import { makeFlagImgProps } from "../flags";
 
 export default Vue.extend({
-  props: { applicant: Object as PropType<ApplicantSerializer> },
+  props: {
+    applicant: Object as PropType<ApplicantSerializer>,
+    mailto: { type: Boolean, default: false },
+  },
 
   data() {
     return {
