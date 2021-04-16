@@ -4,7 +4,7 @@ from client.models import CaseStep, ClientContact, State
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
 
-def test_client_contact_create_case_step(
+def test_case_step_lifecycle(
     applicant_A,
     applicant_B,
     client_contact_A,
@@ -14,6 +14,7 @@ def test_client_contact_create_case_step(
     provider_contact_A,
     provider_contact_B,
 ):
+    # Earmark
     case = fake_create_case_and_earmark_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
@@ -25,22 +26,7 @@ def test_client_contact_create_case_step(
             provider_contact_A,
             provider_contact_B,
         )
-
-
-def test_client_contact_offer_case_step(
-    applicant_A,
-    applicant_B,
-    client_contact_A,
-    client_contact_B,
-    process_A,
-    process_B,
-    provider_contact_A,
-    provider_contact_B,
-):
-    case = fake_create_case_and_earmark_steps(
-        applicant_A, client_contact_A, process_A, provider_contact_A
-    )
-    for case_step in case.steps[:2]:
+        # Offer to provider contact A
         perform_case_step_transition(
             "offer",
             client_contact_A.case_steps(),
@@ -56,38 +42,14 @@ def test_client_contact_offer_case_step(
             provider_contact_A,
             provider_contact_B,
         )
-
-
-def test_client_contact_retract_case_step(
-    applicant_A,
-    applicant_B,
-    client_contact_A,
-    client_contact_B,
-    process_A,
-    process_B,
-    provider_contact_A,
-    provider_contact_B,
-):
-    case = fake_create_case_and_earmark_steps(
-        applicant_A, client_contact_A, process_A, provider_contact_A
-    )
-
-    for case_step in case.steps[:2]:
-        perform_case_step_transition(
-            "offer",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
-            transition_kwargs={"provider_contact": provider_contact_A},
-            query_kwargs={"id": case_step.id},
-        )
+        # Provider contact A retracts
         perform_case_step_transition(
             "retract",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
+            provider_contact_A.case_steps(),
+            "provider_contact_A.case_steps()",
             query_kwargs={"id": case_step.id},
         )
         case_step = CaseStep.objects.get(id=case_step.id)
-
         _make_case_step_FREE_assertions(
             case_step,
             client_contact_A,
@@ -95,89 +57,58 @@ def test_client_contact_retract_case_step(
             provider_contact_A,
             provider_contact_B,
         )
-
-
-def test_client_contact_accept_case_step(
-    applicant_A,
-    applicant_B,
-    client_contact_A,
-    client_contact_B,
-    process_A,
-    process_B,
-    provider_contact_A,
-    provider_contact_B,
-):
-    case = fake_create_case_and_earmark_steps(
-        applicant_A, client_contact_A, process_A, provider_contact_A
-    )
-
-    for case_step in case.steps[:2]:
+        # Earmark and offer to provider contact B
+        perform_case_step_transition(
+            "earmark",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_B},
+            query_kwargs={"id": case_step.id},
+        )
         perform_case_step_transition(
             "offer",
             client_contact_A.case_steps(),
             "client_contact_A.case_steps()",
-            transition_kwargs={"provider_contact": provider_contact_A},
-            query_kwargs={"id": case_step.id},
-        )
-        perform_case_step_transition(
-            "accept",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_B},
             query_kwargs={"id": case_step.id},
         )
         case_step = CaseStep.objects.get(id=case_step.id)
-
+        _make_case_step_OFFERED_assertions(
+            case_step,
+            client_contact_A,
+            client_contact_B,
+            provider_contact_B,
+            provider_contact_A,
+        )
+        # Provider contact B accepts
+        perform_case_step_transition(
+            "accept",
+            provider_contact_B.case_steps(),
+            "provider_contact_B.case_steps()",
+            query_kwargs={"id": case_step.id},
+        )
+        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_IN_PROGRESS_assertions(
             case_step,
             client_contact_A,
             client_contact_B,
-            provider_contact_A,
             provider_contact_B,
+            provider_contact_A,
         )
-
-
-def test_client_contact_complete_case_step(
-    applicant_A,
-    applicant_B,
-    client_contact_A,
-    client_contact_B,
-    process_A,
-    process_B,
-    provider_contact_A,
-    provider_contact_B,
-):
-    case = fake_create_case_and_earmark_steps(
-        applicant_A, client_contact_A, process_A, provider_contact_A
-    )
-
-    for case_step in case.steps[:2]:
-        perform_case_step_transition(
-            "offer",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
-            transition_kwargs={"provider_contact": provider_contact_A},
-            query_kwargs={"id": case_step.id},
-        )
-        perform_case_step_transition(
-            "accept",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
-            query_kwargs={"id": case_step.id},
-        )
+        # Provider contact B completes
         perform_case_step_transition(
             "complete",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
+            provider_contact_B.case_steps(),
+            "provider_contact_B.case_steps()",
             query_kwargs={"id": case_step.id},
         )
         case_step = CaseStep.objects.get(id=case_step.id)
-
         _make_case_step_COMPLETE_assertions(
             case_step,
             client_contact_A,
             client_contact_B,
-            provider_contact_A,
             provider_contact_B,
+            provider_contact_A,
         )
 
 
