@@ -227,3 +227,11 @@ class CaseStepContract(BaseModel):
     # TODO: db-level constraint that at most one of these may be non-null
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["case_step", "provider_contact_uuid"],
+                name="case_step_contract__case_step__provider_contact_uuid__unique_constraint",
+            )
+        ]
