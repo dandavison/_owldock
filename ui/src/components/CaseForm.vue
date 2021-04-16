@@ -7,16 +7,18 @@
         <applicant-selector
           label="Applicant"
           @change:applicant="handleChangeApplicant"
+          class="applicant-selector"
         >
         </applicant-selector>
 
         <country-selector
           label="Host country"
           @change:country="handleChangeHostCountry"
+          class="country-selector"
         >
         </country-selector>
 
-        <b-field label="Target dates">
+        <b-field label="Target dates" class="date-range-selector">
           <b-datepicker
             :range="true"
             :mobile-native="false"
@@ -30,6 +32,7 @@
             label="Route"
             :processes="processes"
             @change:process="handleChangeProcess"
+            class="route-selector"
           >
           </route-selector>
         </fieldset>
@@ -40,6 +43,7 @@
             :process="case_.process"
             :initialProviderContacts="[]"
             @change:provider-contact="handleChangeProviderContact"
+            class="provider-contact-selector"
           >
           </provider-contact-selector>
         </fieldset>

@@ -1,4 +1,6 @@
 SHELL = bash -u
+WITH_CYPRESS_DJANGO_ENV=env $$(xargs < .env.cypress-django)
+WITH_CYPRESS_NODE_ENV=env $$(xargs < .env.cypress-node)
 WITH_NODE_ENV=env $$(xargs < .env)
 WITH_SERVER_ENV=env $$(xargs < .env.server)
 
@@ -14,7 +16,7 @@ test: backend-generate-typescript-interfaces
 	npm run test
 
 test-live: backend-generate-typescript-interfaces
-	$(WITH_NODE_ENV) npx cypress open
+	$(WITH_CYPRESS_DJANGO_ENV) npx cypress open --config watchForFileChanges=false
 
 build: backend-generate-typescript-interfaces
 	$(WITH_SERVER_ENV) npm run build
