@@ -3,12 +3,11 @@ from typing import Type, TypeVar
 from django import http
 from django.conf import settings
 from django.db.models import QuerySet
+from django_tools.middlewares.ThreadLocal import get_current_request
 
 
-if settings.DEBUG:
-
-    class _OwldockHttpErrorResponse(Exception):
-        pass
+class _OwldockHttpErrorResponse(Exception):
+    pass
 
 
 def HttpResponseBadRequest(msg: str) -> http.HttpResponseBadRequest:
@@ -44,8 +43,8 @@ def _error_response(response_cls: Type[R], msg: str) -> R:
     """
     Return HTTP response in prod or raise exception in dev.
     """
-    if settings.DEBUG:
-        # Cause a traceback to be generated in dev.
+    if settings.DEBUG or not get_current_request():
+        # Cause a traceback to be generated in dev and tests.
         raise _OwldockHttpErrorResponse(msg)
     else:
         # Do not give the message to an http client in production.

@@ -4,6 +4,29 @@ from client.models import CaseStep, ClientContact, State
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
 
+def test_client_contact_create_case_step(
+    applicant_A,
+    applicant_B,
+    client_contact_A,
+    client_contact_B,
+    process_A,
+    process_B,
+    provider_contact_A,
+    provider_contact_B,
+):
+    case = fake_create_case_and_earmark_steps(
+        applicant_A, client_contact_A, process_A, provider_contact_A
+    )
+    for case_step in case.steps[:2]:
+        _make_case_step_EARMARKED_assertions(
+            case_step,
+            client_contact_A,
+            client_contact_B,
+            provider_contact_A,
+            provider_contact_B,
+        )
+
+
 def test_client_contact_offer_case_step(
     applicant_A,
     applicant_B,
@@ -18,6 +41,14 @@ def test_client_contact_offer_case_step(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
     for case_step in case.steps[:2]:
+        perform_case_step_transition(
+            "offer",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_A},
+            query_kwargs={"id": case_step.id},
+        )
+        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_OFFERED_assertions(
             case_step,
             client_contact_A,
@@ -42,6 +73,13 @@ def test_client_contact_retract_case_step(
     )
 
     for case_step in case.steps[:2]:
+        perform_case_step_transition(
+            "offer",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_A},
+            query_kwargs={"id": case_step.id},
+        )
         perform_case_step_transition(
             "retract",
             client_contact_A.case_steps(),
@@ -75,6 +113,13 @@ def test_client_contact_accept_case_step(
 
     for case_step in case.steps[:2]:
         perform_case_step_transition(
+            "offer",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_A},
+            query_kwargs={"id": case_step.id},
+        )
+        perform_case_step_transition(
             "accept",
             client_contact_A.case_steps(),
             "client_contact_A.case_steps()",
@@ -106,6 +151,13 @@ def test_client_contact_complete_case_step(
     )
 
     for case_step in case.steps[:2]:
+        perform_case_step_transition(
+            "offer",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_A},
+            query_kwargs={"id": case_step.id},
+        )
         perform_case_step_transition(
             "accept",
             client_contact_A.case_steps(),
@@ -170,6 +222,50 @@ def _make_case_step_FREE_assertions(
         other_provider_contact.user
     )
     assert set(other_provider_contact_transitions) == set()
+
+
+def _make_case_step_EARMARKED_assertions(
+    case_step: CaseStep,
+    client_contact: ClientContact,
+    other_client_contact: ClientContact,
+    provider_contact: ProviderContact,
+    other_provider_contact: ProviderContact,
+):
+    assert case_step.state == State.EARMARKED.name
+
+    # Only owning client contact can see it
+    assert case_step in client_contact.case_steps()
+    assert case_step not in other_client_contact.case_steps()
+
+    # There is a blank active contract
+    assert case_step.active_contract.is_blank()
+
+    # No provider contact can see it
+    assert case_step not in provider_contact.case_steps()
+    assert case_step not in other_provider_contact.case_steps()
+
+    transitions = _transitions_by_name(case_step.get_available_state_transitions())
+    assert set(transitions) == {"earmark", "offer"}
+
+    # Owning Client contact should be able to do: {earmark, offer}
+    client_contact_transitions = _transitions_by_name(
+        case_step.get_available_user_state_transitions(client_contact.user)
+    )
+    assert set(client_contact_transitions) == {"earmark", "offer"}
+    other_client_contact_transitions = _transitions_by_name(
+        case_step.get_available_user_state_transitions(other_client_contact.user)
+    )
+    assert not other_client_contact_transitions
+
+    # Provider contacts should be able to do nothing
+    provider_contact_transitions = _transitions_by_name(
+        case_step.get_available_user_state_transitions(provider_contact.user)
+    )
+    assert not provider_contact_transitions
+    other_provider_contact_transitions = _transitions_by_name(
+        case_step.get_available_user_state_transitions(other_provider_contact.user)
+    )
+    assert not other_provider_contact_transitions
 
 
 def _make_case_step_OFFERED_assertions(
@@ -319,3 +415,11 @@ def _make_case_step_COMPLETE_assertions(
     assert set(other_provider_contact_transitions) == set(), [
         t.name for t in other_provider_contact_transitions
     ]
+
+
+def _transitions_by_name(transitions) -> dict:
+    grouped = {}
+    for t in transitions:
+        assert t.name not in grouped, f"{t.name} occurs multiple times in transitions"
+        grouped[t.name] = t
+    return grouped

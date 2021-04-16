@@ -63,9 +63,20 @@ class ProviderContact(BaseModel):
         return Case.objects.filter(id__in=self.case_steps().values("case_id"))
 
     def case_steps(self) -> "QuerySet[CaseStep]":
-        from client.models.case_step import CaseStep
+        """
+        Case steps for which this provider contact has access permission.
 
-        return CaseStep.objects.filter(active_contract__provider_contact_uuid=self.uuid)
+        We do not currently distinguish between read and write permissions.
+
+        A provider contact has access to a case step if the active contract for
+        the step is for the provider, and it is not merely earmarked.
+        """
+        from client.models.case_step import CaseStep
+        from client.models.case_step import State as CaseStepState
+
+        return CaseStep.objects.filter(
+            active_contract__provider_contact_uuid=self.uuid
+        ).exclude(state=CaseStepState.EARMARKED.name)
 
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(

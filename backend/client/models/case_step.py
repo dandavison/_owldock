@@ -162,7 +162,7 @@ class CaseStep(BaseModel):
     # step is no longer offered to the provider contact.
     _reject_or_retract_kwargs = dict(
         field=state,
-        source=list(set(State) - {State.FREE} - {State.COMPLETE}),
+        source=[State.OFFERED, State.IN_PROGRESS],
         target=State.FREE,
         conditions=[has_active_contract],
     )
@@ -227,6 +227,9 @@ class CaseStepContract(BaseModel):
     # TODO: db-level constraint that at most one of these may be non-null
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)
+
+    def is_blank(self) -> bool:
+        return not self.accepted_at and not self.rejected_at
 
     class Meta:
         constraints = [
