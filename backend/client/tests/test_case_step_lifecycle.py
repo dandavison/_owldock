@@ -1,7 +1,7 @@
 from app.http_api.case_step_utils import perform_case_step_transition
 from app.models import ProviderContact
 from client.models import CaseStep, ClientContact, State
-from client.tests.fake_create_case import fake_create_case_and_offer_steps
+from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
 
 def test_client_contact_offer_case_step(
@@ -14,7 +14,7 @@ def test_client_contact_offer_case_step(
     provider_contact_A,
     provider_contact_B,
 ):
-    case = fake_create_case_and_offer_steps(
+    case = fake_create_case_and_earmark_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
     for case_step in case.steps[:2]:
@@ -37,7 +37,7 @@ def test_client_contact_retract_case_step(
     provider_contact_A,
     provider_contact_B,
 ):
-    case = fake_create_case_and_offer_steps(
+    case = fake_create_case_and_earmark_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
 
@@ -69,7 +69,7 @@ def test_client_contact_accept_case_step(
     provider_contact_A,
     provider_contact_B,
 ):
-    case = fake_create_case_and_offer_steps(
+    case = fake_create_case_and_earmark_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
 
@@ -101,7 +101,7 @@ def test_client_contact_complete_case_step(
     provider_contact_A,
     provider_contact_B,
 ):
-    case = fake_create_case_and_offer_steps(
+    case = fake_create_case_and_earmark_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
 

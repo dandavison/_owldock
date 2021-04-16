@@ -5,7 +5,7 @@ from app.models import Process, ProviderContact
 from client.models import ClientContact
 from client.models.case_step import State as CaseStepState
 from client.tests.fake_create_case import (
-    fake_create_case_and_offer_steps,
+    fake_create_case_and_earmark_steps,
 )
 
 
@@ -16,7 +16,7 @@ def test_client_provider_case_lifecycle():
     applicant = client_contact.client.applicant_set.earliest("id")
     process = Process.objects.earliest("id")
     provider_contact = ProviderContact.objects.earliest("id")
-    case = fake_create_case_and_offer_steps(
+    case = fake_create_case_and_earmark_steps(
         applicant, client_contact, process, provider_contact
     )
     assert case.casestep_set.exists()

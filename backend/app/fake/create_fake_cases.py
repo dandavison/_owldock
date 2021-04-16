@@ -4,7 +4,7 @@ from django.db.transaction import atomic
 
 from app.models import Process, Provider, ProviderContact
 from client.models import Applicant, ClientProviderRelationship
-from client.tests.fake_create_case import fake_create_case_and_offer_steps
+from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
 
 @atomic
@@ -25,6 +25,6 @@ def create_fake_cases(self, n: int):
         client_contact = random.choice(list(valid_client_contacts))
         provider_contact = random.choice(list(valid_provider_contacts))
         process = random.choice(list(valid_processes))
-        fake_create_case_and_offer_steps(
+        fake_create_case_and_earmark_steps(
             applicant, client_contact, process, provider_contact
         )
