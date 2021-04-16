@@ -79,6 +79,7 @@ import {
 import { CaseSerializer } from "@/api-types";
 import { NullCaseStepContract, processIsNull } from "@/factories";
 import http from "../http";
+import { isClientContact } from "../role";
 
 export default Vue.extend({
   components: {
@@ -100,7 +101,7 @@ export default Vue.extend({
   },
 
   created() {
-    if (!processIsNull(this.case_.process)) {
+    if (isClientContact() && !processIsNull(this.case_.process)) {
       this.fetchProviderContacts(this.case_.process);
     }
   },
@@ -116,6 +117,9 @@ export default Vue.extend({
     },
 
     canChangeProviderContact(row: CaseStepSerializer): boolean {
+      if (!isClientContact()) {
+        return false;
+      }
       for (let action of row.actions) {
         if (action.name == "client_contact_earmark_case_step") {
           return true;
