@@ -14,7 +14,7 @@ INSTALLED_APPS.extend(  # noqa
 )
 MIDDLEWARE.append("app.middleware.process_exception.process_exception")  # noqa
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
-UI_DEV_MODE = True
+UI_DEV_MODE = False
 
 if UI_DEV_MODE:
     # In UI dev mode, the javascript client is running in a page served by a
