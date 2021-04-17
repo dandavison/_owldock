@@ -2,10 +2,14 @@
 
 describe("Case lifecycle", () => {
   it("Case can be managed by client and provider contacts", () => {
+    const password = "x";
+    const clientContactEmail = "petra-pepsi@example.com";
+    const providerContactEmail = "dietrich-deloitte@example.com";
+
     // Log in as client contact
     cy.visit("/");
-    cy.get("input[type='email']").type("petra-pepsi@example.com");
-    cy.get("input[type='password']").type("x");
+    cy.get("input[type='email']").type(clientContactEmail);
+    cy.get("input[type='password']").type(password);
     cy.contains("Sign in").click();
 
     // Go to client portal and create case
@@ -70,8 +74,8 @@ describe("Case lifecycle", () => {
     // cy.contains("petra-pepsi@example.com").click({ force: true });
     cy.contains("Log out").click();
 
-    cy.get("input[type='email']").type("dietrich-deloitte@example.com");
-    cy.get("input[type='password']").type("x");
+    cy.get("input[type='email']").type(providerContactEmail);
+    cy.get("input[type='password']").type(password);
     cy.contains("Sign in").click();
 
     // Go to client portal and create case
