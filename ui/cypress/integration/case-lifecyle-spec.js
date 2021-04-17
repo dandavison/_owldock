@@ -50,14 +50,19 @@ describe("Case lifecycle", () => {
       .click();
 
     // Submit the form
-    cy.contains("Submit").click();
+    cy.intercept("/api/client-contact/list-cases/").as(
+      "clientContactListCasesRequest"
+    );
+    cy.contains("Submit").click(); // redirects to cases list view
 
-    // We are now in the active cases list view
-    // Go to case detail view
-    cy.wait(2000);
-    cy.contains("Samantha Taylor").dblclick();
+    cy.wait("@clientContactListCasesRequest").then(() => {
+      // We are now in the cases list view and the table is populated.
 
-    // TODO: Take some actions as client contact
+      // Go to a case detail view
+      cy.contains("Samantha Taylor").dblclick();
+
+      // TODO: Take some actions as client contact
+    });
 
     // Log in as client contact
 
@@ -71,12 +76,15 @@ describe("Case lifecycle", () => {
 
     // Go to client portal and create case
     cy.visit("/portal");
+    cy.intercept("/api/provider-contact/list-cases/").as(
+      "providerContactListCasesRequest"
+    );
     cy.contains("View active cases").click();
 
-    // Go to case detail view
-    cy.wait(2000);
-    cy.contains("Samantha Taylor").dblclick();
-
-    // TODO: Take some actions as provider contact
+    cy.wait("@providerContactListCasesRequest").then(() => {
+      // Go to case detail view
+      cy.contains("Samantha Taylor").dblclick();
+      // TODO: Take some actions as provider contact
+    });
   });
 });
