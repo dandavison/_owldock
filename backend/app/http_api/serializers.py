@@ -14,8 +14,6 @@ create a case, in order to look up the process.
 allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
-from collections import defaultdict
-from itertools import chain
 from typing import List
 
 from django.contrib.auth import get_user_model
@@ -43,7 +41,6 @@ from app.models import (
 )
 from client.models import (
     Applicant,
-    ApplicantNationality,
     Case,
     Client,
     ClientContact,
@@ -54,7 +51,6 @@ from client.models.case_step import (
     CaseStep,
     CaseStepContract,
 )
-from owldock.dev.db_utils import assert_n_queries
 
 
 class BaseModelSerializer(ModelSerializer):
@@ -62,15 +58,7 @@ class BaseModelSerializer(ModelSerializer):
     def get_select_related_fields(cls):
         for f in cls.Meta.fields:
 
-            # TODO
-            if f in [
-                "user",
-                "process",
-                "home_country",
-                "nationalities",
-                "provider_contact",
-                "process_step",
-            ]:
+            if f in ["user", "process", "home_country", "nationalities"]:
                 continue
 
             # TODO: Is _declared_fields the right thing to be accessing here?
@@ -289,7 +277,7 @@ class CaseStepSerializer(BaseModelSerializer):
 class CaseSerializer(BaseModelSerializer):
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
-    steps = CaseStepSerializer(many=True, source="_prefetched_steps")
+    steps = CaseStepSerializer(many=True)
 
     class Meta:
         model = Case
@@ -307,93 +295,7 @@ class CaseSerializer(BaseModelSerializer):
     def get_queryset_for_client_contact_case_list_view(
         cls, client_contact: ClientContact
     ) -> QuerySet[Case]:
-        cases = client_contact.cases().select_related(*cls.get_select_related_fields())
-        cls._prefetch_users(cases)
-        cls._prefetch_countries(cases)
-        cls._prefetch_processes(cases)
-        cls._prefetch_case_steps(cases)
-        return cases
-
-    @classmethod
-    def _prefetch_case_steps(cls, cases: QuerySet[Case]) -> QuerySet[Case]:
-        with assert_n_queries(2):
-            case_id2case_steps = defaultdict(list)
-            process_step_uuids = []
-            for s in CaseStep.objects.filter(case_id__in=cases).select_related(
-                *CaseStepSerializer.get_select_related_fields()
-            ):
-                case_id2case_steps[s.case_id].append(s)
-                process_step_uuids.append(s.process_step_uuid)
-            process_step_uuid2process_step = {
-                ps.uuid: ps
-                for ps in ProcessStep.objects.filter(
-                    uuid__in=process_step_uuids
-                ).select_related(*ProcessStepSerializer.get_select_related_fields())
-            }
-
-            s.process_step = process_step_uuid2process_step[s.process_step_uuid]
-
-            for case in cases:
-                case._prefetched_steps = case_id2case_steps[case.id]
-        return cases
-
-    @classmethod
-    def _prefetch_processes(cls, cases: QuerySet[Case]) -> QuerySet[Case]:
-        with assert_n_queries(1):
-            process_uuids = [case.process_uuid for case in cases]
-            uuid2process = {
-                p.uuid: p
-                for p in Process.objects.filter(uuid__in=process_uuids).select_related(
-                    *ProcessSerializer.get_select_related_fields()
-                )
-            }
-            for case in cases:
-                case.process = uuid2process[case.process_uuid]
-        return cases
-
-    @classmethod
-    def _prefetch_users(cls, cases: QuerySet[Case]) -> QuerySet[Case]:
-        with assert_n_queries(2):  # TODO: should be 1?
-            user_uuids = [case.applicant.user_uuid for case in cases]
-            uuid2user = {
-                u.uuid: u
-                for u in get_user_model()
-                .objects.filter(uuid__in=user_uuids)
-                .select_related(*UserSerializer.get_select_related_fields())
-            }
-            for case in cases:
-                case.applicant.user = uuid2user[case.applicant.user_uuid]
-        return cases
-
-    @classmethod
-    def _prefetch_countries(cls, cases: QuerySet[Case]) -> QuerySet[Case]:
-        with assert_n_queries(2):
-            home_country_uuids = {case.applicant.home_country_uuid for case in cases}
-            applicant_id2nationality_uuids = defaultdict(list)
-            for an in ApplicantNationality.objects.filter(
-                applicant_id__in=cases.values("applicant_id")
-            ):
-                applicant_id2nationality_uuids[an.applicant_id].append(an.country_uuid)
-            nationality_uuids = set(
-                chain.from_iterable(applicant_id2nationality_uuids.values())
-            )
-            all_country_uuids = home_country_uuids | nationality_uuids
-            uuid2country = {
-                c.uuid: c
-                for c in Country.objects.filter(
-                    uuid__in=all_country_uuids
-                ).select_related(*CountrySerializer.get_select_related_fields())
-            }
-            for case in cases:
-                case.applicant.home_country = uuid2country[
-                    case.applicant.home_country_uuid
-                ]
-                case.nationalities = [
-                    uuid2country[uuid]
-                    for uuid in applicant_id2nationality_uuids[case.applicant_id]
-                ]
-
-        return cases
+        return client_contact.cases().select_related(*cls.get_select_related_fields())
 
     @atomic
     def create_for_client_contact(self, client_contact: ClientContact) -> Case:
