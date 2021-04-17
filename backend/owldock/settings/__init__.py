@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from typing import List
+
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -87,14 +90,8 @@ DEFAULT_DB_NAME = "default"
 CLIENT_DB_NAME = "client"
 
 DATABASES = {
-    DEFAULT_DB_NAME: {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / f"{DEFAULT_DB_NAME}.sqlite3",
-    },
-    CLIENT_DB_NAME: {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / f"{CLIENT_DB_NAME}.sqlite3",
-    },
+    DEFAULT_DB_NAME: dj_database_url.parse(os.environ["OWLDOCK_DATABASE_URL_MAIN"]),
+    CLIENT_DB_NAME: dj_database_url.parse(os.environ["OWLDOCK_DATABASE_URL_CLIENT_1"]),
 }
 
 DATABASE_ROUTERS = ["owldock.database_router.Router"]
