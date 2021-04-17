@@ -1,4 +1,5 @@
-MANAGE=.venv/bin/python manage.py
+WITH_DEV_ENV=env $$(xargs < .env.dev)
+MANAGE=$(WITH_DEV_ENV) .venv/bin/python manage.py
 
 static-analysis: lint type-check
 
@@ -7,7 +8,7 @@ lint: lint-flake8
 type-check: type-check-mypy
 
 test:
-	.venv/bin/pytest --no-header
+	$(WITH_DEV_ENV) .venv/bin/pytest --no-header
 
 test-all: lint type-check test
 
@@ -27,7 +28,7 @@ repl-python:
 	$(MANAGE) shell_plus --settings=owldock.settings.dev
 
 create-fake-world:
-	$(MANAGE) create_fake_world $$OWLDOCK_DEV_PASSWORD
+	$(MANAGE) create_fake_world
 
 create-fake-cases:
 	$(MANAGE) create_fake_cases
@@ -41,7 +42,7 @@ recreate-db:
 	$(MANAGE) makemigrations app client
 	$(MANAGE) migrate
 	$(MANAGE) migrate --database client
-	$(MANAGE) create_fake_world $$OWLDOCK_DEV_PASSWORD
+	$(MANAGE) create_fake_world
 
 db-graph:
 	$(MANAGE) graph_models app client --no-inheritance --exclude-models '*BaseModel' --output /tmp/db.svg

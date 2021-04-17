@@ -1,3 +1,4 @@
+import os
 import random
 from typing import Set, TypeVar, Optional
 
@@ -27,13 +28,12 @@ from client.models import (
 )
 
 
-def create_fake_world(password: str):
-    _FakeWorldCreator(password).create()
+def create_fake_world():
+    _FakeWorldCreator().create()
 
 
 class _FakeWorldCreator:
-    def __init__(self, password):
-        self.password = password
+    def __init__(self):
         self.seeder = Seed.seeder()
 
     @atomic
@@ -194,7 +194,7 @@ class _FakeWorldCreator:
             email=email,
             first_name=first_name,
             last_name=last_name,
-            password=self.password,
+            password=os.environ["OWLDOCK_DEV_PASSWORD"],
         )
         if group:
             user.groups.add(group)
@@ -212,7 +212,7 @@ class _FakeWorldCreator:
                 email=email,
                 first_name=first_name,
                 last_name=last_name,
-                password=self.password,
+                password=os.environ["OWLDOCK_DEV_PASSWORD"],
                 is_staff=True,
                 is_superuser=True,
             )

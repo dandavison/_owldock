@@ -13,6 +13,7 @@
         "0.0.0.0:8000",
         "2>/tmp/stderr"
       ],
+      "envFile": "${workspaceFolder}/.env.dev",
       "django": true,
       "justMyCode": false
     }
