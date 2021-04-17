@@ -14,10 +14,7 @@ create a case, in order to look up the process.
 allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
-from typing import List
-
 from django.contrib.auth import get_user_model
-from django.db.models import QuerySet
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
@@ -53,27 +50,6 @@ from client.models.case_step import (
 )
 
 
-class BaseModelSerializer(ModelSerializer):
-    @classmethod
-    def get_select_related_fields(cls):
-        for f in cls.Meta.fields:
-
-            if f in ["user", "process", "home_country", "nationalities"]:
-                continue
-
-            # TODO: Is _declared_fields the right thing to be accessing here?
-            if f in cls._declared_fields and isinstance(
-                cls._declared_fields[f], BaseModelSerializer
-            ):
-                serializer: BaseModelSerializer = cls._declared_fields[f]
-                has_nested = False
-                for ff in serializer.get_select_related_fields():
-                    yield f"{f}__{ff}"
-                    has_nested = True
-                if not has_nested:
-                    yield f
-
-
 @ts_interface()
 class TextChoicesSerializer(Serializer):
     """
@@ -102,21 +78,21 @@ class CaseStepStateSerializer(TextChoicesSerializer):
 
 
 @ts_interface()
-class CountrySerializer(BaseModelSerializer):
+class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
         fields = ["uuid", "name", "code", "unicode_flag"]
 
 
 @ts_interface()
-class ServiceSerializer(BaseModelSerializer):
+class ServiceSerializer(ModelSerializer):
     class Meta:
         model = Service
         fields = ["uuid", "name"]
 
 
 @ts_interface()
-class RouteSerializer(BaseModelSerializer):
+class RouteSerializer(ModelSerializer):
     host_country = CountrySerializer()
 
     class Meta:
@@ -125,7 +101,7 @@ class RouteSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ProcessStepSerializer(BaseModelSerializer):
+class ProcessStepSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     service = ServiceSerializer()
@@ -137,7 +113,7 @@ class ProcessStepSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ProcessSerializer(BaseModelSerializer):
+class ProcessSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
@@ -158,7 +134,7 @@ class ActionSerializer(Serializer):
 
 
 @ts_interface()
-class UserSerializer(BaseModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ["uuid", "first_name", "last_name", "email"]
@@ -166,7 +142,7 @@ class UserSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class StoredFileSerializer(BaseModelSerializer):
+class StoredFileSerializer(ModelSerializer):
     created_by = UserSerializer()
 
     class Meta:
@@ -175,14 +151,14 @@ class StoredFileSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ClientSerializer(BaseModelSerializer):
+class ClientSerializer(ModelSerializer):
     class Meta:
         model = Client
         fields = ["uuid", "name"]
 
 
 @ts_interface()
-class ApplicantSerializer(CountryFieldMixin, BaseModelSerializer):
+class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
@@ -196,7 +172,7 @@ class ApplicantSerializer(CountryFieldMixin, BaseModelSerializer):
 
 
 @ts_interface()
-class ClientContactSerializer(CountryFieldMixin, BaseModelSerializer):
+class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
     user = UserSerializer()
     client = ClientSerializer()
 
@@ -206,14 +182,14 @@ class ClientContactSerializer(CountryFieldMixin, BaseModelSerializer):
 
 
 @ts_interface()
-class ProviderSerializer(BaseModelSerializer):
+class ProviderSerializer(ModelSerializer):
     class Meta:
         model = Provider
         fields = ["uuid", "logo_url", "name"]
 
 
 @ts_interface()
-class ClientProviderRelationshipSerializer(BaseModelSerializer):
+class ClientProviderRelationshipSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     client = ClientSerializer()
@@ -225,7 +201,7 @@ class ClientProviderRelationshipSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ProviderContactSerializer(CountryFieldMixin, BaseModelSerializer):
+class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
@@ -237,7 +213,7 @@ class ProviderContactSerializer(CountryFieldMixin, BaseModelSerializer):
 
 
 @ts_interface()
-class CaseStepContractSerializer(BaseModelSerializer):
+class CaseStepContractSerializer(ModelSerializer):
     # The case FK will never be null, but we have to set required=False here
     # because we sometimes validate the data before creating a
     # case-with-its-case-steps-and-contracts in one go.
@@ -252,7 +228,7 @@ class CaseStepContractSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class CaseStepSerializer(BaseModelSerializer):
+class CaseStepSerializer(ModelSerializer):
     actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
@@ -274,7 +250,7 @@ class CaseStepSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class CaseSerializer(BaseModelSerializer):
+class CaseSerializer(ModelSerializer):
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
