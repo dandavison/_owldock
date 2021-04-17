@@ -5,6 +5,7 @@ django-extensions==3.1.1
 django-seed==0.2.2
 django-stubs==1.7.0
 djangorestframework-stubs==1.4.0
+icecream==2.1.0
 ipython==7.21.0
 mypy==0.812
 pdbpp==0.10.2

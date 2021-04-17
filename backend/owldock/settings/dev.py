@@ -1,6 +1,10 @@
 from owldock.settings import *  # noqa
 from owldock.dev.traceback import patch_exception_handler
 
+import icecream
+
+icecream.install()
+
 patch_exception_handler()
 
 ALLOWED_HOSTS[:] = ["*"]  # noqa
