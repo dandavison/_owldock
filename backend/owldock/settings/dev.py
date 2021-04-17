@@ -12,9 +12,21 @@ INSTALLED_APPS.extend(  # noqa
         "django_seed",
     ]
 )
-MIDDLEWARE.append("app.middleware.process_exception.process_exception")  # noqa
+if "INTERNAL_IPS" not in locals():
+    INTERNAL_IPS = []
+INTERNAL_IPS.append("192.168.1.3")  # noqa
+MIDDLEWARE.extend(  # noqa
+    [
+        "app.middleware.process_exception.process_exception",
+    ]
+)
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
 UI_DEV_MODE = False
+
+DEBUG_TOOLBAR = True
+if DEBUG_TOOLBAR:
+    INSTALLED_APPS.insert(0, "debug_toolbar")  # noqa
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")  # noqa
 
 if UI_DEV_MODE:
     # In UI dev mode, the javascript client is running in a page served by a
