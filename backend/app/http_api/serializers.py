@@ -291,6 +291,12 @@ class CaseSerializer(BaseModelSerializer):
             "target_exit_date",
         ]
 
+    @classmethod
+    def get_queryset_for_client_contact_case_list_view(
+        cls, client_contact: ClientContact
+    ) -> QuerySet[Case]:
+        return client_contact.cases().select_related(*cls.get_select_related_fields())
+
     @atomic
     def create_for_client_contact(self, client_contact: ClientContact) -> Case:
         applicant_data = self.validated_data.pop("applicant")

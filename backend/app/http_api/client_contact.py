@@ -76,7 +76,9 @@ class ApplicantList(_ClientContactView):
 
 class CaseList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        cases = self.client_contact.case_set.all()
+        cases = CaseSerializer.get_queryset_for_client_contact_case_list_view(
+            self.client_contact
+        )
         serializer = CaseSerializer(cases, many=True)
         return JsonResponse(serializer.data, safe=False)
 
