@@ -21,18 +21,57 @@ describe("Case lifecycle", () => {
     createCase();
     cy.wait("@clientContactListCasesRequest").then(() => {
       // We are now in the cases list view and the table is populated.
-      testCaseLifeCycle(this.applicantName, params);
+      params.applicantName = this.applicantName;
+      testCaseLifeCycle(params);
     });
   });
 });
 
-function testCaseLifeCycle(applicantName, params) {
-  // We are in the cases list view and the table is populated.
-
+function allStepsEarmarkedAssertions(params) {
   // Provider cannot see the case
   logOut();
   logIn(params.providerContactEmail, params.password);
   assertCaseNotInProviderListView(params);
+}
+
+function earmarkProviderOnFirstStep(params) {
+  // Log back in as client user and select provider on a case step
+  logOut();
+  logIn(params.clientContactEmail, params.password);
+  cy.contains("View active cases").click();
+
+  // Go to a case detail view
+  cy.contains(params.applicantName).dblclick();
+
+  cy.contains("Select Provider")
+    .first()
+    .click();
+  cy.contains("Waiting for user to notify provider").should("exist");
+}
+
+function notifyProviderOnFirstStep(params) {
+  // Log back in as client user and select provider on a case step
+  logOut();
+  logIn(params.clientContactEmail, params.password);
+  cy.contains("View active cases").click();
+
+  // Go to a case detail view
+  cy.contains(params.applicantName).dblclick();
+
+  cy.contains("Notify Provider")
+    .first()
+    .click();
+  cy.contains("Waiting for user to notify provider").should("exist");
+}
+
+function testCaseLifeCycle(params) {
+  // We are in the cases list view and the table is populated.
+
+  allStepsEarmarkedAssertions(params);
+
+  earmarkProviderOnFirstStep(params);
+
+  notifyProviderOnFirstStep(params);
 
   // Log back in as client user and select provider on a case step
   logOut();
@@ -40,17 +79,17 @@ function testCaseLifeCycle(applicantName, params) {
   cy.contains("View active cases").click();
 
   // Go to a case detail view
-  cy.contains(applicantName).dblclick();
+  cy.contains(params.applicantName).dblclick();
 
   cy.contains("Select Provider")
     .first()
     .click();
+  cy.contains("Waiting for provider to accept").should("exist");
 
-  // Now provider can see the case
+  // Provider still cannot see the case
   logOut();
   logIn(params.providerContactEmail, params.password);
-  assertCaseInProviderListView(params);
-  //
+  assertCaseNotInProviderListView(params);
 
   // logIn(providerContactEmail, password);
 
@@ -72,9 +111,7 @@ function assertCaseInProviderListView(params) {
   cy.contains("View active cases").click();
 
   cy.wait("@providerContactListCasesRequest").then(() => {
-    cy.get("@applicantName").then(name => {
-      cy.contains(name).should("exist");
-    });
+    cy.contains(params.applicantName).should("exist");
   });
 }
 
@@ -82,9 +119,7 @@ function assertCaseNotInProviderListView(params) {
   cy.visit("/portal");
   cy.contains("View active cases").click();
   cy.wait("@providerContactListCasesRequest").then(() => {
-    cy.get("@applicantName").then(name => {
-      cy.contains(name).should("not.exist");
-    });
+    cy.contains(params.applicantName).should("not.exist");
   });
 }
 
