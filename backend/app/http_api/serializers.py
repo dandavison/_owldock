@@ -19,7 +19,7 @@ from operator import attrgetter
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import QuerySet
+from django.db.models import Prefetch, QuerySet
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
@@ -282,7 +282,12 @@ class CaseSerializer(ModelSerializer):
             client_contact.cases()
             .prefetch_related(
                 "applicant__applicantnationality_set",
-                "casestep_set__active_contract__case_step",
+                Prefetch(
+                    "casestep_set",
+                    queryset=CaseStep.objects.order_by(
+                        "sequence_number"
+                    ).select_related("active_contract__case_step"),
+                ),
             )
             .select_related(
                 "applicant__employer",
