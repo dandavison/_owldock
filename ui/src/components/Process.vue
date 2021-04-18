@@ -10,11 +10,7 @@
       <p class="title is-size-6">
         {{ case_.process.route.name }}
       </p>
-      <case-steps
-        v-if="showSteps"
-        :case_="case_"
-        :steps="case_.steps"
-      ></case-steps>
+      <case-steps v-if="showSteps" :case_="case_" :steps="steps"></case-steps>
     </div>
   </div>
 </template>
@@ -39,6 +35,14 @@ export default Vue.extend({
     return {
       makeFlagImgProps,
     };
+  },
+
+  computed: {
+    steps() {
+      return this.case_.steps.sort(
+        (s, t) => s.sequence_number - t.sequence_number
+      );
+    },
   },
 });
 </script>
