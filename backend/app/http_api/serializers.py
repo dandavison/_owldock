@@ -318,6 +318,7 @@ class CaseSerializer(ModelSerializer):
             s.active_contract.provider_contact_uuid
             for c in cases
             for s in c.casestep_set.all()
+            if s.active_contract
         }
         uuid2provider_contact = {
             pc.uuid: pc
