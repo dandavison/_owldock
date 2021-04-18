@@ -1,4 +1,3 @@
-import debug_toolbar
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
@@ -106,6 +105,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
+
     urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
 
 if not getattr(settings, "UI_DEV_MODE", False):

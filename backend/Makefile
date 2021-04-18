@@ -13,7 +13,10 @@ test:
 test-all: lint type-check test
 
 serve:
-	$(MANAGE) runserver --settings=owldock.settings.dev 0.0.0.0:8000
+	$(MANAGE) runserver 0.0.0.0:8000
+
+serve-render:
+	python ./manage.py runserver --noreload 0.0.0.0:8000
 
 lint-flake8:
 	flake8 app client owldock
@@ -25,7 +28,7 @@ type-check-pyright:
 	pyright --venv-path . app client owldock
 
 repl-python:
-	$(MANAGE) shell_plus --settings=owldock.settings.dev
+	$(MANAGE) shell_plus
 
 create-fake-world:
 	$(MANAGE) create_fake_world

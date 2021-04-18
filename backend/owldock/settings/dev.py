@@ -7,7 +7,9 @@ icecream.install()
 
 patch_exception_handler()
 
+DEBUG = True
 ALLOWED_HOSTS[:] = ["*"]  # noqa
+CORS_ALLOW_ALL_ORIGINS = True
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 INSTALLED_APPS.extend(  # noqa
     [
@@ -25,6 +27,7 @@ MIDDLEWARE.extend(  # noqa
     ]
 )
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
+STATIC_ROOT = "static"
 UI_DEV_MODE = False
 
 DEBUG_TOOLBAR = False
