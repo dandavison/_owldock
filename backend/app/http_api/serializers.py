@@ -14,10 +14,7 @@ create a case, in order to look up the process.
 allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
-from itertools import chain
-
 from django.contrib.auth import get_user_model
-from django.db.models import Q, QuerySet
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
@@ -51,11 +48,6 @@ from client.models.case_step import (
     CaseStep,
     CaseStepContract,
 )
-from owldock.api.http.prefetch import PrefetchCacheAwareSerializerMixin
-
-
-class BaseModelSerializer(PrefetchCacheAwareSerializerMixin, ModelSerializer):
-    pass
 
 
 @ts_interface()
@@ -86,21 +78,21 @@ class CaseStepStateSerializer(TextChoicesSerializer):
 
 
 @ts_interface()
-class CountrySerializer(BaseModelSerializer):
+class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
         fields = ["uuid", "name", "code", "unicode_flag"]
 
 
 @ts_interface()
-class ServiceSerializer(BaseModelSerializer):
+class ServiceSerializer(ModelSerializer):
     class Meta:
         model = Service
         fields = ["uuid", "name"]
 
 
 @ts_interface()
-class RouteSerializer(BaseModelSerializer):
+class RouteSerializer(ModelSerializer):
     host_country = CountrySerializer()
 
     class Meta:
@@ -109,7 +101,7 @@ class RouteSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ProcessStepSerializer(BaseModelSerializer):
+class ProcessStepSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     service = ServiceSerializer()
@@ -121,7 +113,7 @@ class ProcessStepSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ProcessSerializer(BaseModelSerializer):
+class ProcessSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
@@ -142,7 +134,7 @@ class ActionSerializer(Serializer):
 
 
 @ts_interface()
-class UserSerializer(BaseModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ["uuid", "first_name", "last_name", "email"]
@@ -150,7 +142,7 @@ class UserSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class StoredFileSerializer(BaseModelSerializer):
+class StoredFileSerializer(ModelSerializer):
     created_by = UserSerializer()
 
     class Meta:
@@ -159,14 +151,14 @@ class StoredFileSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ClientSerializer(BaseModelSerializer):
+class ClientSerializer(ModelSerializer):
     class Meta:
         model = Client
         fields = ["uuid", "name"]
 
 
 @ts_interface()
-class ApplicantSerializer(CountryFieldMixin, BaseModelSerializer):
+class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
@@ -180,7 +172,7 @@ class ApplicantSerializer(CountryFieldMixin, BaseModelSerializer):
 
 
 @ts_interface()
-class ClientContactSerializer(CountryFieldMixin, BaseModelSerializer):
+class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
     user = UserSerializer()
     client = ClientSerializer()
 
@@ -190,14 +182,14 @@ class ClientContactSerializer(CountryFieldMixin, BaseModelSerializer):
 
 
 @ts_interface()
-class ProviderSerializer(BaseModelSerializer):
+class ProviderSerializer(ModelSerializer):
     class Meta:
         model = Provider
         fields = ["uuid", "logo_url", "name"]
 
 
 @ts_interface()
-class ClientProviderRelationshipSerializer(BaseModelSerializer):
+class ClientProviderRelationshipSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     client = ClientSerializer()
@@ -209,7 +201,7 @@ class ClientProviderRelationshipSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class ProviderContactSerializer(CountryFieldMixin, BaseModelSerializer):
+class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
@@ -221,7 +213,7 @@ class ProviderContactSerializer(CountryFieldMixin, BaseModelSerializer):
 
 
 @ts_interface()
-class CaseStepContractSerializer(BaseModelSerializer):
+class CaseStepContractSerializer(ModelSerializer):
     # The case FK will never be null, but we have to set required=False here
     # because we sometimes validate the data before creating a
     # case-with-its-case-steps-and-contracts in one go.
@@ -236,7 +228,7 @@ class CaseStepContractSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class CaseStepSerializer(BaseModelSerializer):
+class CaseStepSerializer(ModelSerializer):
     actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
@@ -258,7 +250,7 @@ class CaseStepSerializer(BaseModelSerializer):
 
 
 @ts_interface()
-class CaseSerializer(BaseModelSerializer):
+class CaseSerializer(ModelSerializer):
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
@@ -298,80 +290,3 @@ class CaseSerializer(BaseModelSerializer):
             case_step.save()
 
         return case
-
-    @classmethod
-    def get_prefetch_cache(cls, cases: QuerySet[Case]) -> dict:
-        object_cache = {}
-        related_objects_cache = {}
-
-        def ingest(queryset: QuerySet) -> None:
-            for obj in queryset:
-                model = obj._meta.model
-                object_cache[model, obj.id] = obj
-                object_cache[model, obj.uuid] = obj
-
-        # Case steps
-        cases = cases.prefetch_related("casestep_set__active_contract")
-        ingest(cases)
-        ingest(chain.from_iterable(c.casestep_set.all() for c in cases))
-        ingest(s.active_contract for c in cases for s in c.casestep_set.all())
-
-        # Services
-        process_step_uuids = set(
-            s.process_step_uuid for c in cases for s in c.casestep_set.all()
-        )
-        processes = Process.objects.filter(
-            uuid__in=process_step_uuids
-        ).prefetch_related("steps__service")
-        ingest(processes)
-
-        services = Service.objects.filter(processstep__uuid__in=process_step_uuids)
-
-        ingest(services)
-        ingest(chain.from_iterable(s.processstep_set.all() for s in services))
-
-        # Country
-        process_uuids = set(c.process_uuid for c in cases)
-        countries = Country.objects.filter(
-            Q(routes_for_which_host_country__processes__uuid__in=process_uuids)
-            | Q(processes_for_which_nationality__uuid__in=process_uuids)
-            | Q(processes_for_which_home_country__uuid__in=process_uuids)
-        ).distinct()
-        ingest(countries)
-
-        # Case step contracts
-        contracts = CaseStepContract.objects.filter(case_step__case__in=cases)
-        ingest(contracts)
-        provider_contact_uuids = set(
-            contracts.values_list("provider_contact_uuid", flat=True)
-        )
-
-        providers = Provider.objects.filter(
-            providercontact__uuid__in=provider_contact_uuids
-        ).prefetch_related("providercontact_set")
-
-        ingest(providers)
-        ingest(chain.from_iterable(p.providercontact_set.all() for p in providers))
-
-        # Users
-        applicants = Applicant.objects.filter(case__in=cases).select_related("employer")
-        ingest(applicants)
-        ingest(a.employer for a in applicants)
-
-        User = get_user_model()
-        users = User.objects.filter(
-            Q(uuid__in=set(a.user_uuid for a in applicants))
-            | Q(providercontact__uuid__in=provider_contact_uuids)
-        ).prefetch_related("providercontact_set")
-
-        ingest(users)
-        ingest(chain.from_iterable(u.providercontact_set.all() for u in users))
-
-        return {
-            "object_cache": object_cache,
-            "related_objects_cache": related_objects_cache,
-        }
-
-    @classmethod
-    def _get_related_objects_cache(cls, cases: QuerySet[Case]) -> dict:
-        return {}
