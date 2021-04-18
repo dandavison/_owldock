@@ -17,8 +17,8 @@ from owldock.models.fields import UUIDPseudoForeignKeyField
 
 
 class State(models.TextChoices):
-    FREE = "Waiting for client to select a provider"
-    EARMARKED = "Waiting for client to notify provider"
+    FREE = "Waiting for user to select a provider"
+    EARMARKED = "Waiting for user to notify provider"
     OFFERED = "Waiting for provider to accept"
     # TODO: Introduce concept of step being accepted but not ready to work on
     # (e.g. due to dependencies)
