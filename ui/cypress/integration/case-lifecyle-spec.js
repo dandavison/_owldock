@@ -29,20 +29,18 @@ describe("Case lifecycle", () => {
 
 function testCaseLifeCycle(params) {
   // We are in the cases list view and the table is populated.
-
   assertAllStepsEarmarked(params);
-
   assertProviderCannotSeeCase(params);
-
   earmarkProviderOnFirstStep(params);
-
   assertProviderCannotSeeCase(params);
-
   notifyProviderOnFirstStep(params);
-
   assertProviderCanSeeCase(params);
-
   providerRejectFirstCaseStep(params);
+  assertProviderCannotSeeCase(params); // first step was only assigned step
+  earmarkProviderOnFirstStep(params);
+  notifyProviderOnFirstStep(params);
+  assertProviderCanSeeCase(params);
+  providerAcceptFirstCaseStep(params);
 }
 
 function assertAllStepsEarmarked(params) {
@@ -83,7 +81,17 @@ function providerRejectFirstCaseStep(params) {
     .click();
 }
 
+function providerAcceptFirstCaseStep(params) {
+  cy.log("providerAcceptCaseStep");
+  providerViewFirstCase(params);
+  cy.contains("Accept")
+    .first()
+    .click();
+  cy.contains("In progress").should("exist");
+}
+
 function assertProviderCanSeeCase(params) {
+  cy.log("assertProviderCanSeeCase");
   providerViewCases(params);
 
   cy.wait("@providerContactListCasesRequest").then(() => {
@@ -92,6 +100,7 @@ function assertProviderCanSeeCase(params) {
 }
 
 function assertProviderCannotSeeCase(params) {
+  cy.log("assertProviderCannotSeeCase");
   providerViewCases(params);
   cy.wait("@providerContactListCasesRequest").then(() => {
     cy.contains(params.applicantName).should("not.exist");
@@ -99,23 +108,27 @@ function assertProviderCannotSeeCase(params) {
 }
 
 function clientViewCases(params) {
+  cy.log("clientViewCases");
   logOut();
   logIn(params.clientContactEmail, params.password);
   cy.contains("View active cases").click();
 }
 
 function providerViewCases(params) {
+  cy.log("providerViewCases");
   logOut();
   logIn(params.providerContactEmail, params.password);
   cy.contains("View active cases").click();
 }
 
 function clientViewFirstCase(params) {
+  cy.log("clientViewFirstCase");
   clientViewCases(params);
   cy.contains(params.applicantName).dblclick();
 }
 
 function providerViewFirstCase(params) {
+  cy.log("providerViewFirstCase");
   providerViewCases(params);
   cy.contains(params.applicantName).dblclick();
 }
@@ -134,6 +147,7 @@ function logOut() {
 
 // Go to client portal and create case
 function createCase() {
+  cy.log("createCase");
   cy.visit("/portal");
   cy.contains("Initiate new work").click();
   // Select an applicant
