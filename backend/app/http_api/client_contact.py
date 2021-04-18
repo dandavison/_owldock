@@ -82,7 +82,9 @@ class CaseList(_ClientContactView):
         print("Pre-serialization queries")
         with print_queries():
             cases = list(
-                CaseSerializer.get_cases_for_client_contact(self.client_contact)
+                CaseSerializer.get_cases_for_client_contact(
+                    self.client_contact
+                ).order_by("-created_at")
             )
 
         with print_queries():
