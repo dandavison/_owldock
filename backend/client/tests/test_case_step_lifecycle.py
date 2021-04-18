@@ -57,14 +57,19 @@ def test_case_step_lifecycle(
             provider_contact_A,
             provider_contact_B,
         )
-        # Earmark and offer to provider contact B
-        perform_case_step_transition(
-            "earmark",
-            client_contact_A.case_steps(),
-            "client_contact_A.case_steps()",
-            transition_kwargs={"provider_contact": provider_contact_B},
-            query_kwargs={"id": case_step.id},
-        )
+        # Earmark, first to provider contact B, then A, and finally B again.
+        for provider_contact in [
+            provider_contact_B,
+            provider_contact_A,
+            provider_contact_B,
+        ]:
+            perform_case_step_transition(
+                "earmark",
+                client_contact_A.case_steps(),
+                "client_contact_A.case_steps()",
+                transition_kwargs={"provider_contact": provider_contact},
+                query_kwargs={"id": case_step.id},
+            )
         perform_case_step_transition(
             "offer",
             client_contact_A.case_steps(),
