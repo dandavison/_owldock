@@ -25,7 +25,7 @@ MIDDLEWARE.extend(  # noqa
     ]
 )
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
-UI_DEV_MODE = True
+UI_DEV_MODE = False
 
 DEBUG_TOOLBAR = False
 if DEBUG_TOOLBAR:

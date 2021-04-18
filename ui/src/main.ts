@@ -10,8 +10,6 @@ import "../node_modules/@fortawesome/fontawesome-free/js/all.js";
 import App from "./App.vue";
 import { getRole, Role } from "./role";
 
-import "./dev-mode";
-
 function Portal() {
   switch (getRole()) {
     case Role.ClientContact:
