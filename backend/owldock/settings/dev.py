@@ -27,7 +27,7 @@ MIDDLEWARE.extend(  # noqa
 SHELL_PLUS_DJANGO_IMPORTS = False  # django.db.models.Case clashes with our Case
 UI_DEV_MODE = False
 
-DEBUG_TOOLBAR = True
+DEBUG_TOOLBAR = False
 if DEBUG_TOOLBAR:
     INSTALLED_APPS.insert(0, "debug_toolbar")  # noqa
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")  # noqa
