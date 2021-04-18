@@ -146,9 +146,11 @@ function createCase() {
     .click()
     .invoke("text")
     .then(name =>
+      // One or more flag characters come first.
+      // Last two words are the name.
       Cypress._.trim(name)
         .split(" ")
-        .slice(1)
+        .slice(-2)
         .join(" ")
     )
     .as("applicantName");
