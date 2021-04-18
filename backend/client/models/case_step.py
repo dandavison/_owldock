@@ -1,3 +1,4 @@
+import logging
 from typing import Callable, List
 
 from django.contrib.contenttypes.models import ContentType
@@ -14,6 +15,8 @@ from owldock.state_machine.django_fsm_utils import FSMField, transition
 from owldock.state_machine.role import get_role, Role
 from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
+
+logger = logging.getLogger(__file__)
 
 
 class State(models.TextChoices):
@@ -115,11 +118,17 @@ class CaseStep(BaseModel):
         Associate this case with a provider without notifying the provider.
         """
         with atomic():
-            contract = CaseStepContract.objects.create(
+            contract, created = CaseStepContract.objects.get_or_create(
                 case_step=self, provider_contact_uuid=provider_contact.uuid
             )
             self.active_contract = contract
             self.save()
+            logger.info(
+                "Earmarked %s for %s (contract was %s)",
+                contract,
+                provider_contact,
+                "new" if created else "pre-existing",
+            )
 
     @transition(
         field=state,
