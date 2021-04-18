@@ -116,6 +116,8 @@ class Applicant(BaseModel):
 
     @property
     def nationalities(self) -> QuerySet[Country]:
+        if prefetched := getattr(self, "_prefetched_nationalities", None):
+            return prefetched
         country_uuids = ApplicantNationality.objects.filter(applicant=self).values_list(
             "country_uuid", flat=True
         )

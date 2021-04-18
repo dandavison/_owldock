@@ -76,12 +76,18 @@ class ApplicantList(_ClientContactView):
 
 class CaseList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        cases = self.client_contact.case_set.all()
-        serializer = CaseSerializer(cases, many=True)
 
         from owldock.dev.db_utils import print_queries
 
+        print("Pre-serialization queries")
         with print_queries():
+            cases = list(
+                CaseSerializer.get_cases_for_client_contact(self.client_contact)
+            )
+
+        with print_queries():
+            print("Serialization queries")
+            serializer = CaseSerializer(cases, many=True)
             response = JsonResponse(serializer.data, safe=False)
 
         return response
