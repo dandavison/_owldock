@@ -43,7 +43,7 @@ def _error_response(response_cls: Type[R], msg: str) -> R:
     """
     Return HTTP response in prod or raise exception in dev.
     """
-    if settings.DEBUG or not get_current_request():
+    if settings.DEV or not get_current_request():
         # Cause a traceback to be generated in dev and tests.
         raise _OwldockHttpErrorResponse(msg)
     else:

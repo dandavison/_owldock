@@ -8,6 +8,7 @@ icecream.install()
 patch_exception_handler()
 
 DEBUG = True
+DEV = True
 ALLOWED_HOSTS[:] = ["*"]  # noqa
 CORS_ALLOW_ALL_ORIGINS = True
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

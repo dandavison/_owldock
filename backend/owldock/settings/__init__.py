@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 SECRET_KEY = os.environ.get("SECRET_KEY", default="owldock-secret-key")
-DEBUG = False
 
 ALLOWED_HOSTS: List[str] = []
 
@@ -134,7 +133,10 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+DEBUG = False
+
 # App-specific settings
+DEV = False
 AUTH_USER_MODEL = "app.User"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"

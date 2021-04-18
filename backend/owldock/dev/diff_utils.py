@@ -1,7 +1,8 @@
 import json
-
 from difflib import unified_diff
 from subprocess import Popen, PIPE
+
+from django.conf import settings
 
 
 def print_diff(a, b):
@@ -15,6 +16,9 @@ def print_diff(a, b):
     if not diff:
         print("<no change>")
     else:
-        proc = Popen(["delta", "--paging", "never"], stdin=PIPE)
-        proc.stdin.write(diff.encode("utf-8"))  # type: ignore
-        proc.communicate()
+        if settings.DEV:
+            proc = Popen(["delta", "--paging", "never"], stdin=PIPE)
+            proc.stdin.write(diff.encode("utf-8"))  # type: ignore
+            proc.communicate()
+        else:
+            print(diff)

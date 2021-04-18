@@ -11,7 +11,7 @@ from clint.textui import colored
 
 
 class BaseView(View):
-    if settings.DEBUG:
+    if settings.DEV:
 
         def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
             print(colored.black(request, bold=True))

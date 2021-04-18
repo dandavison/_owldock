@@ -55,7 +55,7 @@ def auto_authenticate_according_to_requested_endpoint(
 
 
 def assert_this_is_a_development_environment():
-    assert settings.DEBUG
+    assert settings.DEV
     assert sys.platform == "darwin"
     assert os.environ["USER"] == "dan"
 

@@ -104,7 +104,7 @@ urlpatterns = [
     path("grappelli/", include("grappelli.urls")),
 ]
 
-if settings.DEBUG:
+if settings.DEV:
     import debug_toolbar
 
     urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
