@@ -35,7 +35,8 @@ def auto_authenticate_according_to_requested_endpoint(
             )
         )
         if not request.user.is_authenticated:
-            if username := request.GET.get("username"):
+            username = request.GET.get("username")
+            if username:
                 user_model = get_user_model()
                 try:
                     user = user_model.objects.get(username=username)

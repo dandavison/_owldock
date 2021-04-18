@@ -226,7 +226,8 @@ class CaseStep(BaseModel):
 
     @property
     def stored_files(self) -> QuerySet[StoredFile]:
-        if prefetched := getattr(self, "_prefetched_stored_files", None):
+        prefetched = getattr(self, "_prefetched_stored_files", None)
+        if prefetched:
             return prefetched
 
         # GenericRelation is not working with our multiple database setup
