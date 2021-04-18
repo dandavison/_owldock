@@ -34,7 +34,6 @@ def test_case_step_lifecycle(
             transition_kwargs={"provider_contact": provider_contact_A},
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_OFFERED_assertions(
             case_step,
             client_contact_A,
@@ -49,7 +48,6 @@ def test_case_step_lifecycle(
             "provider_contact_A.case_steps()",
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_FREE_assertions(
             case_step,
             client_contact_A,
@@ -77,7 +75,6 @@ def test_case_step_lifecycle(
             transition_kwargs={"provider_contact": provider_contact_B},
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_OFFERED_assertions(
             case_step,
             client_contact_A,
@@ -92,7 +89,6 @@ def test_case_step_lifecycle(
             "provider_contact_B.case_steps()",
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_FREE_assertions(
             case_step,
             client_contact_A,
@@ -115,7 +111,6 @@ def test_case_step_lifecycle(
             transition_kwargs={"provider_contact": provider_contact_B},
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_OFFERED_assertions(
             case_step,
             client_contact_A,
@@ -130,7 +125,6 @@ def test_case_step_lifecycle(
             "provider_contact_B.case_steps()",
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_IN_PROGRESS_assertions(
             case_step,
             client_contact_A,
@@ -145,7 +139,6 @@ def test_case_step_lifecycle(
             "provider_contact_B.case_steps()",
             query_kwargs={"id": case_step.id},
         )
-        case_step = CaseStep.objects.get(id=case_step.id)
         _make_case_step_COMPLETE_assertions(
             case_step,
             client_contact_A,
@@ -162,6 +155,7 @@ def _make_case_step_FREE_assertions(
     provider_contact: ProviderContact,
     other_provider_contact: ProviderContact,
 ):
+    case_step = CaseStep.objects.get(id=case_step.id)
     assert case_step.state == State.FREE.name
 
     # Only owning client contact can see it
@@ -205,6 +199,7 @@ def _make_case_step_EARMARKED_assertions(
     provider_contact: ProviderContact,
     other_provider_contact: ProviderContact,
 ):
+    case_step = CaseStep.objects.get(id=case_step.id)
     assert case_step.state == State.EARMARKED.name
 
     # Only owning client contact can see it
@@ -249,6 +244,7 @@ def _make_case_step_OFFERED_assertions(
     provider_contact: ProviderContact,
     other_provider_contact: ProviderContact,
 ):
+    case_step = CaseStep.objects.get(id=case_step.id)
     assert case_step.state == State.OFFERED.name
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
@@ -294,6 +290,7 @@ def _make_case_step_IN_PROGRESS_assertions(
     provider_contact: ProviderContact,
     other_provider_contact: ProviderContact,
 ):
+    case_step = CaseStep.objects.get(id=case_step.id)
     assert case_step.state == State.IN_PROGRESS.name
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
@@ -348,6 +345,7 @@ def _make_case_step_COMPLETE_assertions(
     provider_contact: ProviderContact,
     other_provider_contact: ProviderContact,
 ):
+    case_step = CaseStep.objects.get(id=case_step.id)
     assert case_step.state == State.COMPLETE.name
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
