@@ -16,7 +16,8 @@ test: backend-generate-typescript-interfaces
 	npm run test
 
 test-live: backend-generate-typescript-interfaces
-	$(WITH_CYPRESS_DJANGO_ENV) npx cypress open --config watchForFileChanges=false
+	$(WITH_CYPRESS_DJANGO_ENV) npx cypress open
+
 
 build: backend-generate-typescript-interfaces
 	$(WITH_SERVER_ENV) npm run build
