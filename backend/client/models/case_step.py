@@ -119,7 +119,10 @@ class CaseStep(BaseModel):
         """
         with atomic():
             contract, created = CaseStepContract.objects.get_or_create(
-                case_step=self, provider_contact_uuid=provider_contact.uuid
+                case_step=self,
+                provider_contact_uuid=provider_contact.uuid,
+                accepted_at__isnull=True,
+                rejected_at__isnull=True,
             )
             self.active_contract = contract
             self.save()
@@ -236,17 +239,8 @@ class CaseStep(BaseModel):
 class CaseStepContract(BaseModel):
     case_step = models.ForeignKey(CaseStep, on_delete=deletion.CASCADE)
     provider_contact_uuid = UUIDPseudoForeignKeyField(ProviderContact)
-    # TODO: db-level constraint that at most one of these may be non-null
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)
 
     def is_blank(self) -> bool:
         return not self.accepted_at and not self.rejected_at
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["case_step", "provider_contact_uuid"],
-                name="case_step_contract__case_step__provider_contact_uuid__unique_constraint",
-            )
-        ]
