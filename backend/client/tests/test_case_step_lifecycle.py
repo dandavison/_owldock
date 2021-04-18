@@ -85,6 +85,44 @@ def test_case_step_lifecycle(
             provider_contact_B,
             provider_contact_A,
         )
+        # Provider contact B rejects
+        perform_case_step_transition(
+            "reject",
+            provider_contact_B.case_steps(),
+            "provider_contact_B.case_steps()",
+            query_kwargs={"id": case_step.id},
+        )
+        case_step = CaseStep.objects.get(id=case_step.id)
+        _make_case_step_FREE_assertions(
+            case_step,
+            client_contact_A,
+            client_contact_B,
+            provider_contact_B,
+            provider_contact_A,
+        )
+        # Offer it to provider contact B again
+        perform_case_step_transition(
+            "earmark",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_B},
+            query_kwargs={"id": case_step.id},
+        )
+        perform_case_step_transition(
+            "offer",
+            client_contact_A.case_steps(),
+            "client_contact_A.case_steps()",
+            transition_kwargs={"provider_contact": provider_contact_B},
+            query_kwargs={"id": case_step.id},
+        )
+        case_step = CaseStep.objects.get(id=case_step.id)
+        _make_case_step_OFFERED_assertions(
+            case_step,
+            client_contact_A,
+            client_contact_B,
+            provider_contact_B,
+            provider_contact_A,
+        )
         # Provider contact B accepts
         perform_case_step_transition(
             "accept",
