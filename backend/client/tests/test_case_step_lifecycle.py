@@ -1,4 +1,5 @@
 from app.http_api.case_step_utils import perform_case_step_transition
+from app.http_api.serializers import CaseSerializer
 from app.models import ProviderContact
 from client.models import CaseStep, ClientContact, State
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
@@ -191,6 +192,9 @@ def _make_case_step_FREE_assertions(
     )
     assert set(other_provider_contact_transitions) == set()
 
+    for c in [client_contact, other_client_contact]:
+        list(CaseSerializer.get_cases_for_client_contact(c))
+
 
 def _make_case_step_EARMARKED_assertions(
     case_step: CaseStep,
@@ -235,6 +239,9 @@ def _make_case_step_EARMARKED_assertions(
         case_step.get_available_user_state_transitions(other_provider_contact.user)
     )
     assert not other_provider_contact_transitions
+
+    for c in [client_contact, other_client_contact]:
+        list(CaseSerializer.get_cases_for_client_contact(c))
 
 
 def _make_case_step_OFFERED_assertions(
@@ -281,6 +288,9 @@ def _make_case_step_OFFERED_assertions(
         other_provider_contact.user
     )
     assert set(other_provider_contact_transitions) == set()
+
+    for c in [client_contact, other_client_contact]:
+        list(CaseSerializer.get_cases_for_client_contact(c))
 
 
 def _make_case_step_IN_PROGRESS_assertions(
@@ -337,6 +347,9 @@ def _make_case_step_IN_PROGRESS_assertions(
         t.name for t in other_provider_contact_transitions
     ]
 
+    for c in [client_contact, other_client_contact]:
+        list(CaseSerializer.get_cases_for_client_contact(c))
+
 
 def _make_case_step_COMPLETE_assertions(
     case_step: CaseStep,
@@ -387,6 +400,9 @@ def _make_case_step_COMPLETE_assertions(
     assert set(other_provider_contact_transitions) == set(), [
         t.name for t in other_provider_contact_transitions
     ]
+
+    for c in [client_contact, other_client_contact]:
+        list(CaseSerializer.get_cases_for_client_contact(c))
 
 
 def _transitions_by_name(transitions) -> dict:
