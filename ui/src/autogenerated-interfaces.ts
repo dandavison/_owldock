@@ -1,4 +1,4 @@
-export interface TextChoicesSerializer {
+export interface EnumSerializer {
     name: string;
     value: string;
 }
@@ -107,7 +107,7 @@ export interface CaseStepSerializer {
     uuid?: string;
     process_step: ProcessStepSerializer;
     sequence_number: number;
-    state: any;
+    state: EnumSerializer;
     stored_files: StoredFileSerializer[];
 }
 

@@ -56,30 +56,9 @@ from client.models.case_step import (
 
 
 @ts_interface()
-class TextChoicesSerializer(Serializer):
-    """
-    A serializer class for django.models.TextChoices.
-
-    (Which inherit from enum.Enum)
-    """
-
-    class Meta:
-        abstract = True
-
+class EnumSerializer(Serializer):
     name = CharField()
     value = CharField()
-
-    def to_internal_value(self, data):
-        return getattr(self.Meta.enum_cls, data["name"])
-
-    def to_representation(self, instance):
-        enum_element = getattr(self.Meta.enum_cls, instance, instance)
-        return super().to_representation(enum_element)
-
-
-class CaseStepStateSerializer(TextChoicesSerializer):
-    class Meta:
-        enum_cls = CaseStepState
 
 
 @ts_interface()
@@ -237,7 +216,7 @@ class CaseStepSerializer(ModelSerializer):
     actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
-    state = CaseStepStateSerializer()
+    state = EnumSerializer()
     stored_files = StoredFileSerializer(many=True)
 
     class Meta:
