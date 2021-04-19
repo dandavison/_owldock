@@ -24,16 +24,10 @@ def blue(s: str):
     return clint.textui.colored.blue(s, always=True, bold=True)
 
 
-def auto_authenticate_according_to_requested_endpoint(
+def insecurely_authenticate_as_requested_user(
     get_response: Middleware,
 ) -> Middleware:
     def middleware(request: HttpRequest) -> HttpResponse:
-        print(
-            blue(
-                f"auto_authenticate_according_to_requested_endpoint: "
-                f"{request} {request.user}"
-            )
-        )
         if not request.user.is_authenticated:
             username = request.GET.get("username")
             if username:

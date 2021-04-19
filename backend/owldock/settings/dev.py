@@ -54,7 +54,7 @@ if UI_DEV_MODE:
 
     # 2. Automatically authenticate Ajax requests as an appropriate User.
     MIDDLEWARE.append(  # noqa
-        "app.middleware.dev.auto_authenticate_according_to_requested_endpoint",
+        "app.middleware.dev.insecurely_authenticate_as_requested_user",
     )
 
     LOGIN_REDIRECT_URL = "http://192.168.1.3:8080/portal/"
