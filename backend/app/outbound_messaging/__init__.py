@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 
 from app.models import ProviderContact
 from client.models import CaseStep
+from owldock.http import add_message
 
 
 @dataclass
@@ -22,18 +23,13 @@ class OfferedCaseStepsNotifier:
         from_address = "owldock@owldock.com"
         subject = "Owldock: your services have been requested"
         content = dedent(
-            f"""The following steps of case {case.uuid} have been offered to you:
-        {step_names}
+            f"""
+            The following steps of case {case.uuid}
+            have been offered to you:
+            {step_names}
 
-        (TODO: Describe next actions provider should take)
-        """
-        )
-        raise Exception(
-            f"TODO: sending email is not implemented yet. The following email would have been sent:"
-            f"    To:      {', '.join(to_addresses)}\n",
-            f"    From:    {from_address}\n",
-            f"    Subject: {subject}\n",
-            f"    Content: {content}\n",
+            (TODO: Describe next actions provider should take)
+            """
         )
         send_mail(
             subject,
@@ -41,4 +37,19 @@ class OfferedCaseStepsNotifier:
             from_address,
             to_addresses,
             fail_silently=False,
+        )
+        add_message(
+            (
+                "Owldock does not actually send email yet.<br>"
+                "The following is what would be sent:"
+                "<br>"
+                f"""
+<pre>
+To:      {', '.join(to_addresses)}
+From:    {from_address}
+Subject: {subject}
+--
+{content}
+</pre>"""
+            )
         )
