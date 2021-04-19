@@ -15,6 +15,6 @@ class BaseView(View):
 
         def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
             print(colored.black(request, bold=True))
-            if request.body:
+            if request.headers["Content-Type"].startswith("text/") and request.body:
                 print(json.dumps(json.loads(request.body), indent=2, sort_keys=True))
             return super().dispatch(request, *args, **kwargs)
