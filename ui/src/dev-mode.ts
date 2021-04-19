@@ -20,9 +20,8 @@ function makeFetchWrapper(fetch: any): any {
     if (!response.ok) {
       const html = await response.text();
       Modal.open({ content: html });
-    } else {
-      return response;
     }
+    return response;
   }
   return fetchWrapper;
 }
