@@ -32,10 +32,10 @@ class State(models.TextChoices):
 
 ACTIONS = {
     (Role.CLIENT_CONTACT, State.FREE): [
-        ("Select Provider", "client_contact_earmark_case_step"),
+        ("Save", "client_contact_earmark_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.EARMARKED): [
-        ("Select Provider", "client_contact_earmark_case_step"),
+        ("Save", "client_contact_earmark_case_step"),
         ("Notify Provider", "client_contact_offer_case_step"),
     ],
     (Role.CLIENT_CONTACT, State.OFFERED): [
