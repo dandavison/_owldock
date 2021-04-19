@@ -107,9 +107,25 @@ class CaseStepUploadFiles(_ProviderContactView):
                 )
             )
         except CaseStep.DoesNotExist:
-            return HttpResponseNotFound(f"Case step {uuid} does not exist")
+            try:
+                case_step = self.provider_contact.cases_steps_with_read_permission.get(
+                    uuid=uuid
+                )
+            except CaseStep.DoesNotExist:
+                return HttpResponseNotFound(f"Case step {uuid} does not exist")
+            else:
+                return JsonResponse(
+                    {
+                        "errors": [
+                            (
+                                f"You don't currently have permission to upload files to this "
+                                f"step. The status of this step is {case_step.state.value}."
+                            )
+                        ]
+                    }
+                )
         else:
-            return JsonResponse({"errors": None})
+            return JsonResponse({"errors": []})
 
 
 class AcceptCaseStep(_ProviderContactView):

@@ -101,7 +101,7 @@ class CreateCase(_ClientContactView):
         serializer = CaseSerializer(data=json.loads(request.body))
         if serializer.is_valid():
             serializer.create_for_client_contact(client_contact=self.client_contact)
-            return JsonResponse({"errors": None})
+            return JsonResponse({"errors": []})
         else:
             return JsonResponse({"errors": serializer.errors})
 

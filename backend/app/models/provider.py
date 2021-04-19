@@ -110,10 +110,14 @@ class ProviderContact(BaseModel):
 
     @property
     def cases_steps_with_read_permission(self) -> "QuerySet[CaseStep]":  # noqa
+        """
+        A provider contact has read permission for case step S if they have an
+        active contract for any step in the case to which S belongs.
+        """
         from client.models.case_step import CaseStep
 
         return CaseStep.objects.filter(
-            id__in=self._all_contracts().values("case_step_id")
+            case__casestep__active_contract__provider_contact_uuid=self.uuid
         ).distinct()
 
     @property
