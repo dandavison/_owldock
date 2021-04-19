@@ -18,17 +18,27 @@ class OfferedCaseStepsNotifier:
         step_names = "- " + "\n- ".join(
             s.process_step.service.name for s in self.case_steps
         )
-        message = dedent(
+        to_addresses = [self.provider_contact.user.email]
+        from_address = "owldock@owldock.com"
+        subject = "Owldock: your services have been requested"
+        content = dedent(
             f"""The following steps of case {case.uuid} have been offered to you:
         {step_names}
 
         (TODO: Describe next actions provider should take)
         """
         )
+        raise Exception(
+            f"TODO: sending email is not implemented yet. The following email would have been sent:"
+            f"    To:      {', '.join(to_addresses)}\n",
+            f"    From:    {from_address}\n",
+            f"    Subject: {subject}\n",
+            f"    Content: {content}\n",
+        )
         send_mail(
-            "Owldock: your services have been requested",
-            message,
-            "owldock@owldock.com",
-            [self.provider_contact.user.email],
+            subject,
+            content,
+            from_address,
+            to_addresses,
             fail_silently=False,
         )
