@@ -69,9 +69,10 @@ export default Vue.extend({
 
   methods: {
     async fetchClientProviderRelationshipList(): Promise<void> {
-      const url = "/api/client-contact/list-provider-relationships/";
-      const resp = await http.get(url);
-      this.rows = await resp.json();
+      this.rows =
+        (await http.fetchDataOrNull(
+          "/api/client-contact/list-provider-relationships/"
+        )) || [];
     },
 
     navigateToRowDetailView(row: ClientProviderRelationshipSerializer): void {

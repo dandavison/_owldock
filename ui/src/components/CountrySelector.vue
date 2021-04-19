@@ -38,11 +38,8 @@ export default Vue.extend({
     };
   },
 
-  created() {
-    http
-      .get("/api/countries/")
-      .then((resp) => resp.json())
-      .then((data) => (this.countries = data));
+  async created() {
+    this.countries = (await http.fetchDataOrNull("/api/countries/")) || [];
   },
 
   mounted() {

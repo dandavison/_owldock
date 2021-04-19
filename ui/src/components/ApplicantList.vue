@@ -74,8 +74,7 @@ export default Vue.extend({
         case Role.Invalid:
           return;
       }
-      const resp = await http.get(url);
-      this.rows = await resp.json();
+      this.rows = (await http.fetchDataOrNull(url)) || [];
     },
 
     navigateToRowDetailView(row: ApplicantSerializer): void {

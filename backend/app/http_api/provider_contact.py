@@ -6,7 +6,6 @@ from django.db.transaction import atomic
 from django.http import (
     HttpRequest,
     HttpResponse,
-    JsonResponse,
 )
 
 from app.exceptions import PermissionDenied
@@ -18,10 +17,11 @@ from app.http_api.serializers import (
     CaseStepSerializer,
 )
 from client.models.case_step import Case, CaseStep
-from owldock.api.http import (
+from owldock.http import (
     HttpResponseForbidden,
     HttpResponseNotFound,
     make_explanatory_http_response,
+    OwldockJsonResponse,
 )
 from app.http_api.case_step_utils import perform_case_step_transition
 
@@ -53,7 +53,7 @@ class ApplicantList(_ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         applicants = self.provider_contact.applicants().all()
         serializer = ApplicantSerializer(applicants, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class CaseView(_ProviderContactView):
@@ -67,7 +67,7 @@ class CaseView(_ProviderContactView):
                 qs, "provider_contact.cases()", **kwargs
             )
         serializer = CaseSerializer(case)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class CaseStepView(_ProviderContactView):
@@ -81,7 +81,7 @@ class CaseStepView(_ProviderContactView):
                 qs, "provider_contact.case_steps()", **kwargs
             )
         serializer = CaseStepSerializer(case_step)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class CaseList(_ProviderContactView):
@@ -89,7 +89,7 @@ class CaseList(_ProviderContactView):
         cases = self.provider_contact.cases().order_by("-created_at")
         serializer = CaseSerializer(data=cases, many=True)
         serializer.is_valid()
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class CaseStepUploadFiles(_ProviderContactView):
@@ -114,18 +114,17 @@ class CaseStepUploadFiles(_ProviderContactView):
             except CaseStep.DoesNotExist:
                 return HttpResponseNotFound(f"Case step {uuid} does not exist")
             else:
-                return JsonResponse(
-                    {
-                        "errors": [
-                            (
-                                f"You don't currently have permission to upload files to this "
-                                f"step. The status of this step is {case_step.state.value}."
-                            )
-                        ]
-                    }
+                return OwldockJsonResponse(
+                    None,
+                    errors=[
+                        (
+                            f"You don't currently have permission to upload files to this "
+                            f"step. The status of this step is {case_step.state.value}."
+                        )
+                    ],
                 )
         else:
-            return JsonResponse({"errors": []})
+            return OwldockJsonResponse(None)
 
 
 class AcceptCaseStep(_ProviderContactView):

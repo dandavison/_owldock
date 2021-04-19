@@ -95,6 +95,7 @@ import ApplicantSelector from "./ApplicantSelector.vue";
 import ProviderContactSelector from "./ProviderContactSelector.vue";
 import RouteSelector from "./RouteSelector.vue";
 import http from "../http";
+import { showMessages } from "../server-messages";
 import { dateToYYYYMMDD } from "../utils";
 
 export default Vue.extend({
@@ -148,7 +149,7 @@ export default Vue.extend({
 
     // FIXME: this is updating the processes to match country, nationality, home
     // country, dates, so it needs to be triggered accordingly.
-    handleChangeHostCountry(country: CountrySerializer) {
+    async handleChangeHostCountry(country: CountrySerializer) {
       if (!country) {
         // FIXME: why
         console.log("ERROR: country is", JSON.stringify(country));
@@ -159,14 +160,12 @@ export default Vue.extend({
         const nationalityCodes = this.case_.applicant.nationalities.map(
           (country) => country.code
         );
-        http
-          .get(
+        this.processes =
+          (await http.fetchDataOrNull(
             `/api/processes/?host_country=${
               country.code
             }&nationalities=${nationalityCodes.join(",")}`
-          )
-          .then((resp) => resp.json())
-          .then((data) => (this.processes = data));
+          )) || [];
       }
     },
 
@@ -207,15 +206,18 @@ export default Vue.extend({
 
     async handleSubmit(): Promise<void> {
       // TODO: validation
-      const response = await http.post("/api/client-contact/create-case/", {
+      const httpResponse = await http.post("/api/client-contact/create-case/", {
         body: JSON.stringify(this.case_),
       });
-      const data = await response.json();
-      if (data.errors) {
-        this.validationErrors = data.errors;
-      } else {
-        this.case_ = NullCase();
-        this.$router.push("/portal/cases/");
+      if (httpResponse.ok) {
+        const response = await httpResponse.json();
+        showMessages(response);
+        if (response.errors.length > 0) {
+          this.validationErrors = response.errors;
+        } else {
+          this.case_ = NullCase();
+          this.$router.push("/portal/cases/");
+        }
       }
     },
   },

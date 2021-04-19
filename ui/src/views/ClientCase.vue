@@ -20,11 +20,10 @@ export default Vue.extend({
     };
   },
 
-  created() {
-    http
-      .get(`/api/client-contact/case/${this.$route.params.uuid}/`)
-      .then((resp) => resp.json())
-      .then((data) => (this.case_ = data));
+  async created() {
+    this.case_ = await http.fetchDataOrNull(
+      `/api/client-contact/case/${this.$route.params.uuid}/`
+    );
   },
 });
 </script>

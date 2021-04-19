@@ -39,11 +39,9 @@ export default Vue.extend({
     };
   },
 
-  created() {
-    http
-      .get("/api/client-contact/applicants/")
-      .then((resp) => resp.json())
-      .then((data) => (this.applicants = data));
+  async created() {
+    this.applicants =
+      (await http.fetchDataOrNull("/api/client-contact/applicants/")) || [];
   },
 
   mounted() {

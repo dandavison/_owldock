@@ -1,9 +1,9 @@
 from django.db.transaction import atomic
-from django.http import JsonResponse
+from owldock.http import OwldockJsonResponse
 
 from app.http_api.serializers import CaseStepSerializer
 from client.models.case_step import CaseStep
-from owldock.api.http import (
+from owldock.http import (
     HttpResponseForbidden,
     make_explanatory_http_response,
 )
@@ -32,6 +32,6 @@ def perform_case_step_transition(
     case_step.save()
     if queryset.filter(**query_kwargs).exists():
         serializer = CaseStepSerializer(case_step)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
     else:
-        return JsonResponse(None, safe=False)
+        return OwldockJsonResponse(None)

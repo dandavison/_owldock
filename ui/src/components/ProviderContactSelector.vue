@@ -107,17 +107,15 @@ export default Vue.extend({
   },
 
   methods: {
-    fetchProviderContacts(process_: ProcessSerializer) {
+    async fetchProviderContacts(process_: ProcessSerializer) {
       if (!process_.uuid) {
         // TODO: why?
         return;
       }
-      http
-        .get(
+      this.providerContacts =
+        (await http.fetchDataOrNull(
           `/api/client-contact/list-provider-contacts/?process_uuid=${process_.uuid}`
-        )
-        .then((resp) => resp.json())
-        .then((data) => (this.providerContacts = data));
+        )) || [];
     },
   },
 });

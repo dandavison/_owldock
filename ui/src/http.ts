@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
 
+import { showMessages } from "./server-messages";
+
 export default {
   get(url: string, init: any = {}): Promise<Response> {
     return fetch(this.transformUrl(url), init);
@@ -19,6 +21,17 @@ export default {
     Object.assign(init.headers, headers);
     Object.assign(init, { method: "POST" });
     return fetch(this.transformUrl(url), init);
+  },
+
+  async fetchDataOrNull(url: string, init: any = {}): Promise<any> {
+    const httpResponse = await this.get(url, init);
+    if (httpResponse.ok) {
+      const response = await httpResponse.json();
+      showMessages(response);
+      return response.data;
+    } else {
+      return null;
+    }
   },
 
   transformUrl(url: string): string {

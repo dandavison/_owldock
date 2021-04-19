@@ -1,7 +1,8 @@
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse
 from django.views import View
 
 from app.models import Process
+from owldock.http import OwldockJsonResponse
 from .serializers import ProcessSerializer
 
 
@@ -23,4 +24,4 @@ class ProcessList(View):
         )
         serializer = ProcessSerializer(data=processes, many=True)
         serializer.is_valid()
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)

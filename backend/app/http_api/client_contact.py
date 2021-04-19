@@ -5,7 +5,6 @@ from django.db.transaction import atomic
 from django.http import (
     HttpRequest,
     HttpResponse,
-    JsonResponse,
 )
 
 from app.http_api.base import BaseView
@@ -18,11 +17,12 @@ from app.http_api.serializers import (
 )
 from app.models import ProviderContact
 from client.models import Case, ClientContact
-from owldock.api.http import (
+from owldock.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
     HttpResponseNotFound,
     make_explanatory_http_response,
+    OwldockJsonResponse,
 )
 
 
@@ -50,7 +50,7 @@ class ApplicantsList(_ClientContactView):
         # TODO: sorting
         applicants = self.client_contact.applicants()
         serializer = ApplicantSerializer(applicants, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class CaseView(_ClientContactView):
@@ -64,14 +64,14 @@ class CaseView(_ClientContactView):
                 qs, "client_contact.cases()", **kwargs
             )
         serializer = CaseSerializer(case)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class ApplicantList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         applicants = self.client_contact.applicants().all()
         serializer = ApplicantSerializer(applicants, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class CaseList(_ClientContactView):
@@ -90,7 +90,7 @@ class CaseList(_ClientContactView):
         with print_queries():
             print("Serialization queries")
             serializer = CaseSerializer(cases, many=True)
-            response = JsonResponse(serializer.data, safe=False)
+            response = OwldockJsonResponse(serializer.data)
 
         return response
 
@@ -101,9 +101,9 @@ class CreateCase(_ClientContactView):
         serializer = CaseSerializer(data=json.loads(request.body))
         if serializer.is_valid():
             serializer.create_for_client_contact(client_contact=self.client_contact)
-            return JsonResponse({"errors": []})
+            return OwldockJsonResponse(None)
         else:
-            return JsonResponse({"errors": serializer.errors})
+            return OwldockJsonResponse({"validation-errors": serializer.errors})
 
 
 class EarmarkCaseStep(_ClientContactView):
@@ -174,7 +174,7 @@ class ClientProviderRelationshipList(_ClientContactView):
         serializer = ClientProviderRelationshipSerializer(
             provider_relationships, many=True
         )
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
 
 
 class ProviderContactList(_ClientContactView):
@@ -189,4 +189,4 @@ class ProviderContactList(_ClientContactView):
             process_uuid
         )
         serializer = ProviderContactSerializer(provider_contacts, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return OwldockJsonResponse(serializer.data)
