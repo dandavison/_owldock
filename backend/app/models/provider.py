@@ -76,7 +76,7 @@ class ProviderContact(BaseModel):
 
         return CaseStep.objects.filter(
             active_contract__provider_contact_uuid=self.uuid
-        ).exclude(state=CaseStepState.EARMARKED.name)
+        ).exclude(state_name=CaseStepState.EARMARKED.name)
 
     @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(

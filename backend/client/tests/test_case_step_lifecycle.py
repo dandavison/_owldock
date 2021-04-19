@@ -157,7 +157,7 @@ def _make_case_step_FREE_assertions(
     other_provider_contact: ProviderContact,
 ):
     case_step = CaseStep.objects.get(id=case_step.id)
-    assert case_step.state == State.FREE.name
+    assert case_step.state == State.FREE
 
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
@@ -168,27 +168,27 @@ def _make_case_step_FREE_assertions(
     assert case_step not in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
 
-    transitions = set(case_step.get_available_state_transitions())
+    transitions = set(case_step.get_available_state_name_transitions())
     [earmark] = [t for t in transitions if t.name == "earmark"]
     assert set(transitions) == {earmark}
 
     # Owning Client contact should be able to do: {earmark}
-    client_contact_transitions = case_step.get_available_user_state_transitions(
+    client_contact_transitions = case_step.get_available_user_state_name_transitions(
         client_contact.user
     )
     assert set(client_contact_transitions) == {earmark}
-    other_client_contact_transitions = case_step.get_available_user_state_transitions(
-        other_client_contact.user
+    other_client_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_client_contact.user)
     )
     assert set(other_client_contact_transitions) == set()
 
     # Provider contacts should be able to do nothing
-    provider_contact_transitions = case_step.get_available_user_state_transitions(
+    provider_contact_transitions = case_step.get_available_user_state_name_transitions(
         provider_contact.user
     )
     assert set(provider_contact_transitions) == set()
-    other_provider_contact_transitions = case_step.get_available_user_state_transitions(
-        other_provider_contact.user
+    other_provider_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert set(other_provider_contact_transitions) == set()
 
@@ -204,7 +204,7 @@ def _make_case_step_EARMARKED_assertions(
     other_provider_contact: ProviderContact,
 ):
     case_step = CaseStep.objects.get(id=case_step.id)
-    assert case_step.state == State.EARMARKED.name
+    assert case_step.state == State.EARMARKED
 
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
@@ -217,26 +217,26 @@ def _make_case_step_EARMARKED_assertions(
     assert case_step not in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
 
-    transitions = _transitions_by_name(case_step.get_available_state_transitions())
+    transitions = _transitions_by_name(case_step.get_available_state_name_transitions())
     assert set(transitions) == {"earmark", "offer"}
 
     # Owning Client contact should be able to do: {earmark, offer}
     client_contact_transitions = _transitions_by_name(
-        case_step.get_available_user_state_transitions(client_contact.user)
+        case_step.get_available_user_state_name_transitions(client_contact.user)
     )
     assert set(client_contact_transitions) == {"earmark", "offer"}
     other_client_contact_transitions = _transitions_by_name(
-        case_step.get_available_user_state_transitions(other_client_contact.user)
+        case_step.get_available_user_state_name_transitions(other_client_contact.user)
     )
     assert not other_client_contact_transitions
 
     # Provider contacts should be able to do nothing
     provider_contact_transitions = _transitions_by_name(
-        case_step.get_available_user_state_transitions(provider_contact.user)
+        case_step.get_available_user_state_name_transitions(provider_contact.user)
     )
     assert not provider_contact_transitions
     other_provider_contact_transitions = _transitions_by_name(
-        case_step.get_available_user_state_transitions(other_provider_contact.user)
+        case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert not other_provider_contact_transitions
 
@@ -252,7 +252,7 @@ def _make_case_step_OFFERED_assertions(
     other_provider_contact: ProviderContact,
 ):
     case_step = CaseStep.objects.get(id=case_step.id)
-    assert case_step.state == State.OFFERED.name
+    assert case_step.state == State.OFFERED
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
     assert case_step not in other_client_contact.case_steps()
@@ -262,30 +262,30 @@ def _make_case_step_OFFERED_assertions(
     assert case_step in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
 
-    transitions = set(case_step.get_available_state_transitions())
+    transitions = set(case_step.get_available_state_name_transitions())
     [accept] = [t for t in transitions if t.name == "accept"]
     [reject] = [t for t in transitions if t.name == "reject"]
     [retract] = [t for t in transitions if t.name == "retract"]
     assert set(transitions) == {retract, accept, reject}
 
     # Owning client contact should be able to do: {retract}
-    client_contact_transitions = case_step.get_available_user_state_transitions(
+    client_contact_transitions = case_step.get_available_user_state_name_transitions(
         client_contact.user
     )
     assert set(client_contact_transitions) == {retract}
-    other_client_contact_transitions = case_step.get_available_user_state_transitions(
-        other_client_contact.user
+    other_client_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_client_contact.user)
     )
     assert set(other_client_contact_transitions) == set()
 
     # Offeree Provider contact should be able to do: {accept, reject}
-    provider_contact_transitions = case_step.get_available_user_state_transitions(
+    provider_contact_transitions = case_step.get_available_user_state_name_transitions(
         provider_contact.user
     )
     assert set(provider_contact_transitions) == {accept, reject}
 
-    other_provider_contact_transitions = case_step.get_available_user_state_transitions(
-        other_provider_contact.user
+    other_provider_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert set(other_provider_contact_transitions) == set()
 
@@ -301,7 +301,7 @@ def _make_case_step_IN_PROGRESS_assertions(
     other_provider_contact: ProviderContact,
 ):
     case_step = CaseStep.objects.get(id=case_step.id)
-    assert case_step.state == State.IN_PROGRESS.name
+    assert case_step.state == State.IN_PROGRESS
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
     assert case_step not in other_client_contact.case_steps()
@@ -311,7 +311,7 @@ def _make_case_step_IN_PROGRESS_assertions(
     assert case_step in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
 
-    transitions = set(case_step.get_available_state_transitions())
+    transitions = set(case_step.get_available_state_name_transitions())
     [reject] = [t for t in transitions if t.name == "reject"]
     [retract] = [t for t in transitions if t.name == "retract"]
     [complete] = [t for t in transitions if t.name == "complete"]
@@ -320,28 +320,28 @@ def _make_case_step_IN_PROGRESS_assertions(
     ]
 
     # Owning client contact should be able to do: {retract}
-    client_contact_transitions = case_step.get_available_user_state_transitions(
+    client_contact_transitions = case_step.get_available_user_state_name_transitions(
         client_contact.user
     )
     assert set(client_contact_transitions) == {retract}, [
         t.name for t in client_contact_transitions
     ]
-    other_client_contact_transitions = case_step.get_available_user_state_transitions(
-        other_client_contact.user
+    other_client_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_client_contact.user)
     )
     assert set(other_client_contact_transitions) == set(), [
         t.name for t in other_client_contact_transitions
     ]
 
     # Offeree Provider contact should be able to do: {reject, complete}
-    provider_contact_transitions = case_step.get_available_user_state_transitions(
+    provider_contact_transitions = case_step.get_available_user_state_name_transitions(
         provider_contact.user
     )
     assert set(provider_contact_transitions) == {reject, complete}, [
         t.name for t in provider_contact_transitions
     ]
-    other_provider_contact_transitions = case_step.get_available_user_state_transitions(
-        other_provider_contact.user
+    other_provider_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert set(other_provider_contact_transitions) == set(), [
         t.name for t in other_provider_contact_transitions
@@ -359,7 +359,7 @@ def _make_case_step_COMPLETE_assertions(
     other_provider_contact: ProviderContact,
 ):
     case_step = CaseStep.objects.get(id=case_step.id)
-    assert case_step.state == State.COMPLETE.name
+    assert case_step.state == State.COMPLETE
     # Only owning client contact can see it
     assert case_step in client_contact.case_steps()
     assert case_step not in other_client_contact.case_steps()
@@ -370,32 +370,32 @@ def _make_case_step_COMPLETE_assertions(
     assert case_step not in other_provider_contact.case_steps()
 
     # There are no available transitions.
-    transitions = set(case_step.get_available_state_transitions())
+    transitions = set(case_step.get_available_state_name_transitions())
     assert set(transitions) == set(), [t.name for t in transitions]
 
     # Client contacts should be able to do nothing.
-    client_contact_transitions = case_step.get_available_user_state_transitions(
+    client_contact_transitions = case_step.get_available_user_state_name_transitions(
         client_contact.user
     )
     assert set(client_contact_transitions) == set(), [
         t.name for t in client_contact_transitions
     ]
-    other_client_contact_transitions = case_step.get_available_user_state_transitions(
-        other_client_contact.user
+    other_client_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_client_contact.user)
     )
     assert set(other_client_contact_transitions) == set(), [
         t.name for t in other_client_contact_transitions
     ]
 
     # Provider contacts should be able to do nothing.
-    provider_contact_transitions = case_step.get_available_user_state_transitions(
+    provider_contact_transitions = case_step.get_available_user_state_name_transitions(
         provider_contact.user
     )
     assert set(provider_contact_transitions) == set(), [
         t.name for t in provider_contact_transitions
     ]
-    other_provider_contact_transitions = case_step.get_available_user_state_transitions(
-        other_provider_contact.user
+    other_provider_contact_transitions = (
+        case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert set(other_provider_contact_transitions) == set(), [
         t.name for t in other_provider_contact_transitions

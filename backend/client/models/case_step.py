@@ -31,24 +31,24 @@ class State(models.TextChoices):
 
 
 ACTIONS = {
-    (Role.CLIENT_CONTACT, State.FREE.name): [
+    (Role.CLIENT_CONTACT, State.FREE): [
         ("Select Provider", "client_contact_earmark_case_step"),
     ],
-    (Role.CLIENT_CONTACT, State.EARMARKED.name): [
+    (Role.CLIENT_CONTACT, State.EARMARKED): [
         ("Select Provider", "client_contact_earmark_case_step"),
         ("Notify Provider", "client_contact_offer_case_step"),
     ],
-    (Role.CLIENT_CONTACT, State.OFFERED.name): [
+    (Role.CLIENT_CONTACT, State.OFFERED): [
         ("Retract", "client_contact_retract_case_step"),
     ],
-    (Role.PROVIDER_CONTACT, State.OFFERED.name): [
+    (Role.PROVIDER_CONTACT, State.OFFERED): [
         ("Accept", "provider_contact_accept_case_step"),
         ("Reject", "provider_contact_reject_case_step"),
     ],
-    (Role.CLIENT_CONTACT, State.IN_PROGRESS.name): [
+    (Role.CLIENT_CONTACT, State.IN_PROGRESS): [
         ("Retract", "client_contact_retract_case_step"),
     ],
-    (Role.PROVIDER_CONTACT, State.IN_PROGRESS.name): [
+    (Role.PROVIDER_CONTACT, State.IN_PROGRESS): [
         ("Mark completed", "provider_contact_complete_case_step"),
         ("Reject", "provider_contact_reject_case_step"),
     ],
@@ -94,7 +94,11 @@ class CaseStep(BaseModel):
     active_contract = models.OneToOneField(
         "CaseStepContract", null=True, on_delete=deletion.SET_NULL
     )
-    state = FSMField(default=State.FREE.name, protected=True)
+    state_name = FSMField(default=State.FREE.name, protected=True)
+
+    @property
+    def state(self) -> State:
+        return getattr(State, self.state_name)
 
     def has_active_contract(self) -> bool:
         return bool(self.active_contract)
@@ -107,7 +111,7 @@ class CaseStep(BaseModel):
         )
 
     @transition(
-        field=state,
+        field=state_name,
         source=[State.FREE, State.EARMARKED],
         target=State.EARMARKED,
         conditions=[],  # does_not_have_accepted_contract?
@@ -134,7 +138,7 @@ class CaseStep(BaseModel):
             )
 
     @transition(
-        field=state,
+        field=state_name,
         source=State.EARMARKED,
         target=State.OFFERED,
         conditions=[has_blank_active_contract],
@@ -149,7 +153,7 @@ class CaseStep(BaseModel):
         OfferedCaseStepsNotifier(provider_contact, [self]).notify()
 
     @transition(
-        field=state,
+        field=state_name,
         source=State.OFFERED,
         target=State.IN_PROGRESS,
         conditions=[has_active_contract],
@@ -160,7 +164,7 @@ class CaseStep(BaseModel):
         self.active_contract.save()
 
     @transition(
-        field=state,
+        field=state_name,
         source=State.IN_PROGRESS,
         target=State.COMPLETE,
         conditions=[has_active_contract],
@@ -173,7 +177,7 @@ class CaseStep(BaseModel):
     # operation done by users in different roles: they both make it so the case
     # step is no longer offered to the provider contact.
     _reject_or_retract_kwargs = dict(
-        field=state,
+        field=state_name,
         source=[State.OFFERED, State.IN_PROGRESS],
         target=State.FREE,
         conditions=[has_active_contract],
