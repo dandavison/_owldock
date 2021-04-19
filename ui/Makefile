@@ -12,8 +12,8 @@ lint: backend-generate-typescript-interfaces
 type-check: backend-generate-typescript-interfaces
 	npm run type-check
 
-test: backend-generate-typescript-interfaces
-	npm run test
+test:
+	npx cypress run
 
 test-live: backend-generate-typescript-interfaces
 	$(WITH_CYPRESS_DJANGO_ENV) npx cypress open
