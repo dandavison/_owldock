@@ -4,6 +4,7 @@
     :type="type"
     :disabled="disabled"
     :loading="loading"
+    outlined
   >
     {{ action.display_name }}
   </b-button>
@@ -29,7 +30,7 @@ export default Vue.extend({
 
   data() {
     return {
-      type: "is-warning is-light",
+      type: "is-info is-light",
       disabled: false,
       loading: false,
     };

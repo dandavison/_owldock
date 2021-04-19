@@ -39,6 +39,7 @@
       <ul>
         <li v-for="action of props.row.actions" :key="action.url">
           <action-button
+            class="mb-2"
             :action="action"
             :object="props.row"
             @action:success="(caseStep) => updateRow(caseStep, props.index)"
