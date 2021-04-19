@@ -1,7 +1,10 @@
 <template>
   <b-table ref="table" :data="steps" detailed :show-detail-icon="false">
     <b-table-column label="Step" v-slot="props">
-      {{ props.row.sequence_number }}. {{ props.row.process_step.service.name }}
+      <span class="has-text-weight-bold">
+        {{ props.row.sequence_number }}.
+        {{ props.row.process_step.service.name }}
+      </span>
     </b-table-column>
 
     <b-table-column label="Provider" v-slot="props">
