@@ -91,7 +91,7 @@ class ProviderContact(BaseModel):
         uploaded_files: List[UploadedFile],
         step_uuid: UUID,
     ):
-        step = self.case_steps_with_write_permission.get(id=step_uuid)
+        step = self.case_steps_with_write_permission.get(uuid=step_uuid)
         for uploaded_file in uploaded_files:
             stored_file = StoredFile.from_uploaded_file(uploaded_file)
             stored_file.created_by = self.user
