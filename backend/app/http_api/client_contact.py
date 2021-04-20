@@ -177,7 +177,7 @@ class ClientProviderRelationshipList(_ClientContactView):
         return OwldockJsonResponse(serializer.data)
 
 
-class ProviderContactList(_ClientContactView):
+class PrimaryProviderContactList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         try:
             process_uuid = UUID(request.GET["process_uuid"])
@@ -185,7 +185,7 @@ class ProviderContactList(_ClientContactView):
             raise HttpResponseBadRequest(
                 "process_uuid key of URL parameters must be a valid UUID"
             )
-        provider_contacts = self.client_contact.provider_contacts_for_process(
+        provider_contacts = self.client_contact.provider_primary_contacts_for_process(
             process_uuid
         )
         serializer = ProviderContactSerializer(provider_contacts, many=True)

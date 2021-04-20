@@ -18,9 +18,7 @@
           max-height="100vh"
         >
           <template slot-scope="props">
-            <provider-contact
-              :provider_contact="props.option"
-            ></provider-contact>
+            {{ props.option.provider.name }}
           </template>
         </b-autocomplete>
       </b-field>
@@ -41,10 +39,8 @@ import {
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
 import { processIsNull } from "@/factories";
 import http from "../http";
-import ProviderContact from "./ProviderContact.vue";
 
 export default Vue.extend({
-  components: { ProviderContact },
   props: {
     label: String,
     process: Object as PropType<ProcessSerializer>,
@@ -114,13 +110,14 @@ export default Vue.extend({
       }
       this.providerContacts =
         (await http.fetchDataOrNull(
-          `/api/client-contact/list-provider-contacts/?process_uuid=${process_.uuid}`
+          `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`
         )) || [];
     },
   },
 });
 
 function displayName(providerContact: ProviderContactSerializer): string {
-  return `${providerContact.user.first_name} ${providerContact.user.last_name} (${providerContact.provider.name})`;
+  // To the user it appears that they are selecting a provider.
+  return `${providerContact.provider.name}`;
 }
 </script>

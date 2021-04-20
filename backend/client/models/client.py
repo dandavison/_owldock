@@ -81,22 +81,23 @@ class ClientContact(BaseModel):
     def provider_relationships(self) -> QuerySet[ClientProviderRelationship]:
         return self.client.provider_relationships()
 
-    # TODO: provider contacts perform steps, not necessarily entire processes.
-    def provider_contacts_for_process(
+    def provider_primary_contacts_for_process(
         self, process_uuid: UUID
     ) -> QuerySet[ProviderContact]:
         """
-        Return suggested provider contacts that can perform the process.
+        Return primary provider contacts that can perform the process.
 
-        These are contacts working for the client's providers. They are sorted
-        by preferred status with ties broken alphabetically.
+        These are the primary contacts of the subset of the client's providers
+        that can perform this process.
         """
+        # TODO: sort by preferred status
+        provider_uuids = [r.provider_uuid for r in self.client.provider_relationships()]
+        providers = Provider.objects.filter(
+            uuid__in=provider_uuids, routes__processes__uuid=process_uuid
+        )
         return ProviderContact.objects.filter(
-            provider__uuid__in=[
-                r.provider_uuid for r in self.client.provider_relationships()
-            ],
-            provider__routes__processes__uuid=process_uuid,
-        ).distinct()
+            id__in=providers.values("primary_contact")
+        )
 
     def has_case_write_permission(self, case: "Case") -> bool:
         return case.client_contact == self

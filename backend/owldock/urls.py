@@ -55,8 +55,8 @@ urlpatterns = [
         name="client_contact_retract_case_step",
     ),
     path(
-        "api/client-contact/list-provider-contacts/",
-        login_required(client_contact.ProviderContactList.as_view()),
+        "api/client-contact/list-primary-provider-contacts/",
+        login_required(client_contact.PrimaryProviderContactList.as_view()),
     ),
     path(
         "api/client-contact/list-provider-relationships/",

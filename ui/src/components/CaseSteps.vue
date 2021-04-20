@@ -140,7 +140,7 @@ export default Vue.extend({
       }
       this.providerContacts =
         (await http.fetchDataOrNull(
-          `/api/client-contact/list-provider-contacts/?process_uuid=${process_.uuid}`
+          `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`
         )) || [];
     },
 
