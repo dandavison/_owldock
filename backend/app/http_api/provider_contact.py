@@ -8,10 +8,10 @@ from django.http import (
     HttpResponse,
 )
 
-from app.exceptions import PermissionDenied
 from app.models import ProviderContact
 from app.http_api.base import BaseView
 from app.http_api.case_step_utils import (
+    add_uploaded_files_to_case_step,
     perform_case_step_transition,
 )
 from app.http_api.serializers import (
@@ -22,7 +22,6 @@ from app.http_api.serializers import (
 from client.models.case_step import Case, CaseStep
 from owldock.http import (
     HttpResponseForbidden,
-    HttpResponseNotFound,
     make_explanatory_http_response,
     OwldockJsonResponse,
 )
@@ -97,36 +96,7 @@ class CaseList(_ProviderContactView):
 class CaseStepUploadFiles(_ProviderContactView):
     @atomic
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        try:
-            self.provider_contact.add_uploaded_files_to_case_step(
-                request.FILES.getlist("file"), step_uuid=uuid
-            )
-        except PermissionDenied:
-            return HttpResponseForbidden(
-                (
-                    f"User {request.user} does not have permission to upload files to "
-                    f"case step {uuid}"
-                )
-            )
-        except CaseStep.DoesNotExist:
-            try:
-                case_step = self.provider_contact.cases_steps_with_read_permission.get(
-                    uuid=uuid
-                )
-            except CaseStep.DoesNotExist:
-                return HttpResponseNotFound(f"Case step {uuid} does not exist")
-            else:
-                return OwldockJsonResponse(
-                    None,
-                    errors=[
-                        (
-                            f"You don't currently have permission to upload files to this "
-                            f"step. The status of this step is {case_step.state.value}."
-                        )
-                    ],
-                )
-        else:
-            return OwldockJsonResponse(None)
+        add_uploaded_files_to_case_step(self.provider_contact, request, uuid)
 
 
 class AcceptCaseStep(_ProviderContactView):

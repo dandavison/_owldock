@@ -8,7 +8,10 @@ from django.http import (
 )
 
 from app.http_api.base import BaseView
-from app.http_api.case_step_utils import perform_case_step_transition
+from app.http_api.case_step_utils import (
+    add_uploaded_files_to_case_step,
+    perform_case_step_transition,
+)
 from app.http_api.serializers import (
     CaseSerializer,
     ClientProviderRelationshipSerializer,
@@ -166,6 +169,12 @@ class RetractCaseStep(_ClientContactView):
             "client_contact.case_steps()",
             query_kwargs={"uuid": uuid},
         )
+
+
+class CaseStepUploadFiles(_ClientContactView):
+    @atomic
+    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
+        add_uploaded_files_to_case_step(self.client_contact, request, uuid)
 
 
 class ClientProviderRelationshipList(_ClientContactView):

@@ -55,6 +55,10 @@ urlpatterns = [
         name="client_contact_retract_case_step",
     ),
     path(
+        "api/client-contact/case-step-upload-files/<uuid:uuid>/",
+        login_required(client_contact.CaseStepUploadFiles.as_view()),
+    ),
+    path(
         "api/client-contact/list-primary-provider-contacts/",
         login_required(client_contact.PrimaryProviderContactList.as_view()),
     ),
@@ -95,7 +99,7 @@ urlpatterns = [
         name="provider_contact_complete_case_step",
     ),
     path(
-        "api/case-step/<uuid:uuid>/upload-files/",
+        "api/provider-contact/case-step-upload-files/<uuid:uuid>/",
         login_required(provider_contact.CaseStepUploadFiles.as_view()),
     ),
     path("api/processes/", login_required(processes.ProcessList.as_view())),
