@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.files.uploadedfile import UploadedFile
@@ -50,6 +51,6 @@ class StoredFile(BaseModel):
             file=uploaded_file,
             media_type=uploaded_file.content_type or "",
             charset=uploaded_file.charset,
-            name=uploaded_file.name,
+            name=f"{uuid4()}--{uploaded_file.name}",
             size=uploaded_file.size,
         )
