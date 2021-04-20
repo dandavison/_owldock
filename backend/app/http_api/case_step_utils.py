@@ -1,11 +1,11 @@
 from django.db.transaction import atomic
-from owldock.http import OwldockJsonResponse
 
 from app.http_api.serializers import CaseStepSerializer
 from client.models.case_step import CaseStep
 from owldock.http import (
     HttpResponseForbidden,
     make_explanatory_http_response,
+    OwldockJsonResponse,
 )
 from owldock.state_machine.django_fsm_utils import can_proceed, why_cant_proceed
 

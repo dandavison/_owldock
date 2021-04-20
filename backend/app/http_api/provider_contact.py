@@ -11,6 +11,9 @@ from django.http import (
 from app.exceptions import PermissionDenied
 from app.models import ProviderContact
 from app.http_api.base import BaseView
+from app.http_api.case_step_utils import (
+    perform_case_step_transition,
+)
 from app.http_api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
@@ -23,7 +26,6 @@ from owldock.http import (
     make_explanatory_http_response,
     OwldockJsonResponse,
 )
-from app.http_api.case_step_utils import perform_case_step_transition
 
 
 M = TypeVar("M", bound=Model)
