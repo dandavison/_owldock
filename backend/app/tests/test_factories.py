@@ -9,6 +9,10 @@ def test_activity_factory(activity_A, activity_B):
     assert activity_A.name != activity_B.name
 
 
+def test_provider_factory(provider_A):
+    assert provider_A.primary_contact.provider == provider_A
+
+
 def test_provider_contact_factory(
     provider_A, provider_contact_A, provider_B, provider_contact_B
 ):

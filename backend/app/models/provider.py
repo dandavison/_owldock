@@ -25,6 +25,13 @@ class Provider(BaseModel):
     name = models.CharField(max_length=128)
     logo_url = models.URLField()
     routes = models.ManyToManyField(Route, related_name="providers")
+    # TODO: Add a database constraint ensuring that
+    # primary_contact.provider == self ?
+    primary_contact = models.OneToOneField(
+        "ProviderContact",
+        on_delete=models.deletion.CASCADE,
+        related_name="provider_for_which_primary",
+    )
 
     class Meta:
         constraints = [

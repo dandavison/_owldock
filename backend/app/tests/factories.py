@@ -44,6 +44,12 @@ class ProviderFactory(DjangoModelFactory):
 
     name = factory.Faker("company")
     logo_url = factory.Faker("url")
+    # Invalid, but the constraint is deferred to the end of the transaction.
+    primary_contact_id = 0
+
+    @factory.post_generation
+    def create_primary_contact(self, create, extracted, **kwargs):
+        self.primary_contact = ProviderContactFactory(provider=self)
 
     @factory.post_generation
     def groups(self, create, extracted, **kwargs):

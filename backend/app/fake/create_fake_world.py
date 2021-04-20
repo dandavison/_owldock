@@ -131,9 +131,19 @@ class _FakeWorldCreator:
             email = _make_email(first_name, client_entity_domain_name)
             user = self._create_user(first_name, last_name, email)
             provider, _ = Provider.objects.get_or_create(
-                name=provider_name, logo_url=logo_url
+                name=provider_name,
+                logo_url=logo_url,
+                # Invalid, but the FK constraint is deferred until the end of
+                # the transaction, which allows us to get around the
+                # chicken-and-egg problem by setting it to a valid value a
+                # couple of lines later.
+                primary_contact_id=0,
             )
-            ProviderContact.objects.create(provider=provider, user=user)
+            provider_contact = ProviderContact.objects.create(
+                provider=provider, user=user
+            )
+            provider.primary_contact = provider_contact
+            provider.save()
 
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
