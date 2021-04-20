@@ -44,7 +44,7 @@ import { processIsNull } from "../factories";
 import http from "../http";
 
 export default Vue.extend({
-  props: { role: Number as PropType<Role> },
+  props: { role: String as PropType<Role> },
   components: { Applicant, Case, Process },
   data() {
     return {

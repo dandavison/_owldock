@@ -38,7 +38,7 @@ import Applicant from "../components/Applicant.vue";
 import http from "../http";
 
 export default Vue.extend({
-  props: { role: Number as PropType<Role> },
+  props: { role: String as PropType<Role> },
   components: { Applicant },
   data() {
     return {

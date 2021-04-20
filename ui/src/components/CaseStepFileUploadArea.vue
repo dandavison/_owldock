@@ -24,11 +24,11 @@ export default Vue.extend({
   props: { step: Object as PropType<CaseStepSerializer> },
 
   data() {
-    var uploadUrl = `/api/${getRole()}/case-step/upload-files/${
+    var uploadUrl = `/api/${getRole()}/case-step-upload-files/${
       this.step.uuid
-    }`;
+    }/`;
     // TODO: clean way to disable UI Dev mode
-    const isUiDevMode = !!process.env.VUE_APP_SERVER_URL;
+    const isUiDevMode = true;
     if (isUiDevMode) {
       uploadUrl = require("../dev-mode").devModeUrl(
         `${process.env.VUE_APP_SERVER_URL}${uploadUrl}`

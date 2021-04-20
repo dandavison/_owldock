@@ -174,7 +174,7 @@ class RetractCaseStep(_ClientContactView):
 class CaseStepUploadFiles(_ClientContactView):
     @atomic
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        add_uploaded_files_to_case_step(self.client_contact, request, uuid)
+        return add_uploaded_files_to_case_step(self.client_contact, request, uuid)
 
 
 class ClientProviderRelationshipList(_ClientContactView):

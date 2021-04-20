@@ -96,7 +96,7 @@ class CaseList(_ProviderContactView):
 class CaseStepUploadFiles(_ProviderContactView):
     @atomic
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        add_uploaded_files_to_case_step(self.provider_contact, request, uuid)
+        return add_uploaded_files_to_case_step(self.provider_contact, request, uuid)
 
 
 class AcceptCaseStep(_ProviderContactView):

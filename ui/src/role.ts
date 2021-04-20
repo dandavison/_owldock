@@ -1,9 +1,10 @@
 import Cookies from "js-cookie";
 
 export enum Role {
-  ClientContact,
-  ProviderContact,
-  Invalid
+  // Hack: these string values are used to construct URLs
+  ClientContact = "client-contact",
+  ProviderContact = "provider-contact",
+  Invalid = "INVALID"
 }
 
 export function getRole(): Role {
