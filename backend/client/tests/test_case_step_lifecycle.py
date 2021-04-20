@@ -195,6 +195,10 @@ def _make_case_step_FREE_assertions(
     )
     assert set(other_provider_contact_transitions) == set()
 
+    client_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
+
     with pytest.raises(CaseStep.DoesNotExist):
         provider_contact.add_uploaded_files_to_case_step(
             [UploadedFileFactory()], case_step.uuid
@@ -247,6 +251,10 @@ def _make_case_step_EARMARKED_assertions(
         case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert not other_provider_contact_transitions
+
+    client_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
 
     with pytest.raises(CaseStep.DoesNotExist):
         provider_contact.add_uploaded_files_to_case_step(
@@ -301,6 +309,10 @@ def _make_case_step_OFFERED_assertions(
         case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert set(other_provider_contact_transitions) == set()
+
+    client_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
 
     with pytest.raises(CaseStep.DoesNotExist):
         provider_contact.add_uploaded_files_to_case_step(
@@ -365,6 +377,10 @@ def _make_case_step_IN_PROGRESS_assertions(
         t.name for t in other_provider_contact_transitions
     ]
 
+    client_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
+
     provider_contact.add_uploaded_files_to_case_step(
         [UploadedFileFactory()], case_step.uuid
     )
@@ -422,6 +438,10 @@ def _make_case_step_COMPLETE_assertions(
     assert set(other_provider_contact_transitions) == set(), [
         t.name for t in other_provider_contact_transitions
     ]
+
+    client_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
 
     provider_contact.add_uploaded_files_to_case_step(
         [UploadedFileFactory()], case_step.uuid
