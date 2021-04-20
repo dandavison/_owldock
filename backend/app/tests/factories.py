@@ -1,5 +1,8 @@
+from io import BytesIO
+
 import factory
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import UploadedFile
 from factory.django import DjangoModelFactory
 
 from app.models import Activity, Provider, ProviderContact, Route
@@ -66,3 +69,14 @@ class ProviderContactFactory(_HasUserFactory):
         model = ProviderContact
 
     provider = factory.SubFactory(ProviderFactory)
+
+
+class UploadedFileFactory(factory.Factory):
+    class Meta:
+        model = UploadedFile
+
+    file = factory.LazyAttribute(lambda obj: BytesIO(b"file-contents"))
+    content_type = factory.Faker("mime_type")
+    charset = "utf-8"
+    name = factory.Faker("file_name")
+    size = 777

@@ -1,6 +1,9 @@
+import pytest
+
 from app.http_api.case_step_utils import perform_case_step_transition
 from app.http_api.serializers import CaseSerializer
 from app.models import ProviderContact
+from app.tests.factories import UploadedFileFactory
 from client.models import CaseStep, ClientContact, State
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
@@ -192,6 +195,11 @@ def _make_case_step_FREE_assertions(
     )
     assert set(other_provider_contact_transitions) == set()
 
+    with pytest.raises(CaseStep.DoesNotExist):
+        provider_contact.add_uploaded_files_to_case_step(
+            [UploadedFileFactory()], case_step.uuid
+        )
+
     for c in [client_contact, other_client_contact]:
         list(CaseSerializer.get_cases_for_client_contact(c))
 
@@ -239,6 +247,11 @@ def _make_case_step_EARMARKED_assertions(
         case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert not other_provider_contact_transitions
+
+    with pytest.raises(CaseStep.DoesNotExist):
+        provider_contact.add_uploaded_files_to_case_step(
+            [UploadedFileFactory()], case_step.uuid
+        )
 
     for c in [client_contact, other_client_contact]:
         list(CaseSerializer.get_cases_for_client_contact(c))
@@ -288,6 +301,11 @@ def _make_case_step_OFFERED_assertions(
         case_step.get_available_user_state_name_transitions(other_provider_contact.user)
     )
     assert set(other_provider_contact_transitions) == set()
+
+    with pytest.raises(CaseStep.DoesNotExist):
+        provider_contact.add_uploaded_files_to_case_step(
+            [UploadedFileFactory()], case_step.uuid
+        )
 
     for c in [client_contact, other_client_contact]:
         list(CaseSerializer.get_cases_for_client_contact(c))
@@ -347,6 +365,10 @@ def _make_case_step_IN_PROGRESS_assertions(
         t.name for t in other_provider_contact_transitions
     ]
 
+    provider_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
+
     for c in [client_contact, other_client_contact]:
         list(CaseSerializer.get_cases_for_client_contact(c))
 
@@ -400,6 +422,10 @@ def _make_case_step_COMPLETE_assertions(
     assert set(other_provider_contact_transitions) == set(), [
         t.name for t in other_provider_contact_transitions
     ]
+
+    provider_contact.add_uploaded_files_to_case_step(
+        [UploadedFileFactory()], case_step.uuid
+    )
 
     for c in [client_contact, other_client_contact]:
         list(CaseSerializer.get_cases_for_client_contact(c))
