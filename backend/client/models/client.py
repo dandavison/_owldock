@@ -1,7 +1,9 @@
 import logging
 from uuid import UUID
+from typing import List
 
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models import deletion
 from django.db.models.query import QuerySet
@@ -10,6 +12,7 @@ from app.models.process import Country, Process
 from app.models.provider import Provider, ProviderContact
 from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
+from owldock.state_machine.role import Role
 
 
 logger = logging.getLogger(__name__)
@@ -57,6 +60,8 @@ class ClientContact(BaseModel):
     user_uuid = UUIDPseudoForeignKeyField(get_user_model())
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
+    role = Role.CLIENT_CONTACT
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -72,6 +77,9 @@ class ClientContact(BaseModel):
         from client.models.case_step import CaseStep
 
         return CaseStep.objects.filter(case__client_contact=self)
+
+    def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":
+        return self.case_steps()
 
     def applicants(self) -> "QuerySet[Applicant]":
         # TODO: these are applicants for which the client contact has what permissions?
@@ -101,6 +109,14 @@ class ClientContact(BaseModel):
 
     def has_case_write_permission(self, case: "Case") -> bool:
         return case.client_contact == self
+
+    def add_uploaded_files_to_case_step(
+        self,
+        uploaded_files: List[UploadedFile],
+        step_uuid: UUID,
+    ):
+        step = self.case_steps_with_write_permission().get(uuid=step_uuid)
+        step.add_uploaded_files(uploaded_files, self.user, self.role)
 
 
 class Applicant(BaseModel):

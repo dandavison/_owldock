@@ -1,7 +1,8 @@
 import logging
 from typing import Callable, List
 
-from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
+from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models import deletion, Model, QuerySet
 from django.db.transaction import atomic
@@ -9,6 +10,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from app.models import ProcessStep, ProviderContact, StoredFile, User
+from app.models.file import ApplicationFileType
 from client.models.client import Case
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
@@ -228,6 +230,25 @@ class CaseStep(BaseModel):
         ]
         return ret
 
+    def add_uploaded_files(
+        self,
+        uploaded_files: List[UploadedFile],
+        user: settings.AUTH_USER_MODEL,
+        role: Role,
+    ) -> None:
+        assert get_role(user) == role, "Supplied user doesn't match supplied role"
+        application_file_type = {
+            Role.CLIENT_CONTACT: ApplicationFileType.CLIENT_CONTACT_UPLOAD,
+            Role.PROVIDER_CONTACT: ApplicationFileType.PROVIDER_CONTACT_UPLOAD,
+        }[role]
+        for uploaded_file in uploaded_files:
+            stored_file = StoredFile.from_uploaded_file(uploaded_file)
+            stored_file.created_by = user
+            stored_file.associated_object_uuid = self.uuid
+            stored_file.associated_object_content_type = self.content_type
+            stored_file.application_file_type = application_file_type
+            stored_file.save()
+
     @property
     def stored_files(self) -> QuerySet[StoredFile]:
         prefetched = getattr(self, "_prefetched_stored_files", None)
@@ -237,7 +258,7 @@ class CaseStep(BaseModel):
         # GenericRelation is not working with our multiple database setup
         return StoredFile.objects.filter(
             associated_object_uuid=self.uuid,
-            associated_object_content_type=ContentType.objects.get_for_model(CaseStep),
+            associated_object_content_type=self.content_type,
         )
 
 

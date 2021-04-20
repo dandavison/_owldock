@@ -15,6 +15,7 @@ from owldock.models.base import BaseModel
 
 
 class ApplicationFileType(models.TextChoices):
+    CLIENT_CONTACT_UPLOAD = ("CLIENT_CONTACT_UPLOAD",)
     PROVIDER_CONTACT_UPLOAD = ("PROVIDER_CONTACT_UPLOAD",)
 
 

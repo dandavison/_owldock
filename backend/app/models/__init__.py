@@ -24,5 +24,6 @@ class User(AbstractUser):
         ]
 
 
+from app.models.file import *  # noqa
 from app.models.process import *  # noqa
 from app.models.provider import *  # noqa

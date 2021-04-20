@@ -10,9 +10,8 @@ from django.db.transaction import atomic
 from django.utils import timezone
 
 from app.models.process import Route
-from app.models.file import ApplicationFileType, StoredFile
 from owldock.models.base import BaseModel
-
+from owldock.state_machine.role import Role
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +45,8 @@ class ProviderContact(BaseModel):
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
     provider = models.ForeignKey(Provider, on_delete=models.deletion.CASCADE)
+
+    role = Role.PROVIDER_CONTACT
 
     class Meta:
         constraints = [
@@ -85,22 +86,13 @@ class ProviderContact(BaseModel):
             active_contract__provider_contact_uuid=self.uuid
         ).exclude(state_name=CaseStepState.EARMARKED.name)
 
-    @atomic  # TODO: are storage writes rolled back?
     def add_uploaded_files_to_case_step(
         self,
         uploaded_files: List[UploadedFile],
         step_uuid: UUID,
     ):
         step = self.case_steps_with_write_permission.get(uuid=step_uuid)
-        for uploaded_file in uploaded_files:
-            stored_file = StoredFile.from_uploaded_file(uploaded_file)
-            stored_file.created_by = self.user
-            stored_file.associated_object_uuid = step.uuid
-            stored_file.associated_object_content_type = step.content_type
-            stored_file.application_file_type = (
-                ApplicationFileType.PROVIDER_CONTACT_UPLOAD
-            )
-            stored_file.save()
+        step.add_uploaded_files(uploaded_files, self.user, self.role)
 
     def applicants(self) -> "QuerySet[Applicant]":
         """
