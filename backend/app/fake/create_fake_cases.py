@@ -8,7 +8,7 @@ from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
 
 @atomic
-def create_fake_cases(self, n: int):
+def create_fake_cases(n: int):
     for applicant in Applicant.objects.all():
         client = applicant.employer
         valid_client_contacts = client.clientcontact_set.all()
