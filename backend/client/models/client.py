@@ -89,6 +89,21 @@ class ClientContact(BaseModel):
     def provider_relationships(self) -> QuerySet[ClientProviderRelationship]:
         return self.client.provider_relationships()
 
+    def provider_contacts_for_process(
+        self, process_uuid: UUID
+    ) -> QuerySet[ProviderContact]:
+        """
+        Return provider contacts that can perform the process.
+
+        These are contacts working for the client's providers.
+        """
+        return ProviderContact.objects.filter(
+            provider__uuid__in=[
+                r.provider_uuid for r in self.client.provider_relationships()
+            ],
+            provider__routes__processes__uuid=process_uuid,
+        ).distinct()
+
     def provider_primary_contacts_for_process(
         self, process_uuid: UUID
     ) -> QuerySet[ProviderContact]:

@@ -59,6 +59,10 @@ urlpatterns = [
         login_required(client_contact.CaseStepUploadFiles.as_view()),
     ),
     path(
+        "api/client-contact/list-provider-contacts/",
+        login_required(client_contact.ProviderContactList.as_view()),
+    ),
+    path(
         "api/client-contact/list-primary-provider-contacts/",
         login_required(client_contact.PrimaryProviderContactList.as_view()),
     ),

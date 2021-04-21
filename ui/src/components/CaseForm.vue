@@ -40,6 +40,7 @@
         <fieldset :disabled="!haveProcess">
           <provider-contact-selector
             label="Provider"
+            :giveAppearanceOfSelectingProvider="true"
             :process="case_.process"
             :initialProviderContacts="[]"
             @change:provider-contact="handleChangeProviderContact"

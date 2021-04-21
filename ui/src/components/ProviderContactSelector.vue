@@ -18,7 +18,11 @@
           max-height="100vh"
         >
           <template slot-scope="props">
-            {{ props.option.provider.name }}
+            <div v-if="giveAppearanceOfSelectingProvider">
+              {{ props.option.provider.name }}
+            </div>
+            <provider-contact v-else :provider_contact="props.option">
+            </provider-contact>
           </template>
         </b-autocomplete>
       </b-field>
@@ -39,8 +43,10 @@ import {
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
 import { processIsNull } from "@/factories";
 import http from "../http";
+import ProviderContact from "./ProviderContact.vue";
 
 export default Vue.extend({
+  components: { ProviderContact },
   props: {
     label: String,
     process: Object as PropType<ProcessSerializer>,
@@ -52,6 +58,10 @@ export default Vue.extend({
       type: Object as PropType<ProviderContactSerializer | null>,
       default: null,
     },
+    giveAppearanceOfSelectingProvider: {
+      type: Boolean,
+      default: false,
+    },
     placeholder: String,
   },
 
@@ -59,6 +69,7 @@ export default Vue.extend({
     return {
       input: "",
       providerContacts: [] as ProviderContactSerializer[],
+      primaryContactsOnly: this.giveAppearanceOfSelectingProvider,
     };
   },
 
@@ -75,7 +86,7 @@ export default Vue.extend({
       const autocomplete = this.$refs.autocomplete as BAutocomplete;
       autocomplete.setSelected(
         Object.assign(this.current, {
-          displayName: displayName(this.current),
+          displayName: this.displayName(this.current),
         })
       );
     }
@@ -92,11 +103,11 @@ export default Vue.extend({
     filteredCandidates(): ProviderContactSerializer[] {
       return this.providerContacts
         .filter((providerContact) =>
-          inputMatchesString(this.input, displayName(providerContact))
+          inputMatchesString(this.input, this.displayName(providerContact))
         )
         .map((providerContact) => {
           return Object.assign(providerContact, {
-            displayName: displayName(providerContact),
+            displayName: this.displayName(providerContact),
           });
         });
     },
@@ -108,16 +119,19 @@ export default Vue.extend({
         // TODO: why?
         return;
       }
-      this.providerContacts =
-        (await http.fetchDataOrNull(
-          `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`
-        )) || [];
+      const url = this.primaryContactsOnly
+        ? `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`
+        : `/api/client-contact/list-provider-contacts/?process_uuid=${process_.uuid}`;
+      this.providerContacts = (await http.fetchDataOrNull(url)) || [];
+    },
+
+    displayName(providerContact: ProviderContactSerializer): string {
+      if (this.giveAppearanceOfSelectingProvider) {
+        return `${providerContact.provider.name}`;
+      } else {
+        return `${providerContact.user.first_name} ${providerContact.user.last_name} (${providerContact.provider.name})`;
+      }
     },
   },
 });
-
-function displayName(providerContact: ProviderContactSerializer): string {
-  // To the user it appears that they are selecting a provider.
-  return `${providerContact.provider.name}`;
-}
 </script>
