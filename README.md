@@ -1,3 +1,14 @@
+<table>
+  <tr>
+    <td>
+      <img width="500px" src="https://render.fineartamerica.com/images/rendered/default/greeting-card/images/artworkimages/medium/2/northern-hawk-owl-hunting-peter-stahl.jpg"></img>
+    </td>
+    <td>
+      <img width="400px" src="https://www.nmc.edu/news/2013/03/hawkowl.png"></img>
+    </td>
+  </tr>
+</table>
+
 # Owldock development
 
 Owldock consists of a javascript app implemented in Vue.js, a backend
