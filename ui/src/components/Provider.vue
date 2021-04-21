@@ -3,7 +3,7 @@
     <div class="media-left">
       <img :src="provider.logo_url" width="128px" />
     </div>
-    <div class="media-content">
+    <div v-if="showName" class="media-content">
       <p class="title is-size-6">
         {{ provider.name }}
       </p>
@@ -18,6 +18,10 @@ import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {
     provider: Object as PropType<ProviderSerializer>,
+    showName: {
+      type: Boolean,
+      default: true,
+    },
   },
 });
 </script>

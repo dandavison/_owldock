@@ -18,11 +18,11 @@
           max-height="100vh"
         >
           <template slot-scope="props">
-            <div v-if="giveAppearanceOfSelectingProvider">
-              {{ props.option.provider.name }}
-            </div>
-            <provider-contact v-else :provider_contact="props.option">
-            </provider-contact>
+            <provider
+              v-if="giveAppearanceOfSelectingProvider"
+              :provider="props.option.provider"
+            />
+            <provider-contact v-else :provider_contact="props.option" />
           </template>
         </b-autocomplete>
       </b-field>
@@ -43,10 +43,11 @@ import {
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
 import { processIsNull } from "@/factories";
 import http from "../http";
+import Provider from "./Provider.vue";
 import ProviderContact from "./ProviderContact.vue";
 
 export default Vue.extend({
-  components: { ProviderContact },
+  components: { Provider, ProviderContact },
   props: {
     label: String,
     process: Object as PropType<ProcessSerializer>,
