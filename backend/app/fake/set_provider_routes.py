@@ -5,15 +5,12 @@ from app.models import Provider, Route
 
 @atomic
 def set_provider_routes():
-    group_a, group_b = [
-        Route.objects.filter(name__lt="Marl"),
-        Route.objects.filter(name__gte="Marl"),
-    ]
+    other_provider, *providers = Provider.objects.order_by("-name")
+    other_route, *routes = Route.objects.order_by("-name")
 
-    for (provider_name, route_group) in [
-        ("Acme", group_a),
-        ("Deloitte", group_b),
-        ("Corporate Relocations", group_b),
+    for (_providers, _routes) in [
+        (providers, routes),
+        ([other_provider], [other_route]),
     ]:
-        provider = Provider.objects.get(name=provider_name)
-        provider.routes.add(*route_group)
+        for _provider in _providers:
+            _provider.routes.add(*_routes)

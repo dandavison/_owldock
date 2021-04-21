@@ -22,6 +22,7 @@ class CaseNotAvailableToProvider(Exception):
 
 class Provider(BaseModel):
     name = models.CharField(max_length=128)
+    url = models.URLField()
     logo_url = models.URLField()
     routes = models.ManyToManyField(Route, related_name="providers")
     # TODO: Add a database constraint ensuring that

@@ -1,11 +1,12 @@
+import json
 import os
 import random
-from typing import Set, TypeVar, Optional
+from typing import Optional, Set, Tuple
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from django.db.models import Model
 from django.db.transaction import atomic
 from django_seed import Seed
 
@@ -26,7 +27,7 @@ from client.models import (
     Applicant,
     ApplicantNationality,
 )
-
+from owldock.utils import strip_prefix
 
 def create_fake_world():
     _FakeWorldCreator().create()
@@ -41,7 +42,7 @@ class _FakeWorldCreator:
         load_country_fixture()
         self._create_services()
         self._create_superusers()
-        self._create_provider_contacts()
+        self._create_providers()
         self._create_client_contacts()
         self._create_applicants(10)
         self._create_activities(3)
@@ -68,19 +69,9 @@ class _FakeWorldCreator:
         all_countries = list(Country.objects.all())
         for (i, client) in enumerate(Client.objects.all()):
             country = countries[i % len(countries)]
-            seen: Set[str] = set()
-            done = 0
-            while done < n:
-                *first_names, last_name = self.seeder.faker.name().split()
-                first_name = "-".join(first_names).replace(".", "")
+            for _ in range(n):
+                user = self._create_fake_user(client.entity_domain_name)
 
-                if first_name in seen:
-                    continue
-                seen.add(first_name)
-                done += 1
-
-                email = _make_email(first_name, client.entity_domain_name)
-                user = self._create_user(first_name, last_name, email, None)
                 applicant = Applicant.objects.create(
                     employer=client,
                     home_country_uuid=country.uuid,
@@ -97,53 +88,30 @@ class _FakeWorldCreator:
                         applicant=applicant, country_uuid=second_country.uuid
                     )
 
-    def _create_provider_contacts(self) -> None:
+    def _create_providers(self) -> None:
         print("Creating provider contacts")
-        for (
-            first_name,
-            last_name,
-            provider_name,
-            client_entity_domain_name,
-            logo_url,
-        ) in [
-            (
-                "Archy",
-                "Archimedes",
-                "Acme",
-                "acme.com",
-                "https://static.wikia.nocookie.net/warner-bros-entertainment/images/6/6e/Acme-corp.png",  # noqa
-            ),
-            (
-                "Constantin",
-                "Carathéodory",
-                "Corporate Relocations",
-                "corporaterelocations.gr",
-                "https://corporaterelocations.gr/wp-content/uploads/2016/01/FAV.png",
-            ),
-            (
-                "Dietrich",
-                "Dedekind",
-                "Deloitte",
-                "deloitte.com",
-                "https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg",
-            ),
-        ]:
-            email = _make_email(first_name, client_entity_domain_name)
-            user = self._create_user(first_name, last_name, email)
-            provider, _ = Provider.objects.get_or_create(
-                name=provider_name,
-                logo_url=logo_url,
-                # Invalid, but the FK constraint is deferred until the end of
-                # the transaction, which allows us to get around the
-                # chicken-and-egg problem by setting it to a valid value a
-                # couple of lines later.
-                primary_contact_id=0,
-            )
-            provider_contact = ProviderContact.objects.create(
-                provider=provider, user=user
-            )
-            provider.primary_contact = provider_contact
-            provider.save()
+        with open(settings.BASE_DIR / "app/fake/providers.json") as fp:
+            for provider in json.load(fp):
+                self._create_provider(**provider)
+
+    def _create_provider(self, name, url, logo_url) -> None:
+        provider = Provider.objects.create(
+            name=name,
+            logo_url=logo_url,
+            url=url,
+            # Invalid, but the FK constraint is deferred until the end of
+            # the transaction, which allows us to get around the
+            # chicken-and-egg problem.
+            primary_contact_id=0,
+        )
+        provider_contacts = [self._create_provider_contact(provider) for _ in range(20)]
+        provider.primary_contact = provider_contacts[0]
+        provider.save()
+
+    def _create_provider_contact(self, provider) -> ProviderContact:
+        domain_name = urlparse(provider.url).netloc
+        user = self._create_fake_user(domain_name)
+        return ProviderContact.objects.create(provider=provider, user=user)
 
     def _create_client_contacts(self) -> None:
         print("Creating client contacts")
@@ -153,15 +121,15 @@ class _FakeWorldCreator:
             client_name,
             client_entity_domain_name,
             logo_url,
-            (preferred_provider, *other_providers),
+            provider_predicate,
         ) in [
             (
-                "Carlos",
+                "Christine",
                 "Cantor",
                 "Coca-Cola",
                 "cocacola.com",
                 "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
-                ["Corporate Relocations", "Acme"],
+                lambda provider: provider.name.lower() < "m",
             ),
             (
                 "Petra",
@@ -169,7 +137,7 @@ class _FakeWorldCreator:
                 "Pepsi",
                 "pepsi.com",
                 "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
-                ["Deloitte", "Acme"],
+                lambda provider: provider.name.lower() >= "m",
             ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
@@ -180,6 +148,10 @@ class _FakeWorldCreator:
                 logo_url=logo_url,
             )
             ClientContact.objects.create(client=client, user_uuid=user.uuid)
+            preferred_provider, *other_providers = [
+                p for p in Provider.objects.all() if provider_predicate(p)
+            ]
+
             ClientProviderRelationship.objects.create(
                 client=client,
                 provider_uuid=Provider.objects.get(name=preferred_provider).uuid,
@@ -227,10 +199,24 @@ class _FakeWorldCreator:
                 is_superuser=True,
             )
 
+    def _fake_name(self) -> Tuple[str, str]:
+        *first_names, last_name = self.seeder.faker.name().split()
+        first_name = "-".join(first_names).replace(".", "")
+        return first_name, last_name
 
-M = TypeVar("M", bound=Model)
+    def _create_fake_user(self, domain_name: str):
+        while True:
+            first_name, last_name = self._fake_name()
+            n = random.choice(range(1, 10))
+            email = _make_email(f"{first_name}{n}", domain_name)
+            if get_user_model().objects.filter(email=email).exists():
+                print(".")
+            else:
+                break
+        return self._create_user(first_name, last_name, email)
 
 
-def _make_email(name: str, entity_domain_name: str) -> str:
-    company = entity_domain_name.split(".")[0].translate({" ": "-", ",": "-"})
+def _make_email(name: str, domain_name: str) -> str:
+    domain_name = strip_prefix(domain_name, "www.")
+    company = domain_name.split(".")[0].translate({" ": "-", ",": "-"})
     return f"{name}-{company}@example.com".lower()
