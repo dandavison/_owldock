@@ -1,3 +1,4 @@
+import logging
 from uuid import UUID
 from typing import Union
 
@@ -15,6 +16,8 @@ from owldock.http import (
     OwldockJsonResponse,
 )
 from owldock.state_machine.django_fsm_utils import can_proceed, why_cant_proceed
+
+logger = logging.getLogger(__file__)
 
 
 @atomic
@@ -54,6 +57,11 @@ def add_uploaded_files_to_case_step(
             request.FILES.getlist("file"), step_uuid=uuid
         )
     except PermissionDenied:
+        logger.error(
+            "PermissionDenied when uploading file. User: %s, case step: %s",
+            request.user,
+            uuid,
+        )
         return HttpResponseForbidden(
             (
                 f"User {request.user} does not have permission to upload files to "
@@ -61,6 +69,11 @@ def add_uploaded_files_to_case_step(
             )
         )
     except CaseStep.DoesNotExist:
+        logger.error(
+            "CaseStep.DoesNotExist when uploading file. User: %s, case step: %s",
+            request.user,
+            uuid,
+        )
         try:
             case_step = client_or_provider_contact.cases_steps_with_read_permission.get(
                 uuid=uuid
