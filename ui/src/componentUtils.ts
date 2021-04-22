@@ -1,15 +1,16 @@
 import Vue from "vue";
+import { BAutocomplete } from "buefy/src/components/autocomplete";
+
+type BAutocompleteType = InstanceType<typeof BAutocomplete>;
 
 export function dismissMobileKeyboardOnDropdownScroll(
   vm: Vue,
   autocompleteRef: string
 ): void {
-  const autocomplete = vm.$refs[autocompleteRef] as any;
-  const input = autocomplete?.$refs.input.$refs.input as HTMLElement;
-  const dropdown = autocomplete?.$refs.dropdown as HTMLElement;
-  const dropdownContent = dropdown?.querySelector(
-    ".dropdown-content"
-  ) as HTMLElement;
+  const autocomplete = vm.$refs[autocompleteRef] as BAutocompleteType;
+  const input = autocomplete?.$refs.input.$refs.input;
+  const dropdown = autocomplete?.$refs.dropdown;
+  const dropdownContent = dropdown?.querySelector(".dropdown-content");
   if (input && dropdownContent) {
     dropdownContent.onscroll = () => {
       // The purpose of this handler is to cause the soft keyboard of
