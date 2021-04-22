@@ -13,6 +13,7 @@
     :giveAppearanceOfSelectingProvider="true"
     :initialProviderContacts="providerContacts"
     @select:provider-contact="handleSelectProviderContact"
+    @blur="state = State.Displaying"
   />
 </template>
 
