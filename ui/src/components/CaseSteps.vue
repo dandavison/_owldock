@@ -22,17 +22,15 @@
           (providerContact) =>
             handleChangeProviderContact(providerContact, props.index)
         "
-      >
-      </provider-contact-selector>
-      <provider-contact
+      />
+      <provider
         v-else-if="
           props.row.active_contract &&
           props.row.active_contract.provider_contact
         "
-        :provider_contact="props.row.active_contract.provider_contact"
-        class="mr-3"
-      >
-      </provider-contact>
+        :provider="props.row.active_contract.provider_contact.provider"
+        :showName="false"
+      />
     </b-table-column>
 
     <b-table-column label="Status" v-slot="props">
@@ -74,6 +72,7 @@ type BTableInstance = InstanceType<typeof BTable>;
 
 import ActionButton from "./ActionButton.vue";
 import CaseStepFileUploadArea from "./CaseStepFileUploadArea.vue";
+import Provider from "../components/Provider.vue";
 import ProviderContact from "../components/ProviderContact.vue";
 import ProviderContactSelector from "../components/ProviderContactSelector.vue";
 import {
@@ -90,6 +89,7 @@ export default Vue.extend({
   components: {
     ActionButton,
     CaseStepFileUploadArea,
+    Provider,
     ProviderContact,
     ProviderContactSelector,
   },
