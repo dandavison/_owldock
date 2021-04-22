@@ -16,6 +16,16 @@
       />
     </b-table-column>
 
+    <b-table-column label="Contact" v-slot="props">
+      <provider-contact
+        v-if="
+          props.row.active_contract &&
+          props.row.active_contract.provider_contact
+        "
+        :provider_contact="props.row.active_contract.provider_contact"
+      />
+    </b-table-column>
+
     <b-table-column label="Status" v-slot="props">
       {{ props.row.state.value }}
     </b-table-column>
