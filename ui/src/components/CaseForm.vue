@@ -43,7 +43,7 @@
             :giveAppearanceOfSelectingProvider="true"
             :process="case_.process"
             :initialProviderContacts="[]"
-            @change:provider-contact="handleChangeProviderContact"
+            @select:provider-contact="handleSelectProviderContact"
             class="provider-contact-selector"
           >
           </provider-contact-selector>
@@ -191,7 +191,7 @@ export default Vue.extend({
       }));
     },
 
-    handleChangeProviderContact(
+    handleSelectProviderContact(
       providerContact: ProviderContactSerializer
     ): void {
       this.defaultProviderContact = providerContact;

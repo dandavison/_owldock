@@ -9,7 +9,7 @@
           :data="filteredCandidates"
           @select="
             (providerContact) =>
-              $emit('change:provider-contact', providerContact)
+              $emit('select:provider-contact', providerContact)
           "
           :openOnFocus="true"
           :keep-first="true"

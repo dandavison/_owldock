@@ -1,26 +1,24 @@
 <template>
+  <div v-if="state === State.Displaying" @click="handleClick">
+    <provider
+      :provider="caseStep.active_contract.provider_contact.provider"
+      :showName="false"
+    />
+  </div>
   <provider-contact-selector
-    v-if="canChangeProviderContact"
+    v-else
+    ref="providerContactSelector"
     placeholder="Select Provider"
     :process="process"
     :giveAppearanceOfSelectingProvider="true"
-    :current="
-      caseStep.active_contract && caseStep.active_contract.provider_contact
-    "
     :initialProviderContacts="providerContacts"
-    @change:provider-contact="handleChangeProviderContact"
-  />
-  <provider
-    v-else-if="
-      caseStep.active_contract && caseStep.active_contract.provider_contact
-    "
-    :provider="caseStep.active_contract.provider_contact.provider"
-    :showName="false"
+    @select:provider-contact="handleSelectProviderContact"
   />
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
+import { BAutocomplete } from "buefy/src/components/autocomplete";
 
 import {
   CaseStepSerializer,
@@ -32,18 +30,47 @@ import ProviderContactSelector from "./ProviderContactSelector.vue";
 import { NullCaseStepContract } from "@/factories";
 import { isClientContact } from "../role";
 
+type ProviderContactSelectorType = InstanceType<typeof ProviderContactSelector>;
+type BAutocompleteType = InstanceType<typeof BAutocomplete>;
+
+enum State {
+  Displaying,
+  Selecting,
+}
+
 export default Vue.extend({
   props: {
     caseStep: Object as PropType<CaseStepSerializer>,
     process: Object as PropType<ProcessSerializer>,
     providerContacts: Array as PropType<ProviderContactSerializer[]>,
   },
+
   components: {
     Provider,
     ProviderContactSelector,
   },
 
+  data() {
+    return {
+      state: State.Selecting,
+      State,
+    };
+  },
+
+  created() {
+    if (this.hasProviderContact) {
+      this.state = State.Displaying;
+    }
+  },
+
   computed: {
+    hasProviderContact(): boolean {
+      return Boolean(
+        this.caseStep.active_contract &&
+          this.caseStep.active_contract.provider_contact
+      );
+    },
+
     canChangeProviderContact(): boolean {
       if (!isClientContact()) {
         return false;
@@ -58,13 +85,30 @@ export default Vue.extend({
   },
 
   methods: {
-    handleChangeProviderContact(providerContact: ProviderContactSerializer) {
+    handleSelectProviderContact(providerContact: ProviderContactSerializer) {
       const caseStep = Object.assign({}, this.caseStep);
       if (!caseStep.active_contract) {
         caseStep.active_contract = NullCaseStepContract();
       }
       caseStep.active_contract.provider_contact = providerContact;
       this.$emit("update:case-step", caseStep);
+      this.state = State.Displaying;
+    },
+
+    handleClick() {
+      if (this.state === State.Displaying) {
+        if (this.canChangeProviderContact) {
+          this.state = State.Selecting;
+          this.$nextTick(() => {
+            const providerContactSelector = this.$refs
+              .providerContactSelector as ProviderContactSelectorType;
+            const autocomplete: BAutocompleteType =
+              providerContactSelector.$refs.autocomplete;
+            const input: HTMLElement = autocomplete.$refs.input.$refs.input;
+            input.focus();
+          });
+        }
+      }
     },
   },
 });
