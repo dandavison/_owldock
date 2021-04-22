@@ -218,5 +218,6 @@ class _FakeWorldCreator:
 
 def _make_email(name: str, domain_name: str) -> str:
     domain_name = strip_prefix(domain_name, "www.")
+    domain_name = strip_prefix(domain_name, "www2.")
     company = domain_name.split(".")[0].translate({" ": "-", ",": "-"})
     return f"{name}-{company}@example.com".lower()
