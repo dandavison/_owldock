@@ -1,7 +1,7 @@
 <template>
   <div class="media">
     <div class="media-left">
-      <img :src="provider.logo_url" width="128px" />
+      <img :src="provider.logo_url" width="88px" />
     </div>
     <div v-if="showName" class="media-content">
       <p class="title is-size-6">

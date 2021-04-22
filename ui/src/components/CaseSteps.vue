@@ -7,10 +7,11 @@
       </span>
     </b-table-column>
 
-    <b-table-column label="Provider" v-slot="props">
+    <b-table-column label="Provider" width="420" v-slot="props">
       <provider-contact-selector
         v-if="canChangeProviderContact(props.row)"
         placeholder="Select Provider"
+        :giveAppearanceOfSelectingProvider="true"
         :process="case_.process"
         :current="
           props.row.active_contract &&
