@@ -191,4 +191,4 @@ class Case(BaseModel):
 
     @property
     def steps(self) -> "QuerySet[CaseStep]":
-        return self.casestep_set.all()
+        return self.casestep_set.order_by("sequence_number")
