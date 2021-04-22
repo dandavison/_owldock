@@ -28,6 +28,7 @@ def _make_provider_contact_assertions(
     provider: Provider, provider_contact: ProviderContact
 ) -> None:
     assert provider_contact.provider == provider
+    assert provider.primary_contact.provider == provider
     assert get_role(provider_contact.user) is Role.PROVIDER_CONTACT
     assert isinstance(provider_contact.user, get_user_model())
     assert isinstance(provider_contact.provider, Provider)
