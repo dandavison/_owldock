@@ -207,7 +207,6 @@ class CaseStepContractSerializer(ModelSerializer):
 
     class Meta:
         model = CaseStepContract
-
         fields = ["case_step_uuid", "provider_contact", "accepted_at", "rejected_at"]
 
 
