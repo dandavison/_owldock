@@ -16,11 +16,11 @@
         {{ applicant.user.last_name }}
       </p>
       <p class="subtitle is-size-6">
-        <div v-if="mailto">
+        <span v-if="mailto">
           <a :href="`mailto:${applicant.user.email}`" target="#">
             {{ applicant.user.email }}
           </a>
-        </div>
+        </span>
       </p>
     </div>
   </div>
