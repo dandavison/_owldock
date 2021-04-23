@@ -1,4 +1,5 @@
 WITH_DEV_ENV=env $$(xargs < .env.dev)
+WITH_TEST_ENV=env $$(xargs < .env.test)
 MANAGE=$(WITH_DEV_ENV) .venv/bin/python manage.py
 
 static-analysis: lint type-check
@@ -8,7 +9,7 @@ lint: lint-flake8
 type-check: type-check-mypy
 
 test:
-	$(WITH_DEV_ENV) .venv/bin/pytest --no-header
+	$(WITH_TEST_ENV) .venv/bin/pytest --no-header
 
 test-all: lint type-check test
 
