@@ -6,6 +6,7 @@ from django.core.files.uploadedfile import UploadedFile
 from factory.django import DjangoModelFactory
 
 from app.models import Activity, Provider, ProviderContact, Route
+from owldock.tests.constants import TEST_PASSWORD
 from owldock.tests.factories import BaseModelFactory
 
 
@@ -16,18 +17,17 @@ class ActivityFactory(DjangoModelFactory):
     name = factory.Faker("job")
 
 
-class UserFactory(DjangoModelFactory):
-    class Meta:
-        model = get_user_model()
-
-    email = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
-
-    @factory.iterator
-    def username():  # noqa
+def create_user(obj=None):
+    try:
+        username = obj.username
+    except AttributeError:
         n = get_user_model().objects.filter(username__startswith="user_").count()
-        while True:
-            yield f"user_{n}"
-            n = n + 1
+        username = f"user_{n}"
+    return get_user_model().objects.create_user(
+        username=username,
+        email=f"{username}@example.com",
+        password=TEST_PASSWORD,
+    )
 
 
 class _HasUserFactory(BaseModelFactory):
@@ -38,7 +38,7 @@ class _HasUserFactory(BaseModelFactory):
     class Meta:
         abstract = True
 
-    user = factory.SubFactory(UserFactory)
+    user = factory.LazyAttribute(create_user)
 
 
 class ProviderFactory(DjangoModelFactory):

@@ -19,6 +19,12 @@ def pytest_sessionstart(session):
     TestCase.databases = TransactionTestCase.databases = set(settings.DATABASES.keys())
 
 
+@pytest.fixture()
+def django_test_client(client):
+    # The name `client` has other meanings in this project.
+    return client
+
+
 @pytest.fixture(autouse=True)
 def allow_database_use(db):
     pass
