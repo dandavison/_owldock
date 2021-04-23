@@ -52,7 +52,11 @@
         <fieldset>
           <div class="field is-grouped pt-4">
             <div class="control">
-              <button class="button is-link" @click="handleSubmit">
+              <button
+                class="button is-link"
+                ref="submitButton"
+                @click="handleSubmit"
+              >
                 Submit
               </button>
             </div>
@@ -189,6 +193,10 @@ export default Vue.extend({
         sequence_number: i + 1,
         stored_files: [],
       }));
+      // Changing the steps often makes a large difference to the vertical
+      // height of the Case component at the top of the page.
+      const submitButton = this.$refs.submitButton as HTMLElement;
+      this.$nextTick(() => submitButton.scrollIntoView());
     },
 
     handleSelectProviderContact(
