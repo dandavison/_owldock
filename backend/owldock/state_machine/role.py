@@ -1,8 +1,12 @@
 import logging
 from enum import Enum
-from typing import Optional, Union
+from typing import Optional, Union, TYPE_CHECKING
 
-from django.conf import settings
+from app.models import User
+
+if TYPE_CHECKING:
+    from app.models import ProviderContact
+    from client.models import ClientContact
 
 logger = logging.getLogger(__file__)
 
@@ -13,17 +17,22 @@ class Role(Enum):
 
 
 class UserRole:
-    def __init__(self, user: settings.AUTH_USER_MODEL):
+    def __init__(self, user: User):
         from client.models import ClientContact
         from app.models import ProviderContact
 
+        self.user = user
         try:
-            self.client_contact = ClientContact.objects.get(user_uuid=user.uuid)
+            self.client_contact: Optional[ClientContact] = ClientContact.objects.get(
+                user_uuid=user.uuid
+            )
         except ClientContact.DoesNotExist:
             self.client_contact = None
 
         try:
-            self.provider_contact = ProviderContact.objects.get(user=user)
+            self.provider_contact: Optional[
+                ProviderContact
+            ] = ProviderContact.objects.get(user=user)
         except ProviderContact.DoesNotExist:
             self.provider_contact = None
 
@@ -37,7 +46,7 @@ class UserRole:
             )
 
     @property
-    def role(self) -> Role:
+    def role(self) -> Optional[Role]:
         self._validate()
         if self.client_contact:
             return Role.CLIENT_CONTACT

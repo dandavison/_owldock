@@ -1,10 +1,9 @@
 import logging
 from typing import Callable, List
 
-from django.conf import settings
 from django.core.files.uploadedfile import UploadedFile
 from django.db import models
-from django.db.models import deletion, Model, QuerySet
+from django.db.models import deletion, QuerySet
 from django.db.transaction import atomic
 from django.urls import reverse
 from django.utils import timezone
@@ -57,7 +56,7 @@ ACTIONS = {
 }
 
 
-def permission_checker(action: str) -> Callable[[Model, User], bool]:
+def permission_checker(action: str) -> Callable[["CaseStep", User], bool]:
     """
     Return a django-fsm permission-checker function.
 
@@ -75,10 +74,10 @@ def permission_checker(action: str) -> Callable[[Model, User], bool]:
         if role not in roles:
             return False
         if role == Role.CLIENT_CONTACT:
-            return instance.case.client_contact.user == user
+            return instance.case.client_contact.user == user  # type: ignore
         elif role == Role.PROVIDER_CONTACT:
             contract = instance.active_contract
-            return contract and contract.provider_contact.user == user
+            return bool(contract) and contract.provider_contact.user == user  # type: ignore
         else:
             raise AssertionError(f"Invalid role: {role}")
 
@@ -92,11 +91,16 @@ class CaseStep(BaseModel):
     # they no longer exactly match any abstract process's steps.
     case = models.ForeignKey(Case, on_delete=deletion.CASCADE)
     process_step_uuid = UUIDPseudoForeignKeyField(ProcessStep)
+    process_step: ProcessStep
     sequence_number = models.PositiveIntegerField()
     active_contract = models.OneToOneField(
         "CaseStepContract", null=True, on_delete=deletion.SET_NULL
     )
     state_name = FSMField(default=State.FREE.name, protected=True)
+
+    # Added by django-fsm
+    get_available_state_name_transitions: Callable
+    get_available_user_state_name_transitions: Callable
 
     @property
     def state(self) -> State:
@@ -106,9 +110,10 @@ class CaseStep(BaseModel):
         return bool(self.active_contract)
 
     def has_blank_active_contract(self) -> bool:
+        if not self.active_contract:
+            return False
         return (
-            bool(self.active_contract)
-            and self.active_contract.accepted_at is None
+            self.active_contract.accepted_at is None
             and self.active_contract.rejected_at is None
         )
 
@@ -162,6 +167,7 @@ class CaseStep(BaseModel):
         permission=permission_checker("provider_contact_accept_case_step"),
     )
     def accept(self) -> None:
+        assert self.active_contract, "source state implies active contract exists"
         self.active_contract.accepted_at = timezone.now()
         self.active_contract.save()
 
@@ -192,6 +198,7 @@ class CaseStep(BaseModel):
     def reject(self) -> None:
         with atomic():
             active_contract = self.active_contract
+            assert active_contract, "source states imply that active contract exists"
             active_contract.rejected_at = timezone.now()
             active_contract.save()
             self.active_contract = None
@@ -233,7 +240,7 @@ class CaseStep(BaseModel):
     def add_uploaded_files(
         self,
         uploaded_files: List[UploadedFile],
-        user: settings.AUTH_USER_MODEL,
+        user: User,
         role: Role,
     ) -> None:
         assert get_role(user) == role, "Supplied user doesn't match supplied role"
@@ -265,6 +272,7 @@ class CaseStep(BaseModel):
 class CaseStepContract(BaseModel):
     case_step = models.ForeignKey(CaseStep, on_delete=deletion.CASCADE)
     provider_contact_uuid = UUIDPseudoForeignKeyField(ProviderContact)
+    provider_contact: ProviderContact
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)
 

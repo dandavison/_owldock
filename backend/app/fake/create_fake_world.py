@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from typing import Optional, Tuple
+from typing import Optional, Tuple, TYPE_CHECKING
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -28,6 +28,9 @@ from client.models import (
     ApplicantNationality,
 )
 from owldock.utils import strip_prefix
+
+if TYPE_CHECKING:
+    from app.models import User
 
 
 def create_fake_world():
@@ -171,7 +174,7 @@ class _FakeWorldCreator:
         last_name: str,
         email: str,
         group: Optional[Group] = None,
-    ) -> settings.AUTH_USER_MODEL:
+    ) -> User:
         user = get_user_model().objects.create_user(
             username=email,
             email=email,
@@ -220,5 +223,5 @@ class _FakeWorldCreator:
 def _make_email(name: str, domain_name: str) -> str:
     domain_name = strip_prefix(domain_name, "www.")
     domain_name = strip_prefix(domain_name, "www2.")
-    company = domain_name.split(".")[0].translate({" ": "-", ",": "-"})
+    company = domain_name.split(".")[0].translate({" ": "-", ",": "-"})  # type: ignore
     return f"{name}-{company}@example.com".lower()

@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import List, TYPE_CHECKING
 from uuid import UUID
 
 from django.conf import settings
@@ -12,6 +12,9 @@ from django.utils import timezone
 from app.models.process import Route
 from owldock.models.base import BaseModel
 from owldock.state_machine.role import Role
+
+if TYPE_CHECKING:
+    from client.models import Applicant, Case, CaseStep, CaseStepContract
 
 logger = logging.getLogger(__name__)
 

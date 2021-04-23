@@ -9,8 +9,8 @@ from django.test.utils import CaptureQueriesContext
 @contextmanager
 def assert_n_queries(expected: int):
     with ExitStack() as stack:
-        capturers = {
-            cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))
+        capturers = {  # type: ignore
+            cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))  # type: ignore
             for cxn in connections.all()
         }
         yield
@@ -26,8 +26,8 @@ def assert_n_queries(expected: int):
 @contextmanager
 def print_queries():
     with ExitStack() as stack:
-        capturers = {
-            cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))
+        capturers = {  # type: ignore
+            cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))  # type: ignore
             for cxn in connections.all()
         }
         yield

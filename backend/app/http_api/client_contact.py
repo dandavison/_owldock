@@ -193,7 +193,7 @@ class ProviderContactList(_ClientContactView):
         try:
             process_uuid = UUID(request.GET["process_uuid"])
         except (KeyError, ValueError, TypeError):
-            raise HttpResponseBadRequest(
+            return HttpResponseBadRequest(
                 "process_uuid key of URL parameters must be a valid UUID"
             )
         provider_contacts = (

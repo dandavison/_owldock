@@ -223,7 +223,7 @@ def _make_case_step_EARMARKED_assertions(
     assert case_step not in other_client_contact.case_steps()
 
     # There is a blank active contract
-    assert case_step.active_contract.is_blank()
+    assert case_step.active_contract and case_step.active_contract.is_blank()
 
     # No provider contact can see it
     assert case_step not in provider_contact.case_steps()
@@ -279,6 +279,7 @@ def _make_case_step_OFFERED_assertions(
     assert case_step not in other_client_contact.case_steps()
 
     # Only provider contact to whom it is offered can see it
+    assert case_step.active_contract
     assert case_step.active_contract.provider_contact == provider_contact
     assert case_step in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
@@ -337,6 +338,7 @@ def _make_case_step_IN_PROGRESS_assertions(
     assert case_step not in other_client_contact.case_steps()
 
     # Only provider contact to whom it is offered can see it
+    assert case_step.active_contract
     assert case_step.active_contract.provider_contact == provider_contact
     assert case_step in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()
@@ -403,6 +405,7 @@ def _make_case_step_COMPLETE_assertions(
     assert case_step not in other_client_contact.case_steps()
 
     # Only provider contact to whom it is offered can see it
+    assert case_step.active_contract
     assert case_step.active_contract.provider_contact == provider_contact
     assert case_step in provider_contact.case_steps()
     assert case_step not in other_provider_contact.case_steps()

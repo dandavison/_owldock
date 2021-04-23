@@ -75,9 +75,7 @@ def add_uploaded_files_to_case_step(
             uuid,
         )
         try:
-            case_step = client_or_provider_contact.cases_steps_with_read_permission.get(
-                uuid=uuid
-            )
+            case_step = client_or_provider_contact.case_steps().get(uuid=uuid)
         except CaseStep.DoesNotExist:
             return HttpResponseNotFound(f"Case step {uuid} does not exist")
         else:

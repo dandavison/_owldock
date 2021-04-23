@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 from uuid import UUID
-from typing import List
+from typing import List, TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import UploadedFile
@@ -17,6 +17,9 @@ from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 from owldock.state_machine.role import Role, UserRole
 
+if TYPE_CHECKING:
+    from app.models import User
+    from client.models import CaseStep
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +55,7 @@ class Client(BaseModel):
 class ClientProviderRelationship(BaseModel):
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
     provider_uuid = UUIDPseudoForeignKeyField(Provider)
+    provider: Provider
     preferred = models.BooleanField(default=False)
 
     class Meta:
@@ -61,6 +65,8 @@ class ClientProviderRelationship(BaseModel):
 
 class ClientContact(BaseModel):
     user_uuid = UUIDPseudoForeignKeyField(get_user_model())
+    user: "User"
+
     client = models.ForeignKey(Client, on_delete=deletion.CASCADE)
 
     role = Role.CLIENT_CONTACT
@@ -139,8 +145,11 @@ class ClientContact(BaseModel):
 
 class Applicant(BaseModel):
     user_uuid = UUIDPseudoForeignKeyField(get_user_model())
+    user: "User"
+
     employer = models.ForeignKey(Client, on_delete=deletion.CASCADE)
     home_country_uuid = UUIDPseudoForeignKeyField(Country)
+    home_country: Country
 
     class Meta:
         constraints = [
@@ -163,6 +172,7 @@ class Applicant(BaseModel):
 class ApplicantNationality(BaseModel):
     applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
     country_uuid = UUIDPseudoForeignKeyField(Country)
+    country: Country
 
     class Meta:
         constraints = [
@@ -176,17 +186,18 @@ class ApplicantNationality(BaseModel):
 class Case(BaseModel):
     # TODO: created_by (ClientContact or User?)
 
-    # A case is initiated by a client_contact and it will usually stay non-null.
-    # It may become null if a ClientContact ceases to be employed by a Client.
-    client_contact = models.ForeignKey(
-        ClientContact, null=True, on_delete=deletion.SET_NULL
-    )
+    # A case is initiated by a client_contact. If the client contact ceases to
+    # be responsible for the case, then they must be replaced with another (in a
+    # single transaction, to avoid violating non-nullability of the foreign
+    # key).
+    client_contact = models.ForeignKey(ClientContact, on_delete=deletion.PROTECT)
     # A case is always associated with an applicant.
     applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
 
     # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.
     process_uuid = UUIDPseudoForeignKeyField(Process)
+    process: Process
 
     # Case data
     target_entry_date = models.DateField()
