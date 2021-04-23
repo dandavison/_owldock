@@ -1,5 +1,6 @@
 <template>
   <section class="section">
+    <p class="m-4 is-size-2">Case</p>
     <case :case_="case_" v-if="case_"></case>
   </section>
 </template>
