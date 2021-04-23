@@ -53,6 +53,7 @@ from client.models.case_step import (
     CaseStep,
     CaseStepContract,
 )
+from owldock.state_machine.role import UserRole
 
 
 @ts_interface()
@@ -230,6 +231,13 @@ class CaseStepSerializer(ModelSerializer):
             "stored_files",
         ]
         ordering = ["sequence_number"]
+
+    def get_queryset(self) -> QuerySet[CaseStep]:
+        role = UserRole(self.context["request"].user)
+        assert (
+            role.client_or_provider_contact
+        ), "User is neither client nor provider contact"
+        return role.client_or_provider_contact.case_steps()
 
 
 @ts_interface()
