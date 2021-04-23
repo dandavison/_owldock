@@ -232,13 +232,6 @@ class CaseStepSerializer(ModelSerializer):
         ]
         ordering = ["sequence_number"]
 
-    def get_queryset(self) -> QuerySet[CaseStep]:
-        role = UserRole(self.context["request"].user)
-        assert (
-            role.client_or_provider_contact
-        ), "User is neither client nor provider contact"
-        return role.client_or_provider_contact.case_steps()
-
 
 @ts_interface()
 class CaseSerializer(ModelSerializer):

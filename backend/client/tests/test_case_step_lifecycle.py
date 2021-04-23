@@ -22,7 +22,7 @@ def test_case_step_lifecycle(
     case = fake_create_case_and_earmark_steps(
         applicant_A, client_contact_A, process_A, provider_contact_A
     )
-    for case_step in case.steps[:2]:
+    for case_step in case.steps()[:2]:
         _make_case_step_EARMARKED_assertions(
             case_step,
             client_contact_A,

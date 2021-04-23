@@ -1,4 +1,6 @@
 import logging
+import os
+import sys
 from uuid import UUID
 from typing import List
 
@@ -7,12 +9,13 @@ from django.core.files.uploadedfile import UploadedFile
 from django.db import models
 from django.db.models import deletion
 from django.db.models.query import QuerySet
+from django_tools.middlewares.ThreadLocal import get_current_request
 
 from app.models.process import Country, Process
 from app.models.provider import Provider, ProviderContact
 from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
-from owldock.state_machine.role import Role
+from owldock.state_machine.role import Role, UserRole
 
 
 logger = logging.getLogger(__name__)
@@ -189,6 +192,24 @@ class Case(BaseModel):
     target_entry_date = models.DateField()
     target_exit_date = models.DateField()
 
-    @property
-    def steps(self) -> "QuerySet[CaseStep]":
+    def _all_steps(self) -> "QuerySet[CaseStep]":
         return self.casestep_set.order_by("sequence_number")
+
+    def steps(self) -> "QuerySet[CaseStep]":
+        """
+        Return queryset of case steps that should be visible to the user
+        responsible for the current HTTP request.
+        """
+        # TODO: This HTTP logic shouldn't be here; can get_queryset be used on a
+        # ModelSerializer?
+        request = get_current_request()
+        if not request:
+            assert "PYTEST_CURRENT_TEST" in os.environ
+            assert "pytest" in sys.modules
+            return self._all_steps()
+        else:
+            role = UserRole(request.user)
+            assert (
+                role.client_or_provider_contact
+            ), "User is neither client nor provider contact"
+            return role.client_or_provider_contact.case_steps().filter(case=self)
