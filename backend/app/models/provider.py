@@ -75,8 +75,6 @@ class ProviderContact(BaseModel):
         """
         Case steps for which this provider contact has access permission.
 
-        We do not currently distinguish between read and write permissions.
-
         A provider contact has access to a case step if the active contract for
         the step is for the provider, and it is not merely earmarked.
         """
@@ -109,18 +107,6 @@ class ProviderContact(BaseModel):
         )
 
     @property
-    def cases_steps_with_read_permission(self) -> "QuerySet[CaseStep]":  # noqa
-        """
-        A provider contact has read permission for case step S if they have an
-        active contract for any step in the case to which S belongs.
-        """
-        from client.models.case_step import CaseStep
-
-        return CaseStep.objects.filter(
-            case__casestep__active_contract__provider_contact_uuid=self.uuid
-        ).distinct()
-
-    @property
     def case_steps_with_write_permission(self) -> "QuerySet[CaseStep]":  # noqa
         """
         Provider contact P may write to CaseStep S if S belongs to a case step
@@ -131,36 +117,6 @@ class ProviderContact(BaseModel):
         return CaseStep.objects.filter(
             id__in=self._accepted_contracts().values("case_step_id")
         ).distinct()
-
-    def open_case_steps(self) -> "QuerySet[CaseStep]":  # noqa
-        """
-        Return a queryset of case steps that are open    for this provider to
-        accept.
-
-        A case step S is available to provider contact P if a case step contract
-        exists for (S, P), and that contract has been neither accepted nor
-        rejected.
-        """
-        from client.models.case_step import CaseStep
-
-        return CaseStep.objects.filter(
-            id__in=self._open_contracts().values("case_step_id")
-        ).distinct()
-
-    def assigned_case_steps(self) -> "QuerySet[Case]":  # noqa
-        """
-        Return a queryset of case steps that are assigned to this provider to
-        work on.
-
-        A case step S is assigned to provider contact P if a case step contract
-        exists for (S, P), and that case contract has been signed and not
-        rejected.
-        """
-        from client.models.case_step import CaseStep
-
-        return CaseStep.objects.filter(
-            id__in=self._accepted_contracts().values("case_step_id")
-        )
 
     @atomic
     def accept_case_step(self, case_step: "CaseStep") -> None:  # noqa
