@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from typing import Optional, Tuple, TYPE_CHECKING
+from typing import Optional, Tuple
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -19,6 +19,7 @@ from app.models import (
     Provider,
     ProviderContact,
     Service,
+    User,
 )
 from client.models import (
     Client,
@@ -28,9 +29,6 @@ from client.models import (
     ApplicantNationality,
 )
 from owldock.utils import strip_prefix
-
-if TYPE_CHECKING:
-    from app.models import User
 
 
 def create_fake_world():
