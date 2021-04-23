@@ -23,6 +23,14 @@
       </country>
     </b-table-column>
 
+    <b-table-column label="Entry Date" v-slot="props">
+      {{ props.row.target_entry_date }}
+    </b-table-column>
+
+    <b-table-column label="Exit Date" v-slot="props">
+      {{ props.row.target_exit_date }}
+    </b-table-column>
+
     <b-table-column label="Provider" v-if="showProviders" v-slot="props">
       <provider
         v-for="provider in getProviders(props.row)"
