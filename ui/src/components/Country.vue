@@ -1,5 +1,5 @@
 <template>
-  <b-tooltip :label="country.name">
+  <b-tooltip :label="country.name" type="is-info is-light">
     <img v-bind="imageProps" />
   </b-tooltip>
 </template>
