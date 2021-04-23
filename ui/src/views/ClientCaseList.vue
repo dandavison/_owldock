@@ -1,8 +1,8 @@
 <template>
-  <section class="section">
+  <div>
     <p class="m-4 is-size-2">My cases</p>
     <case-list :role="Role.ClientContact"></case-list>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">
