@@ -1,7 +1,7 @@
   <template>
   <div>
     <section class="section">
-      <case v-if="haveApplicant" :case_="case_"> </case>
+      <case v-if="haveApplicant" :case_="case_" :showClient="false"> </case>
 
       <div class="form pt-6">
         <applicant-selector
@@ -81,6 +81,7 @@ import Vue from "vue";
 
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
+import { NotificationProgrammatic as Notification } from "buefy";
 
 import {
   CountrySerializer,
@@ -224,6 +225,13 @@ export default Vue.extend({
         if (response.errors.length > 0) {
           this.validationErrors = response.errors;
         } else {
+          const message = `Success! Case created for ${this.case_.applicant.user.first_name} ${this.case_.applicant.user.last_name}.`;
+          Notification.open({
+            message,
+            type: "is-success",
+            hasIcon: true,
+            position: "is-bottom-right",
+          });
           this.case_ = NullCase();
           this.$router.push("/portal/cases/");
         }
