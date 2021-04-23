@@ -192,7 +192,7 @@ class Case(BaseModel):
     # key).
     client_contact = models.ForeignKey(ClientContact, on_delete=deletion.PROTECT)
     # A case is always associated with an applicant.
-    applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
+    applicant = models.ForeignKey(Applicant, on_delete=deletion.PROTECT)
 
     # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.
