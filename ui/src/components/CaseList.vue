@@ -2,7 +2,7 @@
   <!-- class="section" on the following div makes the table rows vertically aligned -->
   <div>
     <b-tabs>
-      <b-tab-item label="Table">
+      <b-tab-item label="All">
         <b-table
           ref="table"
           :data="rows"
