@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="card" style="overflow: visible">
-      <case-table :rows="[case_]" :showProviders="true" :paginated="false" />
+      <case-table
+        :rows="[case_]"
+        :showProviders="true"
+        :focusable="false"
+        :paginated="false"
+      />
     </div>
 
     <div class="card mt-6" style="overflow: visible">
