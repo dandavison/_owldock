@@ -1,8 +1,6 @@
 <template>
   <b-tooltip :label="country.name">
-    <figure class="image is-4x3">
-      <img v-bind="imageProps" />
-    </figure>
+    <img v-bind="imageProps" />
   </b-tooltip>
 </template>
 

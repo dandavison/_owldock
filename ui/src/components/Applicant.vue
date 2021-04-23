@@ -1,12 +1,13 @@
 <template>
   <div class="media">
     <div class="media-left">
-      <country
-        v-for="nationality of applicant.nationalities"
-        :country="nationality"
-        :key="nationality.code"
+      <figure
         class="image is-4x3"
-      />
+        v-for="nationality of applicant.nationalities"
+        :key="nationality.code"
+      >
+        <country :country="nationality" />
+      </figure>
     </div>
 
     <div class="media-content">
