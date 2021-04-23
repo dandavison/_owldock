@@ -58,3 +58,8 @@ def test_provider_contact_case_access(
     response = django_test_client.get(f"/api/provider-contact/case/{case.uuid}/")
     assert response.status_code == 200
     assert not response.json()["errors"]
+
+    # They can only see the step offered to them
+    case_data = response.json()["data"]
+    case_step_uuids = [step["uuid"] for step in case_data["steps"]]
+    assert case_step_uuids == [str(case_step.uuid)]
