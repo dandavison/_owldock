@@ -1,7 +1,6 @@
 import csv
 import logging
 import re
-import sys
 from typing import List, Tuple
 
 from django.conf import settings

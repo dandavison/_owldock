@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from typing import Optional, Set, Tuple
+from typing import Optional, Tuple
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -28,6 +28,7 @@ from client.models import (
     ApplicantNationality,
 )
 from owldock.utils import strip_prefix
+
 
 def create_fake_world():
     _FakeWorldCreator().create()

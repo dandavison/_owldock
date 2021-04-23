@@ -5,7 +5,7 @@ from app.models import Process, ProviderContact
 from client.models import Applicant, ClientContact
 
 # TODO: Move client tests and endpoints into the client module
-from client.tests.conftest import *
+from client.tests.conftest import *  # noqa
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 from owldock.tests.constants import TEST_PASSWORD
 

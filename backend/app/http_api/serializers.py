@@ -47,13 +47,11 @@ from client.models import (
     Client,
     ClientContact,
     ClientProviderRelationship,
-    State as CaseStepState,
 )
 from client.models.case_step import (
     CaseStep,
     CaseStepContract,
 )
-from owldock.state_machine.role import UserRole
 
 
 @ts_interface()

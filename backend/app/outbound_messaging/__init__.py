@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from textwrap import dedent
 from typing import List
 
 from django.core.mail import send_mail
@@ -21,19 +20,17 @@ class OfferedCaseStepsNotifier:
         to_addresses = [self.provider_contact.user.email]
         from_address = "owl@owldock.com"
         subject = "Your services have been requested"
-        content = dedent(
-            f"""
-            Dear {self.provider_contact.provider.name} team,
-            
-            {client_contact_user.first_name} {client_contact_user.last_name}
-            (case.client_contact.client.name)
-            has selected you to assist with a service!
-            
-            Please log in to accept this work and learn the details
-            
-            https://owldock.com/portal/case/{case.uuid}
-            """
-        )
+        content = f"""\
+Dear {self.provider_contact.provider.name} team,
+
+{client_contact_user.first_name} {client_contact_user.last_name}
+(case.client_contact.client.name)
+has selected you to assist with a service!
+
+Please log in to accept this work and learn the details
+
+https://owldock.com/portal/case/{case.uuid}
+"""
         send_mail(
             subject,
             content,
