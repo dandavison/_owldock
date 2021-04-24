@@ -23,7 +23,8 @@ class OfferedCaseStepsNotifier:
         content = f"""\
 Dear {self.provider_contact.provider.name} team,
 
-{client_contact_user.first_name} {client_contact_user.last_name} ({case.client_contact.client.name}) has selected you to assist with a service!
+{client_contact_user.first_name} {client_contact_user.last_name} \
+({case.client_contact.client.name}) has selected you to assist with a service!
 
 Please log in to accept this work and learn the details
 
