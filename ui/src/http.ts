@@ -34,6 +34,18 @@ export default {
     }
   },
 
+  // TODO: make vaguely elegant
+  async postFetchDataOrNull(url: string, init: any = {}): Promise<any> {
+    const httpResponse = await this.post(url, init);
+    if (httpResponse.ok) {
+      const response = await httpResponse.json();
+      showMessages(response);
+      return response.data;
+    } else {
+      return null;
+    }
+  },
+
   transformUrl(url: string): string {
     if (!/https?:\/\//.test(url)) {
       url = `${process.env.VUE_APP_SERVER_URL}${url}`;
