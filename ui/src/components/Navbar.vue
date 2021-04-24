@@ -10,7 +10,7 @@
 
       <b-navbar-item>
         <router-link to="/portal">
-          <span style="font-size: x-large">🦉</span> owldock
+          <span style="font-size: x-large">🦉</span>Owldock
         </router-link>
       </b-navbar-item>
     </template>
