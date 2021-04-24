@@ -9,13 +9,13 @@
       />
     </div>
 
-    <div class="card mt-6" style="overflow: visible">
+    <div
+      v-if="case_ && haveProcess"
+      class="card mt-6"
+      style="overflow: visible"
+    >
       <div class="card-content">
-        <process
-          v-if="case_ && haveProcess"
-          :case_="case_"
-          :showSteps="showSteps"
-        />
+        <process :case_="case_" :showSteps="showSteps" />
       </div>
     </div>
   </div>
