@@ -75,6 +75,9 @@ export default Vue.extend({
       if (!isClientContact()) {
         return false;
       }
+      if (this.caseStep.state.name == "FREE") {
+        return true;
+      }
       for (let action of this.caseStep.actions) {
         if (action.name == "client_contact_earmark_case_step") {
           return true;
