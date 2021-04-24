@@ -8,6 +8,7 @@
         {{ provider.name }}
       </p>
     </div>
+    <i v-if="editable" class="fas fa-pencil-alt"></i>
   </div>
 </template>
 
@@ -21,6 +22,10 @@ export default Vue.extend({
     showName: {
       type: Boolean,
       default: true,
+    },
+    editable: {
+      type: Boolean,
+      default: false,
     },
   },
 });

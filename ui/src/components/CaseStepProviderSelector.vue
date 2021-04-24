@@ -3,6 +3,7 @@
     <provider
       :provider="caseStep.active_contract.provider_contact.provider"
       :showName="false"
+      :editable="canChangeProviderContact"
     />
   </div>
   <provider-contact-selector
