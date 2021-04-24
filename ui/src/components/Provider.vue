@@ -8,7 +8,7 @@
         {{ provider.name }}
       </p>
     </div>
-    <i v-if="editable" class="fas fa-pencil-alt"></i>
+    <i v-if="providerEditable" class="fas fa-pencil-alt"></i>
   </div>
 </template>
 
@@ -19,13 +19,13 @@ import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {
     provider: Object as PropType<ProviderSerializer>,
+    providerEditable: {
+      type: Boolean,
+      default: false,
+    },
     showName: {
       type: Boolean,
       default: true,
-    },
-    editable: {
-      type: Boolean,
-      default: false,
     },
   },
 });

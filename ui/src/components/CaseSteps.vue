@@ -10,6 +10,7 @@
     <b-table-column label="Provider" width="420" v-slot="props">
       <case-step-provider
         :caseStep="props.row"
+        :caseStepEditable="stepsEditable"
         :process="case_.process"
         :providerContacts="providerContacts"
         @update:case-step="(caseStep) => updateRow(props.index, caseStep)"
@@ -93,6 +94,7 @@ export default Vue.extend({
   props: {
     case_: Object as PropType<CaseSerializer>,
     steps: Array as PropType<CaseStepSerializer[]>,
+    stepsEditable: Object,
   },
 
   data() {

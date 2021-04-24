@@ -2,8 +2,8 @@
   <div v-if="state === State.Displaying" @click="handleClick">
     <provider
       :provider="caseStep.active_contract.provider_contact.provider"
+      :providerEditable="caseStepEditable.provider && canChangeProviderContact"
       :showName="false"
-      :editable="canChangeProviderContact"
     />
   </div>
   <provider-contact-selector
@@ -42,6 +42,12 @@ enum State {
 export default Vue.extend({
   props: {
     caseStep: Object as PropType<CaseStepSerializer>,
+    caseStepEditable: {
+      type: Object,
+      default: function () {
+        return {};
+      },
+    },
     process: Object as PropType<ProcessSerializer>,
     providerContacts: Array as PropType<ProviderContactSerializer[]>,
   },

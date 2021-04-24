@@ -8,7 +8,12 @@
       <p class="title is-size-6">
         {{ case_.process.route.name }}
       </p>
-      <case-steps v-if="showSteps" :case_="case_" :steps="steps"></case-steps>
+      <case-steps
+        v-if="showSteps"
+        :case_="case_"
+        :steps="steps"
+        :stepsEditable="caseEditable.steps"
+      ></case-steps>
     </div>
   </div>
 </template>
@@ -23,6 +28,12 @@ import Country from "./Country.vue";
 export default Vue.extend({
   props: {
     case_: Object as PropType<CaseSerializer>,
+    caseEditable: {
+      type: Object,
+      default: function () {
+        return {};
+      },
+    },
     showSteps: { type: Boolean, default: true },
   },
 

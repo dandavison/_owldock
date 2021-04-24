@@ -1,7 +1,7 @@
   <template>
   <div>
     <section class="section">
-      <case v-if="haveApplicant" :case_="case_" :showClient="false"> </case>
+      <case :case_="case_" :caseEditable="caseEditable" :showClient="false" />
 
       <div class="form pt-6">
         <applicant-selector
@@ -117,6 +117,13 @@ export default Vue.extend({
   data() {
     return {
       case_: NullCase(),
+      caseEditable: {
+        applicant: true,
+        process: true,
+        target_entry_date: true,
+        target_exit_date: true,
+        steps: { provider: true },
+      },
       input: {
         route: "",
       },

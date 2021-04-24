@@ -12,7 +12,14 @@
     hoverable
   >
     <b-table-column label="Applicant" v-slot="props">
-      <applicant :applicant="props.row.applicant"></applicant>
+      <applicant
+        :applicant="props.row.applicant"
+        :applicantEditable="
+          casesEditable &&
+          casesEditable[props.index] &&
+          casesEditable[props.index].applicant
+        "
+      ></applicant>
     </b-table-column>
 
     <b-table-column label="Host Country" v-slot="props">
@@ -42,7 +49,12 @@
     </b-table-column>
 
     <b-table-column label="Route" v-if="showProcess" v-slot="props">
-      <process :case_="props.row" :showSteps="false"> </process>
+      <process
+        :case_="props.row"
+        :caseEditable="casesEditable && casesEditable[props.index]"
+        :showSteps="false"
+      >
+      </process>
     </b-table-column>
   </b-table>
 </template>
@@ -60,6 +72,7 @@ import { countryIsNull } from "../factories";
 export default Vue.extend({
   props: {
     rows: Array as PropType<CaseSerializer[]>,
+    casesEditable: Array,
     selected: Object,
     // TODO: focusable must always be true when using `selected`?
     focusable: Boolean,

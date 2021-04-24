@@ -36,6 +36,7 @@ export default Vue.extend({
   components: { Country },
   props: {
     applicant: Object as PropType<ApplicantSerializer>,
+    applicantEditable: Boolean,
     mailto: { type: Boolean, default: false },
   },
 });

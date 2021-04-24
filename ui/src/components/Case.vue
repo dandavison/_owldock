@@ -3,6 +3,7 @@
     <div class="card" style="overflow: visible">
       <case-table
         :rows="[case_]"
+        :casesEditable="[caseEditable]"
         :showProviders="true"
         :focusable="false"
         :paginated="false"
@@ -32,6 +33,7 @@ import { processIsNull } from "../factories";
 export default Vue.extend({
   props: {
     case_: Object as PropType<CaseSerializer>,
+    caseEditable: Object,
     showSteps: { type: Boolean, default: true },
   },
 
