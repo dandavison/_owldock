@@ -103,6 +103,7 @@ import RouteSelector from "./RouteSelector.vue";
 import http from "../http";
 import { showMessages } from "../server-messages";
 import { dateToYYYYMMDD } from "../utils";
+import eventBus from "@/event-bus";
 
 export default Vue.extend({
   components: {
@@ -138,6 +139,12 @@ export default Vue.extend({
       // copied to each of the case steps.
       defaultProviderContact: NullProviderContact() as ProviderContactSerializer,
     };
+  },
+
+  created() {
+    // TODO: This global event bus is a bit sketchy. What about if something
+    // else is changing a country for some other reason?
+    eventBus.$on("update:applicant", this.handleChangeApplicant);
   },
 
   computed: {
