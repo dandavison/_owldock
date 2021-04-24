@@ -78,6 +78,7 @@ import {
 import { processIsNull } from "@/factories";
 import { isClientContact } from "../role";
 import http from "../http";
+import eventBus from "../event-bus";
 
 export default Vue.extend({
   components: {
@@ -112,6 +113,9 @@ export default Vue.extend({
       // TODO: This is presumably mutating a prop: the table data is `steps`,
       // which is passed in as a prop.
       if (caseStep) {
+        // TODO: This should eventually be
+        // eventBus.$emit("update:case-step", caseStep)
+        eventBus.$emit("update:case");
         table.visibleData.splice(index, 1, caseStep);
       } else {
         table.visibleData.splice(index, 1);
