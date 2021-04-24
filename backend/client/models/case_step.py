@@ -102,6 +102,14 @@ class CaseStep(BaseModel):
     get_available_state_name_transitions: Callable
     get_available_user_state_name_transitions: Callable
 
+    def validate(self):
+        # TODO: Should UUIDPseudoForeignKeyField cause this to happen
+        # automatically?
+        assert (
+            self.process_step_uuid
+            and ProcessStep.objects.filter(uuid=self.process_step_uuid).exists()
+        )
+
     @property
     def state(self) -> State:
         return getattr(State, self.state_name)
@@ -275,6 +283,14 @@ class CaseStepContract(BaseModel):
     provider_contact: ProviderContact
     accepted_at = models.DateTimeField(null=True)
     rejected_at = models.DateTimeField(null=True)
+
+    def validate(self):
+        # TODO: Should UUIDPseudoForeignKeyField cause this to happen
+        # automatically?
+        assert (
+            self.provider_contact_uuid
+            and ProviderContact.objects.filter(uuid=self.provider_contact_uuid).exists()
+        )
 
     def is_blank(self) -> bool:
         return not self.accepted_at and not self.rejected_at

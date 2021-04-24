@@ -21,6 +21,13 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+    def save(self, *args, **kwargs):
+        self.validate()
+        super().save(*args, **kwargs)
+
+    def validate(self, *args, **kwargs):
+        pass
+
     @property
     def content_type(self):
         return ContentType.objects.get_for_model(self.__class__)

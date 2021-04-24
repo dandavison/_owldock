@@ -62,6 +62,14 @@ class ClientProviderRelationship(BaseModel):
         unique_together = [["client", "provider_uuid"]]
         ordering = ["-preferred"]
 
+    def validate(self):
+        # TODO: Should UUIDPseudoForeignKeyField cause this to happen
+        # automatically?
+        assert (
+            self.provider_uuid
+            and Provider.objects.filter(uuid=self.provider_uuid).exists()
+        )
+
 
 class ClientContact(BaseModel):
     user_uuid = UUIDPseudoForeignKeyField(get_user_model())
@@ -78,6 +86,14 @@ class ClientContact(BaseModel):
                 name="client_contact__user_uuid__unique_constraint",
             )
         ]
+
+    def validate(self):
+        # TODO: Should UUIDPseudoForeignKeyField cause this to happen
+        # automatically?
+        assert (
+            self.user_uuid
+            and get_user_model().objects.filter(uuid=self.user_uuid).exists()
+        )
 
     def cases(self) -> "QuerySet[Case]":
         return self.case_set.all()
@@ -158,6 +174,18 @@ class Applicant(BaseModel):
             )
         ]
 
+    def validate(self):
+        # TODO: Should UUIDPseudoForeignKeyField cause this to happen
+        # automatically?
+        assert (
+            self.user_uuid
+            and get_user_model().objects.filter(uuid=self.user_uuid).exists()
+        )
+        assert (
+            self.home_country_uuid
+            and Country.objects.filter(uuid=self.home_country_uuid).exists()
+        )
+
     @property
     def nationalities(self) -> QuerySet[Country]:
         prefetched = getattr(self, "_prefetched_nationalities", None)
@@ -182,6 +210,12 @@ class ApplicantNationality(BaseModel):
             )
         ]
 
+    def validate(self):
+        assert (
+            self.country_uuid
+            and Country.objects.filter(uuid=self.country_uuid).exists()
+        )
+
 
 class Case(BaseModel):
     # TODO: created_by (ClientContact or User?)
@@ -202,6 +236,14 @@ class Case(BaseModel):
     # Case data
     target_entry_date = models.DateField()
     target_exit_date = models.DateField()
+
+    def validate(self):
+        # TODO: Should UUIDPseudoForeignKeyField cause this to happen
+        # automatically?
+        assert (
+            self.process_uuid
+            and Process.objects.filter(uuid=self.process_uuid).exists()
+        )
 
     def _all_steps(self) -> "QuerySet[CaseStep]":
         return self.casestep_set.order_by("sequence_number")
