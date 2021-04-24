@@ -72,6 +72,7 @@ export default Vue.extend({
       );
     },
 
+    // TODO: make this a method on a CaseStep object.
     canChangeProviderContact(): boolean {
       if (!isClientContact()) {
         return false;
