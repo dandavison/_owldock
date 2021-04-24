@@ -120,6 +120,7 @@ export default Vue.extend({
       case_: NullCase(),
       caseEditable: {
         applicant: true,
+        country: true,
         process: true,
         target_entry_date: true,
         target_exit_date: true,
@@ -145,6 +146,7 @@ export default Vue.extend({
     // TODO: This global event bus is a bit sketchy. What about if something
     // else is changing a country for some other reason?
     eventBus.$on("update:applicant", this.handleChangeApplicant);
+    eventBus.$on("update:country", this.handleChangeHostCountry);
   },
 
   computed: {
