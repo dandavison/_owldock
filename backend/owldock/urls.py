@@ -28,6 +28,10 @@ urlpatterns = [
         login_required(client_contact.CreateCase.as_view()),
     ),
     path(
+        "api/client-contact/update-case/<uuid:uuid>/",
+        login_required(client_contact.UpdateCase.as_view()),
+    ),
+    path(
         "api/client-contact/case/<uuid:uuid>/",
         login_required(client_contact.CaseView.as_view()),
     ),

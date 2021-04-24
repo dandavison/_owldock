@@ -14,6 +14,7 @@ create a case, in order to look up the process.
 allow_null is supplied on some serializer fields in order for client-side
 objects without to type-check.
 """
+import logging
 from collections import defaultdict
 from operator import attrgetter
 
@@ -26,6 +27,7 @@ from django_typomatic import ts_interface
 from rest_framework.serializers import (
     CharField,
     ModelSerializer,
+    IntegerField,
     Serializer,
     UUIDField,
     URLField,
@@ -52,6 +54,9 @@ from client.models.case_step import (
     CaseStep,
     CaseStepContract,
 )
+
+
+logger = logging.getLogger(__file__)
 
 
 @ts_interface()
@@ -143,6 +148,7 @@ class ClientSerializer(ModelSerializer):
 @ts_interface()
 class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False, min_value=1)
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     employer = ClientSerializer()
@@ -151,7 +157,7 @@ class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
 
     class Meta:
         model = Applicant
-        fields = ["uuid", "user", "employer", "home_country", "nationalities"]
+        fields = ["id", "uuid", "user", "employer", "home_country", "nationalities"]
 
 
 @ts_interface()
@@ -197,6 +203,8 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
 @ts_interface()
 class CaseStepContractSerializer(ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False, min_value=1)
     # The case FK will never be null, but we have to set required=False here
     # because we sometimes validate the data before creating a
     # case-with-its-case-steps-and-contracts in one go.
@@ -206,11 +214,19 @@ class CaseStepContractSerializer(ModelSerializer):
 
     class Meta:
         model = CaseStepContract
-        fields = ["case_step_uuid", "provider_contact", "accepted_at", "rejected_at"]
+        fields = [
+            "id",
+            "case_step_uuid",
+            "provider_contact",
+            "accepted_at",
+            "rejected_at",
+        ]
 
 
 @ts_interface()
 class CaseStepSerializer(ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
@@ -220,6 +236,7 @@ class CaseStepSerializer(ModelSerializer):
     class Meta:
         model = CaseStep
         fields = [
+            "uuid",
             "actions",
             "active_contract",
             "uuid",
@@ -233,6 +250,8 @@ class CaseStepSerializer(ModelSerializer):
 
 @ts_interface()
 class CaseSerializer(ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
@@ -385,4 +404,60 @@ class CaseSerializer(ModelSerializer):
             case_step.earmark(provider_contact)
             case_step.save()
 
+        return case
+
+    @atomic
+    def update(self, instance: Case, validated_data: dict) -> Case:
+        case = instance
+        case.target_entry_date = self.validated_data["target_entry_date"]
+        case.target_exit_date = self.validated_data["target_exit_date"]
+
+        lookup_kwargs = {
+            k: v
+            for (k, v) in self.validated_data["applicant"].items()
+            if k in ["id", "uuid"]
+        }
+        assert Applicant.objects.filter(**lookup_kwargs).exists()
+        case.applicant_id = self.validated_data["applicant"]["id"]
+
+        case.process_uuid = self.validated_data["process"]["uuid"]
+
+        case_steps = list(case.steps())
+        case_steps_data = self.validated_data["steps"]
+        assert len(case_steps) == len(
+            case_steps_data
+        ), "Changing case step set is not supported"
+
+        for sequence_number, (step, step_data) in enumerate(
+            zip(case_steps, case_steps_data), 1
+        ):
+            assert (
+                step_data["sequence_number"] == step.sequence_number
+            ), "Sequence number mismatch"
+            assert (
+                step_data["sequence_number"] == sequence_number
+            ), "Sequence numbers must be consecutive increasing"
+            assert step_data["uuid"] == step.uuid, "Changing step set not supported"
+            assert step_data["process_step"]["uuid"] == step.process_step_uuid
+            assert step_data["active_contract"]["id"] == step.active_contract_id
+            if step.active_contract_id:
+                contract = step.active_contract
+                assert contract
+                contract_data = step_data["active_contract"]
+                if (
+                    contract_data["provider_contact"]["uuid"]
+                    != contract.provider_contact_uuid
+                ):
+                    logger.info(
+                        "Updating provider contact on step %s: %s -> %s",
+                        step.uuid,
+                        contract.provider_contact_uuid,
+                        contract_data["provider_contact"]["uuid"],
+                    )
+                contract.provider_contact_uuid = contract_data["provider_contact"][
+                    "uuid"
+                ]
+                contract.save()
+            step.save()
+        case.save()
         return case
