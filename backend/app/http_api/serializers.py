@@ -240,6 +240,7 @@ class CaseSerializer(ModelSerializer):
     class Meta:
         model = Case
         fields = [
+            "id",
             "uuid",
             "applicant",
             "process",

@@ -112,6 +112,7 @@ export interface CaseStepSerializer {
 }
 
 export interface CaseSerializer {
+    id?: number;
     uuid?: string;
     applicant: ApplicantSerializer;
     process: ProcessSerializer;
