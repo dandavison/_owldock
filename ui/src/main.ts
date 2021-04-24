@@ -78,14 +78,18 @@ Vue.use(Buefy, {
 });
 
 const routes = [
-  { path: "/portal", component: Portal },
-  { path: "/portal/my-data", component: AccessData },
-  { path: "/portal/new-case", component: NewCase },
-  { path: "/portal/cases", component: CaseList },
-  { path: "/portal/case/:uuid", component: Case },
-  { path: "/portal/applicants", component: ApplicantList },
-  { path: "/portal/providers", component: ClientProviderRelationshipList },
-  { path: "/portal/question", component: AskAQuestion }
+  { path: "/portal", component: Portal, name: "Portal" },
+  { path: "/portal/my-data", component: AccessData, name: "My Data" },
+  { path: "/portal/new-case", component: NewCase, name: "New Case" },
+  { path: "/portal/cases", component: CaseList, name: "My Cases" },
+  { path: "/portal/case/:uuid", component: Case, name: "Case" },
+  { path: "/portal/applicants", component: ApplicantList, name: "Applicants" },
+  {
+    path: "/portal/providers",
+    component: ClientProviderRelationshipList,
+    name: "My Providers"
+  },
+  { path: "/portal/question", component: AskAQuestion, name: "Assessment" }
 ];
 
 const router = new VueRouter({ mode: "history", routes });
