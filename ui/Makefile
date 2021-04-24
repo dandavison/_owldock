@@ -1,6 +1,5 @@
 SHELL = bash -u
 WITH_CYPRESS_DJANGO_ENV=env $$(xargs < .env.cypress-django)
-WITH_CYPRESS_NODE_ENV=env $$(xargs < .env.cypress-node)
 WITH_NODE_ENV=env $$(xargs < .env)
 WITH_SERVER_ENV=env $$(xargs < .env.server)
 
