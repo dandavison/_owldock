@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <p class="m-4 is-size-2">My cases</p>
+  <div class="section">
     <case-list :role="Role.ClientContact"></case-list>
   </div>
 </template>

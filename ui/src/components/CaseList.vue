@@ -30,6 +30,7 @@ import Case from "../components/Case.vue";
 import { processIsNull } from "../factories";
 import http from "../http";
 import CaseTable from "./CaseTable.vue";
+import eventBus from "../event-bus";
 
 export default Vue.extend({
   props: { role: String as PropType<Role> },
@@ -41,6 +42,7 @@ export default Vue.extend({
       selected: {} as CaseSerializer,
       processIsNull,
       Role,
+      routeName: this.$route.name,
     };
   },
 
@@ -51,9 +53,14 @@ export default Vue.extend({
   mounted() {
     document.addEventListener("keydown", (event) => {
       if (event.code === "ArrowRight" || event.code === "Enter") {
+        eventBus.$emit(
+          "update:route-name-override",
+          `Case ${this.selected.id || ""}`
+        );
         this.activeTab = 1;
       } else if (event.code === "ArrowLeft") {
         this.activeTab = 0;
+        eventBus.$emit("update:route-name-override", null);
         this.$nextTick(() => this.$el.querySelector("table")?.focus());
       }
     });

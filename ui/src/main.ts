@@ -9,6 +9,7 @@ import "../node_modules/@fortawesome/fontawesome-free/js/all.js";
 
 import App from "./App.vue";
 import { getRole, Role } from "./role";
+import eventBus from "./event-bus";
 
 import "./dev-mode";
 
@@ -93,6 +94,10 @@ const routes = [
 ];
 
 const router = new VueRouter({ mode: "history", routes });
+
+router.afterEach(() => {
+  eventBus.$emit("update:route-name-override", null);
+});
 
 new Vue({
   router,
