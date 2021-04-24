@@ -8,7 +8,7 @@
     </b-table-column>
 
     <b-table-column label="Provider" width="420" v-slot="props">
-      <case-step-provider-selector
+      <case-step-provider
         :caseStep="props.row"
         :process="case_.process"
         :providerContacts="providerContacts"
@@ -66,7 +66,7 @@ type BTableInstance = InstanceType<typeof BTable>;
 import ActionButton from "./ActionButton.vue";
 import CaseStepFileUploadArea from "./CaseStepFileUploadArea.vue";
 import Provider from "../components/Provider.vue";
-import CaseStepProviderSelector from "./CaseStepProviderSelector.vue";
+import CaseStepProvider from "./CaseStepProvider.vue";
 import ProviderContact from "../components/ProviderContact.vue";
 import ProviderContactSelector from "../components/ProviderContactSelector.vue";
 import {
@@ -83,7 +83,7 @@ export default Vue.extend({
   components: {
     ActionButton,
     CaseStepFileUploadArea,
-    CaseStepProviderSelector,
+    CaseStepProvider,
     Provider,
     ProviderContact,
     ProviderContactSelector,
