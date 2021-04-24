@@ -39,3 +39,15 @@ The downside of this mode is that, if you edit the javascript or css, you must r
 
 1. In one terminal: `cd ui && make build`
 2. In another terminal: `cd backend && make serve`
+
+# Running the Cypress tests
+
+Install [Cypress](https://www.cypress.io/).
+
+1. Ensure that `dev-mode.ts` is not imported in `ui/src/main.ts`
+2. Set `UI_DEV_MODE = False` in `owldock/settings/dev.py`
+3. `cd ui && make build`
+4. `cd backend && make serve`
+5. `cd ui && make test-live`. The Cypress app will launch.
+
+The UI dev mode node.js server does not need to be running; just Django.
