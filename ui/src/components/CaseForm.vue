@@ -4,51 +4,6 @@
       <case :case_="case_" :caseEditable="caseEditable" :showClient="false" />
 
       <div class="form pt-6">
-        <applicant-selector
-          label="Applicant"
-          @change:applicant="handleChangeApplicant"
-          class="applicant-selector"
-        >
-        </applicant-selector>
-
-        <country-selector
-          label="Host country"
-          @change:country="handleChangeHostCountry"
-          class="country-selector"
-        >
-        </country-selector>
-
-        <b-field label="Target dates" class="date-range-selector">
-          <b-datepicker
-            :range="true"
-            :mobile-native="false"
-            @input="handleInputDateRange"
-          >
-          </b-datepicker>
-        </b-field>
-
-        <fieldset :disabled="processes.length === 0">
-          <route-selector
-            label="Route"
-            :processes="processes"
-            @change:process="handleChangeProcess"
-            class="route-selector"
-          >
-          </route-selector>
-        </fieldset>
-
-        <fieldset :disabled="!haveProcess">
-          <provider-contact-selector
-            label="Provider"
-            :giveAppearanceOfSelectingProvider="true"
-            :process="case_.process"
-            :initialProviderContacts="[]"
-            @select:provider-contact="handleSelectProviderContact"
-            class="provider-contact-selector"
-          >
-          </provider-contact-selector>
-        </fieldset>
-
         <fieldset>
           <div class="field is-grouped pt-4">
             <div class="control">
@@ -96,10 +51,6 @@ import {
   processIsNull,
   NullProviderContact,
 } from "@/factories";
-import CountrySelector from "./CountrySelector.vue";
-import ApplicantSelector from "./ApplicantSelector.vue";
-import ProviderContactSelector from "./ProviderContactSelector.vue";
-import RouteSelector from "./RouteSelector.vue";
 import http from "../http";
 import { showMessages } from "../server-messages";
 import { dateToYYYYMMDD } from "../utils";
@@ -108,10 +59,6 @@ import eventBus from "@/event-bus";
 export default Vue.extend({
   components: {
     Case,
-    CountrySelector,
-    ApplicantSelector,
-    ProviderContactSelector,
-    RouteSelector,
     VueJsonPretty,
   },
 
