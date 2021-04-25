@@ -45,6 +45,15 @@
       {{ props.row.target_exit_date }}
     </b-table-column>
 
+    <b-table-column label="Route" v-if="showProcess" v-slot="props">
+      <process
+        :case_="props.row"
+        :caseEditable="casesEditable && casesEditable[props.index]"
+        :showSteps="false"
+      >
+      </process>
+    </b-table-column>
+
     <b-table-column label="Provider" v-if="showProviders" v-slot="props">
       <editable-provider
         :providers="getProviders(props.row)"
@@ -55,15 +64,6 @@
           casesEditable[props.index].provider
         "
       />
-    </b-table-column>
-
-    <b-table-column label="Route" v-if="showProcess" v-slot="props">
-      <process
-        :case_="props.row"
-        :caseEditable="casesEditable && casesEditable[props.index]"
-        :showSteps="false"
-      >
-      </process>
     </b-table-column>
   </b-table>
 </template>
@@ -94,7 +94,7 @@ export default Vue.extend({
     },
     showProcess: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   components: { EditableCountry, EditableApplicant, EditableProvider, Process },
