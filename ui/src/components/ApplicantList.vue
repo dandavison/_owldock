@@ -69,7 +69,7 @@ export default Vue.extend({
           var url = `${process.env.VUE_APP_SERVER_URL}/api/client-contact/list-applicants/`;
           break;
         case Role.ProviderContact:
-          var url = `${process.env.VUE_APP_SERVER_URL}/api/provider-contact/list-applicants/`;
+          url = `${process.env.VUE_APP_SERVER_URL}/api/provider-contact/list-applicants/`;
           break;
         case Role.Invalid:
           return;

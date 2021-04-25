@@ -30,9 +30,11 @@ export default Vue.extend({
     // TODO: clean way to disable UI Dev mode
     const isUiDevMode = true;
     if (isUiDevMode) {
+      /* eslint-disable @typescript-eslint/no-var-requires */
       uploadUrl = require("../dev-mode").devModeUrl(
         `${process.env.VUE_APP_SERVER_URL}${uploadUrl}`
       );
+      /* eslint-enable @typescript-eslint/no-var-requires */
     }
     return {
       showDetail: false,

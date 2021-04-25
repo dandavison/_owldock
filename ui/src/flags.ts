@@ -37,11 +37,7 @@ function makeDimensionStringSeries(
 }
 
 function makeFlagImgDimensions(): { width: number; height: number } {
-  if (isMobile) {
-    var width = 24;
-  } else {
-    var width = 32;
-  }
+  const width = isMobile ? 24 : 32;
   const height = (width * 3) / 4;
   return { width, height };
 }

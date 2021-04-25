@@ -41,7 +41,7 @@ export default Vue.extend({
 
   computed: {
     steps() {
-      return this.case_.steps.sort(
+      return [...this.case_.steps].sort(
         (s, t) => s.sequence_number - t.sequence_number
       );
     },

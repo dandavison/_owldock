@@ -1,7 +1,7 @@
 import { NotificationProgrammatic as Notification } from "buefy";
 
 interface JsonResponse {
-  data: object | object[];
+  data: Record<string, unknown> | Record<string, unknown>[];
   messages: string[];
   errors: string[];
 }

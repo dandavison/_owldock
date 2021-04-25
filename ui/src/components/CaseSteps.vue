@@ -66,10 +66,8 @@ type BTableInstance = InstanceType<typeof BTable>;
 
 import ActionButton from "./ActionButton.vue";
 import CaseStepFileUploadArea from "./CaseStepFileUploadArea.vue";
-import Provider from "../components/Provider.vue";
 import CaseStepProvider from "./CaseStepProvider.vue";
 import ProviderContact from "../components/ProviderContact.vue";
-import ProviderContactSelector from "../components/ProviderContactSelector.vue";
 import {
   CaseSerializer,
   CaseStepSerializer,
@@ -86,9 +84,7 @@ export default Vue.extend({
     ActionButton,
     CaseStepFileUploadArea,
     CaseStepProvider,
-    Provider,
     ProviderContact,
-    ProviderContactSelector,
   },
 
   props: {

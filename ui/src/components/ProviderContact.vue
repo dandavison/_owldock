@@ -4,20 +4,20 @@
     <figure :class="`image is-${makeFlagImgDimensionString()}`"></figure>
 
     <div class="media-content">
-      <div v-if="isMe"> Me </div>
+      <div v-if="isMe">Me</div>
       <div v-else>
         <p class="title is-size-6">
           {{ provider_contact.user.first_name }}
           {{ provider_contact.user.last_name }}
         </p>
         <p class="subtitle is-size-6">
-          <div v-if="mailto" >
+          <span v-if="mailto">
             <a :href="`mailto:${provider_contact.user.email}`" target="#">
               {{ provider_contact.user.email }}
             </a>
-          </div>
-          <div v-else>{{ provider_contact.user.email }}</div>
-         </p>
+          </span>
+          <span v-else>{{ provider_contact.user.email }}</span>
+        </p>
       </div>
     </div>
   </div>

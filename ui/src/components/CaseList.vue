@@ -74,7 +74,7 @@ export default Vue.extend({
           var url = "/api/client-contact/list-cases/";
           break;
         case Role.ProviderContact:
-          var url = "/api/provider-contact/list-cases/";
+          url = "/api/provider-contact/list-cases/";
           break;
         case Role.Invalid:
           return;

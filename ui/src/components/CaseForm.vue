@@ -79,7 +79,7 @@ export default Vue.extend({
       // All processes matching country, applicant nationalities & home country, dates
       processes: [] as ProcessSerializer[],
       // Subset of those processes matching selected route
-      validationErrors: null as object | null,
+      validationErrors: null as Record<string, string[]> | null,
       // Provider contacts are linked indendently to each case step; the case
       // itself does not have a provider contact. However, the form gives the
       // appearance to the user that they are selecting a single provider
