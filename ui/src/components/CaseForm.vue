@@ -68,10 +68,9 @@ export default Vue.extend({
       caseEditable: {
         applicant: true,
         country: true,
+        dateRange: true,
         provider: true,
         route: true,
-        target_entry_date: true,
-        target_exit_date: true,
         steps: { provider: true },
       },
       input: {
