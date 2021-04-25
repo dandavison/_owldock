@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div>
     <section class="section">
       <case :case_="case_" :caseEditable="caseEditable" :showClient="false" />
@@ -206,5 +206,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-

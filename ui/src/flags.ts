@@ -32,7 +32,7 @@ function makeDimensionStringSeries(
   return {
     "1x": makeDimensionString(width, height, 1),
     "2x": makeDimensionString(width, height, 2),
-    "3x": makeDimensionString(width, height, 3)
+    "3x": makeDimensionString(width, height, 3),
   };
 }
 
@@ -42,7 +42,7 @@ function makeFlagImgDimensions(): { width: number; height: number } {
   } else {
     var width = 32;
   }
-  var height = (width * 3) / 4;
+  const height = (width * 3) / 4;
   return { width, height };
 }
 
@@ -63,7 +63,7 @@ function makeWavingFlagImgProps(country: CountrySerializer): ImgProps {
                   `,
     width: `${width}`,
     height: `${height}`,
-    alt: country.name
+    alt: country.name,
   };
 }
 

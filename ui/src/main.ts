@@ -75,7 +75,7 @@ const NewCase = () => import("./views/NewCase.vue");
 Vue.config.productionTip = false;
 Vue.use(Buefy, {
   defaultIconPack: "fas",
-  defaultContainerElement: "#content"
+  defaultContainerElement: "#content",
 });
 
 const routes = [
@@ -88,9 +88,9 @@ const routes = [
   {
     path: "/portal/providers",
     component: ClientProviderRelationshipList,
-    name: "My Providers"
+    name: "My Providers",
   },
-  { path: "/portal/question", component: AskAQuestion, name: "Assessment" }
+  { path: "/portal/question", component: AskAQuestion, name: "Assessment" },
 ];
 
 const router = new VueRouter({ mode: "history", routes });
@@ -101,5 +101,5 @@ router.afterEach(() => {
 
 new Vue({
   router,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

@@ -4,7 +4,7 @@ export enum Role {
   // Hack: these string values are used to construct URLs
   ClientContact = "client-contact",
   ProviderContact = "provider-contact",
-  Invalid = "INVALID"
+  Invalid = "INVALID",
 }
 
 export function getRole(): Role {

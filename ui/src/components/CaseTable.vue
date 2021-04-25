@@ -1,5 +1,5 @@
-// A table that can be used to display a list of cases, or a single case as a
-// header for a case detail view.
+// A table that can be used to display a list of cases, or a single case as a //
+header for a case detail view.
 <template>
   <b-table
     ref="table"

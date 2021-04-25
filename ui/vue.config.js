@@ -4,11 +4,11 @@ module.exports = {
       locale: "en",
       fallbackLocale: "en",
       localeDir: "locales",
-      enableInSFC: true
-    }
+      enableInSFC: true,
+    },
   },
   publicPath: "/static",
   devServer: {
-    disableHostCheck: true
-  }
+    disableHostCheck: true,
+  },
 };

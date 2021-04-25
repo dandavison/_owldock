@@ -9,7 +9,7 @@ export default {
 
   post(url: string, init: any = {}): Promise<Response> {
     const headers = {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     } as any;
     const csrf_token = Cookies.get("csrftoken");
     if (csrf_token) {
@@ -51,5 +51,5 @@ export default {
       url = `${process.env.VUE_APP_SERVER_URL}${url}`;
     }
     return url;
-  }
+  },
 };
