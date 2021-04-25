@@ -8,7 +8,7 @@
     </b-table-column>
 
     <b-table-column label="Provider" width="420" v-slot="props">
-      <case-step-provider
+      <editable-case-step-provider
         :caseStep="props.row"
         :caseStepEditable="stepsEditable"
         :process="case_.process"
@@ -66,7 +66,7 @@ type BTableInstance = InstanceType<typeof BTable>;
 
 import ActionButton from "./ActionButton.vue";
 import CaseStepFileUploadArea from "./CaseStepFileUploadArea.vue";
-import CaseStepProvider from "./CaseStepProvider.vue";
+import EditableCaseStepProvider from "./EditableCaseStepProvider.vue";
 import ProviderContact from "../components/ProviderContact.vue";
 import {
   CaseSerializer,
@@ -83,7 +83,7 @@ export default Vue.extend({
   components: {
     ActionButton,
     CaseStepFileUploadArea,
-    CaseStepProvider,
+    EditableCaseStepProvider,
     ProviderContact,
   },
 
