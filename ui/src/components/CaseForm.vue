@@ -127,7 +127,7 @@ export default Vue.extend({
         return;
       }
       this.case_.process.route.host_country = country;
-      if (this.case_.applicant.nationalities) {
+      if (this.case_.applicant.nationalities.length > 0) {
         const nationalityCodes = this.case_.applicant.nationalities.map(
           (country) => country.code
         );
