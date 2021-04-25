@@ -11,8 +11,7 @@
       <editable-case-step-provider
         :caseStep="props.row"
         :caseStepEditable="stepsEditable"
-        :process="case_.process"
-        :providerContacts="providerContacts"
+        :candidateProviderContacts="candidateProviderContacts"
         @update:case-step="(caseStep) => updateRow(props.index, caseStep)"
       />
     </b-table-column>
@@ -95,17 +94,34 @@ export default Vue.extend({
 
   data() {
     return {
-      providerContacts: [] as ProviderContactSerializer[],
+      candidateProviderContacts: [] as ProviderContactSerializer[],
     };
   },
 
-  created() {
-    if (isClientContact() && !processIsNull(this.case_.process)) {
-      this.fetchProviderContacts(this.case_.process);
+  async created() {
+    const process = this.case_.process;
+    if (isClientContact() && !processIsNull(process)) {
+      this.fetchProviderContacts(process);
     }
   },
 
+  watch: {
+    process: function (value: ProcessSerializer): void {
+      this.fetchProviderContacts(value);
+    },
+  },
+
   methods: {
+    // TODO: duplicated in EditableProvider.vue
+    async fetchProviderContacts(process_: ProcessSerializer) {
+      if (!process_.uuid) {
+        // TODO: why?
+        return;
+      }
+      const url = `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`;
+      this.candidateProviderContacts = (await http.fetchDataOrNull(url)) || [];
+    },
+
     updateRow(index: number, caseStep: CaseStepSerializer | null) {
       const table = this.$refs.table as BTableInstance;
       // TODO: This is presumably mutating a prop: the table data is `steps`,
@@ -118,18 +134,6 @@ export default Vue.extend({
       } else {
         table.visibleData.splice(index, 1);
       }
-    },
-
-    // TODO: duplicated in ProviderContactSelector.vue
-    async fetchProviderContacts(process_: ProcessSerializer) {
-      if (!process_.uuid) {
-        // TODO: why?
-        return;
-      }
-      this.providerContacts =
-        (await http.fetchDataOrNull(
-          `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`
-        )) || [];
     },
   },
 });

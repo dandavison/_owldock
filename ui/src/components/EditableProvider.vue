@@ -98,7 +98,7 @@ export default Vue.extend({
 
     // TODO: make this a method
     canUpdateProvider(): boolean {
-      return isClientContact();
+      return isClientContact() && this.providerEditable;
     },
   },
 
@@ -109,6 +109,7 @@ export default Vue.extend({
   },
 
   methods: {
+    // TODO: duplicated in CaseSteps.vue
     async fetchProviderContacts(process_: ProcessSerializer) {
       if (!process_.uuid) {
         // TODO: why?
