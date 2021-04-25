@@ -3,6 +3,7 @@
     <p class="control" style="width: 100%">
       <b-field :label="label">
         <b-autocomplete
+          ref="autocomplete"
           v-model="input"
           :data="filteredProcessCandidatesForRouteSelection"
           field="route.name"
@@ -26,7 +27,10 @@ import { inputMatchesString } from "../utils";
 import { dismissMobileKeyboardOnDropdownScroll } from "../componentUtils";
 
 export default Vue.extend({
-  props: { label: String, processes: Array as PropType<ProcessSerializer[]> },
+  props: {
+    candidateProcesses: Array as PropType<ProcessSerializer[]>,
+    label: String,
+  },
 
   data() {
     return {
@@ -44,7 +48,7 @@ export default Vue.extend({
     filteredProcessCandidatesForRouteSelection(): ProcessSerializer[] {
       const processes = [];
       const seen = new Set();
-      for (let process of this.processes) {
+      for (let process of this.candidateProcesses) {
         let name = process.route.name;
         if (inputMatchesString(this.input, name)) {
           if (!seen.has(name)) {
@@ -59,12 +63,14 @@ export default Vue.extend({
 
   methods: {
     handleSelectProcessForRouteSelection(process: ProcessSerializer): void {
+      // TODO: why is this complicated? Why can we not just emit the `process`
+      // received as argument?
       if (!process) {
         // FIXME: why
         console.log("ERROR: process is", JSON.stringify(process));
         return;
       }
-      const processes = this.processes.filter(
+      const processes = this.candidateProcesses.filter(
         (p) => p.route.name === process.route.name
       );
       if (processes[0]) {

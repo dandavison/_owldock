@@ -122,7 +122,7 @@ export default Vue.extend({
         applicant: true,
         country: true,
         provider: true,
-        process: true,
+        route: true,
         target_entry_date: true,
         target_exit_date: true,
         steps: { provider: true },
@@ -149,6 +149,7 @@ export default Vue.extend({
     eventBus.$on("update:applicant", this.handleChangeApplicant);
     eventBus.$on("update:country", this.handleChangeHostCountry);
     eventBus.$on("update:provider-contact", this.handleSelectProviderContact);
+    eventBus.$on("update:process", this.handleChangeProcess);
   },
 
   computed: {
@@ -190,6 +191,7 @@ export default Vue.extend({
               country.code
             }&nationalities=${nationalityCodes.join(",")}`
           )) || [];
+        eventBus.$emit("update:candidate-processes", this.processes);
       }
     },
 
