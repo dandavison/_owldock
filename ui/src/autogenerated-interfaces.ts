@@ -62,6 +62,7 @@ export interface ClientSerializer {
 }
 
 export interface ApplicantSerializer {
+    id?: number;
     uuid?: string;
     user: UserSerializer;
     employer: ClientSerializer;
@@ -95,6 +96,7 @@ export interface ProviderContactSerializer {
 }
 
 export interface CaseStepContractSerializer {
+    id?: number;
     case_step_uuid?: string;
     provider_contact: ProviderContactSerializer;
     accepted_at?: string;
@@ -102,9 +104,9 @@ export interface CaseStepContractSerializer {
 }
 
 export interface CaseStepSerializer {
+    uuid?: string;
     actions: ActionSerializer[];
     active_contract: CaseStepContractSerializer;
-    uuid?: string;
     process_step: ProcessStepSerializer;
     sequence_number: number;
     state: EnumSerializer;
