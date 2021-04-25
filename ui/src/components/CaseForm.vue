@@ -121,6 +121,7 @@ export default Vue.extend({
       caseEditable: {
         applicant: true,
         country: true,
+        provider: true,
         process: true,
         target_entry_date: true,
         target_exit_date: true,
@@ -147,6 +148,7 @@ export default Vue.extend({
     // else is changing a country for some other reason?
     eventBus.$on("update:applicant", this.handleChangeApplicant);
     eventBus.$on("update:country", this.handleChangeHostCountry);
+    eventBus.$on("update:provider-contact", this.handleSelectProviderContact);
   },
 
   computed: {
