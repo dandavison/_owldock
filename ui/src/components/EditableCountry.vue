@@ -1,12 +1,13 @@
 <template>
   <country-selector
+    v-if="canUpdateCountry && state === State.Selecting"
     ref="countrySelector"
-    v-if="countryEditable && state === State.Selecting"
     :candidateCountries="candidateCountries"
-    @change:country="handleUpdateCountry"
+    @select:country="handleSelect"
+    @blur="handleSelectorBlur"
     class="country-selector"
   />
-  <div v-else @click="handleClick">
+  <div v-else @click="handleDisplayerClick">
     <country :country="country" :countryEditable="countryEditable" />
   </div>
 </template>
@@ -51,9 +52,7 @@ export default Vue.extend({
   },
 
   async created() {
-    if (this.hasCountry) {
-      this.state = State.Displaying;
-    }
+    this.state = this.hasCountry ? State.Displaying : State.Selecting;
     this.candidateCountries =
       (await http.fetchDataOrNull("/api/countries/")) || [];
   },
@@ -65,12 +64,12 @@ export default Vue.extend({
 
     // TODO: make this a method
     canUpdateCountry(): boolean {
-      return isClientContact();
+      return isClientContact() && this.countryEditable;
     },
   },
 
   methods: {
-    handleUpdateCountry(country: CountrySerializer) {
+    handleSelect(country: CountrySerializer) {
       if (!country) {
         // FIXME: why
         console.log("ERROR: country is", JSON.stringify(country));
@@ -80,23 +79,30 @@ export default Vue.extend({
       this.state = State.Displaying;
     },
 
-    handleClick() {
-      if (this.state === State.Displaying) {
-        if (this.canUpdateCountry) {
-          this.state = State.Selecting;
-          this.$nextTick(() => {
-            const countrySelector = this.$refs
-              .countrySelector as CountrySelectorType;
-            const autocomplete: BAutocompleteType =
-              countrySelector.$refs.autocomplete;
-            const input: HTMLElement = autocomplete.$refs.input.$refs.input;
-            input.focus();
-          });
-        }
+    handleDisplayerClick() {
+      if (this.canUpdateCountry) {
+        this.state = State.Selecting;
+        this.$nextTick(() => {
+          const countrySelector = this.$refs
+            .countrySelector as CountrySelectorType;
+          const autocomplete: BAutocompleteType =
+            countrySelector.$refs.autocomplete;
+          const input: HTMLElement = autocomplete.$refs.input.$refs.input;
+          input.focus();
+        });
       }
+    },
+
+    handleSelectorBlur(): void {
+      // Hack: Changing state to Displaying will hide the autocomplete input
+      // element. However, we need to give it a chance to emit its `select`
+      // event, and it does not do this when it is hidden (at least, on MacOS
+      // Chrome). So, we delay the state change to give time for the `select`
+      // event to fire. I think that it should be possible to effect this delay
+      // using $nextTick, but that didn't work in practice. There is some
+      // animation in the buefy autocomplete code that may be relevant.
+      setTimeout(() => (this.state = State.Displaying), 101);
     },
   },
 });
 </script>
-
-<style scoped></style>

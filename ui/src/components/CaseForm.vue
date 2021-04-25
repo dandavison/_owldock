@@ -94,8 +94,10 @@ export default Vue.extend({
     // else is changing a country for some other reason?
     eventBus.$on("update:applicant", this.handleChangeApplicant);
     eventBus.$on("update:country", this.handleChangeHostCountry);
+    eventBus.$on("update:date-range", this.handleInputDateRange);
     eventBus.$on("update:provider-contact", this.handleSelectProviderContact);
     eventBus.$on("update:process", this.handleChangeProcess);
+    // TODO: handle update case step (provider)?
   },
 
   computed: {

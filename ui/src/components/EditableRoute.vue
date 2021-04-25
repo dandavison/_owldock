@@ -1,12 +1,13 @@
 <template>
   <route-selector
+    v-if="canUpdateRoute && state === State.Selecting"
     ref="routeSelector"
-    v-if="routeEditable && state === State.Selecting"
     :candidateProcesses="candidateProcesses"
-    @change:process="handleUpdateProcess"
+    @select:process="handleSelect"
+    @blur="handleSelectorBlur"
     class="route-selector"
   />
-  <div v-else @click="handleClick">
+  <div v-else @click="handleDisplayerClick">
     <route :route="route" :routeEditable="routeEditable" />
   </div>
 </template>
@@ -53,9 +54,7 @@ export default Vue.extend({
   },
 
   created() {
-    if (this.hasRoute) {
-      this.state = State.Displaying;
-    }
+    this.state = this.hasRoute ? State.Displaying : State.Selecting;
     eventBus.$on(
       "update:candidate-processes",
       (processes: ProcessSerializer[]) => (this.candidateProcesses = processes)
@@ -69,12 +68,12 @@ export default Vue.extend({
 
     // TODO: make this a method
     canUpdateRoute(): boolean {
-      return isClientContact();
+      return isClientContact() && this.routeEditable;
     },
   },
 
   methods: {
-    handleUpdateProcess(process: ProcessSerializer) {
+    handleSelect(process: ProcessSerializer) {
       if (!process) {
         // FIXME: why
         console.log("ERROR: process is", JSON.stringify(process));
@@ -84,19 +83,28 @@ export default Vue.extend({
       this.state = State.Displaying;
     },
 
-    handleClick() {
-      if (this.state === State.Displaying) {
-        if (this.canUpdateRoute) {
-          this.state = State.Selecting;
-          this.$nextTick(() => {
-            const routeSelector = this.$refs.routeSelector as RouteSelectorType;
-            const autocomplete: BAutocompleteType =
-              routeSelector.$refs.autocomplete;
-            const input: HTMLElement = autocomplete.$refs.input.$refs.input;
-            input.focus();
-          });
-        }
+    handleDisplayerClick() {
+      if (this.canUpdateRoute) {
+        this.state = State.Selecting;
+        this.$nextTick(() => {
+          const routeSelector = this.$refs.routeSelector as RouteSelectorType;
+          const autocomplete: BAutocompleteType =
+            routeSelector.$refs.autocomplete;
+          const input: HTMLElement = autocomplete.$refs.input.$refs.input;
+          input.focus();
+        });
       }
+    },
+
+    handleSelectorBlur(): void {
+      // Hack: Changing state to Displaying will hide the autocomplete input
+      // element. However, we need to give it a chance to emit its `select`
+      // event, and it does not do this when it is hidden (at least, on MacOS
+      // Chrome). So, we delay the state change to give time for the `select`
+      // event to fire. I think that it should be possible to effect this delay
+      // using $nextTick, but that didn't work in practice. There is some
+      // animation in the buefy autocomplete code that may be relevant.
+      setTimeout(() => (this.state = State.Displaying), 101);
     },
   },
 });

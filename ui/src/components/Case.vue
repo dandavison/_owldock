@@ -16,7 +16,11 @@
       style="overflow: visible"
     >
       <div class="card-content">
-        <process :case_="case_" :showSteps="showSteps" />
+        <process
+          :case_="case_"
+          :caseEditable="caseEditable"
+          :showSteps="showSteps"
+        />
       </div>
     </div>
   </div>

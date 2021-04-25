@@ -28,12 +28,7 @@ import Country from "./Country.vue";
 export default Vue.extend({
   props: {
     case_: Object as PropType<CaseSerializer>,
-    caseEditable: {
-      type: Object,
-      default: function () {
-        return {};
-      },
-    },
+    caseEditable: Object,
     showSteps: { type: Boolean, default: true },
   },
 

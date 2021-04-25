@@ -11,8 +11,8 @@
             (providerContact) =>
               $emit('select:provider-contact', providerContact)
           "
+          @blur="$emit('blur', $event)"
           :openOnFocus="true"
-          :keep-first="true"
           :placeholder="placeholder"
           dropdown-position="bottom"
           max-height="100vh"

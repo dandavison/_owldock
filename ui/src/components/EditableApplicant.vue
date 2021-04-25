@@ -1,12 +1,13 @@
 <template>
   <applicant-selector
+    v-if="canUpdateApplicant && state === State.Selecting"
     ref="applicantSelector"
-    v-if="applicantEditable && state === State.Selecting"
     :candidateApplicants="candidateApplicants"
-    @change:applicant="handleUpdateApplicant"
+    @select:applicant="handleSelect"
+    @blur="handleSelectorBlur"
     class="applicant-selector"
   />
-  <div v-else @click="handleClick">
+  <div v-else @click="handleDisplayerClick">
     <applicant :applicant="applicant" :applicantEditable="applicantEditable" />
   </div>
 </template>
@@ -45,15 +46,13 @@ export default Vue.extend({
   data() {
     return {
       state: State.Selecting,
-      State,
       candidateApplicants: [] as ApplicantSerializer[],
+      State,
     };
   },
 
   async created() {
-    if (this.hasApplicant) {
-      this.state = State.Displaying;
-    }
+    this.state = this.hasApplicant ? State.Displaying : State.Selecting;
     this.candidateApplicants =
       (await http.fetchDataOrNull("/api/client-contact/applicants/")) || [];
   },
@@ -65,38 +64,48 @@ export default Vue.extend({
 
     // TODO: make this a method
     canUpdateApplicant(): boolean {
-      return isClientContact();
+      return isClientContact() && this.applicantEditable;
     },
   },
 
   methods: {
-    handleUpdateApplicant(applicant: ApplicantSerializer) {
+    handleSelect(applicant: ApplicantSerializer) {
       if (!applicant) {
         // FIXME: why
         console.log("ERROR: applicant is", JSON.stringify(applicant));
         return;
       }
       eventBus.$emit("update:applicant", applicant);
+      // We've just selected a value, so show the rich display of the value
+      // instead of the value in the selection widget.
       this.state = State.Displaying;
     },
 
-    handleClick() {
-      if (this.state === State.Displaying) {
-        if (this.canUpdateApplicant) {
-          this.state = State.Selecting;
-          this.$nextTick(() => {
-            const applicantSelector = this.$refs
-              .applicantSelector as ApplicantSelectorType;
-            const autocomplete: BAutocompleteType =
-              applicantSelector.$refs.autocomplete;
-            const input: HTMLElement = autocomplete.$refs.input.$refs.input;
-            input.focus();
-          });
-        }
+    handleDisplayerClick() {
+      if (this.canUpdateApplicant) {
+        this.state = State.Selecting;
+        // Focus the input element so that the dropdown opens.
+        this.$nextTick(() => {
+          const applicantSelector = this.$refs
+            .applicantSelector as ApplicantSelectorType;
+          const autocomplete: BAutocompleteType =
+            applicantSelector.$refs.autocomplete;
+          const input: HTMLElement = autocomplete.$refs.input.$refs.input;
+          input.focus();
+        });
       }
+    },
+
+    handleSelectorBlur(): void {
+      // Hack: Changing state to Displaying will hide the autocomplete input
+      // element. However, we need to give it a chance to emit its `select`
+      // event, and it does not do this when it is hidden (at least, on MacOS
+      // Chrome). So, we delay the state change to give time for the `select`
+      // event to fire. I think that it should be possible to effect this delay
+      // using $nextTick, but that didn't work in practice. There is some
+      // animation in the buefy autocomplete code that may be relevant.
+      setTimeout(() => (this.state = State.Displaying), 101);
     },
   },
 });
 </script>
-
-<style scoped></style>

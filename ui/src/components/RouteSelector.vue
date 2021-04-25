@@ -8,6 +8,7 @@
           :data="filteredProcessCandidatesForRouteSelection"
           field="route.name"
           @select="handleSelectProcessForRouteSelection"
+          @blur="$emit('blur', $event)"
           :openOnFocus="true"
           dropdown-position="bottom"
         >
@@ -77,7 +78,7 @@ export default Vue.extend({
         if (processes.length > 1) {
           alert("TODO: multiple processes match the route and applicant data");
         }
-        this.$emit("change:process", processes[0]);
+        this.$emit("select:process", processes[0]);
       }
     },
   },
