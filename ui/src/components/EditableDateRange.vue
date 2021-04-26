@@ -1,29 +1,31 @@
 <template>
-  <b-datepicker
-    v-if="dateRangeEditable && state === State.Selecting"
-    :range="true"
-    :mobile-native="false"
-    @input="handleInputDateRange"
+  <fieldset
+    v-if="canUpdate && state === State.Selecting"
+    :disabled="editingSpec.disabled"
   >
-  </b-datepicker>
-  <div v-else @click="handleClick">{{ dateRange[0] }} - {{ dateRange[1] }}</div>
+    <b-datepicker
+      :range="true"
+      :mobile-native="false"
+      @input="handleInputDateRange"
+    >
+    </b-datepicker>
+  </fieldset>
+  <div v-else @click="handleClick">
+    {{ dateRange[0] }} -<br />{{ dateRange[1] }}
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 
+import { EditingSpec, State } from "../editable-component";
 import { isClientContact } from "@/role";
 import eventBus from "@/event-bus";
-
-enum State {
-  Displaying,
-  Selecting,
-}
 
 export default Vue.extend({
   props: {
     dateRange: Array,
-    dateRangeEditable: Boolean,
+    editingSpec: Object as PropType<EditingSpec>,
   },
 
   data() {
@@ -44,19 +46,20 @@ export default Vue.extend({
       return Boolean(this.dateRange[0] && this.dateRange[1]);
     },
 
-    canUpdateDateRange(): boolean {
-      return isClientContact();
+    canUpdate(): boolean {
+      return isClientContact() && this.editingSpec.editable;
     },
   },
 
   methods: {
     handleInputDateRange(dateRange: [Date, Date]): void {
       eventBus.$emit("update:date-range", dateRange);
+      this.state = State.Displaying;
     },
 
     handleClick() {
       if (this.state === State.Displaying) {
-        if (this.canUpdateDateRange) {
+        if (this.canUpdate) {
           this.state = State.Selecting;
         }
       }

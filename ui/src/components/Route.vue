@@ -21,7 +21,7 @@ import Country from "./Country.vue";
 export default Vue.extend({
   props: {
     route: Object as PropType<RouteSerializer>,
-    routeEditable: Boolean,
+    editable: Boolean,
   },
 
   components: { Country },

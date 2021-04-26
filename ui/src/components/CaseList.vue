@@ -1,6 +1,6 @@
-// A CaseList is a wrapper around a CaseTable component, adding e.g. tabs, and
-methods to fetch data.
 <template>
+  <!-- A CaseList is a wrapper around a CaseTable component, adding e.g. tabs, and
+methods to fetch data. -->
   <!-- class="section" on the following div makes the table rows vertically aligned -->
   <div>
     <b-tabs v-model="activeTab">

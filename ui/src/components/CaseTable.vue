@@ -12,11 +12,7 @@
     <b-table-column label="Applicant" v-slot="props">
       <editable-applicant
         :applicant="props.row.applicant"
-        :applicantEditable="
-          casesEditable &&
-          casesEditable[props.index] &&
-          casesEditable[props.index].applicant
-        "
+        :editingSpec="caseEditingSpec(props.index, 'applicant')"
       />
     </b-table-column>
 
@@ -27,33 +23,21 @@
           props.row.process.route &&
           props.row.process.route.host_country
         "
-        :countryEditable="
-          casesEditable &&
-          casesEditable[props.index] &&
-          casesEditable[props.index].country
-        "
+        :editingSpec="caseEditingSpec(props.index, 'hostCountry')"
       />
     </b-table-column>
 
     <b-table-column label="Dates" v-slot="props">
       <editable-date-range
         :dateRange="[props.row.target_entry_date, props.row.target_exit_date]"
-        :dateRangeEditable="
-          casesEditable &&
-          casesEditable[props.index] &&
-          casesEditable[props.index].dateRange
-        "
+        :editingSpec="caseEditingSpec(props.index, 'dateRange')"
       />
     </b-table-column>
 
     <b-table-column label="Route" v-if="showProcess" v-slot="props">
       <editable-route
         :route="props.row.process.route"
-        :routeEditable="
-          casesEditable &&
-          casesEditable[props.index] &&
-          casesEditable[props.index].route
-        "
+        :editingSpec="caseEditingSpec(props.index, 'route')"
       />
     </b-table-column>
 
@@ -61,11 +45,7 @@
       <editable-provider
         :process="props.row.process"
         :steps="props.row.steps"
-        :providerEditable="
-          casesEditable &&
-          casesEditable[props.index] &&
-          casesEditable[props.index].provider
-        "
+        :editingSpec="caseEditingSpec(props.index, 'provider')"
       />
     </b-table-column>
   </b-table>
@@ -80,15 +60,12 @@ import EditableCountry from "../components/EditableCountry.vue";
 import EditableDateRange from "../components/EditableDateRange.vue";
 import EditableRoute from "../components/EditableRoute.vue";
 import EditableProvider from "../components/EditableProvider.vue";
+import { CaseEditingSpec, EditingSpec } from "@/editable-component";
 
 export default Vue.extend({
   props: {
     rows: Array as PropType<CaseSerializer[]>,
-    casesEditable: Array,
-    disabledColumns: {
-      type: Object,
-      default: () => ({}),
-    },
+    caseEditingSpecs: Array as PropType<CaseEditingSpec[]>,
     selected: Object,
     // TODO: focusable must always be true when using `selected`?
     focusable: Boolean,
@@ -130,6 +107,21 @@ export default Vue.extend({
       // required selected.sync with the downstream b-table, and this watcher
       // notifies the upstream view when the selected row changes.
       this.$emit("update:selected", row);
+    },
+  },
+
+  methods: {
+    caseEditingSpec(index: number, property: string): EditingSpec {
+      return (
+        (this.caseEditingSpecs &&
+          this.caseEditingSpecs[index] &&
+          ((this.caseEditingSpecs[index] as CaseEditingSpec)[
+            property
+          ] as EditingSpec)) || {
+          editable: false,
+          disabled: false,
+        }
+      );
     },
   },
 });

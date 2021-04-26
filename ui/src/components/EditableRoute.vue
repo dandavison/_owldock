@@ -1,14 +1,18 @@
 <template>
-  <route-selector
+  <fieldset
     v-if="canUpdate && state === State.Selecting"
-    ref="selector"
-    :candidateProcesses="candidateProcesses"
-    @select:process="handleSelect"
-    @blur="editableComponentProxy.handleSelectorBlur()"
-    class="route-selector"
-  />
+    :disabled="editingSpec.disabled"
+  >
+    <route-selector
+      ref="selector"
+      :candidateProcesses="candidateProcesses"
+      @select:process="handleSelect"
+      @blur="editableComponentProxy.handleSelectorBlur()"
+      class="route-selector"
+    />
+  </fieldset>
   <div v-else @click="editableComponentProxy.handleDisplayerClick()">
-    <route :route="route" :routeEditable="routeEditable" />
+    <route :route="route" :routeEditable="editingSpec.editable" />
   </div>
 </template>
 
@@ -17,7 +21,11 @@ import Vue, { PropType } from "vue";
 
 import Route from "./Route.vue";
 import RouteSelector from "./RouteSelector.vue";
-import { EditableComponentProxy, State } from "../editable-component";
+import {
+  EditableComponentProxy,
+  EditingSpec,
+  State,
+} from "../editable-component";
 import {
   ProcessSerializer,
   RouteSerializer,
@@ -29,7 +37,7 @@ import eventBus from "@/event-bus";
 export default Vue.extend({
   props: {
     route: Object as PropType<RouteSerializer>,
-    routeEditable: Boolean,
+    editingSpec: Object as PropType<EditingSpec>,
   },
 
   components: {
@@ -64,7 +72,7 @@ export default Vue.extend({
 
     // TODO: make this a method
     canUpdate(): boolean {
-      return isClientContact() && this.routeEditable;
+      return isClientContact() && this.editingSpec.editable;
     },
   },
 

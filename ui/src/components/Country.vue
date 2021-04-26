@@ -13,7 +13,7 @@ import { makeFlagImgProps, ImgProps } from "../flags";
 export default Vue.extend({
   props: {
     country: Object as PropType<CountrySerializer>,
-    countryEditable: Boolean,
+    editable: Boolean,
   },
 
   computed: {

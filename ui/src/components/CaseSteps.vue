@@ -10,7 +10,7 @@
     <b-table-column label="Provider" width="420" v-slot="props">
       <editable-case-step-provider
         :caseStep="props.row"
-        :caseStepEditable="stepsEditable"
+        :editingSpec="editingSpec.provider"
         :candidateProviderContacts="candidateProviderContacts"
         @update:case-step="(caseStep) => updateRow(props.index, caseStep)"
       />
@@ -67,6 +67,7 @@ import ActionButton from "./ActionButton.vue";
 import CaseStepFileUploadArea from "./CaseStepFileUploadArea.vue";
 import EditableCaseStepProvider from "./EditableCaseStepProvider.vue";
 import ProviderContact from "../components/ProviderContact.vue";
+import { EditingSpec } from "@/editable-component";
 import {
   CaseSerializer,
   CaseStepSerializer,
@@ -88,8 +89,8 @@ export default Vue.extend({
 
   props: {
     case_: Object as PropType<CaseSerializer>,
+    editingSpec: Object as PropType<{ provider: EditingSpec }>,
     steps: Array as PropType<CaseStepSerializer[]>,
-    stepsEditable: Object,
   },
 
   data() {
@@ -100,14 +101,21 @@ export default Vue.extend({
 
   async created() {
     const process = this.case_.process;
-    if (isClientContact() && !processIsNull(process)) {
+    if (this.canUpdateProvider && !processIsNull(process)) {
       this.fetchProviderContacts(process);
     }
   },
 
+  computed: {
+    canUpdateProvider(): boolean {
+      return isClientContact() && this.editingSpec.provider.editable;
+    },
+  },
   watch: {
     process: function (value: ProcessSerializer): void {
-      this.fetchProviderContacts(value);
+      if (this.canUpdateProvider) {
+        this.fetchProviderContacts(value);
+      }
     },
   },
 
@@ -116,6 +124,10 @@ export default Vue.extend({
     async fetchProviderContacts(process_: ProcessSerializer) {
       if (!process_.uuid) {
         // TODO: why?
+        console.error(
+          "CaseSteps.fetchProviderContacts: process_.uuid is null:",
+          process_
+        );
         return;
       }
       const url = `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`;

@@ -18,7 +18,7 @@ import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {
     provider: Object as PropType<ProviderSerializer>,
-    providerEditable: {
+    editable: {
       type: Boolean,
       default: false,
     },

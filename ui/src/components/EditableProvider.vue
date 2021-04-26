@@ -1,19 +1,23 @@
 <template>
-  <provider-contact-selector
-    v-if="providerEditable && state === State.Selecting"
-    ref="selector"
-    :candidateProviderContacts="candidateProviderContacts"
-    :giveAppearanceOfSelectingProvider="true"
-    @select:provider-contact="handleSelect"
-    @blur="editableComponentProxy.handleSelectorBlur()"
-    class="provider-contact-selector"
-  />
+  <fieldset
+    v-if="canUpdate && state === State.Selecting"
+    :disabled="editingSpec.disabled"
+  >
+    <provider-contact-selector
+      ref="selector"
+      :candidateProviderContacts="candidateProviderContacts"
+      :giveAppearanceOfSelectingProvider="true"
+      @select:provider-contact="handleSelect"
+      @blur="editableComponentProxy.handleSelectorBlur()"
+      class="provider-contact-selector"
+    />
+  </fieldset>
   <div v-else @click="editableComponentProxy.handleDisplayerClick()">
     <provider
       v-for="provider in providers"
       :key="provider.uuid"
       :provider="provider"
-      :providerEditable="providerEditable"
+      :providerEditable="editingSpec.editable"
       :showName="false"
     />
   </div>
@@ -24,7 +28,11 @@ import Vue, { PropType } from "vue";
 
 import Provider from "./Provider.vue";
 import ProviderContactSelector from "./ProviderContactSelector.vue";
-import { EditableComponentProxy, State } from "../editable-component";
+import {
+  EditableComponentProxy,
+  EditingSpec,
+  State,
+} from "../editable-component";
 import {
   ProviderSerializer,
   ProviderContactSerializer,
@@ -38,7 +46,7 @@ import eventBus from "@/event-bus";
 
 export default Vue.extend({
   props: {
-    providerEditable: Boolean,
+    editingSpec: Object as PropType<EditingSpec>,
     // TODO: `process` and `steps` are not independent: if the steps all belong
     // to the same process then that is the definition of `process`; otherwise,
     // `process` is not defined. So, this component should probably take in
@@ -62,7 +70,7 @@ export default Vue.extend({
 
   created() {
     this.state = this.hasDisplayable ? State.Displaying : State.Selecting;
-    if (!processIsNull(this.process)) {
+    if (this.canUpdate && !processIsNull(this.process)) {
       this.fetchProviderContacts(this.process);
     }
   },
@@ -94,13 +102,15 @@ export default Vue.extend({
 
     // TODO: make this a method
     canUpdate(): boolean {
-      return isClientContact() && this.providerEditable;
+      return isClientContact() && this.editingSpec.editable;
     },
   },
 
   watch: {
     process: function (value: ProcessSerializer): void {
-      this.fetchProviderContacts(value);
+      if (this.canUpdate) {
+        this.fetchProviderContacts(value);
+      }
     },
   },
 
@@ -109,6 +119,10 @@ export default Vue.extend({
     async fetchProviderContacts(process_: ProcessSerializer) {
       if (!process_.uuid) {
         // TODO: why?
+        console.error(
+          "CaseSteps.fetchProviderContacts: process_.uuid is null:",
+          process_
+        );
         return;
       }
       const url = `/api/client-contact/list-primary-provider-contacts/?process_uuid=${process_.uuid}`;

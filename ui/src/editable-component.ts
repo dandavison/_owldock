@@ -16,6 +16,41 @@ export enum State {
   Selecting,
 }
 
+export interface EditingSpec {
+  // Should the selector widget be shown at all?
+  editable: boolean;
+  // Should the selector widget be disabled when shown?
+  disabled: boolean;
+}
+
+export interface CaseEditingSpec {
+  applicant: EditingSpec;
+  hostCountry: EditingSpec;
+  dateRange: EditingSpec;
+  route: EditingSpec;
+  provider: EditingSpec;
+  steps: { provider: EditingSpec };
+  [index: string]: EditingSpec | { provider: EditingSpec };
+}
+
+export function defaultEditingSpecFactory(): EditingSpec {
+  return {
+    editable: false,
+    disabled: false,
+  };
+}
+
+export function defaultCaseEditingSpecFactory(): CaseEditingSpec {
+  return {
+    applicant: defaultEditingSpecFactory(),
+    hostCountry: defaultEditingSpecFactory(),
+    dateRange: defaultEditingSpecFactory(),
+    route: defaultEditingSpecFactory(),
+    provider: defaultEditingSpecFactory(),
+    steps: { provider: defaultEditingSpecFactory() },
+  };
+}
+
 interface EditableComponent extends Vue {
   state: State;
   State: typeof State;
