@@ -23,7 +23,6 @@
         </span>
       </p>
     </div>
-    <i v-if="applicantEditable" class="fas fa-pencil-alt"></i>
   </div>
 </template>
 

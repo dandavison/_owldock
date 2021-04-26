@@ -8,7 +8,6 @@
         {{ provider.name }}
       </p>
     </div>
-    <i v-if="providerEditable" class="fas fa-pencil-alt"></i>
   </div>
 </template>
 

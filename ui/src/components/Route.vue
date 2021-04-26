@@ -9,7 +9,6 @@
         {{ route.name }}
       </p>
     </div>
-    <i v-if="routeEditable" class="fas fa-pencil-alt"></i>
   </div>
 </template>
 
