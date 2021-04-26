@@ -52,7 +52,6 @@ import {
   NullProviderContact,
 } from "@/factories";
 import http from "../http";
-import { showMessages } from "../server-messages";
 import { dateToYYYYMMDD } from "../utils";
 import eventBus from "@/event-bus";
 
@@ -183,26 +182,25 @@ export default Vue.extend({
     },
 
     async handleSubmit(): Promise<void> {
-      // TODO: validation
-      const httpResponse = await http.post("/api/client-contact/create-case/", {
-        body: JSON.stringify(this.case_),
-      });
-      if (httpResponse.ok) {
-        const response = await httpResponse.json();
-        showMessages(response);
-        if (response.errors.length > 0) {
-          this.validationErrors = response.errors;
-        } else {
-          const message = `Success! Case created for ${this.case_.applicant.user.first_name} ${this.case_.applicant.user.last_name}.`;
-          Notification.open({
-            message,
-            type: "is-success",
-            hasIcon: true,
-            position: "is-bottom-right",
-          });
-          this.case_ = NullCase();
-          this.$router.push("/portal/cases/");
+      const data = await http.postFetchDataOrNull(
+        "/api/client-contact/create-case/",
+        {
+          body: JSON.stringify(this.case_),
         }
+      );
+      if (data && data["validation-errors"]) {
+        // TODO: display validation errors properly
+        this.validationErrors = data["validation-errors"];
+      } else {
+        const message = `Success! Case created for ${this.case_.applicant.user.first_name} ${this.case_.applicant.user.last_name}.`;
+        Notification.open({
+          message,
+          type: "is-success",
+          hasIcon: true,
+          position: "is-bottom-right",
+        });
+        this.case_ = NullCase();
+        this.$router.push("/portal/cases/");
       }
     },
   },
