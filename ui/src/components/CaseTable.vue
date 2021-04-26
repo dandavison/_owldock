@@ -85,6 +85,10 @@ export default Vue.extend({
   props: {
     rows: Array as PropType<CaseSerializer[]>,
     casesEditable: Array,
+    disabledColumns: {
+      type: Object,
+      default: () => ({}),
+    },
     selected: Object,
     // TODO: focusable must always be true when using `selected`?
     focusable: Boolean,
