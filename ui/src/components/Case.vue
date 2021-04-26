@@ -37,7 +37,17 @@ import { processIsNull } from "../factories";
 export default Vue.extend({
   props: {
     case_: Object as PropType<CaseSerializer>,
-    caseEditable: Object,
+    caseEditable: {
+      type: Object,
+      default: () => ({
+        applicant: false,
+        country: false,
+        dateRange: false,
+        provider: false,
+        route: false,
+        steps: { provider: false },
+      }),
+    },
     showSteps: { type: Boolean, default: true },
   },
 
