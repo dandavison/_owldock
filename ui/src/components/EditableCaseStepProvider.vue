@@ -103,11 +103,13 @@ export default Vue.extend({
         this.state = State.Selecting;
         this.$nextTick(() => {
           const providerContactSelector = this.$refs
-            .providerContactSelector as ProviderContactSelectorType;
-          const autocomplete: BAutocompleteType =
-            providerContactSelector.$refs.autocomplete;
-          const input: HTMLElement = autocomplete.$refs.input.$refs.input;
-          input.focus();
+            ?.providerContactSelector as ProviderContactSelectorType;
+          if (providerContactSelector) {
+            const autocomplete: BAutocompleteType =
+              providerContactSelector.$refs.autocomplete;
+            const input: HTMLElement = autocomplete.$refs.input.$refs.input;
+            input.focus();
+          }
         });
       }
     },
