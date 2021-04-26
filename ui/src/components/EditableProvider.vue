@@ -1,14 +1,14 @@
 <template>
   <provider-contact-selector
     v-if="providerEditable && state === State.Selecting"
-    ref="providerContactSelector"
+    ref="selector"
     :candidateProviderContacts="candidateProviderContacts"
     :giveAppearanceOfSelectingProvider="true"
     @select:provider-contact="handleSelect"
-    @blur="handleSelectorBlur"
+    @blur="editableComponentProxy.handleSelectorBlur()"
     class="provider-contact-selector"
   />
-  <div v-else @click="handleDisplayerClick">
+  <div v-else @click="editableComponentProxy.handleDisplayerClick()">
     <provider
       v-for="provider in providers"
       :key="provider.uuid"
@@ -21,10 +21,10 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { BAutocomplete } from "buefy/src/components/autocomplete";
 
 import Provider from "./Provider.vue";
 import ProviderContactSelector from "./ProviderContactSelector.vue";
+import { EditableComponentProxy, State } from "../editable-component";
 import {
   ProviderSerializer,
   ProviderContactSerializer,
@@ -35,14 +35,6 @@ import { isClientContact } from "@/role";
 import { processIsNull } from "@/factories";
 import http from "../http";
 import eventBus from "@/event-bus";
-
-type ProviderContactSelectorType = InstanceType<typeof ProviderContactSelector>;
-type BAutocompleteType = InstanceType<typeof BAutocomplete>;
-
-enum State {
-  Displaying,
-  Selecting,
-}
 
 export default Vue.extend({
   props: {
@@ -69,13 +61,17 @@ export default Vue.extend({
   },
 
   created() {
-    this.state = this.hasProvider ? State.Displaying : State.Selecting;
+    this.state = this.hasDisplayable ? State.Displaying : State.Selecting;
     if (!processIsNull(this.process)) {
       this.fetchProviderContacts(this.process);
     }
   },
 
   computed: {
+    editableComponentProxy(): EditableComponentProxy {
+      return new EditableComponentProxy(this);
+    },
+
     providers(): ProviderSerializer[] {
       const providers = [];
       const seen = new Set<string>();
@@ -92,12 +88,12 @@ export default Vue.extend({
       return providers.sort((p1, p2) => (p1.name <= p2.name ? 0 : 1));
     },
 
-    hasProvider(): boolean {
+    hasDisplayable(): boolean {
       return this.providers.length > 0;
     },
 
     // TODO: make this a method
-    canUpdateProvider(): boolean {
+    canUpdate(): boolean {
       return isClientContact() && this.providerEditable;
     },
   },
@@ -130,31 +126,6 @@ export default Vue.extend({
       }
       eventBus.$emit("update:provider-contact", providerContact);
       this.state = State.Displaying;
-    },
-
-    handleDisplayerClick() {
-      if (this.canUpdateProvider) {
-        this.state = State.Selecting;
-        this.$nextTick(() => {
-          const providerContactSelector = this.$refs
-            .providerContactSelector as ProviderContactSelectorType;
-          const autocomplete: BAutocompleteType =
-            providerContactSelector.$refs.autocomplete;
-          const input: HTMLElement = autocomplete.$refs.input.$refs.input;
-          input.focus();
-        });
-      }
-    },
-
-    handleSelectorBlur(): void {
-      // Hack: Changing state to Displaying will hide the autocomplete input
-      // element. However, we need to give it a chance to emit its `select`
-      // event, and it does not do this when it is hidden (at least, on MacOS
-      // Chrome). So, we delay the state change to give time for the `select`
-      // event to fire. I think that it should be possible to effect this delay
-      // using $nextTick, but that didn't work in practice. There is some
-      // animation in the buefy autocomplete code that may be relevant.
-      setTimeout(() => (this.state = State.Displaying), 101);
     },
   },
 });

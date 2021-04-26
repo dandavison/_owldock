@@ -1,23 +1,23 @@
 <template>
   <route-selector
-    v-if="canUpdateRoute && state === State.Selecting"
-    ref="routeSelector"
+    v-if="canUpdate && state === State.Selecting"
+    ref="selector"
     :candidateProcesses="candidateProcesses"
     @select:process="handleSelect"
-    @blur="handleSelectorBlur"
+    @blur="editableComponentProxy.handleSelectorBlur()"
     class="route-selector"
   />
-  <div v-else @click="handleDisplayerClick">
+  <div v-else @click="editableComponentProxy.handleDisplayerClick()">
     <route :route="route" :routeEditable="routeEditable" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { BAutocomplete } from "buefy/src/components/autocomplete";
 
 import Route from "./Route.vue";
 import RouteSelector from "./RouteSelector.vue";
+import { EditableComponentProxy, State } from "../editable-component";
 import {
   ProcessSerializer,
   RouteSerializer,
@@ -25,14 +25,6 @@ import {
 import { routeIsNull } from "@/factories";
 import { isClientContact } from "@/role";
 import eventBus from "@/event-bus";
-
-type RouteSelectorType = InstanceType<typeof RouteSelector>;
-type BAutocompleteType = InstanceType<typeof BAutocomplete>;
-
-enum State {
-  Displaying,
-  Selecting,
-}
 
 export default Vue.extend({
   props: {
@@ -54,7 +46,7 @@ export default Vue.extend({
   },
 
   created() {
-    this.state = this.hasRoute ? State.Displaying : State.Selecting;
+    this.state = this.hasDisplayable ? State.Displaying : State.Selecting;
     eventBus.$on(
       "update:candidate-processes",
       (processes: ProcessSerializer[]) => (this.candidateProcesses = processes)
@@ -62,12 +54,16 @@ export default Vue.extend({
   },
 
   computed: {
-    hasRoute(): boolean {
+    editableComponentProxy(): EditableComponentProxy {
+      return new EditableComponentProxy(this);
+    },
+
+    hasDisplayable(): boolean {
       return !routeIsNull(this.route);
     },
 
     // TODO: make this a method
-    canUpdateRoute(): boolean {
+    canUpdate(): boolean {
       return isClientContact() && this.routeEditable;
     },
   },
@@ -81,30 +77,6 @@ export default Vue.extend({
       }
       eventBus.$emit("update:process", process);
       this.state = State.Displaying;
-    },
-
-    handleDisplayerClick() {
-      if (this.canUpdateRoute) {
-        this.state = State.Selecting;
-        this.$nextTick(() => {
-          const routeSelector = this.$refs.routeSelector as RouteSelectorType;
-          const autocomplete: BAutocompleteType =
-            routeSelector.$refs.autocomplete;
-          const input: HTMLElement = autocomplete.$refs.input.$refs.input;
-          input.focus();
-        });
-      }
-    },
-
-    handleSelectorBlur(): void {
-      // Hack: Changing state to Displaying will hide the autocomplete input
-      // element. However, we need to give it a chance to emit its `select`
-      // event, and it does not do this when it is hidden (at least, on MacOS
-      // Chrome). So, we delay the state change to give time for the `select`
-      // event to fire. I think that it should be possible to effect this delay
-      // using $nextTick, but that didn't work in practice. There is some
-      // animation in the buefy autocomplete code that may be relevant.
-      setTimeout(() => (this.state = State.Displaying), 101);
     },
   },
 });
