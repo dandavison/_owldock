@@ -5,6 +5,7 @@
   >
     <b-datepicker
       :range="true"
+      :disabled="editingSpec.disabled"
       :mobile-native="false"
       @input="handleInputDateRange"
     >
