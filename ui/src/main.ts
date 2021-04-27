@@ -79,6 +79,7 @@ Vue.use(Buefy, {
 });
 
 const routes = [
+  { path: "/", component: Portal, name: "Home" },
   { path: "/portal", component: Portal, name: "Portal" },
   { path: "/portal/my-data", component: AccessData, name: "My Data" },
   { path: "/portal/new-case", component: NewCase, name: "New Case" },
