@@ -102,6 +102,9 @@ class CaseStep(BaseModel):
     get_available_state_name_transitions: Callable
     get_available_user_state_name_transitions: Callable
 
+    class Meta:
+        ordering = ["sequence_number"]
+
     def validate(self):
         # TODO: Should UUIDPseudoForeignKeyField cause this to happen
         # automatically?

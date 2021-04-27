@@ -246,9 +246,6 @@ class Case(BaseModel):
             and Process.objects.filter(uuid=self.process_uuid).exists()
         )
 
-    def _all_steps(self) -> "QuerySet[CaseStep]":
-        return self.casestep_set.order_by("sequence_number")
-
     def steps(self) -> "QuerySet[CaseStep]":
         """
         Return queryset of case steps that should be visible to the user
@@ -260,7 +257,7 @@ class Case(BaseModel):
         if not request:
             assert "PYTEST_CURRENT_TEST" in os.environ
             assert "pytest" in sys.modules
-            return self._all_steps()
+            return self.casestep_set.all()
         else:
             role = UserRole(request.user)
             assert (
