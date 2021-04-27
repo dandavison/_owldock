@@ -19,7 +19,7 @@ function NullCountry(): CountrySerializer {
   };
 }
 
-function NullRoute(): RouteSerializer {
+export function NullRoute(): RouteSerializer {
   return {
     name: "",
     host_country: NullCountry(),

@@ -55,6 +55,7 @@ import {
   countryIsNull,
   NullCase,
   NullProviderContact,
+  NullRoute,
   processIsNull,
   routeIsNull,
 } from "@/factories";
@@ -151,6 +152,7 @@ export default Vue.extend({
         console.log("ERROR: country is", JSON.stringify(country));
         return;
       }
+      this.case_.process.route = NullRoute();
       this.case_.process.route.host_country = country;
       if (this.case_.applicant.nationalities.length > 0) {
         const nationalityCodes = this.case_.applicant.nationalities.map(
