@@ -66,7 +66,6 @@ import EditableCaseStepProvider from "./EditableCaseStepProvider.vue";
 import ProviderContact from "../components/ProviderContact.vue";
 import { EditingSpec } from "@/editable-component";
 import {
-  CaseSerializer,
   CaseStepSerializer,
   ProcessSerializer,
   ProviderContactSerializer,
@@ -85,9 +84,9 @@ export default Vue.extend({
   },
 
   props: {
-    case_: Object as PropType<CaseSerializer>,
-    editingSpec: Object as PropType<{ provider: EditingSpec }>,
     steps: Array as PropType<CaseStepSerializer[]>,
+    process: Object as PropType<ProcessSerializer>,
+    editingSpec: Object as PropType<{ provider: EditingSpec }>,
   },
 
   data() {
@@ -97,7 +96,7 @@ export default Vue.extend({
   },
 
   async created() {
-    const process = this.case_.process;
+    const process = this.process;
     if (this.canUpdateProvider && !processIsNull(process)) {
       this.fetchProviderContacts(process);
     }

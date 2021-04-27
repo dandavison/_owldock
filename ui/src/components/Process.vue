@@ -10,8 +10,8 @@
       </p>
       <case-steps
         v-if="showSteps"
-        :case_="case_"
-        :steps="steps"
+        :steps="case_.steps"
+        :process="case_.process"
         :editingSpec="caseEditingSpec.steps"
       />
     </div>
@@ -34,13 +34,5 @@ export default Vue.extend({
   },
 
   components: { CaseSteps, Country },
-
-  computed: {
-    steps() {
-      return [...this.case_.steps].sort(
-        (s, t) => s.sequence_number - t.sequence_number
-      );
-    },
-  },
 });
 </script>
