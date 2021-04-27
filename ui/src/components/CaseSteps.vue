@@ -60,6 +60,9 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 
+import BTable from "buefy/src/components/table";
+type BTableInstance = InstanceType<typeof BTable>;
+
 import ActionButton from "./ActionButton.vue";
 import CaseStepFileUploadArea from "./CaseStepFileUploadArea.vue";
 import EditableCaseStepProvider from "./EditableCaseStepProvider.vue";
@@ -131,7 +134,16 @@ export default Vue.extend({
     },
 
     updateRow(index: number, caseStep: CaseStepSerializer | null) {
-      eventBus.$emit("update:case-step", index, caseStep);
+      const table = this.$refs.table as BTableInstance;
+      // TODO: This is presumably mutating a prop: the table data is `steps`,
+      // which is passed in as a prop.
+      if (caseStep) {
+        // TODO: This should eventually be
+        // eventBus.$emit("update:case-step", caseStep)
+        table.visibleData.splice(index, 1, caseStep);
+      } else {
+        table.visibleData.splice(index, 1);
+      }
     },
   },
 });
