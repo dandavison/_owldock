@@ -134,12 +134,16 @@ export default Vue.extend({
     },
 
     updateRow(index: number, caseStep: CaseStepSerializer | null) {
+      // The table data seems to be a copy of the real case.steps data. So we
+      // need to do two things:
+
+      // 1. Emit an event that the owner of the case.steps data can respond to
+      //    by mutating its copy
+      eventBus.$emit("update:case-step", index, caseStep);
+
+      // 2. Mutate our copy
       const table = this.$refs.table as BTableInstance;
-      // TODO: This is presumably mutating a prop: the table data is `steps`,
-      // which is passed in as a prop.
       if (caseStep) {
-        // TODO: This should eventually be
-        // eventBus.$emit("update:case-step", caseStep)
         table.visibleData.splice(index, 1, caseStep);
       } else {
         table.visibleData.splice(index, 1);
