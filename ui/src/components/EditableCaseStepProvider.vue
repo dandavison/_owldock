@@ -14,6 +14,7 @@
   </fieldset>
   <div v-else @click="editableComponentProxy.handleDisplayerClick()">
     <provider
+      v-if="caseStep.active_contract"
       :provider="caseStep.active_contract.provider_contact.provider"
       :providerEditable="editingSpec.editable"
       :showName="false"
