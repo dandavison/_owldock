@@ -141,7 +141,6 @@ export default Vue.extend({
       if (caseStep) {
         // TODO: This should eventually be
         // eventBus.$emit("update:case-step", caseStep)
-        eventBus.$emit("update:case");
         table.visibleData.splice(index, 1, caseStep);
       } else {
         table.visibleData.splice(index, 1);

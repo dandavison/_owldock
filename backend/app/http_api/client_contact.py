@@ -109,20 +109,6 @@ class CreateCase(_ClientContactView):
             return OwldockJsonResponse({"validation-errors": serializer.errors})
 
 
-class UpdateCase(_ClientContactView):
-    @atomic
-    def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        serializer = CaseSerializer(data=json.loads(request.body))
-        if serializer.is_valid():
-            validated_data = serializer.validated_data
-            assert validated_data["uuid"] == uuid
-            case = Case.objects.get(uuid=uuid)
-            serializer.update(case, validated_data)
-            return OwldockJsonResponse(None)
-        else:
-            return OwldockJsonResponse({"validation-errors": serializer.errors})
-
-
 class EarmarkCaseStep(_ClientContactView):
     @atomic
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
