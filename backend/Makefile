@@ -18,13 +18,15 @@ serve:
 
 build-render:
 	pip install -r requirements.txt
+	python manage.py collectstatic --no-input
+
+recreate-db-render:
 	python manage.py drop_all_tables
 	rm -rf */migrations/*
 	python manage.py makemigrations app client
 	python manage.py migrate
 	python manage.py migrate --database client
 	python manage.py create_fake_world
-	python manage.py collectstatic --no-input
 
 serve-render:
 	python ./manage.py runserver --noreload 0.0.0.0:8000
