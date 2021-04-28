@@ -30,19 +30,21 @@ Please log in to accept this work and learn the details
 
 https://owldock.com/portal/case/{case.uuid}
 """
-        send_mail(
-            subject,
-            content,
-            from_address,
-            to_addresses,
-            fail_silently=False,
-        )
-        add_message(
-            (
-                "Owldock does not actually send notifications yet.<br>"
-                "Here is the email that would be sent:"
-                "<br>"
-                f"""
+        try:
+            send_mail(
+                subject,
+                content,
+                from_address,
+                to_addresses,
+                fail_silently=False,
+            )
+        except OSError:
+            add_message(
+                (
+                    "Owldock does not actually send notifications yet.<br>"
+                    "Here is the email that would be sent:"
+                    "<br>"
+                    f"""
 <pre>
 To:      {', '.join(to_addresses)}
 From:    {from_address}
@@ -50,5 +52,5 @@ Subject: {subject}
 --
 {content}
 </pre>"""
+                )
             )
-        )
