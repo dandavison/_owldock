@@ -62,13 +62,6 @@ export default Vue.extend({
     };
   },
 
-  created() {
-    this.state = this.hasDisplayable ? State.Displaying : State.Selecting;
-    if (this.canUpdate && !processIsNull(this.process)) {
-      this.fetchProviderContacts(this.process);
-    }
-  },
-
   mounted() {
     // HACK: A retract event updates the case step with a null provider value.
     // We want this to put the editable component into Selecting mode, but
@@ -78,6 +71,10 @@ export default Vue.extend({
     // That seems slighly more defensible than setting the state explicitly here
     // when I'm not sure what the right implementation is (i.e. where/when that
     // state should be getting set).
+    this.state = this.hasDisplayable ? State.Displaying : State.Selecting;
+    if (this.canUpdate && !processIsNull(this.process)) {
+      this.fetchProviderContacts(this.process);
+    }
     eventBus.$on("update:case-step", (index: number) => {
       if (index === this.caseStep.sequence_number - 1) {
         this.$forceUpdate();
