@@ -40,6 +40,7 @@ import {
 import { NullCaseStepContract, processIsNull } from "@/factories";
 import { isClientContact } from "../role";
 import http from "@/http";
+import eventBus from "@/event-bus";
 
 export default Vue.extend({
   props: {
@@ -66,6 +67,22 @@ export default Vue.extend({
     if (this.canUpdate && !processIsNull(this.process)) {
       this.fetchProviderContacts(this.process);
     }
+  },
+
+  mounted() {
+    // HACK: A retract event updates the case step with a null provider value.
+    // We want this to put the editable component into Selecting mode, but
+    // currently nothing effects that transition. So for now we are forcing a
+    // rerender of the component in response to the event; if the state gets set
+    // correctly on component recreation then this will have the desired effect.
+    // That seems slighly more defensible than setting the state explicitly here
+    // when I'm not sure what the right implementation is (i.e. where/when that
+    // state should be getting set).
+    eventBus.$on("update:case-step", (index: number) => {
+      if (index === this.caseStep.sequence_number - 1) {
+        this.$forceUpdate();
+      }
+    });
   },
 
   computed: {
