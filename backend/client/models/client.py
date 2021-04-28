@@ -209,6 +209,7 @@ class ApplicantNationality(BaseModel):
                 name="applicant_nationality__applcant__country_uuid__unique_constraint",
             )
         ]
+        verbose_name_plural = "ApplicantNationalities"
 
     def validate(self):
         assert (

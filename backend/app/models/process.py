@@ -25,10 +25,14 @@ class Country(BaseModel):
                 fields=("code",), name="country__code__unique_constraint"
             ),
         ]
+        verbose_name_plural = "Countries"
 
 
 class Activity(BaseModel):
     name = models.CharField(max_length=128, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Activities"
 
 
 class Service(BaseModel):
@@ -93,6 +97,7 @@ class Process(BaseModel):
                 name="process__home_country__nationality__route__unique_constraint",
             ),
         ]
+        verbose_name_plural = "Processes"
 
 
 class ProcessStep(BaseModel):
