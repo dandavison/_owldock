@@ -40,7 +40,6 @@ import {
 import { NullCaseStepContract, processIsNull } from "@/factories";
 import { isClientContact } from "../role";
 import http from "@/http";
-import eventBus from "@/event-bus";
 
 export default Vue.extend({
   props: {
@@ -75,11 +74,6 @@ export default Vue.extend({
     if (this.canUpdate && !processIsNull(this.process)) {
       this.fetchProviderContacts(this.process);
     }
-    eventBus.$on("update:case-step", (index: number) => {
-      if (index === this.caseStep.sequence_number - 1) {
-        this.$forceUpdate();
-      }
-    });
   },
 
   computed: {
@@ -118,6 +112,13 @@ export default Vue.extend({
     process: function (value: ProcessSerializer): void {
       if (this.canUpdate) {
         this.fetchProviderContacts(value);
+      }
+    },
+
+    hasDisplayable(newValue: boolean): void {
+      // HACK
+      if (!newValue) {
+        this.state = State.Selecting;
       }
     },
   },
