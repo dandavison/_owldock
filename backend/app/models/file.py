@@ -22,7 +22,7 @@ class ApplicationFileType(models.TextChoices):
 
 class StoredFile(BaseModel):
     # File attributes
-    created_by = ForeignKey(settings.AUTH_USER_MODEL, on_delete=deletion.PROTECT)
+    created_by = ForeignKey(settings.AUTH_USER_MODEL, on_delete=deletion.CASCADE)
     file = FileField(upload_to="uploads/%Y/%m/")
     # TODO: Prevent file name clashes
     name = CharField(max_length=256)
@@ -35,7 +35,7 @@ class StoredFile(BaseModel):
         max_length=64, choices=ApplicationFileType.choices
     )
     # Not actually using a Django GFK due to our multiple database setup
-    associated_object_content_type = ForeignKey(ContentType, on_delete=deletion.PROTECT)
+    associated_object_content_type = ForeignKey(ContentType, on_delete=deletion.CASCADE)
     associated_object_uuid = UUIDField()
 
     class Meta:

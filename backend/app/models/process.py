@@ -57,7 +57,7 @@ class Route(BaseModel):
     name = models.CharField(max_length=128)
     host_country = models.ForeignKey(
         Country,
-        on_delete=models.deletion.PROTECT,
+        on_delete=models.deletion.CASCADE,
         related_name="routes_for_which_host_country",
     )
 
@@ -76,17 +76,17 @@ class Process(BaseModel):
     """
 
     route = models.ForeignKey(
-        Route, on_delete=models.deletion.PROTECT, related_name="processes"
+        Route, on_delete=models.deletion.CASCADE, related_name="processes"
     )
     nationality = models.ForeignKey(
         Country,
-        on_delete=models.deletion.PROTECT,
+        on_delete=models.deletion.CASCADE,
         related_name="processes_for_which_nationality",
     )
     home_country = models.ForeignKey(
         Country,
         null=True,
-        on_delete=models.deletion.PROTECT,
+        on_delete=models.deletion.CASCADE,
         related_name="processes_for_which_home_country",
     )
 
@@ -102,7 +102,7 @@ class Process(BaseModel):
 
 class ProcessStep(BaseModel):
     process = models.ForeignKey(
-        Process, on_delete=models.deletion.PROTECT, related_name="steps"
+        Process, on_delete=models.deletion.CASCADE, related_name="steps"
     )
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
     sequence_number = models.PositiveIntegerField()

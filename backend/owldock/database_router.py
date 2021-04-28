@@ -5,7 +5,7 @@ from django.conf import settings
 from django.db.models import Model
 
 
-def _is_client_model(model: Type[Model]) -> bool:
+def is_client_model(model: Type[Model]) -> bool:
     return model._meta.app_label == settings.CLIENT_DB_NAME
 
 
@@ -13,7 +13,7 @@ class Router:
     def _route(self, model: Type[Model], **_) -> str:
         return (
             settings.CLIENT_DB_NAME
-            if _is_client_model(model)
+            if is_client_model(model)
             else settings.DEFAULT_DB_NAME
         )
 

@@ -16,6 +16,16 @@ test-all: lint type-check test
 serve:
 	$(MANAGE) runserver 0.0.0.0:8000
 
+build-render:
+	pip install -r requirements.txt
+	python manage.py drop_all_tables
+	rm -rf */migrations/*
+	python manage.py makemigrations app client
+	python manage.py migrate
+	python manage.py migrate --database client
+	python manage.py create_fake_world
+	python manage.py collectstatic --no-input
+
 serve-render:
 	python ./manage.py runserver --noreload 0.0.0.0:8000
 
@@ -32,6 +42,7 @@ repl-python:
 	$(MANAGE) shell_plus
 
 create-fake-world:
+	$(MANAGE) drop_all_tables
 	$(MANAGE) create_fake_world
 
 create-fake-cases:
@@ -43,6 +54,7 @@ generate-typescript-interfaces:
 recreate-db:
 	rm -rf */migrations/*
 	$(MANAGE) makemigrations app client
+	$(MANAGE) drop_all_tables
 	$(MANAGE) migrate
 	$(MANAGE) migrate --database client
 	$(MANAGE) create_fake_world

@@ -225,9 +225,9 @@ class Case(BaseModel):
     # be responsible for the case, then they must be replaced with another (in a
     # single transaction, to avoid violating non-nullability of the foreign
     # key).
-    client_contact = models.ForeignKey(ClientContact, on_delete=deletion.PROTECT)
+    client_contact = models.ForeignKey(ClientContact, on_delete=deletion.CASCADE)
     # A case is always associated with an applicant.
-    applicant = models.ForeignKey(Applicant, on_delete=deletion.PROTECT)
+    applicant = models.ForeignKey(Applicant, on_delete=deletion.CASCADE)
 
     # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.

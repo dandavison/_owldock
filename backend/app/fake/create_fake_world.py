@@ -141,6 +141,14 @@ class _FakeWorldCreator:
                 "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg",
                 lambda provider: provider.name.lower() >= "m",
             ),
+            (
+                "FakeFirstName",
+                "FakeLastName",
+                "FakeClientName",
+                "fake-owldock-client.com",
+                "https://previews.123rf.com/images/deniaz/deniaz2001/deniaz200100234/138923282-a-logo-design-about-fake-news-fake-news-logo-fake-news-tag-vector-illustration.jpg",
+                lambda provider: False,
+            ),
         ]:
             email = _make_email(first_name, client_entity_domain_name)
             user = self._create_user(first_name, last_name, email)
@@ -150,6 +158,8 @@ class _FakeWorldCreator:
                 logo_url=logo_url,
             )
             ClientContact.objects.create(client=client, user_uuid=user.uuid)
+            if client_name == "FakeClientName":
+                continue
             preferred_provider, *other_providers = [
                 p for p in Provider.objects.all() if provider_predicate(p)
             ]
@@ -223,3 +233,28 @@ def _make_email(name: str, domain_name: str) -> str:
     domain_name = strip_prefix(domain_name, "www2.")
     company = domain_name.split(".")[0].translate({" ": "-", ",": "-"})  # type: ignore
     return f"{name}-{company}@example.com".lower()
+
+
+def assert_this_is_the_fake_world():
+    assert {c.name for c in Client.objects.all()} == {
+        "Coca-Cola",
+        "Pepsi",
+        "FakeClientName",
+    }
+    assert {p.name for p in Provider.objects.all()} == {
+        "Avocat Grégoire",
+        "BLF",
+        "Berry Appleman & Leiden",
+        "Bretz & Coven",
+        "Clark Hill",
+        "Corporate Relocations",
+        "Cyrus D. Mehta",
+        "Deloitte",
+        "Deloitte France",
+        "Duane Morris",
+        "Fragomen",
+        "Kramer Levin",
+        "Laura Devine",
+        "Lexial",
+        "Saint Georges Avocats",
+    }
