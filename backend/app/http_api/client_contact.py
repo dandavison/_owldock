@@ -164,7 +164,7 @@ def _perform_earmark_or_offer_case_step_transition(
 class RetractCaseStep(_ClientContactView):
     def post(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         return perform_case_step_transition(
-            "reject",
+            "retract",
             self.client_contact.case_steps(),
             "client_contact.case_steps()",
             query_kwargs={"uuid": uuid},
