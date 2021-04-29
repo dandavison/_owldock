@@ -111,7 +111,7 @@ export default Vue.extend({
 </script>
 
 <style>
-.provider-contact-selector .dropdown-menu {
+.provider-contact-selector .dropdown-menu:not(.is-mobile) {
   width: 400px;
 }
 </style>
