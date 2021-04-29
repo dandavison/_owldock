@@ -71,7 +71,7 @@ export default Vue.extend({
     // when I'm not sure what the right implementation is (i.e. where/when that
     // state should be getting set).
     this.state = this.hasDisplayable ? State.Displaying : State.Selecting;
-    if (this.canUpdate && !processIsNull(this.process)) {
+    if (!processIsNull(this.process)) {
       this.fetchProviderContacts(this.process);
     }
   },
