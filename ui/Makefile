@@ -19,6 +19,7 @@ test-live: backend-generate-typescript-interfaces
 
 
 build: backend-generate-typescript-interfaces
+	rm -fr dist
 	$(WITH_SERVER_ENV) npm run build
 
 build-watch: backend-generate-typescript-interfaces
