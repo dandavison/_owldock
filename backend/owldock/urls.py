@@ -10,11 +10,13 @@ from app.http_api import client_contact
 from app.http_api import countries
 from app.http_api import provider_contact
 from app.http_api import processes
-from app.views import HomeView
+from app.views import HomeView, StatusView
 
 # Note: every route defined here must set appropriate access controls
 
 urlpatterns = [
+    # TODO: Currently unprotected
+    path("status/", StatusView.as_view()),
     # Login and home page
     path("accounts/", include("django.contrib.auth.urls")),
     path("", login_required(HomeView.as_view())),
