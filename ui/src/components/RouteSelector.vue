@@ -11,6 +11,7 @@
           @blur="$emit('blur', $event)"
           :openOnFocus="true"
           dropdown-position="bottom"
+          max-height="100vh"
         >
           <template slot-scope="props">
             <span class="mr-2">{{ props.option.route.name }}</span>
