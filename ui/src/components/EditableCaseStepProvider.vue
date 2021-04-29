@@ -109,6 +109,12 @@ export default Vue.extend({
   },
 
   watch: {
+    canUpdate: function (newValue: boolean): void {
+      if (newValue && this.process) {
+        this.fetchProviderContacts(this.process);
+      }
+    },
+
     process: function (newValue: ProcessSerializer): void {
       if (this.canUpdate) {
         this.fetchProviderContacts(newValue);
