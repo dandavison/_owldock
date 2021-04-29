@@ -103,3 +103,9 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style>
+.provider-contact-selector .dropdown-menu {
+  width: 400px;
+}
+</style>
