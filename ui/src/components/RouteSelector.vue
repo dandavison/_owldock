@@ -1,5 +1,5 @@
 <template>
-  <div class="field has-addons" style="width: 100%">
+  <div class="field has-addons route-selector" style="width: 100%">
     <p class="control" style="width: 100%">
       <b-field :label="label">
         <b-autocomplete
@@ -84,3 +84,9 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style>
+.route-selector .dropdown-item {
+  white-space: normal !important;
+}
+</style>
