@@ -57,7 +57,7 @@ generate-typescript-interfaces:
 
 recreate-db:
 	rm -rf */migrations/*
-	$(MANAGE) makemigrations app client
+	$(MANAGE) makemigrations app client immigration
 	$(MANAGE) drop_all_tables
 	$(MANAGE) migrate
 	$(MANAGE) migrate --database client
