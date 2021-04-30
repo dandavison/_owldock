@@ -1,5 +1,5 @@
 from django.contrib import admin
-from nested_inline.admin import (
+from nested_admin import (
     NestedStackedInline,
     NestedTabularInline,
     NestedModelAdmin,

@@ -112,6 +112,7 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
+    path("_nested_admin/", include("nested_admin.urls")),
 ]
 
 if settings.DEV:
