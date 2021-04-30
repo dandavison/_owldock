@@ -2,7 +2,6 @@ __pycache__
 .venv
 .vscode/settings.json
 *.sqlite3
-migrations/
 static
 staticfiles/
 uploads/
