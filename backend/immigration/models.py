@@ -23,11 +23,14 @@ class IssuedDocumentType(BaseModel):
 
 
 class IssuedDocument(BaseModel):
-    process = ForeignKey("Process", on_delete=deletion.CASCADE)
     issued_document_type = ForeignKey(IssuedDocumentType, on_delete=deletion.CASCADE)
+    process = ForeignKey("Process", on_delete=deletion.CASCADE)
     proves_right_to_enter = BooleanField(default=False)
     proves_right_to_reside = BooleanField(default=False)
     proves_right_to_work = BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"{self.issued_document_type} ({self.process})"
 
 
 # Note: this corresponds to app.models.Route, not to app.models.Process
@@ -111,6 +114,7 @@ class Process(BaseModel):
     )
 
     class Meta:
+        verbose_name_plural = "Processes"
         constraints = [
             UniqueConstraint(
                 fields=("name", "host_country"),
