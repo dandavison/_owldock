@@ -81,13 +81,13 @@ class Process(BaseModel):
     nationality = models.ForeignKey(
         Country,
         on_delete=models.deletion.CASCADE,
-        related_name="processes_for_which_nationality",
+        related_name="+",
     )
     home_country = models.ForeignKey(
         Country,
         null=True,
         on_delete=models.deletion.CASCADE,
-        related_name="processes_for_which_home_country",
+        related_name="+",
     )
 
     class Meta:
