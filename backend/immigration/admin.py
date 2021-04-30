@@ -11,6 +11,7 @@ from immigration.models import (
 class ProcessStepInline(admin.TabularInline):
     model = ProcessStep
     filter_horizontal = ["required_only_if_nationalities"]
+    extra = 1
 
 
 class IssuedDocumentInline(admin.TabularInline):
