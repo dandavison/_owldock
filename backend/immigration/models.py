@@ -1,6 +1,7 @@
 from django.db.models import (
     BooleanField,
     CharField,
+    DecimalField,
     deletion,
     ForeignKey,
     ManyToManyField,
@@ -85,6 +86,13 @@ class Process(BaseModel):
             "Payroll location for this process. Blank means no payroll location condition."
         ),
         max_length=16,
+        null=True,
+        blank=True,
+    )
+    minimum_salary = DecimalField(
+        "Minimum salary in host country currency",
+        max_digits=9,
+        decimal_places=2,
         null=True,
         blank=True,
     )
