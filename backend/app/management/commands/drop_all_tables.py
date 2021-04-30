@@ -10,6 +10,7 @@ from owldock.database_router import is_client_model
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
+        assert_this_is_the_fake_world()
         for model in django.apps.apps.get_models(include_auto_created=True):
             connection = (
                 connections["client"]
