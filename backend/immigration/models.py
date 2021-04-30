@@ -184,8 +184,4 @@ class ProcessStep(BaseModel):
                 fields=("process", "name"),
                 name="imm__process_step__name__uniq",
             ),
-            UniqueConstraint(
-                fields=("process", "sequence_number"),
-                name="imm__process_step__sequence_number__uniq",
-            ),
         ]
