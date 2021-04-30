@@ -137,10 +137,10 @@ class ProcessStep(BaseModel):
     sequence_number = PositiveIntegerField(
         help_text="Order of this step relative to other steps of this process."
     )
-    estimated_duration_min = PositiveIntegerField(
+    estimated_min_duration_days = PositiveIntegerField(
         help_text="Minimum number of days this step is expected to take"
     )
-    estimated_duration_max = PositiveIntegerField(
+    estimated_max_duration_days = PositiveIntegerField(
         help_text="Maximum number of days this step is expected to take"
     )
     applicant_can_enter_host_country_after = BooleanField(
