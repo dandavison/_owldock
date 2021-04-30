@@ -20,6 +20,10 @@ build-render:
 	pip install -r requirements.txt
 	python manage.py collectstatic --no-input
 
+migrate-render:
+	python manage.py migrate
+	python manage.py migrate --database client
+
 recreate-db-render:
 	python manage.py drop_all_tables
 	python manage.py migrate
