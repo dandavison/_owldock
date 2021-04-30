@@ -28,8 +28,8 @@ class IssuedDocumentTypeAdmin(admin.ModelAdmin):
 @admin.register(Process)
 class ProcessAdmin(admin.ModelAdmin):
     list_display = ["name", "host_country"]
-    filter_horizontal = ["nationalities", "home_countries", "issued_documents"]
-    inlines = [ProcessStepInline, IssuedDocumentInline]
+    filter_horizontal = ["nationalities", "home_countries"]
+    inlines = [ProcessStepInline]
 
     if False:
         # DNW:

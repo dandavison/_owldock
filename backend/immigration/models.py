@@ -25,13 +25,13 @@ class IssuedDocumentType(BaseModel):
 
 class IssuedDocument(BaseModel):
     issued_document_type = ForeignKey(IssuedDocumentType, on_delete=deletion.CASCADE)
-    process = ForeignKey("Process", on_delete=deletion.CASCADE)
+    process_step = ForeignKey("ProcessStep", on_delete=deletion.CASCADE)
     proves_right_to_enter = BooleanField(default=False)
     proves_right_to_reside = BooleanField(default=False)
     proves_right_to_work = BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.issued_document_type} ({self.process})"
+        return f"{self.issued_document_type} ({self.process_step})"
 
 
 # Note: this corresponds to app.models.Route, not to app.models.Process
@@ -63,12 +63,6 @@ class Process(BaseModel):
             "Blank means this process is available for any home country."
         ),
         related_name="processes_for_which_home_country",
-        blank=True,
-    )
-    issued_documents = ManyToManyField(
-        IssuedDocumentType,
-        through=IssuedDocument,
-        help_text="Issued documents associated with this process.",
         blank=True,
     )
     contract_location = CharField(
@@ -136,6 +130,12 @@ class ProcessStep(BaseModel):
     name = CharField(max_length=128, help_text="Name of this step")
     sequence_number = PositiveIntegerField(
         help_text="Order of this step relative to other steps of this process."
+    )
+    issued_documents = ManyToManyField(
+        IssuedDocumentType,
+        through=IssuedDocument,
+        help_text="Issued documents associated with this process step.",
+        blank=True,
     )
     estimated_min_duration_days = PositiveIntegerField(
         help_text="Minimum number of days this step is expected to take"
