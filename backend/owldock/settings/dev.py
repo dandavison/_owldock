@@ -22,7 +22,7 @@ INSTALLED_APPS.extend(  # noqa
 )
 if "INTERNAL_IPS" not in locals():
     INTERNAL_IPS = []
-INTERNAL_IPS.append("192.168.1.3")  # noqa
+INTERNAL_IPS.append("192.168.1.5")  # noqa
 MIDDLEWARE.extend(  # noqa
     [
         "app.middleware.process_exception.process_exception",
