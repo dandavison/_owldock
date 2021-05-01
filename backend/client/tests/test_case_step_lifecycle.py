@@ -205,7 +205,7 @@ def _make_case_step_FREE_assertions(
         )
 
     for c in [client_contact, other_client_contact]:
-        list(CaseSerializer.get_cases_for_client_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_EARMARKED_assertions(
@@ -262,7 +262,7 @@ def _make_case_step_EARMARKED_assertions(
         )
 
     for c in [client_contact, other_client_contact]:
-        list(CaseSerializer.get_cases_for_client_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_OFFERED_assertions(
@@ -321,7 +321,7 @@ def _make_case_step_OFFERED_assertions(
         )
 
     for c in [client_contact, other_client_contact]:
-        list(CaseSerializer.get_cases_for_client_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_IN_PROGRESS_assertions(
@@ -388,7 +388,7 @@ def _make_case_step_IN_PROGRESS_assertions(
     )
 
     for c in [client_contact, other_client_contact]:
-        list(CaseSerializer.get_cases_for_client_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_COMPLETE_assertions(
@@ -451,7 +451,7 @@ def _make_case_step_COMPLETE_assertions(
     )
 
     for c in [client_contact, other_client_contact]:
-        list(CaseSerializer.get_cases_for_client_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _transitions_by_name(transitions) -> dict:

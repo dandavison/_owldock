@@ -6,13 +6,13 @@ from django.http import (
     HttpRequest,
     HttpResponse,
 )
-from django_tools.middlewares.ThreadLocal import get_current_request
 
 from app.http_api.base import BaseView
 from app.http_api.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
 )
+from app.http_api.client_or_provider_contact import ClientOrProviderCaseListMixin
 from app.http_api.serializers import (
     CaseSerializer,
     ClientProviderRelationshipSerializer,
@@ -21,7 +21,6 @@ from app.http_api.serializers import (
 )
 from app.models import ProviderContact
 from client.models import Case, ClientContact
-from owldock.dev.db_utils import assert_n_queries, print_queries
 from owldock.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
@@ -29,7 +28,6 @@ from owldock.http import (
     make_explanatory_http_response,
     OwldockJsonResponse,
 )
-from owldock.state_machine.role import get_role_from_http_request
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
@@ -80,23 +78,9 @@ class ApplicantList(_ClientContactView):
         return OwldockJsonResponse(serializer.data)
 
 
-class CaseList(_ClientContactView):
+class CaseList(ClientOrProviderCaseListMixin, _ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-
-        print("Pre-serialization queries")
-        with print_queries():
-            cases = list(
-                CaseSerializer.get_cases_for_client_contact(self.client_contact)
-            )
-
-        request = get_current_request()
-        get_role_from_http_request(request)  # cache it
-
-        with assert_n_queries(0):
-            serializer = CaseSerializer(cases, many=True)
-            response = OwldockJsonResponse(serializer.data)
-
-        return response
+        return self._get(self.client_contact, request)
 
 
 class CreateCase(_ClientContactView):

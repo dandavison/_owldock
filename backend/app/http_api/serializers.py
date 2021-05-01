@@ -17,10 +17,11 @@ objects without to type-check.
 import logging
 from collections import defaultdict
 from operator import attrgetter
+from typing import List, Union
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Prefetch, QuerySet
+from django.db.models import Prefetch
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
@@ -270,19 +271,19 @@ class CaseSerializer(ModelSerializer):
         ]
 
     @classmethod
-    def get_cases_for_client_contact(
-        cls, client_contact: ClientContact
-    ) -> QuerySet[Case]:
+    def get_cases_for_client_or_provider_contact(
+        cls, client_or_provider_contact: Union[ClientContact, ProviderContact]
+    ) -> List[Case]:
 
         # Cache along lineages rooted at Case, in the client DB.
-        cases = (
-            client_contact.cases()
+        cases = list(
+            client_or_provider_contact.cases()
             .prefetch_related(
                 "applicant__applicantnationality_set",
                 Prefetch(
                     "steps",
                     queryset=(
-                        client_contact.case_steps().select_related(
+                        client_or_provider_contact.case_steps().select_related(
                             "active_contract__case_step"
                         )
                     ),
@@ -294,6 +295,12 @@ class CaseSerializer(ModelSerializer):
             .order_by("-created_at")
         )
 
+        cls._cache_prefetched_data_on_case_objects(cases)
+
+        return cases
+
+    @classmethod
+    def _cache_prefetched_data_on_case_objects(cls, cases: List[Case]) -> None:
         # Fetch processes in default DB
         process_uuids = {c.process_uuid for c in cases}
         processes = (
@@ -382,8 +389,6 @@ class CaseSerializer(ModelSerializer):
                 ),
             )
             setattr(a, "user", uuid2user[a.user_uuid])
-
-        return cases
 
     @atomic
     def create_for_client_contact(self, client_contact: ClientContact) -> Case:
