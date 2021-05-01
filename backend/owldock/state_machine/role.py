@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Optional, Union, TYPE_CHECKING
 
 from django.http import HttpRequest
-from django_tools.middlewares.ThreadLocal import get_current_request
 
 from app.models import User
 
@@ -70,9 +69,8 @@ def get_role(user) -> Optional[Role]:
     return UserRole(user).role
 
 
-def get_role_from_current_http_request() -> Optional[Role]:
+def get_role_from_http_request(request: HttpRequest) -> Optional[Role]:
     cache_attrname = "_owldock_user_role"
-    request = get_current_request()
     if not hasattr(request, cache_attrname):
         setattr(request, cache_attrname, get_role(request.user))
     return getattr(request, cache_attrname)

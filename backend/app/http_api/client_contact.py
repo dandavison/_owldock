@@ -6,6 +6,7 @@ from django.http import (
     HttpRequest,
     HttpResponse,
 )
+from django_tools.middlewares.ThreadLocal import get_current_request
 
 from app.http_api.base import BaseView
 from app.http_api.case_step_utils import (
@@ -28,7 +29,7 @@ from owldock.http import (
     make_explanatory_http_response,
     OwldockJsonResponse,
 )
-from owldock.state_machine.role import get_role_from_current_http_request
+from owldock.state_machine.role import get_role_from_http_request
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
@@ -88,7 +89,8 @@ class CaseList(_ClientContactView):
                 CaseSerializer.get_cases_for_client_contact(self.client_contact)
             )
 
-        get_role_from_current_http_request()  # cache it
+        request = get_current_request()
+        get_role_from_http_request(request)  # cache it
 
         with assert_n_queries(0):
             serializer = CaseSerializer(cases, many=True)

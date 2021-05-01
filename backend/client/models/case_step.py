@@ -7,6 +7,7 @@ from django.db.models import deletion, QuerySet
 from django.db.transaction import atomic
 from django.urls import reverse
 from django.utils import timezone
+from django_tools.middlewares.ThreadLocal import get_current_request
 
 from app.models import ProcessStep, ProviderContact, StoredFile, User
 from app.models.file import ApplicationFileType
@@ -15,7 +16,7 @@ from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
 from owldock.state_machine.role import (
     get_role,
-    get_role_from_current_http_request,
+    get_role_from_http_request,
     Role,
 )
 from owldock.models.base import BaseModel
@@ -230,8 +231,10 @@ class CaseStep(BaseModel):
         # TODO: Better separation of HTTP API from models.py
         # This method is currently implemented here on the model class in order
         # that it is available to a DRF serializer.
-
-        role = get_role_from_current_http_request()
+        request = get_current_request()
+        if not request:
+            return []
+        role = get_role_from_http_request(request)
         if not role:
             return []
 
