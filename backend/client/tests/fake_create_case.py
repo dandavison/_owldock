@@ -48,7 +48,7 @@ def make_post_data_for_client_contact_case_create_endpoint(
     case_steps_srlzrs = _create_case_steps_from_process_steps(
         [
             (ProcessStepSerializer(s), provider_contact_srlzr)
-            for s in process.steps.all()
+            for s in process.processstep_set.all()
         ]
     )
 

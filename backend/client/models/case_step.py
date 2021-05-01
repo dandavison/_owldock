@@ -90,9 +90,9 @@ def permission_checker(action: str) -> Callable[["CaseStep", User], bool]:
 
 class CaseStep(BaseModel):
     # Case steps are concrete steps attached to a case instance. Typically, they
-    # will be in 1-1 correspondence with the abstract case.process.steps.
-    # However, it may sometimes be desirable to modify a case's steps so that
-    # they no longer exactly match any abstract process's steps.
+    # will be in 1-1 correspondence with the abstract process steps of
+    # case.process. However, it may sometimes be desirable to modify a case's
+    # steps so that they no longer exactly match any abstract process's steps.
     case = models.ForeignKey(Case, on_delete=deletion.CASCADE)
     process_step_uuid = UUIDPseudoForeignKeyField(ProcessStep)
     process_step: ProcessStep
