@@ -13,7 +13,11 @@ from app.models.file import ApplicationFileType
 from client.models.client import Case
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
-from owldock.state_machine.role import get_role, Role
+from owldock.state_machine.role import (
+    get_role,
+    get_role_from_current_http_request,
+    Role,
+)
 from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 
@@ -222,18 +226,12 @@ class CaseStep(BaseModel):
     def retract(self) -> None:
         self.reject()
 
-    def get_actions(self, user=None) -> List[Action]:
+    def get_actions(self) -> List[Action]:
         # TODO: Better separation of HTTP API from models.py
         # This method is currently implemented here on the model class in order
         # that it is available to a DRF serializer.
 
-        from django_tools.middlewares.ThreadLocal import get_current_user
-        from owldock.state_machine.role import get_role
-
-        user = user or get_current_user()
-        if not user:
-            return []
-        role = get_role(user)
+        role = get_role_from_current_http_request()
         if not role:
             return []
 

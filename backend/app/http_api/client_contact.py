@@ -20,6 +20,7 @@ from app.http_api.serializers import (
 )
 from app.models import ProviderContact
 from client.models import Case, ClientContact
+from owldock.dev.db_utils import assert_n_queries, print_queries
 from owldock.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
@@ -27,6 +28,7 @@ from owldock.http import (
     make_explanatory_http_response,
     OwldockJsonResponse,
 )
+from owldock.state_machine.role import get_role_from_current_http_request
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
@@ -80,18 +82,15 @@ class ApplicantList(_ClientContactView):
 class CaseList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
 
-        from owldock.dev.db_utils import print_queries
-
         print("Pre-serialization queries")
         with print_queries():
             cases = list(
-                CaseSerializer.get_cases_for_client_contact(
-                    self.client_contact
-                ).order_by("-created_at")
+                CaseSerializer.get_cases_for_client_contact(self.client_contact)
             )
 
-        with print_queries():
-            print("Serialization queries")
+        get_role_from_current_http_request()  # cache it
+
+        with assert_n_queries(0):
             serializer = CaseSerializer(cases, many=True)
             response = OwldockJsonResponse(serializer.data)
 

@@ -185,7 +185,7 @@ class ApplicantSerializer(CountryFieldMixin, Serializer):
     user = UserSerializer()
     employer = ClientSerializer()
     home_country = CountrySerializer()
-    nationalities = CountrySerializer(many=True)
+    nationalities = CountrySerializer(many=True, source="_prefetched_nationalities")
 
     class Meta:
         model = Applicant
@@ -274,7 +274,7 @@ class CaseStepSerializer(Serializer):
     process_step = ProcessStepSerializer()
     sequence_number = IntegerField()
     state = EnumSerializer()
-    stored_files = StoredFileSerializer(many=True)
+    stored_files = StoredFileSerializer(many=True, source="_prefetched_stored_files")
 
     class Meta:
         model = CaseStep
@@ -297,7 +297,7 @@ class CaseSerializer(Serializer):
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
-    steps = CaseStepSerializer(many=True)
+    steps = CaseStepSerializer(many=True, source="casestep_set")
     created_at = DateTimeField()
     target_entry_date = DateField()
     target_exit_date = DateField()
@@ -327,14 +327,17 @@ class CaseSerializer(Serializer):
                 "applicant__applicantnationality_set",
                 Prefetch(
                     "casestep_set",
-                    queryset=CaseStep.objects.order_by(
-                        "sequence_number"
-                    ).select_related("active_contract__case_step"),
+                    queryset=(
+                        client_contact.case_steps().select_related(
+                            "active_contract__case_step"
+                        )
+                    ),
                 ),
             )
             .select_related(
                 "applicant__employer",
             )
+            .order_by("-created_at")
         )
 
         # Fetch processes in default DB
