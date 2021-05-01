@@ -93,7 +93,7 @@ class CaseStep(BaseModel):
     # will be in 1-1 correspondence with the abstract case.process.steps.
     # However, it may sometimes be desirable to modify a case's steps so that
     # they no longer exactly match any abstract process's steps.
-    case = models.ForeignKey(Case, on_delete=deletion.CASCADE)
+    case = models.ForeignKey(Case, on_delete=deletion.CASCADE, related_name="steps")
     process_step_uuid = UUIDPseudoForeignKeyField(ProcessStep)
     process_step: ProcessStep
     sequence_number = models.PositiveIntegerField()

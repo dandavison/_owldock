@@ -33,7 +33,7 @@ def test_update_case(
     post_data["applicant"]["uuid"] = applicant_B.uuid
 
     # Change a provider on a process step
-    step = case.casestep_set.get(sequence_number=1 + 1)
+    step = case.steps.get(sequence_number=1 + 1)
     step_data = post_data["steps"][1]
     assert step.active_contract
     assert step.active_contract.provider_contact == provider_contact_A
@@ -48,13 +48,13 @@ def test_update_case(
     validated_data = case_serializer.validated_data
     assert validated_data.get("uuid"), "Cannot update: no case uuid in POST data"
     uuid = validated_data["uuid"]
-    case = Case.objects.prefetch_related("casestep_set").get(uuid=uuid)
+    case = Case.objects.prefetch_related("steps").get(uuid=uuid)
 
     # Actually update
     case_serializer.update(case, validated_data)
 
     case = Case.objects.get(id=case.id)
     assert case.applicant == applicant_B
-    case_step = case.casestep_set.get(sequence_number=1 + 1)
+    case_step = case.steps.get(sequence_number=1 + 1)
     assert case_step.active_contract
     assert case_step.active_contract.provider_contact == provider_contact_B

@@ -254,7 +254,7 @@ class CaseSerializer(ModelSerializer):
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
-    steps = CaseStepSerializer(many=True, source="casestep_set")
+    steps = CaseStepSerializer(many=True)
 
     class Meta:
         model = Case
@@ -280,7 +280,7 @@ class CaseSerializer(ModelSerializer):
             .prefetch_related(
                 "applicant__applicantnationality_set",
                 Prefetch(
-                    "casestep_set",
+                    "steps",
                     queryset=(
                         client_contact.case_steps().select_related(
                             "active_contract__case_step"
@@ -309,7 +309,7 @@ class CaseSerializer(ModelSerializer):
         uuid2process_step = {s.uuid: s for p in processes for s in p.steps.all()}
 
         # Fetch stored files in default DB
-        case_step_uuids = {s.uuid for c in cases for s in c.casestep_set.all()}
+        case_step_uuids = {s.uuid for c in cases for s in c.steps.all()}
         stored_files = StoredFile.objects.filter(
             associated_object_uuid__in=case_step_uuids,
             associated_object_content_type=ContentType.objects.get_for_model(CaseStep),
@@ -322,7 +322,7 @@ class CaseSerializer(ModelSerializer):
         provider_contact_uuids = {
             s.active_contract.provider_contact_uuid
             for c in cases
-            for s in c.casestep_set.all()
+            for s in c.steps.all()
             if s.active_contract
         }
         uuid2provider_contact = {
@@ -355,7 +355,7 @@ class CaseSerializer(ModelSerializer):
         # queries in the client DB.
         for c in cases:
             setattr(c, "process", uuid2process[c.process_uuid])
-            for s in c.casestep_set.all():
+            for s in c.steps.all():
                 setattr(s, "process_step", uuid2process_step[s.process_step_uuid])
                 setattr(
                     s,
@@ -397,7 +397,7 @@ class CaseSerializer(ModelSerializer):
             **self.validated_data,
         )
         for case_step_data in case_steps_data:
-            case_step = case.casestep_set.create(
+            case_step = case.steps.create(
                 process_step_uuid=case_step_data["process_step"]["uuid"],
                 sequence_number=case_step_data["sequence_number"],
             )

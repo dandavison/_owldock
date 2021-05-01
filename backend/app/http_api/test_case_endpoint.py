@@ -35,7 +35,7 @@ def test_provider_contact_case_access(
         username=client_contact_A.user.username,
         password=TEST_PASSWORD,
     )
-    case_step, *other_case_steps = case.steps()
+    case_step, *other_case_steps = case.steps.all()
     response = django_test_client.post(
         f"/api/client-contact/offer-case-step/{case_step.uuid}",
         json.dumps(
