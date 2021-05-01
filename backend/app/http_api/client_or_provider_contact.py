@@ -5,7 +5,7 @@ from django.http import HttpRequest, HttpResponse
 
 from app.models import ProviderContact
 from app.http_api.serializers import CaseSerializer
-from client.models import Case, ClientContact
+from client.models import ClientContact
 from owldock.dev.db_utils import assert_n_queries, print_queries
 from owldock.state_machine.role import get_role_from_http_request
 from owldock.http import make_explanatory_http_response, OwldockJsonResponse
@@ -18,16 +18,24 @@ class ClientOrProviderCaseViewMixin:
         uuid: UUID,
         client_or_provider_contact: Union[ClientContact, ProviderContact],
     ) -> HttpResponse:
-        qs = client_or_provider_contact.cases()
         kwargs = {"uuid": uuid}
-        try:
-            case = qs.get(**kwargs)
-        except Case.DoesNotExist:
+        qs = client_or_provider_contact.cases().filter(**kwargs)
+        print("Pre-serialization queries")
+        with print_queries():
+            cases = CaseSerializer.prefetch_cases(qs, client_or_provider_contact)
+        if not cases:
             return make_explanatory_http_response(
                 qs, "client_or_provider_contact.cases()", **kwargs
             )
-        serializer = CaseSerializer(case)
-        return OwldockJsonResponse(serializer.data)
+        [case] = cases
+
+        get_role_from_http_request(request)  # cache it
+
+        with assert_n_queries(0):
+            serializer = CaseSerializer(case)
+            response = OwldockJsonResponse(serializer.data)
+
+        return response
 
 
 class ClientOrProviderCaseListMixin:

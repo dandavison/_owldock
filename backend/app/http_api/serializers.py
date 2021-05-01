@@ -21,7 +21,7 @@ from typing import List, Union
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Prefetch
+from django.db.models import Prefetch, QuerySet
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
@@ -274,11 +274,20 @@ class CaseSerializer(ModelSerializer):
     def get_cases_for_client_or_provider_contact(
         cls, client_or_provider_contact: Union[ClientContact, ProviderContact]
     ) -> List[Case]:
+        return cls.prefetch_cases(
+            client_or_provider_contact.cases(), client_or_provider_contact
+        )
+
+    @classmethod
+    def prefetch_cases(
+        cls,
+        cases: QuerySet[Case],
+        client_or_provider_contact: Union[ClientContact, ProviderContact],
+    ) -> List[Case]:
 
         # Cache along lineages rooted at Case, in the client DB.
-        cases = list(
-            client_or_provider_contact.cases()
-            .prefetch_related(
+        _cases = list(
+            cases.prefetch_related(
                 "applicant__applicantnationality_set",
                 Prefetch(
                     "steps",
@@ -294,10 +303,8 @@ class CaseSerializer(ModelSerializer):
             )
             .order_by("-created_at")
         )
-
-        cls._cache_prefetched_data_on_case_objects(cases)
-
-        return cases
+        cls._cache_prefetched_data_on_case_objects(_cases)
+        return _cases
 
     @classmethod
     def _cache_prefetched_data_on_case_objects(cls, cases: List[Case]) -> None:
