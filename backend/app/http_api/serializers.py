@@ -25,8 +25,11 @@ from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import (
+    BooleanField,
     CharField,
-    ModelSerializer,
+    DateField,
+    DateTimeField,
+    EmailField,
     IntegerField,
     Serializer,
     UUIDField,
@@ -66,21 +69,34 @@ class EnumSerializer(Serializer):
 
 
 @ts_interface()
-class CountrySerializer(ModelSerializer):
+class CountrySerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    name = CharField()
+    code = CharField()
+    unicode_flag = CharField()
+
     class Meta:
         model = Country
         fields = ["uuid", "name", "code", "unicode_flag"]
 
 
 @ts_interface()
-class ServiceSerializer(ModelSerializer):
+class ServiceSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    name = CharField()
+
     class Meta:
         model = Service
         fields = ["uuid", "name"]
 
 
 @ts_interface()
-class RouteSerializer(ModelSerializer):
+class RouteSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    name = CharField()
     host_country = CountrySerializer()
 
     class Meta:
@@ -89,9 +105,10 @@ class RouteSerializer(ModelSerializer):
 
 
 @ts_interface()
-class ProcessStepSerializer(ModelSerializer):
+class ProcessStepSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    sequence_number = IntegerField()
     service = ServiceSerializer()
 
     class Meta:
@@ -101,7 +118,7 @@ class ProcessStepSerializer(ModelSerializer):
 
 
 @ts_interface()
-class ProcessSerializer(ModelSerializer):
+class ProcessSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
@@ -122,7 +139,13 @@ class ActionSerializer(Serializer):
 
 
 @ts_interface()
-class UserSerializer(ModelSerializer):
+class UserSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    first_name = CharField()
+    last_name = CharField()
+    email = EmailField()
+
     class Meta:
         model = get_user_model()
         fields = ["uuid", "first_name", "last_name", "email"]
@@ -130,23 +153,32 @@ class UserSerializer(ModelSerializer):
 
 
 @ts_interface()
-class StoredFileSerializer(ModelSerializer):
+class StoredFileSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     created_by = UserSerializer()
+    media_type = CharField()
+    name = CharField()
+    size = IntegerField()
 
     class Meta:
         model = StoredFile
-        fields = ["created_by", "uuid", "media_type", "name", "size"]
+        fields = ["uuid", "created_by", "media_type", "name", "size"]
 
 
 @ts_interface()
-class ClientSerializer(ModelSerializer):
+class ClientSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    name = CharField()
+
     class Meta:
         model = Client
         fields = ["uuid", "name"]
 
 
 @ts_interface()
-class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
+class ApplicantSerializer(CountryFieldMixin, Serializer):
     # See module docstring for explanation of read_only and allow_null
     id = IntegerField(read_only=False, allow_null=True, required=False, min_value=1)
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
@@ -161,7 +193,9 @@ class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
 
 
 @ts_interface()
-class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
+class ClientContactSerializer(CountryFieldMixin, Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
     client = ClientSerializer()
 
@@ -171,18 +205,24 @@ class ClientContactSerializer(CountryFieldMixin, ModelSerializer):
 
 
 @ts_interface()
-class ProviderSerializer(ModelSerializer):
+class ProviderSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    logo_url = URLField()
+    name = CharField()
+
     class Meta:
         model = Provider
         fields = ["uuid", "logo_url", "name"]
 
 
 @ts_interface()
-class ClientProviderRelationshipSerializer(ModelSerializer):
+class ClientProviderRelationshipSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     client = ClientSerializer()
     provider = ProviderSerializer()
+    preferred = BooleanField()
 
     class Meta:
         model = ClientProviderRelationship
@@ -190,7 +230,7 @@ class ClientProviderRelationshipSerializer(ModelSerializer):
 
 
 @ts_interface()
-class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
+class ProviderContactSerializer(CountryFieldMixin, Serializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     user = UserSerializer()
@@ -202,7 +242,7 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
 
 
 @ts_interface()
-class CaseStepContractSerializer(ModelSerializer):
+class CaseStepContractSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
     id = IntegerField(read_only=False, allow_null=True, required=False, min_value=1)
     # The case FK will never be null, but we have to set required=False here
@@ -211,6 +251,8 @@ class CaseStepContractSerializer(ModelSerializer):
     case_step_uuid = CharField(source="case_step.uuid", required=False)
     provider_contact = ProviderContactSerializer()
     # TODO: cannot serialize case_step due to cycle in foreign key dependency graph
+    accepted_at = DateTimeField()
+    rejected_at = DateTimeField()
 
     class Meta:
         model = CaseStepContract
@@ -224,12 +266,13 @@ class CaseStepContractSerializer(ModelSerializer):
 
 
 @ts_interface()
-class CaseStepSerializer(ModelSerializer):
+class CaseStepSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     actions = ActionSerializer(many=True, source="get_actions")
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
+    sequence_number = IntegerField()
     state = EnumSerializer()
     stored_files = StoredFileSerializer(many=True)
 
@@ -239,7 +282,6 @@ class CaseStepSerializer(ModelSerializer):
             "uuid",
             "actions",
             "active_contract",
-            "uuid",
             "process_step",
             "sequence_number",
             "state",
@@ -249,12 +291,16 @@ class CaseStepSerializer(ModelSerializer):
 
 
 @ts_interface()
-class CaseSerializer(ModelSerializer):
+class CaseSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
+    id = IntegerField(read_only=False, allow_null=True, required=False, min_value=1)
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     applicant = ApplicantSerializer()
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
+    created_at = DateTimeField()
+    target_entry_date = DateField()
+    target_exit_date = DateField()
 
     class Meta:
         model = Case
