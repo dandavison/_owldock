@@ -31,7 +31,7 @@ class ClientOrProviderCaseViewMixin:
 
         get_role_from_http_request(request)  # cache it
 
-        with assert_n_queries(0):
+        with assert_n_queries(2):
             serializer = CaseSerializer(case)
             response = OwldockJsonResponse(serializer.data)
 
