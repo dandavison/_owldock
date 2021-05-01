@@ -14,7 +14,10 @@ from app.http_api.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
 )
-from app.http_api.client_or_provider_contact import ClientOrProviderCaseListMixin
+from app.http_api.client_or_provider_contact import (
+    ClientOrProviderCaseListMixin,
+    ClientOrProviderCaseViewMixin,
+)
 from app.http_api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
@@ -58,18 +61,9 @@ class ApplicantList(_ProviderContactView):
         return OwldockJsonResponse(serializer.data)
 
 
-class CaseView(_ProviderContactView):
+class CaseView(ClientOrProviderCaseViewMixin, _ProviderContactView):
     def get(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        qs = self.provider_contact.cases()
-        kwargs = {"uuid": uuid}
-        try:
-            case = qs.get(**kwargs)
-        except Case.DoesNotExist:
-            return make_explanatory_http_response(
-                qs, "provider_contact.cases()", **kwargs
-            )
-        serializer = CaseSerializer(case)
-        return OwldockJsonResponse(serializer.data)
+        return self._get(request, uuid, self.provider_contact)
 
 
 class CaseStepView(_ProviderContactView):
@@ -88,7 +82,7 @@ class CaseStepView(_ProviderContactView):
 
 class CaseList(ClientOrProviderCaseListMixin, _ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        return self._get(self.provider_contact, request)
+        return self._get(request, self.provider_contact)
 
 
 class CaseStepUploadFiles(_ProviderContactView):

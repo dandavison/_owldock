@@ -1,20 +1,40 @@
 from typing import Union
+from uuid import UUID
 
 from django.http import HttpRequest, HttpResponse
 
 from app.models import ProviderContact
 from app.http_api.serializers import CaseSerializer
-from client.models import ClientContact
+from client.models import Case, ClientContact
 from owldock.dev.db_utils import assert_n_queries, print_queries
 from owldock.state_machine.role import get_role_from_http_request
-from owldock.http import OwldockJsonResponse
+from owldock.http import make_explanatory_http_response, OwldockJsonResponse
+
+
+class ClientOrProviderCaseViewMixin:
+    def _get(
+        self,
+        request: HttpRequest,
+        uuid: UUID,
+        client_or_provider_contact: Union[ClientContact, ProviderContact],
+    ) -> HttpResponse:
+        qs = client_or_provider_contact.cases()
+        kwargs = {"uuid": uuid}
+        try:
+            case = qs.get(**kwargs)
+        except Case.DoesNotExist:
+            return make_explanatory_http_response(
+                qs, "client_or_provider_contact.cases()", **kwargs
+            )
+        serializer = CaseSerializer(case)
+        return OwldockJsonResponse(serializer.data)
 
 
 class ClientOrProviderCaseListMixin:
     def _get(
         self,
-        client_or_provider_contact: Union[ClientContact, ProviderContact],
         request: HttpRequest,
+        client_or_provider_contact: Union[ClientContact, ProviderContact],
     ) -> HttpResponse:
 
         print("Pre-serialization queries")

@@ -12,7 +12,10 @@ from app.http_api.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
 )
-from app.http_api.client_or_provider_contact import ClientOrProviderCaseListMixin
+from app.http_api.client_or_provider_contact import (
+    ClientOrProviderCaseListMixin,
+    ClientOrProviderCaseViewMixin,
+)
 from app.http_api.serializers import (
     CaseSerializer,
     ClientProviderRelationshipSerializer,
@@ -20,12 +23,11 @@ from app.http_api.serializers import (
     ProviderContactSerializer,
 )
 from app.models import ProviderContact
-from client.models import Case, ClientContact
+from client.models import ClientContact
 from owldock.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
     HttpResponseNotFound,
-    make_explanatory_http_response,
     OwldockJsonResponse,
 )
 
@@ -57,18 +59,9 @@ class ApplicantsList(_ClientContactView):
         return OwldockJsonResponse(serializer.data)
 
 
-class CaseView(_ClientContactView):
+class CaseView(ClientOrProviderCaseViewMixin, _ClientContactView):
     def get(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
-        qs = self.client_contact.cases()
-        kwargs = {"uuid": uuid}
-        try:
-            case = qs.get(**kwargs)
-        except Case.DoesNotExist:
-            return make_explanatory_http_response(
-                qs, "client_contact.cases()", **kwargs
-            )
-        serializer = CaseSerializer(case)
-        return OwldockJsonResponse(serializer.data)
+        return self._get(request, uuid, self.client_contact)
 
 
 class ApplicantList(_ClientContactView):
@@ -80,7 +73,7 @@ class ApplicantList(_ClientContactView):
 
 class CaseList(ClientOrProviderCaseListMixin, _ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        return self._get(self.client_contact, request)
+        return self._get(request, self.client_contact)
 
 
 class CreateCase(_ClientContactView):
