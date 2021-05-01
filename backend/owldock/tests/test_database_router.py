@@ -9,7 +9,7 @@ from app.models.provider import ProviderContact
 from client.models import Applicant
 from client.models import Case
 
-from owldock.database_router import _is_client_model
+from owldock.database_router import is_client_model
 
 
 @parameterized.expand(
@@ -57,6 +57,6 @@ def test_db_router_allow_relation(
 
 
 def test_is_client_model():
-    assert _is_client_model(Case)
-    assert not _is_client_model(Process)
-    assert not _is_client_model(ProviderContact)
+    assert is_client_model(Case)
+    assert not is_client_model(Process)
+    assert not is_client_model(ProviderContact)
