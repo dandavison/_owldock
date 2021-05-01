@@ -14,6 +14,7 @@ from app.http_api.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
 )
+from app.http_api.client_or_provider_contact import ClientOrProviderCaseListMixin
 from app.http_api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
@@ -85,12 +86,9 @@ class CaseStepView(_ProviderContactView):
         return OwldockJsonResponse(serializer.data)
 
 
-class CaseList(_ProviderContactView):
+class CaseList(ClientOrProviderCaseListMixin, _ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        cases = self.provider_contact.cases().order_by("-created_at")
-        serializer = CaseSerializer(data=cases, many=True)
-        serializer.is_valid()
-        return OwldockJsonResponse(serializer.data)
+        return self._get(self.provider_contact, request)
 
 
 class CaseStepUploadFiles(_ProviderContactView):
