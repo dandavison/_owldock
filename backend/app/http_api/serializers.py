@@ -107,7 +107,7 @@ class ProcessSerializer(ModelSerializer):
     route = RouteSerializer()
     nationality = CountrySerializer()
     home_country = CountrySerializer(allow_null=True, required=False)
-    steps = ProcessStepSerializer(many=True, source="processstep_set")
+    steps = ProcessStepSerializer(many=True)
 
     class Meta:
         model = Process
@@ -306,9 +306,7 @@ class CaseSerializer(ModelSerializer):
             .prefetch_related("steps__service")
         )
         uuid2process = {p.uuid: p for p in processes}
-        uuid2process_step = {
-            s.uuid: s for p in processes for s in p.processstep_set.all()
-        }
+        uuid2process_step = {s.uuid: s for p in processes for s in p.steps.all()}
 
         # Fetch stored files in default DB
         case_step_uuids = {s.uuid for c in cases for s in c.casestep_set.all()}

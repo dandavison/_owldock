@@ -101,7 +101,9 @@ class Process(BaseModel):
 
 
 class ProcessStep(BaseModel):
-    process = models.ForeignKey(Process, on_delete=models.deletion.CASCADE)
+    process = models.ForeignKey(
+        Process, on_delete=models.deletion.CASCADE, related_name="steps"
+    )
     service = models.ForeignKey(Service, on_delete=models.deletion.CASCADE)
     sequence_number = models.PositiveIntegerField()
 

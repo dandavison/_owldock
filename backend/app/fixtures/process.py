@@ -48,7 +48,7 @@ def load_process_fixture():
             else:
                 seen.add(service_name)
             service, _ = Service.objects.get_or_create(name=service_name)
-            process.processstep_set.create(sequence_number=n, service=service)
+            process.steps.create(sequence_number=n, service=service)
 
 
 def read_process_fixture():
