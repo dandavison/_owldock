@@ -42,7 +42,7 @@ type-check-mypy:
 type-check-pyright:
 	pyright --venv-path . app client owldock
 
-repl-python:
+python:
 	$(MANAGE) shell_plus
 
 create-fake-world:
