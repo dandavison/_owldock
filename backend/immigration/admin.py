@@ -10,6 +10,7 @@ from immigration.models import (
     IssuedDocumentType,
     Process,
     ProcessStep,
+    Route,
 )
 
 
@@ -32,13 +33,15 @@ class IssuedDocumentTypeAdmin(admin.ModelAdmin):
     list_editable = ["name"]
 
 
+@admin.register(Route)
+class RouteAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "host_country"]
+    list_display_links = ["id"]
+    list_editable = ["name", "host_country"]
+
+
 @admin.register(Process)
 class ProcessAdmin(NestedModelAdmin):
-    list_display = ["name", "host_country"]
+    list_display = ["route", "route_v1"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessStepInline]
-
-    if False:
-        # DNW:
-        search_fields = ["host_country__name"]
-        autocomplete_fields = ["host_country"]

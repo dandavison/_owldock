@@ -10,7 +10,7 @@ from django.db.models import (
     UniqueConstraint,
 )
 
-from app.models import Country
+from app.models import Country, Route as RouteV1
 from owldock.models.base import BaseModel
 
 
@@ -34,19 +34,37 @@ class IssuedDocument(BaseModel):
         return f"{self.issued_document_type} ({self.process_step})"
 
 
-# Note: this corresponds to app.models.Route, not to app.models.Process
-class Process(BaseModel):
+class Route(BaseModel):
     """
     E.g. 'Work Permit for France'.
+
+    Unlike Process, this depends only on the host country
+    and not on Applicant nationalities or home country.
     """
 
-    name = CharField(help_text="Name of this immigration process", max_length=128)
+    name = CharField(max_length=128)
     host_country = ForeignKey(
         Country,
-        help_text="Host country for this immigration process",
         on_delete=deletion.CASCADE,
-        related_name="processes_for_which_host_country",
+        related_name="_routes_for_which_host_country",
     )
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=("name", "host_country"),
+                name="immigration__route__host_country__uniq",
+            ),
+        ]
+
+
+class Process(BaseModel):
+    """
+    A way in which a Route may be realised.
+    """
+
+    route = ForeignKey(Route, on_delete=deletion.CASCADE)
+    route_v1 = ForeignKey(RouteV1, on_delete=deletion.CASCADE)
     nationalities = ManyToManyField(
         Country,
         help_text=(
@@ -117,12 +135,6 @@ class Process(BaseModel):
 
     class Meta:
         verbose_name_plural = "Processes"
-        constraints = [
-            UniqueConstraint(
-                fields=("name", "host_country"),
-                name="imm__process__host_country_name__uniq",
-            ),
-        ]
 
 
 class ProcessStep(BaseModel):
