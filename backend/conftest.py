@@ -51,6 +51,21 @@ def country_B(load_country_fixture):
 
 
 @pytest.fixture
+def brazil(load_country_fixture):
+    return Country.objects.get(name="Brazil")
+
+
+@pytest.fixture
+def france(load_country_fixture):
+    return Country.objects.get(name="France")
+
+
+@pytest.fixture
+def greece(load_country_fixture):
+    return Country.objects.get(name="Greece")
+
+
+@pytest.fixture
 def activity_A():
     return factories.ActivityFactory()
 

@@ -8,7 +8,7 @@ from nested_admin import (
 from immigration.models import (
     IssuedDocument,
     IssuedDocumentType,
-    Process,
+    ProcessRuleSet,
     ProcessStep,
     Route,
 )
@@ -40,8 +40,8 @@ class RouteAdmin(admin.ModelAdmin):
     list_editable = ["name", "host_country"]
 
 
-@admin.register(Process)
+@admin.register(ProcessRuleSet)
 class ProcessAdmin(NestedModelAdmin):
-    list_display = ["route", "route_v1"]
+    list_display = ["route"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessStepInline]

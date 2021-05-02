@@ -6,14 +6,55 @@
 # going to try to create duplicates. But only if the unique_contraint is added
 # in the Django field definition.
 from django.db import models
+from django.db.models import QuerySet
 
 from owldock.models.base import BaseModel
+
+
+class CountryManager(models.Manager):
+    EU_COUNTRY_NAMES = [
+        "Austria",
+        "Belgium",
+        "Bulgaria",
+        "Croatia",
+        "Cyprus",
+        "Czechia",
+        "Denmark",
+        "Estonia",
+        "Finland",
+        "France",
+        "Germany",
+        "Greece",
+        "Hungary",
+        "Ireland",
+        "Italy",
+        "Latvia",
+        "Lithuania",
+        "Luxembourg",
+        "Malta",
+        "Netherlands",
+        "Poland",
+        "Portugal",
+        "Romania",
+        "Slovakia",
+        "Slovenia",
+        "Spain",
+        "Sweden",
+    ]
+
+    def EU(self) -> "QuerySet[Country]":
+        return self.filter(name__in=self.EU_COUNTRY_NAMES)
+
+    def non_EU(self) -> "QuerySet[Country]":
+        return self.exclude(name__in=self.EU_COUNTRY_NAMES)
 
 
 class Country(BaseModel):
     name = models.CharField(max_length=128)
     code = models.CharField(max_length=2)
     unicode_flag = models.CharField(max_length=2)
+
+    objects = CountryManager()
 
     class Meta:
         constraints = [

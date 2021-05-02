@@ -9,6 +9,34 @@
   </tr>
 </table>
 
+# Concepts
+
+- A client expresses a desire to perform some sort of immigration operation by creating a `Move`: this specifies the host country, and the dates, and may also specify the activity to be performed, the applicant's nationalities, payroll/contract location, etc.
+
+- The objective is to find one or more `Processes` which can be used to effect this `Move`.
+  A `Process` is an immigration `Route`, together with a list of `ProcessSteps`.
+
+- A `Route` is simply a host country, together with a specific type of immigration permission.
+  For example, "Work and Residence Permit in Ethiopia" might be a `Route`.
+
+- When searching for matching `Processes`, Owldock consults its internal database of `ProcessRuleSets`.
+
+- A `ProcessRuleSet` is a `Route`, and a collection of `ProcessSteps`, together with various criteria determining whether it matches a given `Move`.
+  For example, "Move payroll must be in host country" could be a criterion associated with a `ProcessRuleSet`.
+
+- A `Move` is defined to _match_ a `ProcessRuleSet` if the `Move` satisfies all of the criteria.
+
+- In addition to the criteria, a `ProcessRuleSet` has rules determining which steps would be included for a given `Move`.
+  For example, a step might only be required if the `Move` is for an applicant who is not a national of an EU country.
+
+- When a match is found, we construct a `Process` for that match.
+  The `Process` consists of (a) the `Route` from the `ProcessRuleSet`, and (b) the list of `ProcessSteps` which are required for this `Move`
+
+- The client is then told that this `Route` can be used for their desired immigration operation, and that these are the steps that would be required.
+  They could then proceed to initiate a `Case` using the selected `Process`.
+
+- It is possible that Owldock will find multiple `Processes` for a given `Move`.
+
 # Owldock development
 
 Owldock consists of a javascript app implemented in [Vue.js](https://vuejs.org/), a backend application implemented in [Django](https://www.djangoproject.com/), and a [Postgres](https://www.postgresql.org/) database.
