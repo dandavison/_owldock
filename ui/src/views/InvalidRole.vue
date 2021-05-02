@@ -1,6 +1,7 @@
 <template>
   <section class="section">
-    We're sorry, something is wrong: we don't recognize you.
+    We're sorry, something is wrong: the view you requested is not available to
+    you.
   </section>
 </template>
 
