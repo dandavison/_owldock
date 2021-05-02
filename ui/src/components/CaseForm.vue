@@ -72,9 +72,6 @@ export default Vue.extend({
   data() {
     return {
       case_: NullCase(),
-      input: {
-        route: "",
-      },
       // All processes matching country, applicant nationalities & home country, dates
       processes: [] as ProcessSerializer[],
       // Subset of those processes matching selected route
