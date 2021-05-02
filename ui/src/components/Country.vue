@@ -1,5 +1,9 @@
 <template>
-  <b-tooltip :label="country.name" type="is-info is-light">
+  <div v-if="showName">
+    <img v-bind="imageProps" />
+    <span> {{ country.name }}</span>
+  </div>
+  <b-tooltip v-else :label="country.name" type="is-info is-light">
     <img v-bind="imageProps" />
   </b-tooltip>
 </template>
@@ -14,6 +18,10 @@ export default Vue.extend({
   props: {
     country: Object as PropType<CountrySerializer>,
     editable: Boolean,
+    showName: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {

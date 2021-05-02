@@ -12,7 +12,11 @@
     />
   </fieldset>
   <div v-else @click="editableComponentProxy.handleDisplayerClick()">
-    <country :country="country" :countryEditable="editingSpec.editable" />
+    <country
+      :country="country"
+      :countryEditable="editingSpec.editable"
+      :showName="showName"
+    />
   </div>
 </template>
 
@@ -37,6 +41,10 @@ export default Vue.extend({
     country: Object as PropType<CountrySerializer>,
     editingSpec: Object as PropType<EditingSpec>,
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    showName: {
       type: Boolean,
       default: false,
     },
