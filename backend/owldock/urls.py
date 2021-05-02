@@ -11,6 +11,7 @@ from app.http_api import countries
 from app.http_api import provider_contact
 from app.http_api import processes
 from app.views import HomeView, StatusView
+from immigration.api.http import occupations
 
 # Note: every route defined here must set appropriate access controls
 
@@ -73,6 +74,7 @@ urlpatterns = [
         login_required(client_contact.ClientProviderRelationshipList.as_view()),
     ),
     path("api/countries/", login_required(countries.CountriesList.as_view())),
+    path("api/occupations/", login_required(occupations.OccupationsList.as_view())),
     path(
         "api/provider-contact/case/<uuid:uuid>/",
         login_required(provider_contact.CaseView.as_view()),

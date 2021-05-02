@@ -66,8 +66,18 @@ function ApplicantList() {
   }
 }
 
+function Assessment() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/ClientAssessment.vue");
+    case Role.ProviderContact:
+      return import("./views/InvalidRole.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
 const AccessData = () => import("./views/AccessData.vue");
-const AskAQuestion = () => import("./views/AskAQuestion.vue");
 const NewCase = () => import("./views/NewCase.vue");
 
 Vue.config.productionTip = false;
@@ -89,7 +99,7 @@ const routes = [
     component: ClientProviderRelationshipList,
     name: "My Providers",
   },
-  { path: "/portal/question", component: AskAQuestion, name: "Assessment" },
+  { path: "/portal/assessment", component: Assessment, name: "Assessment" },
 ];
 
 const router = new VueRouter({ mode: "history", routes });

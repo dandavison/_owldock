@@ -6,7 +6,7 @@
     <p class="m-4 is-size-4">What would you like to do next?</p>
     <ul>
       <li>
-        <router-link to="/portal/question">
+        <router-link to="/portal/assessment">
           <b-button class="is-large m-4" style="background-color: #fff2cc">
             Ask a question
           </b-button>

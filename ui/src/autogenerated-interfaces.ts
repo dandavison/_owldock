@@ -123,3 +123,7 @@ export interface CaseSerializer {
   target_entry_date: string;
   target_exit_date: string;
 }
+
+export interface OccupationSerializer {
+  name: string;
+}
