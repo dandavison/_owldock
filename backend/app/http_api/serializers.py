@@ -154,7 +154,7 @@ class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     user = UserSerializer()
     employer = ClientSerializer()
     home_country = CountrySerializer()
-    nationalities = CountrySerializer(many=True, source="_prefetched_nationalities")
+    nationalities = CountrySerializer(many=True)
 
     class Meta:
         model = Applicant
@@ -232,7 +232,7 @@ class CaseStepSerializer(ModelSerializer):
     active_contract = CaseStepContractSerializer()
     process_step = ProcessStepSerializer()
     state = EnumSerializer()
-    stored_files = StoredFileSerializer(many=True, source="_prefetched_stored_files")
+    stored_files = StoredFileSerializer(many=True)
 
     class Meta:
         model = CaseStep
