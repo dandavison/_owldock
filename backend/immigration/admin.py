@@ -41,7 +41,7 @@ class RouteAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProcessRuleSet)
-class ProcessAdmin(NestedModelAdmin):
+class ProcessRuleSetAdmin(NestedModelAdmin):
     list_display = ["route"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessStepInline]
