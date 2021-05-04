@@ -9,14 +9,22 @@
     @dblclick="(row) => $emit('dblclick', row)"
     hoverable
   >
-    <b-table-column label="Applicant" v-slot="props">
+    <b-table-column
+      v-if="columnSpec.applicant"
+      label="Applicant"
+      v-slot="props"
+    >
       <editable-applicant
         :applicant="props.row.applicant"
         :editingSpec="caseSpec(props.index, 'applicant')"
       />
     </b-table-column>
 
-    <b-table-column label="Host Country" v-slot="props">
+    <b-table-column
+      v-if="columnSpec.hostCountry"
+      label="Host Country"
+      v-slot="props"
+    >
       <editable-country
         :country="
           props.row.process &&
@@ -27,21 +35,21 @@
       />
     </b-table-column>
 
-    <b-table-column label="Dates" v-slot="props">
+    <b-table-column v-if="columnSpec.dateRange" label="Dates" v-slot="props">
       <editable-date-range
         :dateRange="[props.row.target_entry_date, props.row.target_exit_date]"
         :editingSpec="caseSpec(props.index, 'dateRange')"
       />
     </b-table-column>
 
-    <b-table-column label="Route" v-if="showProcess" v-slot="props">
+    <b-table-column v-if="columnSpec.route" label="Route" v-slot="props">
       <editable-route
         :route="props.row.process.route"
         :editingSpec="caseSpec(props.index, 'route')"
       />
     </b-table-column>
 
-    <b-table-column label="Provider" v-if="showProviders" v-slot="props">
+    <b-table-column v-if="columnSpec.provider" label="Provider" v-slot="props">
       <editable-provider
         :process="props.row.process"
         :steps="props.row.steps"
@@ -65,21 +73,14 @@ import { CaseSpec, EditingSpec } from "@/editable-component";
 export default Vue.extend({
   props: {
     rows: Array as PropType<CaseSerializer[]>,
-    caseSpecs: Array as PropType<CaseSpec[]>,
+    columnSpec: Object as PropType<CaseSpec>,
+    caseSpecs: Array as PropType<CaseSpec[] | null>,
     selected: Object,
     // TODO: focusable must always be true when using `selected`?
     focusable: Boolean,
     paginated: {
       type: Boolean,
       default: false,
-    },
-    showProviders: {
-      type: Boolean,
-      default: false,
-    },
-    showProcess: {
-      type: Boolean,
-      default: true,
     },
   },
   components: {

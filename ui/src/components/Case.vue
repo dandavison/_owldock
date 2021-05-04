@@ -3,8 +3,8 @@
     <div class="card" style="overflow: visible">
       <case-table
         :rows="[case_]"
+        :columnSpec="caseSpec"
         :caseSpecs="[caseSpec]"
-        :showProviders="true"
         :focusable="false"
         :paginated="false"
       />

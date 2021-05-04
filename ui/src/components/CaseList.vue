@@ -10,7 +10,7 @@ methods to fetch data. -->
           :selected.sync="selected"
           :focusable="true"
           @dblclick="navigateToRowDetailView"
-          :showProviders="true"
+          :columnSpec="{ provider: { visible: true } }"
           :paginated="true"
         />
       </b-tab-item>
