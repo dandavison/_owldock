@@ -1,11 +1,7 @@
 <template>
   <div>
     <section class="section">
-      <case
-        :case_="case_"
-        :caseEditingSpec="caseEditingSpec"
-        :showClient="false"
-      />
+      <case :case_="case_" :caseEditingSpec="caseEditingSpec" />
 
       <div class="form pt-6">
         <fieldset>
