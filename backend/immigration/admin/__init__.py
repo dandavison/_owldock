@@ -46,6 +46,7 @@ class ProcessStepInline(NestedStackedInline):
                 "fields": [
                     "name",
                     "sequence_number",
+                    "government_fee",
                     "estimated_min_duration_days",
                     "estimated_max_duration_days",
                     "applicant_can_enter_host_country_after",

@@ -273,6 +273,13 @@ class ProcessStep(BaseModel):
         help_text="Issued documents associated with this process step.",
         blank=True,
     )
+    government_fee = DecimalField(
+        "Government fee in host country currency",
+        max_digits=9,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
     estimated_min_duration_days = PositiveIntegerField(
         help_text="Minimum number of working days this step is expected to take"
     )
