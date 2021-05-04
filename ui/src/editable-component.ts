@@ -24,13 +24,13 @@ export interface EditingSpec {
 }
 
 export interface CaseEditingSpec {
-  applicant: EditingSpec;
   hostCountry: EditingSpec;
   dateRange: EditingSpec;
-  route: EditingSpec;
-  provider: EditingSpec;
-  steps: { provider: EditingSpec };
-  [index: string]: EditingSpec | { provider: EditingSpec };
+  applicant?: EditingSpec;
+  route?: EditingSpec;
+  provider?: EditingSpec;
+  steps?: { provider: EditingSpec };
+  [index: string]: EditingSpec | { provider: EditingSpec } | undefined;
 }
 
 export function defaultEditingSpecFactory(): EditingSpec {
