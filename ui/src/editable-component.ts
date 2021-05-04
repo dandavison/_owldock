@@ -23,7 +23,7 @@ export interface EditingSpec {
   disabled: boolean;
 }
 
-export interface CaseEditingSpec {
+export interface CaseSpec {
   hostCountry: EditingSpec;
   dateRange: EditingSpec;
   applicant?: EditingSpec;
@@ -40,7 +40,7 @@ export function defaultEditingSpecFactory(): EditingSpec {
   };
 }
 
-export function defaultCaseEditingSpecFactory(): CaseEditingSpec {
+export function defaultCaseSpecFactory(): CaseSpec {
   return {
     applicant: defaultEditingSpecFactory(),
     hostCountry: defaultEditingSpecFactory(),

@@ -12,7 +12,7 @@
     <b-table-column label="Applicant" v-slot="props">
       <editable-applicant
         :applicant="props.row.applicant"
-        :editingSpec="caseEditingSpec(props.index, 'applicant')"
+        :editingSpec="caseSpec(props.index, 'applicant')"
       />
     </b-table-column>
 
@@ -23,21 +23,21 @@
           props.row.process.route &&
           props.row.process.route.host_country
         "
-        :editingSpec="caseEditingSpec(props.index, 'hostCountry')"
+        :editingSpec="caseSpec(props.index, 'hostCountry')"
       />
     </b-table-column>
 
     <b-table-column label="Dates" v-slot="props">
       <editable-date-range
         :dateRange="[props.row.target_entry_date, props.row.target_exit_date]"
-        :editingSpec="caseEditingSpec(props.index, 'dateRange')"
+        :editingSpec="caseSpec(props.index, 'dateRange')"
       />
     </b-table-column>
 
     <b-table-column label="Route" v-if="showProcess" v-slot="props">
       <editable-route
         :route="props.row.process.route"
-        :editingSpec="caseEditingSpec(props.index, 'route')"
+        :editingSpec="caseSpec(props.index, 'route')"
       />
     </b-table-column>
 
@@ -45,7 +45,7 @@
       <editable-provider
         :process="props.row.process"
         :steps="props.row.steps"
-        :editingSpec="caseEditingSpec(props.index, 'provider')"
+        :editingSpec="caseSpec(props.index, 'provider')"
       />
     </b-table-column>
   </b-table>
@@ -60,12 +60,12 @@ import EditableCountry from "../components/EditableCountry.vue";
 import EditableDateRange from "../components/EditableDateRange.vue";
 import EditableRoute from "../components/EditableRoute.vue";
 import EditableProvider from "../components/EditableProvider.vue";
-import { CaseEditingSpec, EditingSpec } from "@/editable-component";
+import { CaseSpec, EditingSpec } from "@/editable-component";
 
 export default Vue.extend({
   props: {
     rows: Array as PropType<CaseSerializer[]>,
-    caseEditingSpecs: Array as PropType<CaseEditingSpec[]>,
+    caseSpecs: Array as PropType<CaseSpec[]>,
     selected: Object,
     // TODO: focusable must always be true when using `selected`?
     focusable: Boolean,
@@ -111,13 +111,11 @@ export default Vue.extend({
   },
 
   methods: {
-    caseEditingSpec(index: number, property: string): EditingSpec {
+    caseSpec(index: number, property: string): EditingSpec {
       return (
-        (this.caseEditingSpecs &&
-          this.caseEditingSpecs[index] &&
-          ((this.caseEditingSpecs[index] as CaseEditingSpec)[
-            property
-          ] as EditingSpec)) || {
+        (this.caseSpecs &&
+          this.caseSpecs[index] &&
+          ((this.caseSpecs[index] as CaseSpec)[property] as EditingSpec)) || {
           editable: false,
           disabled: false,
         }
