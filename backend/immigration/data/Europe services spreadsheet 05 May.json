@@ -1,0 +1,1965 @@
+{
+  "Albania": {
+    "Work Permit Exemption for US/EU/Kosovan nationals": [
+      "Package price (certificate of exemption application, residence permit, civil status office registration)",
+      "Stand-alone certificate of exemption",
+      "Stand-alone residence permit",
+      "Stand-alone civil status office registration",
+      "Package price for dependent (residence permit)",
+      "Renewal of residence permit",
+      "Renewal of dependent residence permit",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Work Permit Intra Company Transfer (Managers and Specialists)": [
+      "Package price for principal (work approval, entry visa, residence permit)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Work Permit Local Hire": [
+      "Package price for principal (work approval, entry visa, residence permit)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Work Registration Certificate (Up to 60 Days)": [
+      "Work permit registration certificate"
+    ]
+  },
+  "Austria": {
+    "Ancillary Services": [
+      "Posted Worker Notification",
+      "Address Registration",
+      "Social Security Registration",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (Blue Card approval, entry visa, address registration, employment notification)",
+      "Package price for principal without visa (Blue Card, address registration, employment notification)",
+      "Stand-alone Blue Card",
+      "Stand-alone entry visa",
+      "Stand-alone employment notification",
+      "Package price for dependent (Blue Card, address registration)",
+      "Stand-alone dependent Blue Card",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (Address registration, EU registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Permit (EU DIrective 2014/66)": [
+      "Package price for principal (ICT Permit approval, entry visa, address registration, employment notification)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone employment notification",
+      "Package price for dependent (ICT Family Reunion, entry visa, address registration)",
+      "Stand-alone dependent ICT Family Reunion",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Posting to Client Site (Betriebsentsendung) over 6 months": [
+      "Package price (Permit approval, entry visa, address registration, residence permit, employment permit)"
+    ],
+    "Posting to Client Site (Betriebsentsendung) up to 6 months": [
+      "Package price (Permit approval, entry visa, address registration, employment permit)"
+    ],
+    "Posting to Client Site (Entsendebewilligung) up to 4 months": [
+      "Package price (Posting permit approval, entry visa, address registration)"
+    ],
+    "Red-White-Red Card (Shortage Occupations, Key Personnel, Highly Qualified)": [
+      "Package price for principal with visa (red-white-red card approval, entry visa, address registration, employment notification)",
+      "Package price for principal without visa (red-white-red card approval, address registration, employment notification)",
+      "Stand-alone red-white-red card",
+      "Stand-alone entry visa",
+      "Stand-alone employment notification",
+      "Package price for dependent with visa (red-white-red plus card, entry visa, address registration)",
+      "Package price for dependent without visa (red-white-red plus card, address registration)",
+      "Stand-alone dependent red-white-red plus card",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignment for Joint Ventures up to 6 months": [
+      "Package price (Joint venture permit approval, entry visa, address registration)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Belgium": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Residence Registration with Commune",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (declaration of presence, EU residence registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Single Permit (Highly Qualified Employee/Director/Specialised Technician)": [
+      "Package price for principal (Single Permit approval, entry visa, residence registration)",
+      "Stand-alone Single Permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence registration)",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Single Permit (Specialised Technican) up to 6 months": [
+      "Package price for principal (Single Permit approval, entry visa, residence registration)",
+      "Stand-alone Single Permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence registration)",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work Permit (Highly Qualified Employee/Director/Specialised Technician) up to 90 days": [
+      "Package price with visa (Work Permit Type B approval, entry visa)",
+      "Stand-alone Work Permit Type B",
+      "Renewal of package"
+    ]
+  },
+  "Bulgaria": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Address Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (Blue Card approval, entry visa, address registration, residence permit)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, address registration, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (address registration, EU residence certificate)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (work permit approval, entry visa, address registration, residence permit)",
+      "Stand-alone work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, address registration, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent address registration",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Work Authorisation up to 90 days": [
+      "Package price (work authorisation application, address registration)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work Permit (Local Hire)": [
+      "Package price for principal (work permit approval, entry visa, address registration, employment notification, residence permit)",
+      "Stand-alone work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone employment notification",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, address registration, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Work Permit Exemption": [
+      "Package price (entry visa, address registration, notification of employment, residence permit)"
+    ]
+  },
+  "Croatia": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Address registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (Blue Card approval, entry visa, address registration, residence card)",
+      "Package price for principal without visa (Blue Card approval, address registration, residence card)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, address registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration / Residence Card",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal with visa (ICT Permit approval, entry visa, address registration, residence card)",
+      "Package price for principal without visa (ICT Permit approval, address registration, residence card)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent with visa (entry visa, address registration, residence card)",
+      "Package price for dependent without visa (address registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Stay and Work Permit - Key Positions": [
+      "Package price for principal with visa (local hire work permit approval, entry visa, address registration, residence card)",
+      "Stand-alone local hire work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, address registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignment (under 90 days)": [
+      "Package price with visa (work authorisation, entry visa, address registration)",
+      "Package price without visa (work authorisation, address registration)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Cyprus": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Local registration (Alien Registration Card) with biometrics",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU certificate of registration",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (ICT Permit and entry permit approval, registration with biometrics, residence card)",
+      "Stand-alone ICT Permit with entry permit",
+      "Stand-alone residence card",
+      "Package price for dependent (entry permit, residence card)",
+      "Stand-alone dependent entry permit",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Temporary Residence Permit (Employment)": [
+      "Package price for principal (labour market search and permission to hire foreign national, employment contract endorsement, work and residence permit approval, Alien Registration Certificate and biometrics, residence card)",
+      "Stand-alone labour market search and permission to hire foreign national",
+      "Stand-alone employment contract endorsement",
+      "Stand-alone work and residence permit",
+      "Stand-alone residence card",
+      "Package price for dependent (residence permit approval, ARC and biometrics, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work and Residence Permit (International Companies)": [
+      "Package price for principal (entry permit approval, Alien Registration Certificate and biometrics, residence card)",
+      "Stand-alone entry permit approval",
+      "Stand-alone residence card",
+      "Package price for dependent (entry permit, residence card)",
+      "Stand-alone dependent entry permit",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Czechia": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Registration with MoI and biometrics",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (labour market search, Blue Card approval, entry visa, registration with labour office, registration with MoI, biometrics and residence card)",
+      "Stand-alone labour market search",
+      "Stand-alone Blue Card",
+      "Stand-alone entry visa",
+      "Stand-alone registration with labour office",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, registration with MoI, biometrics and residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (ICT Permit approval, entry visa, registration with labour office, registration with MoI, biometrics and residence card)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone registration with labour office",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, registration with MoI and biometrics and residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent registration with MoI and biometrics",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Temporary Work Permit (under 90 days)": [
+      "Package price for principal (labour market search, work permit approval, entry visa, registration with labour office, registration with foreign police)",
+      "Stand-alone labour market search",
+      "Stand-alone work permit approval",
+      "Stand-alone registration with labour office",
+      "Stand-alone registration with foreign police"
+    ],
+    "Local Hire Work and Residence Permit": [
+      "Package price for principal (labour market search, work permit approval, employee card and entry visa, registration with labour office, registration with MoI, biometrics and residence card)",
+      "Stand-alone labour market search",
+      "Stand-alone work permit approval",
+      "Stand-alone employee card and entry visa",
+      "Stand-alone registration with labour office",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, registration with MoI, biometrics and residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignments (under 7 consecutive days)": [
+      "Package price (entry visa, registration with labour office, registration with foreign police)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work and Residence Permit (Assignment from outside the EEA)": [
+      "Package price for principal (permission to hire a foreign national, work permit approval, employee card and entry visa, registration with labour office, registration with MoI, biometrics and residence card)",
+      "Stand-alone permission to hire a foreign national"
+    ]
+  },
+  "Denmark": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Local Registration (CPR number)",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (EU registration and local registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Fast Track Scheme": [
+      "Package price for principal with visa (work and residence permit approval, entry visa, local registration, residence card)",
+      "Package price for principal without visa (work and residence permit approval, local registration, residence card)",
+      "Stand-alone work and residence approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent registration (CPR)",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Fast Track Scheme under 90 days": [
+      "Package price (work and residence permit approval and entry visa)",
+      "Package price for dependent (entry visa, residence card)"
+    ],
+    "Positive List/Pay Limit Scheme": [
+      "Package price for principal with visa (work and residence permit approval, entry visa, local registration, residence card)",
+      "Package price for principal without visa (work and residence permit approval, local registration, residence card)",
+      "Stand-alone work and residence approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent registration (CPR)",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignments under 90 days (\"fitter\" rule)": [
+      "Entry visa"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Estonia": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Residence Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (labour market search, Blue Card approval, entry visa, residence registration)",
+      "Stand-alone labour market search",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence registration",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (residence registration and ID card)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (labour market search, ICT Permit approval, entry visa, residence registration)",
+      "Stand-alone labour market search",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence registration",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Temporary Residence Permit for Employment": [
+      "Package price for principal (labour market search, temporary residence permit approval, entry visa, residence registration)",
+      "Stan-alone labour market search",
+      "Stand-alone temporary residence permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence registration",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Registration of Short-Term Employment (365/455 days)": [
+      "Package price (registration of short term employment, entry visa, residence registration)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Finland": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Local address registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (Blue Card approval, entry visa, local registration)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, local registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent local registration",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (EU residence card, local registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (ICT Permit approval, entry visa, local registration)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, local registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent local registration",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Residence Permit Based on Employment": [
+      "Package price for principal (work and residence permit approval, labour market review, entry visa, local registration)",
+      "Stand-alone work and residence permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone local registration",
+      "Package price for dependent (entry visa, local registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent local registration",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "France": {
+    "Ancillary Services": [
+      "Immigration Medical",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration / Resident Card",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Foreign Service Providers (D\u00e9tach\u00e9s Hors Mobilit\u00e9 Intragroupe)": [
+      "Package price (work permit application, \"VLS-TS\" visa, social security registration, immigration medical)",
+      "Package price for dependent (entry visa, immigration medical)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Foreign Service Providers (D\u00e9tach\u00e9s Hors Mobilit\u00e9 Intragroupe) Up to 90 days": [
+      "Package price with visa (work permit application, entry visa, social security registration)",
+      "Package price without visa (work permit application, social security registration)"
+    ],
+    "Intra Company Transfer Directive (2014/66) or Passeport Talent up to 12 months": [
+      "ICT Permit \"VLS-TS\" entry visa",
+      "Dependent \"VLS-TS\" entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive, Blue Card or Passeport Talent (2014/66) over 12 months": [
+      "Package price for principal (ICT Permit D visa, residence permit)",
+      "Stand-alone ICT Permit D Visa",
+      "Stand-alone residence permit",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire (Salari\u00e9)": [
+      "Package price (labour market test, work permit application, \"VLS-TS\" visa, social security registration, immigration medical)",
+      "Stand-alone labour market test",
+      "Stand-alone work permit application",
+      "Stand-alone \"VLS-TS\" visa",
+      "Package price for dependent (\"VLS-TS\" visa, immigration medical)"
+    ],
+    "Local Hire Travailleurs Temporaires": [
+      "Package price (labour market test, work permit application, \"VLS-TS\" visa, immigration medical)",
+      "Package price for dependent (\"VLS-TS\" visa, immigration medical)",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Germany": {
+    "Ancillary Services": [
+      "Town Hall Registration",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (Blue Card approval, entry visa, town hall registration, residence card)",
+      "Package price for principal without visa (Blue Card approval, entry visa, town hall registration, residence card)",
+      "Stand-alone Blue Card",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal with visa (ICT Permit approval, entry visa, town hall registration, residence card)",
+      "Package price for principal without visa (ICT Permit approval, town hall registration, residence card)",
+      "Stand-alone ICT Permit",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Residence Permit for Employment": [
+      "Package price for principal with visa (qualification recognition, work approval, entry visa, town hall registration, residence permit)",
+      "Package price for principal without visa (qualification recognition, work approval, town hall registration, residence permit)",
+      "Stand-alone qualification recognition",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Residence Permit for Employment (International Personnel Exchange)": [
+      "Package price for principal with visa (work approval, entry visa, town hall registration, residence permit)",
+      "Package price for principal without visa (work approval, entry visa, town hall registration, residence permit)",
+      "Package price for dependent (entry visa, residence permit)"
+    ],
+    "Swiss Nationals": [
+      "Residence Card for Swiss nationals"
+    ],
+    "Temporary Assignment (Under 90 days)": [
+      "Package price (labour notification, entry visa, town hall registration)",
+      "Stand-alone labour notification"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Greece": {
+    "Ancillary Services": [
+      "Tax registration",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU registration certificate",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (work approval, entry visa, residence permit)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work Permit for Senior Employees (Article 17)": [
+      "Package price for principal (work approval, entry visa, residence card)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Short-Term Assignment for Technical Staff (Article 18, Para. 1E)": [
+      "Entry visa"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Hungary": {
+    "Ancillary Services": [
+      "Tax and social security registration",
+      "Address registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price for assignee (labour office notification, EU residence registration, address registration)",
+      "Package price for local hire (tax and social security registration, labour office notification, EU residence registration, address registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (ICT Permit approval, entry visa, address registration, residence card)",
+      "Stand-alone ICT Permit",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, address registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work and Residence Permit": [
+      "Package price for principal (labour market search, work permit approval, entry visa, address registration, residence card)",
+      "Stand-alone labour market search",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, address registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignment (under 15 days)": [
+      "Entry visa"
+    ],
+    "Temporary Work Permit (under 90 days)": [
+      "Package price for principal with visa (labour market search, work approval, entry visa)",
+      "Package price for principal without visa (labour market search, work approval)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Iceland": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "Registration with National Registry",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Work and Residence Permit (Expert Knowledge)": [
+      "Package price for principal with visa (work approval, entry visa, residence card)",
+      "Package price for principal without visa (work approval, residence card)",
+      "Stand-alone work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Work and Residence Permit (Service Contract)": [
+      "Package price for principal with visa (notification of posting, work approval, entry visa, residence card)",
+      "Package price for principal without visa (notification of posting, work approval, residence card)",
+      "Stand-alone notification of posting",
+      "Stand-alone work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Renewal of package"
+    ],
+    "Work and Residence Permit (Shortage of Local Labour)": [
+      "Package price for principal with visa (work approval, entry visa, residence card)",
+      "Package price for principal without visa (work approval, residence card)",
+      "Stand-alone work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Renewal of package"
+    ]
+  },
+  "Ireland": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Atypical Working Scheme": [
+      "Package price for principal with visa (Irish Naturalisation and Immigration service approval, entry visa)",
+      "Stand-alone Irish Naturalisation and Immigration service approval"
+    ],
+    "Critical Skills or Intra Company Transfer Employment Permit": [
+      "Package price for principal with visa (employment permit approval, entry visa, IRP card)",
+      "Package price for principal without visa (employment permit approval, IRP card)",
+      "Stand-alone employment permit",
+      "Stand-alone entry visa",
+      "Stand-alone IRP card",
+      "Package price for dependent (entry visa, IRP card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent IRP card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Notiifcation to Department of Justice",
+      "non-EEA dependent of an EEA national"
+    ],
+    "General or Contract for Services Employment Permit": [
+      "Package price for principal with visa (labour market test, employment permit approval, entry visa, IRP card)",
+      "Package price for principal without visa (labour market test, employment permit approval, IRP card)",
+      "Stand-alone labour market test",
+      "Stand-alone employment permit",
+      "Stand-alone entry visa",
+      "Stand-alone IRP card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent IRP card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Italy": {
+    "Ancillary Services": [
+      "Town Hall Registration",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Fiscal Code",
+      "Integration Agreement Signature",
+      "Communication to Trade Unions for foreign service providers",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (Blue Card approval, entry visa, fiscal code, contract and integration agreement, permit of stay, town hall registration)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone permit of stay",
+      "Package price for dependent (entry visa, integration agreement, permit of stay)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent permit of stay",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (Fiscal code, EU registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Foreign Service Provider (Non-Affiliated Companies)": [
+      "Package price for principal (Communication to Trade Unions, Nulla Osta work permit approval, entry visa, fiscal code, posted worker notification, contract and integration agreement, permit of stay, town hall registration)",
+      "Package price for dependent (entry visa, permit of stay)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (ICT Permit approval, entry visa, fiscal code, integration agreement, permit of stay, town hall registration)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone permit of stay",
+      "Package price for dependent (entry visa, integration agreement, permit of stay, town hall registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent permit of stay",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Non-Quota Work Pemrit for Intra-Company Transferee": [
+      "Package price for principal (Nulla Osta work permit approval, entry visa, fiscal code, contract and integration agreement, permit of stay, town hall registration)",
+      "Stand-alone Nulla Osta work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone permit of stay",
+      "Package price for dependent (entry visa, permit of stay)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent permit of stay",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Latvia": {
+    "Ancillary Services": [
+      "Address declaration at OCMA",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (foreign worker invitation letter, Blue Card approval, entry visa, residence card)",
+      "Package price for principal without visa (foreign worker invitation letter, Blue Card approval, residence card)",
+      "Stand-alone foreign worker invitation",
+      "Stand-alone entry visa",
+      "Stand-alone temporary residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent temporary residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU/EEA/Swiss Registration",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EU/EEA/Swiss registration",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (foreign worker invitation letter, ICT Permit approval, entry visa, temporary residence card, address declaration)",
+      "Stand-alone foreign worker invitation",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone temporary residence card",
+      "Package price for dependent (entry visa, temporary residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent temporary residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Residence Permit for Employment": [
+      "Package price for principal with visa (foreign worker invitation letter, temporary residence permit approval, entry visa, residence card)",
+      "Package price for principal without visa (foreign worker invitation letter, temporary residence permit approval, residence card)",
+      "Stand-alone temporary residence permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Lithuania": {
+    "Ancillary Services": [
+      "Address Registration",
+      "Social Security (LDU) Notification",
+      "Labour Market Test",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (labour market test, temporary residence permit approval, entry visa, address registration, residence card, D visa conversion)",
+      "Package price for principal \"preferred nationals\" (temporary residence permit approval, entry visa, address registration, residence card, D visa conversion)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone D visa conversion",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, address registration, residence card, D visa conversion)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent D visa converesion",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration Certificate",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (temporary residence permit approval, consular collection of residence permit)",
+      "Stand-alone temporary residence permit approval",
+      "Stand-alone consular support for temporary residence permit",
+      "Package price for dependent (temporary residence permit approval, consular collection of residence permit)",
+      "Stand-alone dependent temporary residence permit",
+      "Stand-alone dependent consular collection of TRP",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Temporary Residence Permit": [
+      "Package price for principal (labour market test, temporary residence permit approval, entry visa, address registration, residence card, D visa conversion)",
+      "Package price for principal \"preferred national\" (temporary residence permit approval, entry visa, address registration, residence card, D visa conversion)",
+      "Stand-alone temporary residence permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone D visa conversion",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, address registration, residence card, D visa conversion)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent D visa conversion",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work Permit (up to one year)": [
+      "Package price for principal (work permit, entry visa, address registration)",
+      "Stand-alone work permit (up to one year)",
+      "Stand-alone D visa"
+    ],
+    "Work Permit Exemption (Shortage Occupations)": [
+      "Package price for principal (entry visa, address registration)",
+      "Stand-alone entry visa for shortage occupations"
+    ]
+  },
+  "Luxembourg": {
+    "Ancillary Services": [
+      "Labour market test",
+      "Declaration of arrival to local commune",
+      "Immigration medical",
+      "Social Security Registration (social identification badge)",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (temporary authorisation to stay approval, entry visa, declaration of arrival to local commune, immigration medical, residence permit, residence certificate)",
+      "Package price for principal without visa (temporary authorisation to stay approval, declaration of arrival to local commune, immigration medical, residence permit, residence certificate)",
+      "Stand-alone temporary authorisation to stay approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit (Titre de s\u00e9jour)",
+      "Stand-alone residence certificate",
+      "Package price for dependent (entry visa, residence permit, residence certificate)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit (Titre de s\u00e9jour)",
+      "Stand-alone dependent residence certificate",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration / Resident Card",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66) or  Assignment for Service Providers from Outside EEA/Switzerland": [
+      "Package price for principal with visa (temporary authorisation to stay approval, entry visa, declaration of arrival to local commune, immigration medical, residence permit, residence certificate)",
+      "Package price for principal without visa (temporary authorisation to stay approval, declaration of arrival to local commune, immigration medical, residence permit, residence certificate)",
+      "Stand-alone temporary authorisation to stay approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit (Titre de s\u00e9jour)",
+      "Stand-alone residence certificate",
+      "Package price for dependent (entry visa, residence permit, residence certificate)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit (Titre de s\u00e9jour)",
+      "Stand-alone dependent residence certificate",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work Permit": [
+      "Package price for principal with visa (labour market test, temporary authorisation to stay approval, entry visa, declaration of arrival, immigration medical, residence permit, residence certificate)",
+      "Package price for principal without visa (labour market test, temporary authorisation to stay approval, declaration of arrival, immigration medical, residence permit, residence certificate)",
+      "Stand-alone temporary authorisation to stay approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit (Titre de s\u00e9jour)",
+      "Stand-alone residence certificate",
+      "Package price for dependent (entry visa, residence permit, residence certificate)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit (Titre de s\u00e9jour)",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Malta": {
+    "Ancillary Services": [
+      "Labour market test",
+      "Immigration medical",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Qualification recognition",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (qualification recognition, labour market test, entry visa, Blue Card approval, immigration medical, residence card)",
+      "Package price for principal without visa (qualification recognition, labour market test, entry visa, Blue Card approval, immigration medical, residence card)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (notification of employment, EU/EEA/Swiss residence card)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Employment Licence (under 6 months)": [
+      "Package price for principal with visa  (Employment licence, entry visa, residence permit)",
+      "Package price for principal without visa  (Employment licence, residence permit)"
+    ],
+    "Key Employee Initiative": [
+      "Package price for principal with visa (qualification recognition, labour market test, work and residence permit approval, entry visa, immigration medical, residence card)",
+      "Package price for principal without visa (qualification recognition, labour market test, work and residence permit approval, immigration medical, residence card)",
+      "Stand-alone work and residence approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work and Residence Permit": [
+      "Package price for principal with visa (qualification recognition, labour market test, entry visa, work and residence permit approval, entry visa, immigration medical)",
+      "Package price for principal without visa (qualification recognition, labour market test, entry visa, work and residence permit approval, entry visa, immigration medical)",
+      "Stand-alone work and residence permit approval",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent residence approval",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Netherlands": {
+    "Ancillary Services": [
+      "Town Hall Registration",
+      "IND (Immigration) Registration",
+      "Social Security Registration (BSN)",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "Town Hall Registration",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Highly SKilled (\"Knowledge\") Migrant": [
+      "Package price for principal with visa (Highly Skilled Migrant residence permit approval, entry visa, IND registration, town hall registration, residence card)",
+      "Package price for principal without visa (Highly Skilled Migrant residence permit approval, IND registration, town hall registration, residence card)",
+      "Package price for dependent with visa (entry visa, IND registration, town hall registration, residence card)",
+      "Package price for dependent without visa (IND registration, town hall registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Highly Skilled (\"Knowledge\") Migrant One Step Process": [
+      "Package price for principal with visa (Highly Skilled Migrant residence permit approval, entry visa, ExpatCentre visit for IND registration, residence card and BSN)",
+      "Package price for principal without visa (Highly Skilled Migrant residence permit approval, ExpatCentre visit for IND registration, residence card and BSN)",
+      "Stand-alone Highly Skilled Migrant permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone ExpatCentre visit for IND registraiton, residence card and BSN",
+      "Package price for dependent (entry visa, ExpatCentre visit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent ExpatCentre visit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal with visa (ICT Permit approval, MVV entry visa, registration with IND, town hall registration, residence card)",
+      "Package price for principal without visa (ICT Permit approval, registration with IND, town hall address registration, residence card)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent with visa (entry visa, IND registration, town hall registration, residence card)",
+      "Package price for dependent without visa (IND registration, town hall registration, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent town hall registration",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Work (under 90 days)": [
+      "Temporary Work Permit"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work Permit (TWV)": [
+      "Package price for principal with visa (TWV work permit approval, labour market residence permit approval, entry visa, IND registration, town hall registration, residence card)",
+      "Package price for principal without visa (TWV work permit approval, labour market residence permit approval, IND registration, town hall registration, residence card)",
+      "Stand-alone TWV work permit approval",
+      "Stand-alone labour market residence permit approval",
+      "Package price for dependent with visa (entry visa, IND registration, town hall registration, residence card)",
+      "Package price for dependent without visa (IND registration, town hall registration, residence card)"
+    ]
+  },
+  "Norway": {
+    "Ancillary Services": [
+      "Police Registration",
+      "Social Security Registration",
+      "Tax Administration Report",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (online registration and registration certificate collection)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire or Seconded Employee Residence Permit": [
+      "Package price for principal with visa (work and residence permit approval, entry visa, residence card)",
+      "Package price for principal without visa (work and residence permit approval, residence card)",
+      "Stand-alone work and residence permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignment Permit (under 90 days)": [
+      "Package price for principal (entry visa, police registration)"
+    ]
+  },
+  "Poland": {
+    "Ancillary Services": [
+      "Address Registration",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Labour market search",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (labour market search, Blue Card approval, entry visa, address registration, residence card)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card, address registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (EU registration, address registration)",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (ICT Permit approval, entry visa, residence card, address registration)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card, address registration)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Work Permit Type C": [
+      "Package price for principal (Type C work permit approval, entry visa, address registration)",
+      "Stand-alone Type C work permit approval",
+      "Package price for dependent (entry visa, residence permit, address registration)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work Permit Type A": [
+      "Package price for principal (labour market search, Type A work permit approval, entry visa, address registration)",
+      "Stand-alone Type A work permit approval",
+      "Package price for dependent (entry visa, residence permit, address registration)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Service Provider Work Permit Type D": [
+      "Package price for principal (Type D work permit approval, entry visa, address registration)",
+      "Stand-alone Type D work permit approval",
+      "Package price for dependent (entry visa, residence permit, address registration)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work Permit Exemption for Management Board Members Type B": [
+      "Package price for principal (entry visa, address registration)",
+      "Package price for dependent (entry visa, address registration)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Portugal": {
+    "Ancillary Services": [
+      "Town Hall Registration",
+      "Social Security Registration",
+      "Tax Authority Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (residence visa, social security and tax registration, Blue Card)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone residence visa",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU registration certificate",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal with visa (entry visa, ICT permit approval)",
+      "Application for principal without visa (ICT permit approval)",
+      "Stand-alone entry visa",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Residence Visa (Highly Qualified)": [
+      "Package price for principal (residence visa, residence permit)",
+      "Stand-alone residence visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Stay Visa (Highly Qualified, ICT or Service Provider)": [
+      "Application for principal (temporary stay visa)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Romania": {
+    "Ancillary Services": [
+      "Acknowledgement of studies for highly skilled applicants",
+      "Labour market search",
+      "Registration of employment contract",
+      "Registration of lease contract",
+      "Social Security Registration",
+      "Medical certificate support",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (acknowledgement of studies, Blue Card approval, entry visa, Blue Card residence permit)",
+      "Package price for principal without visa (acknowledgement of studies, Blue Card approval, Blue Card residence permit)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU registration certificate",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66) or Assignee Work Permit": [
+      "Package price for principal with visa (acknowledgement of studies, ICT Permit approval, entry visa, residence permit)",
+      "Package price for principal without visa (acknowledgement of studies, ICT Permit approval, residence permit)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work Permit": [
+      "Package price for principal with visa (labour market search, local hire work permit approval, entry visa, residence permit)",
+      "Package price for principal without visa (labour market search, local hire work permit approval, residence permit)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence permit",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Russia": {
+    "Ancillary Services": [
+      "Quarterly salary notification for HQS",
+      "Tax ID Certificate application",
+      "Labour market test",
+      "Russian language examination",
+      "Immigration medical",
+      "Notification to MIA of contract signature",
+      "Business visa invitation letter",
+      "Work visa invitation letter",
+      "Dependent visa invitation letter",
+      "Migration registration",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Highly Qualified Specialist Work Permit": [
+      "Package price for principal with visa (notification of contract signature, work permit approval, visa invitation letter, entry visa, personal work permit, migration registration)",
+      "Package price for principal without visa (notification of contract signature, work permit approval, personal work permit, migration registration)",
+      "Stand-alone work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone personal work permit collection",
+      "Package price for dependent (visa invitation letter, entry visa, migration registration)",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Standard Work Permit (Ltd or Branch Office)": [
+      "Package price for principal (labour market search, company work permit approval, immigration medical, Russian language examination, personal work permit approval, visa invitation letter, entry visa, personal work permit, contract notification, migration registration, visa extension)",
+      "Stand-alone company work permit approval",
+      "Stand-alone personal work permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone personal work permit collection",
+      "Package price for dependent (visa invitation letter, entry visa, migration registration)",
+      "Stand-alone dependent entry visa",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Technical Support Visa (Under 90 days)": [
+      "Package price (visa invitation letter, entry visa, registration)"
+    ],
+    "Work Patent for Former CIS Nationals": [
+      "Package price for principal (address registration, immigration medical, Russian language examination, work patent, fingerprinting, notification of contract, migration registration)",
+      "Stand-alone work patent approval",
+      "Renewal of package"
+    ],
+    "Work Permit and Accreditation Card (Rep. Office)": [
+      "Package price for principal (labour market search, company work permit approval, accreditation card, immigration medical, Russian language examination, personal work permit, visa invitation letter, entry visa, contract notification, migration registration, visa extension)",
+      "Package price for dependent (visa invitation letter, entry visa, migration registration)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Slovakia": {
+    "Ancillary Services": [
+      "Registration with Foreign Police",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Immigration Medical",
+      "Submit Slovakian health insurance coverage to Foreign Police",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal with visa (labour market test, qualification recognition, Blue Card approval, entry visa, registration with foreign police, residence card, immigration medical)",
+      "Package price for principal without visa (labour market test, qualification recognition, registration with foreign police, Blue Card approval, residence card, immigration medical)",
+      "Stand-alone Blue Card approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (registration with foreign police, EEA registration of residence, residence card)",
+      "Stand-alone EEA registration of residence",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal with visa (ICT Permit approval, entry visa, registration with foreign police, residence card, immigration medical)",
+      "Package price for principal without visa (ICT Permit approval, registration with foreign police, residence card, immigration medical)",
+      "Stand-alone ICT Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Single Permit": [
+      "Package price for principal with visa (labour market test, Single Permit approval, entry visa, registration with foreign police, residence card, immigration medical)",
+      "Package price for principal without visa (labour market test, registration with foreign police, Single Permit approval, residence card, immigration medical)",
+      "Stand-alone Single Permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Temporary Assignment (under 90 days)": [
+      "Package price with visa (entry visa, labour office registration)",
+      "Stand-alone labour office registration"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Slovenia": {
+    "Ancillary Services": [
+      "Address Registration with police or Administration Unit",
+      "Qualification recognition",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Arrange Slovenian health insurance",
+      "Tax card application at FURS",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (qualification recognition, address registration, Blue Card application card)",
+      "Stand-alone Blue Card approval",
+      "Dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA/Swiss Nationals": [
+      "Package price (address registration, EEA/Swiss registration certificate)",
+      "Stand-alone EEA/Swiss registration certificate",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal with visa (ICT Permit approval, address registration)",
+      "Stand-alone ICT Permit approval",
+      "Dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work and Residence Permit": [
+      "Package price for principal (work and residence permit approval, address registration)",
+      "Stand-alone work and residence permit approval",
+      "Dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Service Provider Work Permit (3 months out of 12 months)": [
+      "Package price for principal (work and residence permit approval, address registration)"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Spain": {
+    "Ancillary Services": [
+      "Town Hall Registration",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration / Resident Card",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Highly Skilled (Entrepreneurs\u2019 Law)": [
+      "Package price for principal (work approval, entry visa, residence card)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (work approval, entry visa, residence card)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work Permit (Small Companies)": [
+      "Package price for principal (work approval, entry visa, residence card)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ]
+  },
+  "Sweden": {
+    "Ancillary Services": [
+      "Tax registration (PIN or co-ordination number)",
+      "Notification of local hire to Swedish Tax Agency",
+      "Labour market test",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Blue Card": [
+      "Package price for principal (offer of employment, labour market test, trade union opinion, Blue Card approval)",
+      "Stand-alone Blue Card approval",
+      "Dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "EEA Nationals": [
+      "Tax registrations for stays of over 183 days"
+    ],
+    "Intra Company Transfer Directive (2014/66)": [
+      "Package price for principal (offer of employment, trade union opinion, ICT Permit approval)",
+      "Stand-alone ICT Permit approval",
+      "Dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Short Term Work Permit (up to 90 days)": [
+      "Package price (labour market test, trade union opinion, work permit approval)"
+    ],
+    "Swiss Nationals": [
+      "Residence permit for stays of over 90 days",
+      "non-EEA dependent of an EEA national",
+      "Renewal of dependent package"
+    ],
+    "Vander Elst (Assignment from within EEA)": [
+      "Package price for principal"
+    ],
+    "Work and Residence Permit": [
+      "Package price for principal (offer of employment, labour market test, trade union opinion, work and residence permit approval)",
+      "Stand-alone work and residence permit approval",
+      "Dependent residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Switzerland": {
+    "Ancillary Services": [
+      "Registration with Canton",
+      "Social Security Registration",
+      "Posted Worker Notification",
+      "Multiple entry visa conversion",
+      "Enrolment with Swiss Health Insurance",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Assignment B Permit (Long Term) - Non EU/EFTA": [
+      "Package price for principal (B permit approval, entry visa, registration, permit collection)",
+      "Stand-alone Assignment B Permit approval",
+      "Package price for dependent (entry visa, registration, permit collection)"
+    ],
+    "EEA/Swiss Nationals": [
+      "EU Registration / Resident Card",
+      "non-EEA dependent of an EEA national",
+      "Renewal of EEA package",
+      "Renewal of dependent package"
+    ],
+    "Highly Skilled (Entrepreneurs\u2019 Law)": [
+      "Stand alone",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire 120 Day Permit - Non EU/EFTA": [
+      "Package price for principal (120 Day work permit approval, entry visa)",
+      "Stand-alone 120 Day work permit approval",
+      "Renewal of 120 Day work permit"
+    ],
+    "Local Hire 4 Month Permit - Non EU/EFTA": [
+      "Package price for principal (labour market search, short term permit approval, entry visa)",
+      "Stand-alone 4 month short term permit approval"
+    ],
+    "Local Hire B Permit (Long Term) - Non EU/EFTA": [
+      "Package price for principal (labour market search, B permit approval, entry visa, registration, permit collection)",
+      "Stand-alone Local Hire B Permit approval",
+      "Package price for dependent (entry visa, registration, permit collection)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire L Permit (Short Term) - Non EU/EFTA": [
+      "Package price for principal (labour market search, L permit approval, entry visa, registration, permit collection)",
+      "Stand-alone Local Hire L Permit",
+      "Package price for dependent (entry visa, registration, permit collection)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Local Hire Work Permit (Small Companies)": [
+      "Package price for principal (work approval, entry visa, residence card)",
+      "Stand-alone work approval",
+      "Stand-alone entry visa",
+      "Stand-alone residence card",
+      "Package price for dependent (entry visa, residence card)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent residence card",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Turkey": {
+    "Ancillary Services": [
+      "Social Security Registration",
+      "Employment Notification to MInistry of Labour",
+      "Address Registration with Central Civil Registration System",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Assembly, Maintenance and Service (AMS) Visa": [
+      "AMS Visa"
+    ],
+    "Work Permit": [
+      "Package price for principal with visa (online and consular visa application, online work permit approval)",
+      "Package price for principal without visa (temporary residence permit, online work permit approval)",
+      "Stand-alone consular visa",
+      "Stand-alone online work permit",
+      "Stand-alone temporary residence permit",
+      "Package price for dependent (Short term tourist residence permit)",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "UK": {
+    "Ancillary Services": [
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Intra Company Transfer Visa": [
+      "Package price for principal (certificate of sponsorship, entry clearance visa, biometric residence permit)",
+      "Stand-alone certificate of sponsorship",
+      "Stand-alone entry clearance visa",
+      "Stand-alone biometric residence permit",
+      "Package price for dependent (entry visa, biometric residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent biometric residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Skilled Worker Visa": [
+      "Package price for principal (certificate of sponsorship, entry clearance visa, biometric residence permit)",
+      "Stand-alone certificate of sponsorship",
+      "Stand-alone entry clearance visa",
+      "Stand-alone biometric residence permit",
+      "Package price for dependent (entry visa, biometric residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent biometric residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  },
+  "Ukraine": {
+    "Accreditation Card": [
+      "Package price for principal (accreditation card approval, invitation letter, entry visa, temporary residence permit, address registration)",
+      "Stand-alone accreditation card",
+      "Stand-alone invitation letter",
+      "Stand-alone entry visa",
+      "Stand-alone temporary residence permit",
+      "Package price for dependent (invitation letter, entry visa, temporary residence permit)",
+      "Stand-alone dependent invitation letter",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent temporary residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ],
+    "Ancillary Services": [
+      "Employment Contract Registration",
+      "Tax ID Code",
+      "Address registration with Municipal Services Authority (TSNAP)",
+      "Apostille (one step)",
+      "Legalisation (two steps)",
+      "Translation management",
+      "Obtain new certificate (birth)",
+      "Obtain new certificate (marriage)",
+      "Obtain new certificate (police record)"
+    ],
+    "Standard Work Permit (Ltd or Branch Office)": [
+      "Package price for principal with visa (employment permit approval, entry visa, temporary residence permit, address registration)",
+      "Package price for principal without visa (employment permit approval, temporary residence permit, address registration)",
+      "Stand-alone employment permit approval",
+      "Stand-alone entry visa",
+      "Stand-alone temporary residence permit",
+      "Package price for dependent with visa (entry visa, temporary residence permit)",
+      "Stand-alone dependent entry visa",
+      "Stand-alone dependent temporary residence permit",
+      "Renewal of package",
+      "Renewal of dependent package"
+    ]
+  }
+}

@@ -8,6 +8,8 @@ factory-boy==3.2.0
 icecream==2.1.0
 ipython==7.21.0
 mypy==0.812
+openpyxl==3.0.7
+pandas==1.2.4
 pdbpp==0.10.2
 Pygments==2.8.1
 pygraphviz==1.7
