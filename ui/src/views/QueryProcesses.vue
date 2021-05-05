@@ -80,16 +80,19 @@ export default Vue.extend({
       this.move.process.route.host_country = country;
 
       // HACK ------------------------------------
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+
       const moveSerializerData = Object.assign(
         { host_country: country },
         this.move
-      );
+      ) as Record<string, any>;
       if (!moveSerializerData.target_entry_date) {
         moveSerializerData.target_entry_date = null;
       }
       if (!moveSerializerData.target_exit_date) {
         moveSerializerData.target_exit_date = null;
       }
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       // -----------------------------------------
 
       const matchingProcesses = (await http.postFetchDataOrNull(
