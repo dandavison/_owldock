@@ -113,6 +113,7 @@ urlpatterns = [
     ),
     path("api/processes/", login_required(processes.ProcessList.as_view())),
     # Admin
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),  # TODO: permission
     path("grappelli/", include("grappelli.urls")),
     path("_nested_admin/", include("nested_admin.urls")),
