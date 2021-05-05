@@ -77,7 +77,7 @@ class Route(BaseModel):
     )
 
     def __str__(self):
-        return f"{self.__class__.__name__}({self.host_country}: {self.name})"
+        return f"{self.host_country}: {self.name}"
 
     class Meta:
         constraints = [
