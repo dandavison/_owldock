@@ -286,10 +286,12 @@ class ProcessStep(BaseModel):
         blank=True,
     )
     estimated_min_duration_days = PositiveIntegerField(
-        help_text="Minimum number of working days this step is expected to take"
+        help_text="Minimum number of working days this step is expected to take",
+        null=True,
     )
     estimated_max_duration_days = PositiveIntegerField(
-        help_text="Maximum number of working days this step is expected to take"
+        help_text="Maximum number of working days this step is expected to take",
+        null=True,
     )
     applicant_can_enter_host_country_after = BooleanField(
         help_text="Can the applicant enter the host country on completion of this step?",
