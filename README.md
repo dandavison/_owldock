@@ -11,7 +11,9 @@
 
 # Concepts
 
-- A client expresses a desire to perform some sort of immigration operation by creating a `Move`: this specifies the host country, and the dates, and may also specify the activity to be performed, the applicant's nationalities, payroll/contract location, etc.
+- A client expresses a desire to perform some sort of immigration operation by creating a `Move`.
+
+- A `Move` specifies the host country, and the dates, and may also specify the activity to be performed, the applicant's nationalities, payroll/contract location, etc.
 
 - The objective is to find one or more `Processes` which can be used to effect this `Move`.
   A `Process` is an immigration `Route`, together with a list of `ProcessSteps`.
