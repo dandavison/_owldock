@@ -46,7 +46,6 @@ python:
 	$(MANAGE) shell_plus
 
 create-fake-world:
-	$(MANAGE) drop_all_tables
 	$(MANAGE) create_fake_world
 
 create-fake-cases:
