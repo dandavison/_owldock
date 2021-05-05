@@ -75,7 +75,7 @@ class Route(BaseModel):
 
 class Process(BaseModel):
     """
-    A predicted sequence of steps for a Route, given Applicant nationalities and home country.
+    A predicted sequence of steps for a Route, given Applicant nationality and home country.
     """
 
     route = models.ForeignKey(
