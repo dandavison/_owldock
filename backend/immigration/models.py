@@ -180,7 +180,7 @@ class ProcessRuleSet(BaseModel):
             f"contract={self.contract_location}",
             f"payroll={self.payroll_location}",
         ]
-        return f"{self.__class__.__name__}({self.route}, {', '.join(data)})"
+        return f"{self.route}: {', '.join(data)}"
 
     def _satisfies_host_country(self, move: Move) -> bool:
         return move.host_country == self.route.host_country
