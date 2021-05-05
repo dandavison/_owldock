@@ -26,6 +26,7 @@ class Location(TextChoices):
     HOST_COUNTRY = "HOST_COUNTRY", "Host Country"
 
 
+# TODO: should this be a serializer?
 @dataclass
 class Move:
     """
@@ -184,10 +185,13 @@ class ProcessRuleSet(BaseModel):
         return move.host_country == self.route.host_country
 
     def _satisfies_nationalities(self, move: Move) -> bool:
+        move_nationalities = set(move.nationalities or [])
+        if not move_nationalities:
+            return True
         nationalities = set(self.nationalities.all())
         if not nationalities:
             return True
-        return bool(set(move.nationalities) & nationalities)
+        return bool(move_nationalities & nationalities)
 
     def _satisfies_contract_location(self, move: Move) -> bool:
         return self._matches(move.contract_location, self.contract_location)

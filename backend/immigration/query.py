@@ -1,5 +1,6 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 
+from immigration.api.serializers import MoveSerializer
 from immigration.models import (
     Move,
     Process,
@@ -8,7 +9,7 @@ from immigration.models import (
 )
 
 
-def get_processes(move: Move) -> List[Process]:
+def get_processes(move: Union[Move, MoveSerializer]) -> List[Process]:
     """
     Return a list of processes that could be used to effect this move.
     """
