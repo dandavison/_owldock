@@ -1,8 +1,7 @@
-from app.models import Country
+from app.models import bloc, Country
 
 
 def test_eu_countries_exist(load_country_fixture):
     assert {
-        c.name
-        for c in Country.objects.filter(name__in=Country.objects.EU_COUNTRY_NAMES)
-    } == set(Country.objects.EU_COUNTRY_NAMES)
+        c.name for c in Country.objects.filter(name__in=bloc.EU._COUNTRY_NAMES)
+    } == set(bloc.EU._COUNTRY_NAMES)
