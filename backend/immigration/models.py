@@ -11,6 +11,7 @@ from django.db.models import (
     ManyToManyField,
     PositiveIntegerField,
     TextChoices,
+    TextField,
     UniqueConstraint,
 )
 
@@ -364,3 +365,8 @@ class ProcessStep(BaseModel):
             if not required_only_if_nationalities & set(move.nationalities):
                 return True
         return False
+
+
+class ServiceItem(BaseModel):
+    process_step = ForeignKey(ProcessStep, on_delete=deletion.CASCADE)
+    description = TextField(help_text="Description of the service item")

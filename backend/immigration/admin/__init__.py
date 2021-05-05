@@ -14,11 +14,17 @@ from immigration.models import (
     ProcessRuleSet,
     ProcessStep,
     Route,
+    ServiceItem,
 )
 
 
 class IssuedDocumentInline(NestedTabularInline):
     model = IssuedDocument
+    extra = 1
+
+
+class ServiceItemInline(NestedTabularInline):
+    model = ServiceItem
     extra = 1
 
 
@@ -38,7 +44,7 @@ class ProcessStepInline(NestedStackedInline):
     form = ProcessStepAdminForm
     filter_horizontal = ["required_only_if_nationalities"]
     extra = 1
-    inlines = [IssuedDocumentInline]
+    inlines = [IssuedDocumentInline, ServiceItemInline]
     fieldsets = [
         (
             None,
