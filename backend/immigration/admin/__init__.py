@@ -7,7 +7,7 @@ from nested_admin import (
 )
 
 from app.models.bloc import Blocs
-from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin
+from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ignore
 from immigration.models import (
     IssuedDocument,
     IssuedDocumentType,

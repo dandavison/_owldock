@@ -1,3 +1,4 @@
+# type: ignore
 from app.models import Country
 from immigration.tests import conftest
 
