@@ -8,7 +8,7 @@
       <li>
         <router-link to="/portal/assessment">
           <b-button class="is-large m-4" style="background-color: #fff2cc">
-            Ask a question
+            Assessment
           </b-button>
         </router-link>
       </li>
