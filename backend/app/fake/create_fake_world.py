@@ -146,7 +146,7 @@ class _FakeWorldCreator:
                 "FakeLastName",
                 "FakeClientName",
                 "fake-owldock-client.com",
-                "https://previews.123rf.com/images/deniaz/deniaz2001/deniaz200100234/138923282-a-logo-design-about-fake-news-fake-news-logo-fake-news-tag-vector-illustration.jpg",
+                "https://previews.123rf.com/images/deniaz/deniaz2001/deniaz200100234/138923282-a-logo-design-about-fake-news-fake-news-logo-fake-news-tag-vector-illustration.jpg",  # noqa
                 lambda provider: False,
             ),
         ]:

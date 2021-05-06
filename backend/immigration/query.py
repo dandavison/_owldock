@@ -19,7 +19,7 @@ def get_processes(move: Union[Move, MoveSerializer]) -> List[Process]:
         print(f"Considering {process_rule_set}")
         process = _make_process_for_move(process_rule_set, move)
         if process:
-            print(f"Matches!")
+            print("Matches!")
             matching_processes.append(process)
     return matching_processes
 

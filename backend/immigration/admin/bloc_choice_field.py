@@ -9,7 +9,8 @@ class BlocChoiceFieldMixin:
     """
     A mixin for a form class that features a bloc ChoiceField adding country
     selections to a Country multiple choice (m2m) field.
-    """   
+    """
+
     _bloc_fields: ClassVar[List[Tuple[str, str]]] = []
 
     def __init__(self, *args, **kwargs) -> None:

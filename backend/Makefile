@@ -38,7 +38,7 @@ dumpdata:
 	python ./manage.py dumpdata --all --indent 2 --database client > db/client.json
 
 lint-flake8:
-	flake8 app client owldock
+	flake8 app client immigration owldock
 
 type-check-mypy:
 	.venv/bin/mypy .

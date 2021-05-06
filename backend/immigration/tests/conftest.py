@@ -1,6 +1,6 @@
 import pytest
 
-from app.models import bloc, Country
+from app.models import bloc
 from immigration.models import Location, ProcessRuleSet, Route
 from immigration.tests.factories import (
     IssuedDocumentFactory,

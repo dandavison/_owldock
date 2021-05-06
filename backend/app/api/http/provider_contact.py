@@ -20,10 +20,9 @@ from app.api.http.client_or_provider_contact import (
 )
 from app.api.serializers import (
     ApplicantSerializer,
-    CaseSerializer,
     CaseStepSerializer,
 )
-from client.models.case_step import Case, CaseStep
+from client.models.case_step import CaseStep
 from owldock.http import (
     HttpResponseForbidden,
     make_explanatory_http_response,
