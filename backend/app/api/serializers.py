@@ -27,7 +27,6 @@ from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import (
     CharField,
-    DateField,
     ModelSerializer,
     IntegerField,
     Serializer,

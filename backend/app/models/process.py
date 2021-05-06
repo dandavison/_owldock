@@ -5,10 +5,7 @@
 # will fail its validity check if the new Service entries look like they are
 # going to try to create duplicates. But only if the unique_contraint is added
 # in the Django field definition.
-from typing import Type, Union
-
 from django.db import models
-from django.db.models import QuerySet
 
 from owldock.models.base import BaseModel
 
