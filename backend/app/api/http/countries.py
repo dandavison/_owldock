@@ -1,9 +1,9 @@
 from django.http import HttpRequest
 from django.views import View
 
+from app.api.serializers import CountrySerializer
 from app.models import Country
 from owldock.http import OwldockJsonResponse
-from .serializers import CountrySerializer
 
 
 class CountriesList(View):

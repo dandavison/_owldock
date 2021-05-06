@@ -6,7 +6,7 @@ from django.db.transaction import atomic
 from django.http import HttpRequest, HttpResponse
 
 from app.exceptions import PermissionDenied
-from app.http_api.serializers import CaseStepSerializer
+from app.api.serializers import CaseStepSerializer
 from app.models import ProviderContact
 from client.models import CaseStep, ClientContact
 from owldock.http import (

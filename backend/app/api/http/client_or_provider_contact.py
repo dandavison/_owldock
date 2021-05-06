@@ -4,7 +4,7 @@ from uuid import UUID
 from django.http import HttpRequest, HttpResponse
 
 from app.models import ProviderContact
-from app.http_api.serializers import CaseSerializer
+from app.api.serializers import CaseSerializer
 from client.models import ClientContact
 from owldock.dev.db_utils import assert_n_queries, print_queries
 from owldock.state_machine.role import get_role_from_http_request

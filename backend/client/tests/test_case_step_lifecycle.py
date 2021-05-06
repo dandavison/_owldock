@@ -1,7 +1,7 @@
 import pytest
 
-from app.http_api.case_step_utils import perform_case_step_transition
-from app.http_api.serializers import CaseSerializer
+from app.api.http.case_step_utils import perform_case_step_transition
+from app.api.serializers import CaseSerializer
 from app.models import ProviderContact
 from app.tests.factories import UploadedFileFactory
 from client.models import CaseStep, ClientContact, State

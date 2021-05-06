@@ -13,7 +13,7 @@ THREAD_LOCALS = local()
 
 @receiver(pre_transition)
 def handle_django_fsm_pre_transition(sender, **kwargs):
-    from app.http_api.serializers import CaseStepSerializer
+    from app.api.serializers import CaseStepSerializer
 
     print(colored.black("django_fsm pre_transition signal:", bold=True))
     pprint(kwargs)
@@ -23,7 +23,7 @@ def handle_django_fsm_pre_transition(sender, **kwargs):
 
 @receiver(post_transition)
 def handle_django_fsm_post_transition(sender, **kwargs):
-    from app.http_api.serializers import CaseStepSerializer
+    from app.api.serializers import CaseStepSerializer
 
     print(colored.black("django_fsm post_transition signal:", bold=True))
     pprint(kwargs)

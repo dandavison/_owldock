@@ -2,7 +2,7 @@ from django_typomatic import ts_interface
 
 from rest_framework.serializers import CharField, DateField, ModelSerializer, Serializer
 
-from app.http_api.serializers import CountrySerializer
+from app.api.serializers import CountrySerializer
 from immigration.models import ProcessStep, Route
 
 _TS_INTERFACE_GROUP = "immigration"

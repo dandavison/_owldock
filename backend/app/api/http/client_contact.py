@@ -7,16 +7,16 @@ from django.http import (
     HttpResponse,
 )
 
-from app.http_api.base import BaseView
-from app.http_api.case_step_utils import (
+from app.api.http.base import BaseView
+from app.api.http.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
 )
-from app.http_api.client_or_provider_contact import (
+from app.api.http.client_or_provider_contact import (
     ClientOrProviderCaseListMixin,
     ClientOrProviderCaseViewMixin,
 )
-from app.http_api.serializers import (
+from app.api.serializers import (
     CaseSerializer,
     ClientProviderRelationshipSerializer,
     ApplicantSerializer,

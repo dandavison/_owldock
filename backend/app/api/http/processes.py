@@ -1,9 +1,9 @@
 from django.http import Http404, HttpRequest, HttpResponse
 from django.views import View
 
+from app.api.serializers import ProcessSerializer
 from app.models import Process
 from owldock.http import OwldockJsonResponse
-from .serializers import ProcessSerializer
 
 
 class ProcessList(View):

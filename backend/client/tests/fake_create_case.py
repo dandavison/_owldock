@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 from django.utils import timezone
 
-from app.http_api.serializers import (
+from app.api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
     CaseStepSerializer,

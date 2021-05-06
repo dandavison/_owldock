@@ -6,10 +6,10 @@ from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
 
-from app.http_api import client_contact
-from app.http_api import countries
-from app.http_api import provider_contact
-from app.http_api import processes
+from app.api.http import client_contact
+from app.api.http import countries
+from app.api.http import provider_contact
+from app.api.http import processes
 from app.views import HomeView, StatusView
 from immigration.api.http import occupations, process_query
 
