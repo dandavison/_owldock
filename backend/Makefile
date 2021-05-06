@@ -49,6 +49,10 @@ type-check-pyright:
 python:
 	$(MANAGE) shell_plus
 
+migrate:
+	$(MANAGE) migrate
+	$(MANAGE) migrate --database client
+
 create-fake-world:
 	$(MANAGE) create_fake_world
 
@@ -63,11 +67,10 @@ recreate-migrations:
 	rm -rf */migrations/*
 	$(MANAGE) makemigrations app client immigration
 
-recreate-db: recreate-migrations
+drop-all-tables:
 	$(MANAGE) drop_all_tables
-	$(MANAGE) migrate
-	$(MANAGE) migrate --database client
-	$(MANAGE) create_fake_world
+
+recreate-db: recreate-migrations drop-all-tables migrate create-fake-world
 
 db-graph:
 	$(MANAGE) graph_models app client --no-inheritance --exclude-models '*BaseModel' --output /tmp/db.svg
