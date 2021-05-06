@@ -13,14 +13,16 @@ def test_case_step_lifecycle(
     applicant_B,
     client_contact_A,
     client_contact_B,
-    process_A,
-    process_B,
+    greece_local_hire_article_17_rule_set,
     provider_contact_A,
     provider_contact_B,
 ):
     # Earmark
     case = fake_create_case_and_earmark_steps(
-        applicant_A, client_contact_A, process_A, provider_contact_A
+        applicant_A,
+        client_contact_A,
+        greece_local_hire_article_17_rule_set,
+        provider_contact_A,
     )
     for case_step in case.steps.all()[:2]:
         _make_case_step_EARMARKED_assertions(

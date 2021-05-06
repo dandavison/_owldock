@@ -1,6 +1,7 @@
 from django.db.transaction import atomic
 
-from app.models import Provider, Route
+from app.models import Provider
+from immigration.models import Route
 
 
 @atomic

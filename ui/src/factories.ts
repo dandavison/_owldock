@@ -30,8 +30,6 @@ function NullProcess(): ProcessSerializer {
   return {
     uuid: undefined,
     route: NullRoute(),
-    nationality: NullCountry(),
-    home_country: NullCountry(),
     steps: [],
   };
 }

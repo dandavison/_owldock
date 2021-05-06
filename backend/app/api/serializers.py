@@ -27,6 +27,7 @@ from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
 from rest_framework.serializers import (
     CharField,
+    DateField,
     ModelSerializer,
     IntegerField,
     Serializer,
@@ -37,12 +38,8 @@ from rest_framework.serializers import (
 from app.models import (
     Country,
     StoredFile,
-    Process,
-    ProcessStep,
     Provider,
     ProviderContact,
-    Route,
-    Service,
 )
 from client.models import (
     Applicant,
@@ -55,7 +52,14 @@ from client.models.case_step import (
     CaseStep,
     CaseStepContract,
 )
-
+from immigration.models import (
+    IssuedDocument,
+    IssuedDocumentType,
+    ProcessRuleSet,
+    ProcessStep,
+    Route,
+    ServiceItem,
+)
 
 logger = logging.getLogger(__file__)
 
@@ -71,48 +75,6 @@ class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
         fields = ["uuid", "name", "code", "unicode_flag"]
-
-
-@ts_interface()
-class ServiceSerializer(ModelSerializer):
-    class Meta:
-        model = Service
-        fields = ["uuid", "name"]
-
-
-@ts_interface()
-class RouteSerializer(ModelSerializer):
-    host_country = CountrySerializer()
-
-    class Meta:
-        model = Route
-        fields = ["uuid", "name", "host_country"]
-
-
-@ts_interface()
-class ProcessStepSerializer(ModelSerializer):
-    # See module docstring for explanation of read_only and allow_null
-    uuid = UUIDField(read_only=False, allow_null=True, required=False)
-    service = ServiceSerializer()
-
-    class Meta:
-        model = ProcessStep
-        fields = ["uuid", "sequence_number", "service"]
-        ordering = ["sequence_number"]
-
-
-@ts_interface()
-class ProcessSerializer(ModelSerializer):
-    # See module docstring for explanation of read_only and allow_null
-    uuid = UUIDField(read_only=False, allow_null=True, required=False)
-    route = RouteSerializer()
-    nationality = CountrySerializer()
-    home_country = CountrySerializer(allow_null=True, required=False)
-    steps = ProcessStepSerializer(many=True)
-
-    class Meta:
-        model = Process
-        fields = ["uuid", "route", "nationality", "home_country", "steps"]
 
 
 @ts_interface()
@@ -200,6 +162,86 @@ class ProviderContactSerializer(CountryFieldMixin, ModelSerializer):
     class Meta:
         model = ProviderContact
         fields = ["uuid", "user", "provider"]
+
+
+@ts_interface()
+class OccupationSerializer(Serializer):
+    name = CharField()
+
+
+@ts_interface()
+class MoveSerializer(Serializer):
+    host_country = CountrySerializer()
+    target_entry_date = DateField(required=False, allow_null=True)
+    target_exit_date = DateField(required=False, allow_null=True)
+
+
+@ts_interface()
+class RouteSerializer(ModelSerializer):
+    host_country = CountrySerializer()
+
+    class Meta:
+        model = Route
+        fields = "__all__"
+
+
+@ts_interface()
+class IssuedDocumentTypeSerializer(ModelSerializer):
+    class Meta:
+        model = IssuedDocumentType
+        fields = ["name"]
+
+
+@ts_interface()
+class IssuedDocumentSerializer(ModelSerializer):
+    # TODO
+    # issued_document_type = IssuedDocumentTypeSerializer()
+
+    class Meta:
+        model = IssuedDocument
+        fields = ["id"]  # TODO: "issued_document_type"
+
+
+@ts_interface()
+class ServiceItemSerializer(ModelSerializer):
+    class Meta:
+        model = ServiceItem
+        fields = ["description"]
+
+
+@ts_interface()
+class ProcessStepSerializer(ModelSerializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    issued_documents = IssuedDocumentSerializer(many=True)
+    service_item = ServiceItemSerializer(source="serviceitem")
+
+    class Meta:
+        model = ProcessStep
+        fields = [
+            "applicant_can_enter_host_country_after",
+            "applicant_can_work_in_host_country_after",
+            "estimated_max_duration_days",
+            "estimated_min_duration_days",
+            "government_fee",
+            "issued_documents",
+            "name",
+            "process_rule_set",
+            "required_only_if_duration_exceeds",
+            "required_only_if_nationalities",
+            "required_only_if_payroll_location",
+            "service_item",
+            "sequence_number",
+            "uuid",
+        ]
+
+
+@ts_interface()
+class ProcessSerializer(Serializer):
+    # See module docstring for explanation of read_only and allow_null
+    uuid = UUIDField(read_only=False, allow_null=True, required=False)
+    route = RouteSerializer()
+    steps = ProcessStepSerializer(many=True)
 
 
 @ts_interface()
@@ -311,16 +353,16 @@ class CaseSerializer(ModelSerializer):
         # Fetch processes in default DB
         process_uuids = {c.process_uuid for c in cases}
         processes = (
-            Process.objects.filter(uuid__in=process_uuids)
+            ProcessRuleSet.objects.filter(uuid__in=process_uuids)
             .select_related(
                 "route__host_country",
-                "nationality",
-                "home_country",
             )
-            .prefetch_related("steps__service")
+            .prefetch_related("processstep_set__serviceitem")
         )
         uuid2process = {p.uuid: p for p in processes}
-        uuid2process_step = {s.uuid: s for p in processes for s in p.steps.all()}
+        uuid2process_step = {
+            s.uuid: s for p in processes for s in p.processstep_set.all()
+        }
 
         # Fetch stored files in default DB
         case_step_uuids = {s.uuid for c in cases for s in c.steps.all()}

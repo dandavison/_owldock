@@ -11,15 +11,16 @@ from app.api.serializers import (
     ProcessStepSerializer,
     ProviderContactSerializer,
 )
-from app.models import Process, ProviderContact
+from app.models import ProviderContact
 from client.models import Applicant, Case, ClientContact
 from client.models.case_step import State as CaseStepState
+from immigration.models import ProcessRuleSet
 
 
 def fake_create_case_and_earmark_steps(
     applicant: Applicant,
     client_contact: ClientContact,
-    process: Process,
+    process: ProcessRuleSet,
     provider_contact: ProviderContact,
 ) -> Case:
     post_data = make_post_data_for_client_contact_case_create_endpoint(
@@ -35,7 +36,7 @@ def fake_create_case_and_earmark_steps(
 
 def make_post_data_for_client_contact_case_create_endpoint(
     applicant: Applicant,
-    process: Process,
+    process: ProcessRuleSet,
     provider_contact: ProviderContact,
 ) -> dict:
     """
@@ -48,7 +49,7 @@ def make_post_data_for_client_contact_case_create_endpoint(
     case_steps_srlzrs = _create_case_steps_from_process_steps(
         [
             (ProcessStepSerializer(s), provider_contact_srlzr)
-            for s in process.steps.all()
+            for s in process.processstep_set.all()
         ]
     )
 

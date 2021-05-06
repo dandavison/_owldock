@@ -14,6 +14,7 @@ from immigration.models import (
     ProcessRuleSet,
     ProcessStep,
     Route,
+    ServiceItem,
 )
 from owldock.tests.factories import BaseModelFactory
 
@@ -54,8 +55,12 @@ class ProcessRuleSetFactory(BaseModelFactory):
         model = ProcessRuleSet
 
     route = factory.SubFactory(RouteFactory)
-    contract_location = factory.LazyAttribute(lambda _: random.choice(Location.choices))
-    payroll_location = factory.LazyAttribute(lambda _: random.choice(Location.choices))
+    contract_location = factory.LazyAttribute(
+        lambda _: random.choice(Location.choices)[0]
+    )
+    payroll_location = factory.LazyAttribute(
+        lambda _: random.choice(Location.choices)[0]
+    )
     minimum_salary = factory.LazyAttribute(
         lambda _: Decimal(random.uniform(0.00, 10000.00))
     )
@@ -90,7 +95,7 @@ class ProcessStepFactory(BaseModelFactory):
     class Meta:
         model = ProcessStep
 
-    process_rule_set = factory.SubFactory(ProcessRuleSet)
+    process_rule_set = factory.SubFactory(ProcessRuleSetFactory)
     name = "Fake Process Step"
     sequence_number = 1
     # TODO: issued_documents
@@ -107,11 +112,21 @@ class ProcessStepFactory(BaseModelFactory):
         lambda _: random.choice([True, False])
     )
     required_only_if_payroll_location = factory.LazyAttribute(
-        lambda _: random.choice(Location.choices)
+        lambda _: random.choice(Location.choices)[0]
     )
     required_only_if_duration_exceeds = factory.LazyAttribute(
         lambda _: random.choice(range(0, 100))
     )
+
+    @factory.post_generation
+    def serviceitem(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        serviceitem_description = extracted or self.name
+        ServiceItemFactory.create(
+            process_step=self, description=serviceitem_description
+        )
 
     @factory.post_generation
     def required_only_if_nationalities(self, create, extracted, **kwargs):
@@ -121,6 +136,14 @@ class ProcessStepFactory(BaseModelFactory):
         if extracted:
             for country in extracted:
                 self.required_only_if_nationalities.add(country)
+
+
+class ServiceItemFactory(BaseModelFactory):
+    class Meta:
+        model = ServiceItem
+
+    process_step = factory.SubFactory(ProcessStepFactory)
+    description = "Fake Process Step Service Item"
 
 
 class IssuedDocumentTypeFactory(BaseModelFactory):

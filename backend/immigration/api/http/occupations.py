@@ -3,7 +3,7 @@ from django.conf import settings
 from django.http import HttpRequest, HttpResponse
 from django.views import View
 
-from immigration.api.serializers import OccupationSerializer
+from app.api.serializers import OccupationSerializer
 from owldock.http import OwldockJsonResponse
 
 OCCUPATIONS = None

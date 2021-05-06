@@ -11,14 +11,10 @@ from django.db.transaction import atomic
 from django_seed import Seed
 
 from app.fake.set_provider_routes import set_provider_routes
-from app.fixtures.country import load_country_fixture
-from app.fixtures.process import load_process_fixture
 from app.models import (
-    Activity,
     Country,
     Provider,
     ProviderContact,
-    Service,
     User,
 )
 from client.models import (
@@ -41,26 +37,11 @@ class _FakeWorldCreator:
 
     @atomic
     def create(self):
-        load_country_fixture()
-        self._create_services()
         self._create_superusers()
         self._create_providers()
         self._create_client_contacts()
         self._create_applicants(10)
-        self._create_activities(3)
-        load_process_fixture()
         set_provider_routes()
-
-    def _create_services(self) -> None:
-        print("Creating services")
-        Service.objects.create(name="Complete and submit petition")
-        Service.objects.create(name="Book consular appointment")
-        Service.objects.create(name="Escort applicant to consular appointment")
-
-    def _create_activities(self, n: int):
-        print("Creating activities")
-        for name in ["Give presentation", "Fix engine", "Training"]:
-            Activity.objects.create(name=name)
 
     def _create_applicants(self, n: int) -> None:
         print("Creating applicants")

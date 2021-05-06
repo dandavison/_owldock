@@ -9,9 +9,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django_tools.middlewares.ThreadLocal import get_current_request
 
-from app.models import ProcessStep, ProviderContact, StoredFile, User
+from app.models import ProviderContact, StoredFile, User
 from app.models.file import ApplicationFileType
 from client.models.client import Case
+from immigration.models import ProcessStep
 from owldock.state_machine.action import Action
 from owldock.state_machine.django_fsm_utils import FSMField, transition
 from owldock.state_machine.role import (

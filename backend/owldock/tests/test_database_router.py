@@ -4,10 +4,9 @@ from parameterized import parameterized
 from django.db.models import Model
 from django.db import router
 
-from app.models.process import Process
-from app.models.provider import ProviderContact
-from client.models import Applicant
-from client.models import Case
+from app.models import ProviderContact
+from client.models import Applicant, Case
+from immigration.models import ProcessRuleSet
 
 from owldock.database_router import is_client_model
 
@@ -15,7 +14,7 @@ from owldock.database_router import is_client_model
 @parameterized.expand(
     [
         (Case, "client"),
-        (Process, "default"),
+        (ProcessRuleSet, "default"),
         (ProviderContact, "default"),
     ]
 )
@@ -40,10 +39,10 @@ def test_db_router_allow_migrate(db: str, app_label: str, expected: bool):
     [
         (Case, Applicant, True),
         (Case, ProviderContact, False),
-        (Case, Process, False),
+        (Case, ProcessRuleSet, False),
         (Applicant, ProviderContact, False),
-        (Applicant, Process, False),
-        (ProviderContact, Process, True),
+        (Applicant, ProcessRuleSet, False),
+        (ProviderContact, ProcessRuleSet, True),
     ]
 )
 def test_db_router_allow_relation(
@@ -58,5 +57,5 @@ def test_db_router_allow_relation(
 
 def test_is_client_model():
     assert is_client_model(Case)
-    assert not is_client_model(Process)
+    assert not is_client_model(ProcessRuleSet)
     assert not is_client_model(ProviderContact)

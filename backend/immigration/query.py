@@ -1,6 +1,6 @@
 from typing import List, Optional, Union
 
-from immigration.api.serializers import MoveSerializer
+from app.api.serializers import MoveSerializer
 from immigration.models import (
     Move,
     Process,

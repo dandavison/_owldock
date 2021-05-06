@@ -8,8 +8,8 @@ from django.db import models
 from django.db.models import deletion
 from django.db.models.query import QuerySet
 
-from app.models.process import Country, Process
-from app.models.provider import Provider, ProviderContact
+from app.models import Country, Provider, ProviderContact
+from immigration.models import ProcessRuleSet
 from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 from owldock.state_machine.role import Role
@@ -123,7 +123,7 @@ class ClientContact(BaseModel):
             provider__uuid__in=[
                 r.provider_uuid for r in self.client.provider_relationships()
             ],
-            provider__routes__processes__uuid=process_uuid,
+            provider__routes__processruleset__uuid=process_uuid,
         ).distinct()
 
     def provider_primary_contacts_for_process(
@@ -138,8 +138,8 @@ class ClientContact(BaseModel):
         # TODO: sort by preferred status
         provider_uuids = [r.provider_uuid for r in self.client.provider_relationships()]
         providers = Provider.objects.filter(
-            uuid__in=provider_uuids, routes__processes__uuid=process_uuid
-        )
+            uuid__in=provider_uuids, routes__processruleset__uuid=process_uuid
+        ).distinct()
         return ProviderContact.objects.filter(
             id__in=providers.values("primary_contact")
         )
@@ -228,8 +228,8 @@ class Case(BaseModel):
 
     # The process is a specific sequence of abstract steps that should attain the desired
     # immigration Route.
-    process_uuid = UUIDPseudoForeignKeyField(Process)
-    process: Process
+    process_uuid = UUIDPseudoForeignKeyField(ProcessRuleSet)
+    process: ProcessRuleSet
 
     # Case data
     target_entry_date = models.DateField()
@@ -240,5 +240,5 @@ class Case(BaseModel):
         # automatically?
         assert (
             self.process_uuid
-            and Process.objects.filter(uuid=self.process_uuid).exists()
+            and ProcessRuleSet.objects.filter(uuid=self.process_uuid).exists()
         )

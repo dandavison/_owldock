@@ -8,6 +8,7 @@ from django.db.models import (
     DecimalField,
     deletion,
     ForeignKey,
+    OneToOneField,
     ManyToManyField,
     PositiveIntegerField,
     TextChoices,
@@ -25,6 +26,11 @@ Activity = NewType("Activity", str)
 class Location(TextChoices):
     HOME_COUNTRY = "HOME_COUNTRY", "Home Country"
     HOST_COUNTRY = "HOST_COUNTRY", "Host Country"
+
+
+@dataclass
+class Occupation:
+    name: str
 
 
 # TODO: should this be a serializer?
@@ -244,6 +250,11 @@ class ProcessRuleSet(BaseModel):
             self._satisfies_intra_company_move,
         ]
 
+    @property
+    def steps(self):
+        # FIXME This isn't correct
+        return list(self.processstep_set.all())
+
 
 class IssuedDocumentType(BaseModel):
     name = CharField(max_length=128, help_text="Name of this issued document type.")
@@ -376,5 +387,5 @@ class ProcessStep(BaseModel):
 
 
 class ServiceItem(BaseModel):
-    process_step = ForeignKey(ProcessStep, on_delete=deletion.CASCADE)
+    process_step = OneToOneField(ProcessStep, on_delete=deletion.CASCADE)
     description = TextField(help_text="Description of the service item")

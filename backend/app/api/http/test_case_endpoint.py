@@ -1,8 +1,9 @@
 import json
 from django.test import Client as DjangoTestClient
 
-from app.models import Process, ProviderContact
+from app.models import ProviderContact
 from client.models import Applicant, ClientContact
+from immigration.models import ProcessRuleSet
 
 # TODO: Move client tests and endpoints into the client module
 from client.tests.conftest import *  # noqa
@@ -13,13 +14,16 @@ from owldock.tests.constants import TEST_PASSWORD
 def test_provider_contact_case_access(
     applicant_A: Applicant,
     client_contact_A: ClientContact,
-    process_A: Process,
+    greece_local_hire_article_17_rule_set: ProcessRuleSet,
     provider_contact_A: ProviderContact,
     django_test_client: DjangoTestClient,
 ):
     # Create Case with all steps earmarked
     case = fake_create_case_and_earmark_steps(
-        applicant_A, client_contact_A, process_A, provider_contact_A
+        applicant_A,
+        client_contact_A,
+        greece_local_hire_article_17_rule_set,
+        provider_contact_A,
     )
 
     # Provider contact has no access

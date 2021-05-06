@@ -2,8 +2,8 @@ import json
 from django.http import HttpRequest, HttpResponse
 from django.views import View
 
+from app.api.serializers import MoveSerializer, ProcessSerializer
 from app.models import Country
-from immigration.api.serializers import MoveSerializer, ProcessSerializer
 from immigration.models import Move
 from immigration.query import get_processes
 from owldock.http import HttpResponseBadRequest, OwldockJsonResponse

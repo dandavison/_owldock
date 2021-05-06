@@ -10,31 +10,6 @@ export interface CountrySerializer {
   unicode_flag: string;
 }
 
-export interface ServiceSerializer {
-  uuid?: string;
-  name: string;
-}
-
-export interface RouteSerializer {
-  uuid?: string;
-  name: string;
-  host_country: CountrySerializer;
-}
-
-export interface ProcessStepSerializer {
-  uuid?: string;
-  sequence_number: number;
-  service: ServiceSerializer;
-}
-
-export interface ProcessSerializer {
-  uuid?: string;
-  route: RouteSerializer;
-  nationality: CountrySerializer;
-  home_country?: CountrySerializer;
-  steps: ProcessStepSerializer[];
-}
-
 export interface ActionSerializer {
   display_name: string;
   name: string;
@@ -93,6 +68,60 @@ export interface ProviderContactSerializer {
   uuid?: string;
   user: UserSerializer;
   provider: ProviderSerializer;
+}
+
+export interface OccupationSerializer {
+  name: string;
+}
+
+export interface MoveSerializer {
+  host_country: CountrySerializer;
+  target_entry_date?: string;
+  target_exit_date?: string;
+}
+
+export interface RouteSerializer {
+  id?: number;
+  host_country: CountrySerializer;
+  uuid?: string;
+  created_at?: string;
+  modified_at?: string;
+  name: string;
+}
+
+export interface IssuedDocumentTypeSerializer {
+  name: string;
+}
+
+export interface IssuedDocumentSerializer {
+  id?: number;
+}
+
+export interface ServiceItemSerializer {
+  description: string;
+}
+
+export interface ProcessStepSerializer {
+  applicant_can_enter_host_country_after?: boolean;
+  applicant_can_work_in_host_country_after?: boolean;
+  estimated_max_duration_days?: number;
+  estimated_min_duration_days?: number;
+  government_fee?: number;
+  issued_documents: IssuedDocumentSerializer[];
+  name: string;
+  process_rule_set: any;
+  required_only_if_duration_exceeds?: number;
+  required_only_if_nationalities?: any[];
+  required_only_if_payroll_location?: any;
+  service_item: ServiceItemSerializer;
+  sequence_number: number;
+  uuid?: string;
+}
+
+export interface ProcessSerializer {
+  uuid?: string;
+  route: RouteSerializer;
+  steps: ProcessStepSerializer[];
 }
 
 export interface CaseStepContractSerializer {

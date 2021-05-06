@@ -3,7 +3,7 @@
     <b-table-column label="Step" v-slot="props">
       <span class="has-text-weight-bold">
         {{ props.row.sequence_number }}.
-        {{ props.row.process_step.service.name }}
+        {{ props.row.process_step.name }}
       </span>
     </b-table-column>
 

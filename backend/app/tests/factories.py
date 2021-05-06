@@ -5,14 +5,15 @@ from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import UploadedFile
 from factory.django import DjangoModelFactory
 
-from app.models import Activity, Provider, ProviderContact, Route
+from app.models import Provider, ProviderContact
+from immigration.models import Occupation
 from owldock.tests.constants import TEST_PASSWORD
 from owldock.tests.factories import BaseModelFactory
 
 
-class ActivityFactory(DjangoModelFactory):
+class ActivityFactory(factory.Factory):
     class Meta:
-        model = Activity
+        model = Occupation
 
     name = factory.Faker("job")
 

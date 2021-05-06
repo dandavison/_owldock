@@ -9,7 +9,7 @@ from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 from django.utils import timezone
 
-from app.models.process import Route
+from immigration.models import Route
 from owldock.models.base import BaseModel
 from owldock.state_machine.role import Role
 

@@ -2,9 +2,10 @@ import random
 
 from django.db.transaction import atomic
 
-from app.models import Process, Provider, ProviderContact
+from app.models import Provider, ProviderContact
 from client.models import Applicant, ClientProviderRelationship
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
+from immigration.models import ProcessRuleSet
 
 
 @atomic
@@ -20,7 +21,9 @@ def create_fake_cases(n: int):
         valid_provider_contacts = ProviderContact.objects.filter(
             provider__in=valid_providers
         )
-        valid_processes = Process.objects.filter(route__providers__in=valid_providers)
+        valid_processes = ProcessRuleSet.objects.filter(
+            route__providers__in=valid_providers
+        )
 
         client_contact = random.choice(list(valid_client_contacts))
         provider_contact = random.choice(list(valid_provider_contacts))

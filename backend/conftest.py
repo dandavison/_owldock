@@ -3,9 +3,9 @@ import pytest
 from django.conf import settings
 
 from app.fixtures import country as country_fixture
-from app.fixtures import process as process_fixture
-from app.models import Country, Process
+from app.models import Country
 from app.tests import factories
+from immigration.tests.conftest import *
 
 
 def pytest_sessionstart(session):
@@ -33,11 +33,6 @@ def allow_database_use(db):
 @pytest.fixture()
 def load_country_fixture():
     country_fixture.load_country_fixture()
-
-
-@pytest.fixture()
-def load_process_fixture(load_country_fixture):
-    process_fixture.load_process_fixture()
 
 
 @pytest.fixture
@@ -73,16 +68,6 @@ def activity_A():
 @pytest.fixture
 def activity_B():
     return factories.ActivityFactory()
-
-
-@pytest.fixture
-def process_A(load_process_fixture):
-    return Process.objects.order_by("id")[0]
-
-
-@pytest.fixture
-def process_B(load_process_fixture):
-    return Process.objects.order_by("id")[1]
 
 
 @pytest.fixture
