@@ -10,7 +10,7 @@ methods to fetch data. -->
           :selected.sync="selected"
           :focusable="true"
           @dblclick="navigateToRowDetailView"
-          :columnSpec="{ provider: { visible: true } }"
+          :columnSpec="columnSpec"
           :paginated="true"
         />
       </b-tab-item>
@@ -38,8 +38,15 @@ export default Vue.extend({
   components: { Case, CaseTable },
   data() {
     return {
-      activeTab: 0,
       rows: [] as CaseSerializer[],
+      columnSpec: {
+        applicant: { visible: true },
+        hostCountry: { visible: true },
+        dateRange: { visible: true },
+        route: { visible: true },
+        provider: { visible: true },
+      },
+      activeTab: 0,
       selected: {} as CaseSerializer,
       processIsNull,
       Role,
