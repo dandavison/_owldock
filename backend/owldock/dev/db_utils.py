@@ -7,7 +7,7 @@ from django.test.utils import CaptureQueriesContext
 
 
 @contextmanager
-def assert_n_queries(expected: int):
+def assert_max_queries(expected: int):
     with ExitStack() as stack:
         capturers = {  # type: ignore
             cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))  # type: ignore
@@ -15,7 +15,7 @@ def assert_n_queries(expected: int):
         }
         yield
         n_queries = sum(len(c.captured_queries) for c in capturers.values())
-        if n_queries != expected:
+        if n_queries > expected:
             for name, capturer in capturers.items():
                 print(name, file=sys.stdout)
                 for query in capturer.captured_queries:

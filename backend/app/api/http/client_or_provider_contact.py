@@ -6,7 +6,7 @@ from django.http import HttpRequest, HttpResponse
 from app.models import ProviderContact
 from app.api.serializers import CaseSerializer
 from client.models import ClientContact
-from owldock.dev.db_utils import assert_n_queries, print_queries
+from owldock.dev.db_utils import assert_max_queries, print_queries
 from owldock.state_machine.role import get_role_from_http_request
 from owldock.http import make_explanatory_http_response, OwldockJsonResponse
 
@@ -31,7 +31,7 @@ class ClientOrProviderCaseViewMixin:
 
         get_role_from_http_request(request)  # cache it
 
-        with assert_n_queries(2):
+        with assert_max_queries(2):
             serializer = CaseSerializer(case)
             response = OwldockJsonResponse(serializer.data)
 
@@ -53,7 +53,7 @@ class ClientOrProviderCaseListMixin:
 
         get_role_from_http_request(request)  # cache it
 
-        with assert_n_queries(0):
+        with assert_max_queries(0):
             serializer = CaseSerializer(cases, many=True)
             response = OwldockJsonResponse(serializer.data)
 
