@@ -199,6 +199,8 @@ class ProcessRuleSet(BaseModel):
 
     def _satisfies_duration(self, move: Move) -> bool:
         INFINITELY_LONG = timedelta(days=999999999)
+        if move.target_entry_date is None:
+            return True
         if move.target_exit_date is None:
             move_duration = INFINITELY_LONG
         else:
@@ -355,7 +357,7 @@ class ProcessStep(BaseModel):
         Return true iff this step is triggered by duration but this move fails
         to trigger it.
         """
-        return (
+        return bool(
             self.required_only_if_duration_exceeds
             and move.duration
             and move.duration.days < self.required_only_if_duration_exceeds
