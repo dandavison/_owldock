@@ -12,6 +12,7 @@ from immigration.models import (
     IssuedDocument,
     IssuedDocumentType,
     ProcessRuleSet,
+    ProcessRuleSetStep,
     ProcessStep,
     Route,
     ServiceItem,
@@ -89,6 +90,11 @@ class RouteAdmin(admin.ModelAdmin):
     list_editable = ["name", "host_country"]
 
 
+class ProcessRuleSetStepInline(NestedStackedInline):
+    model = ProcessRuleSetStep
+    extra = 0
+
+
 class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
     nationalities_bloc = ChoiceField(
         choices=Blocs.choices() + [("", "")],
@@ -110,7 +116,7 @@ class ProcessRuleSetAdmin(NestedModelAdmin):
     form = ProcessRuleSetAdminForm
     list_display = ["route"]
     filter_horizontal = ["nationalities", "home_countries"]
-    inlines = [ProcessStepInline]
+    inlines = [ProcessRuleSetStepInline, ProcessStepInline]
     fieldsets = [
         (None, {"fields": ["route"]}),
         (
