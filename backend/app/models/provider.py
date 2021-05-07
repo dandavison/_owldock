@@ -9,7 +9,6 @@ from django.db.models.query import QuerySet
 from django.db.transaction import atomic
 from django.utils import timezone
 
-from immigration.models import Route
 from owldock.models.base import BaseModel
 from owldock.state_machine.role import Role
 
@@ -27,7 +26,6 @@ class Provider(BaseModel):
     name = models.CharField(max_length=128)
     url = models.URLField()
     logo_url = models.URLField()
-    routes = models.ManyToManyField(Route, related_name="providers")
     # TODO: Add a database constraint ensuring that
     # primary_contact.provider == self ?
     primary_contact = models.OneToOneField(

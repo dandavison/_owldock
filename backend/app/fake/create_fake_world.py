@@ -10,7 +10,6 @@ from django.contrib.auth.models import Group
 from django.db.transaction import atomic
 from django_seed import Seed
 
-from app.fake.set_provider_routes import set_provider_routes
 from app.models import (
     Country,
     Provider,
@@ -41,7 +40,6 @@ class _FakeWorldCreator:
         self._create_providers()
         self._create_client_contacts()
         self._create_applicants(10)
-        set_provider_routes()
 
     def _create_applicants(self, n: int) -> None:
         print("Creating applicants")
