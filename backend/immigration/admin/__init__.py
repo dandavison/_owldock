@@ -45,6 +45,7 @@ class ProcessStepInline(NestedStackedInline):
     filter_horizontal = ["required_only_if_nationalities"]
     extra = 1
     inlines = [IssuedDocumentInline, ServiceItemInline]
+    sortable_field_name = "sequence_number"
     fieldsets = [
         (
             None,

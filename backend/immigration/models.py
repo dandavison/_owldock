@@ -329,12 +329,16 @@ class ProcessStep(BaseModel):
     )
 
     class Meta:
+        ordering = ["sequence_number"]
         constraints = [
             UniqueConstraint(
                 fields=("process_rule_set", "name"),
                 name="imm__process_step__name__uniq",
             ),
         ]
+
+    def __str__(self) -> str:
+        return f"{self.sequence_number}. {self.name}"
 
     def is_required_for_move(self, move: Move) -> bool:
         """
