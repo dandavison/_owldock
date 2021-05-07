@@ -37,7 +37,7 @@ def datamigration_process_steps(apps, _schema_editor):
                         assert are_identical(
                             process_step, canonical_process_step, IssuedDocument
                         )
-                        # delete it
+                        process_step.delete()
 
                     # Create an entry linking to the canonical process step,
                     # with this one's sequence number.
