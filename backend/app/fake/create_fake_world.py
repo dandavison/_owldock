@@ -23,6 +23,7 @@ from client.models import (
     Applicant,
     ApplicantNationality,
 )
+from owldock.create_superusers import create_superusers
 from owldock.utils import strip_prefix
 
 
@@ -36,7 +37,7 @@ class _FakeWorldCreator:
 
     @atomic
     def create(self):
-        self._create_superusers()
+        create_superusers()
         self._create_providers()
         self._create_client_contacts()
         self._create_applicants(10)
@@ -172,23 +173,6 @@ class _FakeWorldCreator:
         if group:
             user.groups.add(group)
         return user
-
-    def _create_superusers(self) -> None:
-        print("Creating superusers")
-        for (email, first_name, last_name) in [
-            ("dandavison7@gmail.com", "Dan", "Davison"),
-            ("maria.kouri@corporaterelocations.gr", "Maria", "Kouri"),
-            ("sophy@owlimmigration.com", "Sophy", "King"),
-        ]:
-            get_user_model().objects.create_user(
-                username=email,
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                password=os.environ["OWLDOCK_DEV_PASSWORD"],
-                is_staff=True,
-                is_superuser=True,
-            )
 
     def _fake_name(self) -> Tuple[str, str]:
         *first_names, last_name = self.seeder.faker.name().split()
