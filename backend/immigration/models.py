@@ -79,7 +79,7 @@ class Route(BaseModel):
     host_country = ForeignKey(
         Country,
         on_delete=deletion.CASCADE,
-        related_name="_routes_for_which_host_country",
+        related_name="routes_for_which_host_country",
     )
 
     def __str__(self):
@@ -113,6 +113,11 @@ class ProcessRuleSet(BaseModel):
     """
 
     route = ForeignKey(Route, on_delete=deletion.CASCADE)
+    process_steps = ManyToManyField(
+        "ProcessStep",
+        through="ProcessRuleSetStep",
+        help_text="Available steps for this process.",
+    )
     nationalities = ManyToManyField(
         Country,
         help_text=(
@@ -280,6 +285,7 @@ class ProcessStep(BaseModel):
     One step in a Process.
     """
 
+    host_country = ForeignKey(Country, on_delete=deletion.CASCADE, null=True)
     process_rule_set = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
     sequence_number = PositiveIntegerField(
@@ -339,6 +345,7 @@ class ProcessStep(BaseModel):
             "Blank means no nationality condition."
         ),
         blank=True,
+        related_name="+",
     )
 
     class Meta:
@@ -347,6 +354,10 @@ class ProcessStep(BaseModel):
             UniqueConstraint(
                 fields=("process_rule_set", "name"),
                 name="imm__process_step__name__uniq",
+            ),
+            UniqueConstraint(
+                fields=("host_country", "name"),
+                name="imm__process_step__host_country__name__uniq",
             ),
         ]
 
@@ -384,6 +395,25 @@ class ProcessStep(BaseModel):
             if not required_only_if_nationalities & set(move.nationalities):
                 return True
         return False
+
+
+class ProcessRuleSetStep(BaseModel):
+    """
+    A ProcessStep, in a specific ProcessRuleSet.
+
+    In this context, the step has a sequence number that in general differs from
+    the sequence number this step may have when used in a different
+    ProcessRuleSet.
+    """
+
+    process_ruleset = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
+    process_step = ForeignKey(ProcessStep, on_delete=deletion.CASCADE)
+    sequence_number = PositiveIntegerField(
+        help_text="Order of this step relative to other steps of this process."
+    )
+
+    def __str__(self) -> str:
+        return f"{self.sequence_number}. {self.process_step.name}"
 
 
 class ServiceItem(BaseModel):
