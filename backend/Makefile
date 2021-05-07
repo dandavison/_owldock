@@ -33,6 +33,10 @@ recreate-db-render:
 serve-render:
 	python ./manage.py runserver --noreload 0.0.0.0:8000
 
+dumpdata:
+	python ./manage.py dumpdata --all --indent 2 --database default > db/default.json
+	python ./manage.py dumpdata --all --indent 2 --database client > db/client.json
+
 lint-flake8:
 	flake8 app client owldock
 
