@@ -146,6 +146,7 @@ export interface CaseSerializer {
   id?: number;
   uuid?: string;
   applicant: ApplicantSerializer;
+  move: MoveSerializer;
   process: ProcessSerializer;
   steps: CaseStepSerializer[];
   created_at?: string;

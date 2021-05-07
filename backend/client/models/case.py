@@ -92,6 +92,18 @@ class Case(BaseModel):
     target_entry_date = models.DateField()
     target_exit_date = models.DateField()
 
+    @property
+    def move(self) -> Move:
+        return Move(
+            host_country=self.process.route.host_country,
+            target_entry_date=self.target_entry_date,
+            target_exit_date=self.target_exit_date,
+            nationalities=list(self.applicant.nationalities.all()),
+            activity=None,
+            contract_location=None,
+            payroll_location=None,
+        )
+
     def validate(self):
         # TODO: Should UUIDPseudoForeignKeyField cause this to happen
         # automatically?

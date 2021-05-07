@@ -4,7 +4,7 @@
       <h1 class="subtitle">
         Describe your move! Matching immigration options will appear below.
       </h1>
-      <case :case_="move" :caseSpec="moveSpec" :showClient="false" />
+      <case :case_="case_" :caseSpec="caseSpec" :showClient="false" />
       <h1 class="subtitle mt-6">Immigration Options</h1>
       <div class="card" style="overflow: visible">
         <case-table
@@ -32,7 +32,7 @@ import {
 import Case from "@/components/Case.vue";
 import CaseTable from "@/components/CaseTable.vue";
 import { CaseSpec } from "@/editable-component";
-import { NullCase } from "@/factories";
+import { NullCase, NullMove } from "@/factories";
 import { dateToYYYYMMDD } from "@/utils";
 import eventBus from "@/event-bus";
 import http from "@/http";
@@ -45,8 +45,8 @@ export default Vue.extend({
 
   data() {
     return {
-      move: NullCase(),
-      moveSpec: {
+      move: NullMove(),
+      caseSpec: {
         hostCountry: {
           editable: true,
           disabled: false,
@@ -73,35 +73,20 @@ export default Vue.extend({
     eventBus.$on("update:date-range", this.handleInputDateRange);
   },
 
+  computed: {
+    case_(): CaseSerializer {
+      return Object.assign(NullCase(), { move: this.move });
+    },
+  },
+
   methods: {
     async handleChangeHostCountry(country: CountrySerializer) {
-      if (!country) {
-        // FIXME: why
-        console.log("ERROR: country is", JSON.stringify(country));
-        return;
-      }
-      this.move.process.route.host_country = country;
-
-      // HACK ------------------------------------
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-
-      const moveSerializerData = Object.assign(
-        { host_country: country },
-        this.move
-      ) as Record<string, any>;
-      if (!moveSerializerData.target_entry_date) {
-        moveSerializerData.target_entry_date = null;
-      }
-      if (!moveSerializerData.target_exit_date) {
-        moveSerializerData.target_exit_date = null;
-      }
-      /* eslint-enable @typescript-eslint/no-explicit-any */
-      // -----------------------------------------
+      this.move.host_country = country;
 
       const matchingProcesses = (await http.postFetchDataOrNull(
         "/api/process/query/",
         {
-          body: JSON.stringify(moveSerializerData),
+          body: JSON.stringify(this.move),
         }
       )) as ProcessSerializer[] | null;
       if (matchingProcesses) {
@@ -112,8 +97,8 @@ export default Vue.extend({
     },
 
     handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
-      this.move.target_entry_date = dateToYYYYMMDD(entryDate);
-      this.move.target_exit_date = dateToYYYYMMDD(exitDate);
+      this.case_.move.target_entry_date = dateToYYYYMMDD(entryDate);
+      this.case_.move.target_exit_date = dateToYYYYMMDD(exitDate);
     },
   },
 });

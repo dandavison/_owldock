@@ -296,6 +296,7 @@ class CaseSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     applicant = ApplicantSerializer()
+    move = MoveSerializer(required=False)
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
 
@@ -305,6 +306,7 @@ class CaseSerializer(ModelSerializer):
             "id",
             "uuid",
             "applicant",
+            "move",
             "process",
             "steps",
             "created_at",

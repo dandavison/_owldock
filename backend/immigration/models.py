@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Callable, List, NewType, Optional
 
 from django.db.models import (
@@ -41,8 +41,8 @@ class Move:
     """
 
     host_country: Country
-    target_entry_date: Optional[datetime] = None
-    target_exit_date: Optional[datetime] = None
+    target_entry_date: Optional[date] = None
+    target_exit_date: Optional[date] = None
     activity: Optional[Activity] = None
     nationalities: Optional[List[Country]] = None
     contract_location: Optional[Location] = None

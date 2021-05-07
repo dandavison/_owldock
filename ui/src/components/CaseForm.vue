@@ -107,7 +107,8 @@ export default Vue.extend({
         route: {
           editable: true,
           disabled: !(
-            this.case_.target_entry_date && this.case_.target_exit_date
+            this.case_.move.target_entry_date &&
+            this.case_.move.target_exit_date
           ),
         },
         provider: {
@@ -196,8 +197,8 @@ export default Vue.extend({
     },
 
     handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
-      this.case_.target_entry_date = dateToYYYYMMDD(entryDate);
-      this.case_.target_exit_date = dateToYYYYMMDD(exitDate);
+      this.case_.move.target_entry_date = dateToYYYYMMDD(entryDate);
+      this.case_.move.target_exit_date = dateToYYYYMMDD(exitDate);
     },
 
     async handleSubmit(): Promise<void> {
