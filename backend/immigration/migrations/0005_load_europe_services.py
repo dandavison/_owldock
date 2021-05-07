@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+from app.fixtures.country import load_country_fixture
 from immigration.data.load_europe_services import load_europe_services
 
 
@@ -11,6 +12,7 @@ def forwards(apps, schema_editor):
     ProcessStep = apps.get_model("immigration", "ProcessStep")
     Route = apps.get_model("immigration", "Route")
     ServiceItem = apps.get_model("immigration", "ServiceItem")
+    load_country_fixture()
     load_europe_services(
         Country,
         ProcessRuleSet,
