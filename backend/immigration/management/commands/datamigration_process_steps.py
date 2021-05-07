@@ -34,10 +34,12 @@ def datamigration_process_steps(apps, _schema_editor):
                         canonical_process_step.host_country = host_country
                         process_step.save()
                     else:
-                        assert are_identical(
+                        if are_identical(
                             process_step, canonical_process_step, IssuedDocument
-                        )
-                        process_step.delete()
+                        ):
+                            process_step.delete()
+                        else:
+                            continue
 
                     # Create an entry linking to the canonical process step,
                     # with this one's sequence number.
@@ -57,13 +59,16 @@ def are_identical(
         canonical_data(s, IssuedDocument) for s in (process_step_A, process_step_B)
     ]
     for k in data_A.keys() | data_B.keys():
-        assert data_A[k] == data_B[k], (
-            process_step_A,
-            process_step_B,
-            k,
-            data_A[k],
-            data_B[k],
-        )
+        if data_A[k] != data_B[k]:
+            print("Process steps with same name do not match:")
+            print(
+                process_step_A,
+                process_step_B,
+                k,
+                data_A[k],
+                data_B[k],
+            )
+            return False
     return data_A == data_B
 
 
