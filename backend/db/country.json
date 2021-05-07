@@ -1,0 +1,3002 @@
+[
+{
+  "fields": {
+    "code": "AF",
+    "created_at": "2021-05-03T14:01:40.623Z",
+    "modified_at": "2021-05-03T14:01:40.623Z",
+    "name": "Afghanistan",
+    "unicode_flag": "🇦🇫",
+    "uuid": "8150e6dc-74df-405d-9b03-1670c11eb0fb"
+  },
+  "model": "app.country",
+  "pk": 1
+},
+{
+  "fields": {
+    "code": "AX",
+    "created_at": "2021-05-03T14:01:40.626Z",
+    "modified_at": "2021-05-03T14:01:40.626Z",
+    "name": "Åland Islands",
+    "unicode_flag": "🇦🇽",
+    "uuid": "b05d614f-75b5-4ac0-a53c-2b5121e8e365"
+  },
+  "model": "app.country",
+  "pk": 2
+},
+{
+  "fields": {
+    "code": "AL",
+    "created_at": "2021-05-03T14:01:40.627Z",
+    "modified_at": "2021-05-03T14:01:40.627Z",
+    "name": "Albania",
+    "unicode_flag": "🇦🇱",
+    "uuid": "41f73df0-b8b1-432d-afbc-3d0e7fa94659"
+  },
+  "model": "app.country",
+  "pk": 3
+},
+{
+  "fields": {
+    "code": "DZ",
+    "created_at": "2021-05-03T14:01:40.630Z",
+    "modified_at": "2021-05-03T14:01:40.630Z",
+    "name": "Algeria",
+    "unicode_flag": "🇩🇿",
+    "uuid": "64146033-b0b0-4e4e-90c5-2a0533a7c4f9"
+  },
+  "model": "app.country",
+  "pk": 4
+},
+{
+  "fields": {
+    "code": "AS",
+    "created_at": "2021-05-03T14:01:40.631Z",
+    "modified_at": "2021-05-03T14:01:40.631Z",
+    "name": "American Samoa",
+    "unicode_flag": "🇦🇸",
+    "uuid": "4d10a6a4-8031-4c7c-aca4-9355f8e4d116"
+  },
+  "model": "app.country",
+  "pk": 5
+},
+{
+  "fields": {
+    "code": "AD",
+    "created_at": "2021-05-03T14:01:40.633Z",
+    "modified_at": "2021-05-03T14:01:40.633Z",
+    "name": "Andorra",
+    "unicode_flag": "🇦🇩",
+    "uuid": "261f1328-c3b3-4e4d-8640-3d86abfbbfca"
+  },
+  "model": "app.country",
+  "pk": 6
+},
+{
+  "fields": {
+    "code": "AO",
+    "created_at": "2021-05-03T14:01:40.634Z",
+    "modified_at": "2021-05-03T14:01:40.634Z",
+    "name": "Angola",
+    "unicode_flag": "🇦🇴",
+    "uuid": "6d04e1f2-4fc5-4b1a-8f8d-c803700b7912"
+  },
+  "model": "app.country",
+  "pk": 7
+},
+{
+  "fields": {
+    "code": "AI",
+    "created_at": "2021-05-03T14:01:40.634Z",
+    "modified_at": "2021-05-03T14:01:40.635Z",
+    "name": "Anguilla",
+    "unicode_flag": "🇦🇮",
+    "uuid": "5f17d69d-25cc-47ff-b275-a123fa0575df"
+  },
+  "model": "app.country",
+  "pk": 8
+},
+{
+  "fields": {
+    "code": "AQ",
+    "created_at": "2021-05-03T14:01:40.635Z",
+    "modified_at": "2021-05-03T14:01:40.635Z",
+    "name": "Antarctica",
+    "unicode_flag": "🇦🇶",
+    "uuid": "b26db49f-1a58-4349-8c01-ef15572cb40a"
+  },
+  "model": "app.country",
+  "pk": 9
+},
+{
+  "fields": {
+    "code": "AG",
+    "created_at": "2021-05-03T14:01:40.636Z",
+    "modified_at": "2021-05-03T14:01:40.636Z",
+    "name": "Antigua and Barbuda",
+    "unicode_flag": "🇦🇬",
+    "uuid": "283549a4-a9c8-464e-a40a-d5794dc06740"
+  },
+  "model": "app.country",
+  "pk": 10
+},
+{
+  "fields": {
+    "code": "AR",
+    "created_at": "2021-05-03T14:01:40.637Z",
+    "modified_at": "2021-05-03T14:01:40.637Z",
+    "name": "Argentina",
+    "unicode_flag": "🇦🇷",
+    "uuid": "395041f0-5a94-412e-8fa2-0176c3670f6c"
+  },
+  "model": "app.country",
+  "pk": 11
+},
+{
+  "fields": {
+    "code": "AM",
+    "created_at": "2021-05-03T14:01:40.638Z",
+    "modified_at": "2021-05-03T14:01:40.638Z",
+    "name": "Armenia",
+    "unicode_flag": "🇦🇲",
+    "uuid": "cd58569a-1f42-4ec3-8a9a-3407d2b67b1d"
+  },
+  "model": "app.country",
+  "pk": 12
+},
+{
+  "fields": {
+    "code": "AW",
+    "created_at": "2021-05-03T14:01:40.639Z",
+    "modified_at": "2021-05-03T14:01:40.639Z",
+    "name": "Aruba",
+    "unicode_flag": "🇦🇼",
+    "uuid": "e0fab012-3a6a-4ccb-81ef-293527eac4c6"
+  },
+  "model": "app.country",
+  "pk": 13
+},
+{
+  "fields": {
+    "code": "AU",
+    "created_at": "2021-05-03T14:01:40.640Z",
+    "modified_at": "2021-05-03T14:01:40.640Z",
+    "name": "Australia",
+    "unicode_flag": "🇦🇺",
+    "uuid": "8eae9c1e-a17d-49fc-8999-95a1a1e797b7"
+  },
+  "model": "app.country",
+  "pk": 14
+},
+{
+  "fields": {
+    "code": "AT",
+    "created_at": "2021-05-03T14:01:40.641Z",
+    "modified_at": "2021-05-03T14:01:40.641Z",
+    "name": "Austria",
+    "unicode_flag": "🇦🇹",
+    "uuid": "a0d946ed-5565-4dc3-9a5a-d99fd90951f5"
+  },
+  "model": "app.country",
+  "pk": 15
+},
+{
+  "fields": {
+    "code": "AZ",
+    "created_at": "2021-05-03T14:01:40.642Z",
+    "modified_at": "2021-05-03T14:01:40.642Z",
+    "name": "Azerbaijan",
+    "unicode_flag": "🇦🇿",
+    "uuid": "7616c196-13f4-4e56-b0d0-d57cc696cf16"
+  },
+  "model": "app.country",
+  "pk": 16
+},
+{
+  "fields": {
+    "code": "BS",
+    "created_at": "2021-05-03T14:01:40.643Z",
+    "modified_at": "2021-05-03T14:01:40.643Z",
+    "name": "Bahamas",
+    "unicode_flag": "🇧🇸",
+    "uuid": "fbf017c2-b840-4dcc-9b1b-9eccbdefdefe"
+  },
+  "model": "app.country",
+  "pk": 17
+},
+{
+  "fields": {
+    "code": "BH",
+    "created_at": "2021-05-03T14:01:40.644Z",
+    "modified_at": "2021-05-03T14:01:40.644Z",
+    "name": "Bahrain",
+    "unicode_flag": "🇧🇭",
+    "uuid": "a462c8d3-c12e-4b82-8c98-615fae2bb6fe"
+  },
+  "model": "app.country",
+  "pk": 18
+},
+{
+  "fields": {
+    "code": "BD",
+    "created_at": "2021-05-03T14:01:40.645Z",
+    "modified_at": "2021-05-03T14:01:40.645Z",
+    "name": "Bangladesh",
+    "unicode_flag": "🇧🇩",
+    "uuid": "edbb2ead-a3f3-4a26-95f7-bbd4e36d4add"
+  },
+  "model": "app.country",
+  "pk": 19
+},
+{
+  "fields": {
+    "code": "BB",
+    "created_at": "2021-05-03T14:01:40.645Z",
+    "modified_at": "2021-05-03T14:01:40.645Z",
+    "name": "Barbados",
+    "unicode_flag": "🇧🇧",
+    "uuid": "d0a70966-84f3-4373-9f9d-df53bd91f04e"
+  },
+  "model": "app.country",
+  "pk": 20
+},
+{
+  "fields": {
+    "code": "BY",
+    "created_at": "2021-05-03T14:01:40.646Z",
+    "modified_at": "2021-05-03T14:01:40.646Z",
+    "name": "Belarus",
+    "unicode_flag": "🇧🇾",
+    "uuid": "21cf6264-04ad-4400-9b3f-0ac50a80bc1f"
+  },
+  "model": "app.country",
+  "pk": 21
+},
+{
+  "fields": {
+    "code": "BE",
+    "created_at": "2021-05-03T14:01:40.647Z",
+    "modified_at": "2021-05-03T14:01:40.647Z",
+    "name": "Belgium",
+    "unicode_flag": "🇧🇪",
+    "uuid": "8360e670-af9a-4b7c-a8c9-8deb51f68490"
+  },
+  "model": "app.country",
+  "pk": 22
+},
+{
+  "fields": {
+    "code": "BZ",
+    "created_at": "2021-05-03T14:01:40.648Z",
+    "modified_at": "2021-05-03T14:01:40.648Z",
+    "name": "Belize",
+    "unicode_flag": "🇧🇿",
+    "uuid": "a5bc7d9b-3455-4817-91ab-44341da38a7b"
+  },
+  "model": "app.country",
+  "pk": 23
+},
+{
+  "fields": {
+    "code": "BJ",
+    "created_at": "2021-05-03T14:01:40.649Z",
+    "modified_at": "2021-05-03T14:01:40.649Z",
+    "name": "Benin",
+    "unicode_flag": "🇧🇯",
+    "uuid": "2d6b814b-c0b5-40af-8f22-9dc186fc2a61"
+  },
+  "model": "app.country",
+  "pk": 24
+},
+{
+  "fields": {
+    "code": "BM",
+    "created_at": "2021-05-03T14:01:40.650Z",
+    "modified_at": "2021-05-03T14:01:40.650Z",
+    "name": "Bermuda",
+    "unicode_flag": "🇧🇲",
+    "uuid": "0f19a2eb-08ba-4efb-9e44-1a9c943845c6"
+  },
+  "model": "app.country",
+  "pk": 25
+},
+{
+  "fields": {
+    "code": "BT",
+    "created_at": "2021-05-03T14:01:40.651Z",
+    "modified_at": "2021-05-03T14:01:40.651Z",
+    "name": "Bhutan",
+    "unicode_flag": "🇧🇹",
+    "uuid": "f828ab77-99b4-4fa6-aef0-848791bbeae4"
+  },
+  "model": "app.country",
+  "pk": 26
+},
+{
+  "fields": {
+    "code": "BO",
+    "created_at": "2021-05-03T14:01:40.652Z",
+    "modified_at": "2021-05-03T14:01:40.652Z",
+    "name": "Bolivia",
+    "unicode_flag": "🇧🇴",
+    "uuid": "77b242fe-8199-4178-ac34-39639bf34f67"
+  },
+  "model": "app.country",
+  "pk": 27
+},
+{
+  "fields": {
+    "code": "BQ",
+    "created_at": "2021-05-03T14:01:40.652Z",
+    "modified_at": "2021-05-03T14:01:40.652Z",
+    "name": "Bonaire, Sint Eustatius and Saba",
+    "unicode_flag": "🇧🇶",
+    "uuid": "770807d8-62df-4f94-acce-85b597d70976"
+  },
+  "model": "app.country",
+  "pk": 28
+},
+{
+  "fields": {
+    "code": "BA",
+    "created_at": "2021-05-03T14:01:40.653Z",
+    "modified_at": "2021-05-03T14:01:40.653Z",
+    "name": "Bosnia and Herzegovina",
+    "unicode_flag": "🇧🇦",
+    "uuid": "d2f2fd7d-6751-4ac7-ad4e-af1f0748d139"
+  },
+  "model": "app.country",
+  "pk": 29
+},
+{
+  "fields": {
+    "code": "BW",
+    "created_at": "2021-05-03T14:01:40.654Z",
+    "modified_at": "2021-05-03T14:01:40.654Z",
+    "name": "Botswana",
+    "unicode_flag": "🇧🇼",
+    "uuid": "2b47b20e-d369-4fc0-b3f9-5df6afe8d021"
+  },
+  "model": "app.country",
+  "pk": 30
+},
+{
+  "fields": {
+    "code": "BV",
+    "created_at": "2021-05-03T14:01:40.655Z",
+    "modified_at": "2021-05-03T14:01:40.655Z",
+    "name": "Bouvet Island",
+    "unicode_flag": "🇧🇻",
+    "uuid": "05f39ca6-4917-46b5-8d3e-1b7f5f175c30"
+  },
+  "model": "app.country",
+  "pk": 31
+},
+{
+  "fields": {
+    "code": "BR",
+    "created_at": "2021-05-03T14:01:40.656Z",
+    "modified_at": "2021-05-03T14:01:40.656Z",
+    "name": "Brazil",
+    "unicode_flag": "🇧🇷",
+    "uuid": "e47c0b6f-4232-4959-a346-eb0c4fc99900"
+  },
+  "model": "app.country",
+  "pk": 32
+},
+{
+  "fields": {
+    "code": "IO",
+    "created_at": "2021-05-03T14:01:40.657Z",
+    "modified_at": "2021-05-03T14:01:40.657Z",
+    "name": "British Indian Ocean Territory",
+    "unicode_flag": "🇮🇴",
+    "uuid": "70fe55a8-43a1-4eea-bff6-f76fe7eb4902"
+  },
+  "model": "app.country",
+  "pk": 33
+},
+{
+  "fields": {
+    "code": "BN",
+    "created_at": "2021-05-03T14:01:40.658Z",
+    "modified_at": "2021-05-03T14:01:40.658Z",
+    "name": "Brunei",
+    "unicode_flag": "🇧🇳",
+    "uuid": "f6b6df99-a8ef-4e0f-8ad7-83f723344f21"
+  },
+  "model": "app.country",
+  "pk": 34
+},
+{
+  "fields": {
+    "code": "BG",
+    "created_at": "2021-05-03T14:01:40.659Z",
+    "modified_at": "2021-05-03T14:01:40.659Z",
+    "name": "Bulgaria",
+    "unicode_flag": "🇧🇬",
+    "uuid": "63084d27-44c7-40b6-a7e7-a661ca0c3c6c"
+  },
+  "model": "app.country",
+  "pk": 35
+},
+{
+  "fields": {
+    "code": "BF",
+    "created_at": "2021-05-03T14:01:40.660Z",
+    "modified_at": "2021-05-03T14:01:40.660Z",
+    "name": "Burkina Faso",
+    "unicode_flag": "🇧🇫",
+    "uuid": "d4284326-c0d7-49a3-ab9a-676ce44f3026"
+  },
+  "model": "app.country",
+  "pk": 36
+},
+{
+  "fields": {
+    "code": "BI",
+    "created_at": "2021-05-03T14:01:40.661Z",
+    "modified_at": "2021-05-03T14:01:40.661Z",
+    "name": "Burundi",
+    "unicode_flag": "🇧🇮",
+    "uuid": "60d5fed3-bd26-4c07-82ff-b5396a882f89"
+  },
+  "model": "app.country",
+  "pk": 37
+},
+{
+  "fields": {
+    "code": "CV",
+    "created_at": "2021-05-03T14:01:40.662Z",
+    "modified_at": "2021-05-03T14:01:40.662Z",
+    "name": "Cabo Verde",
+    "unicode_flag": "🇨🇻",
+    "uuid": "c26c9127-da82-4718-95d5-5ee6466ddaee"
+  },
+  "model": "app.country",
+  "pk": 38
+},
+{
+  "fields": {
+    "code": "KH",
+    "created_at": "2021-05-03T14:01:40.663Z",
+    "modified_at": "2021-05-03T14:01:40.663Z",
+    "name": "Cambodia",
+    "unicode_flag": "🇰🇭",
+    "uuid": "5989c37f-a516-493c-a610-80f79bd921fd"
+  },
+  "model": "app.country",
+  "pk": 39
+},
+{
+  "fields": {
+    "code": "CM",
+    "created_at": "2021-05-03T14:01:40.664Z",
+    "modified_at": "2021-05-03T14:01:40.664Z",
+    "name": "Cameroon",
+    "unicode_flag": "🇨🇲",
+    "uuid": "68d7ad68-9bfd-447c-87a2-361575b45b0b"
+  },
+  "model": "app.country",
+  "pk": 40
+},
+{
+  "fields": {
+    "code": "CA",
+    "created_at": "2021-05-03T14:01:40.664Z",
+    "modified_at": "2021-05-03T14:01:40.664Z",
+    "name": "Canada",
+    "unicode_flag": "🇨🇦",
+    "uuid": "59d8bbc1-6684-4eaf-8fd1-302856021c54"
+  },
+  "model": "app.country",
+  "pk": 41
+},
+{
+  "fields": {
+    "code": "KY",
+    "created_at": "2021-05-03T14:01:40.665Z",
+    "modified_at": "2021-05-03T14:01:40.665Z",
+    "name": "Cayman Islands",
+    "unicode_flag": "🇰🇾",
+    "uuid": "a3d2da1e-e9c8-4271-beac-6b6f8bb30a2d"
+  },
+  "model": "app.country",
+  "pk": 42
+},
+{
+  "fields": {
+    "code": "CF",
+    "created_at": "2021-05-03T14:01:40.666Z",
+    "modified_at": "2021-05-03T14:01:40.666Z",
+    "name": "Central African Republic",
+    "unicode_flag": "🇨🇫",
+    "uuid": "61d9c667-3940-4058-bc3e-7a9a1dba7ac7"
+  },
+  "model": "app.country",
+  "pk": 43
+},
+{
+  "fields": {
+    "code": "TD",
+    "created_at": "2021-05-03T14:01:40.666Z",
+    "modified_at": "2021-05-03T14:01:40.666Z",
+    "name": "Chad",
+    "unicode_flag": "🇹🇩",
+    "uuid": "d2edc6d1-64d3-40d9-b650-226aa437483e"
+  },
+  "model": "app.country",
+  "pk": 44
+},
+{
+  "fields": {
+    "code": "CL",
+    "created_at": "2021-05-03T14:01:40.667Z",
+    "modified_at": "2021-05-03T14:01:40.667Z",
+    "name": "Chile",
+    "unicode_flag": "🇨🇱",
+    "uuid": "f5a4936e-8c4a-451b-aa1f-9e3d849c0290"
+  },
+  "model": "app.country",
+  "pk": 45
+},
+{
+  "fields": {
+    "code": "CN",
+    "created_at": "2021-05-03T14:01:40.668Z",
+    "modified_at": "2021-05-03T14:01:40.668Z",
+    "name": "China",
+    "unicode_flag": "🇨🇳",
+    "uuid": "4e67806b-b8c8-4df8-b405-111557430cb0"
+  },
+  "model": "app.country",
+  "pk": 46
+},
+{
+  "fields": {
+    "code": "CX",
+    "created_at": "2021-05-03T14:01:40.668Z",
+    "modified_at": "2021-05-03T14:01:40.668Z",
+    "name": "Christmas Island",
+    "unicode_flag": "🇨🇽",
+    "uuid": "341c93e7-349e-404f-a1a9-be2f4f574ec4"
+  },
+  "model": "app.country",
+  "pk": 47
+},
+{
+  "fields": {
+    "code": "CC",
+    "created_at": "2021-05-03T14:01:40.723Z",
+    "modified_at": "2021-05-03T14:01:40.723Z",
+    "name": "Cocos (Keeling) Islands",
+    "unicode_flag": "🇨🇨",
+    "uuid": "708ee227-c46d-4f3c-b3c8-80ce049282f9"
+  },
+  "model": "app.country",
+  "pk": 48
+},
+{
+  "fields": {
+    "code": "CO",
+    "created_at": "2021-05-03T14:01:40.724Z",
+    "modified_at": "2021-05-03T14:01:40.724Z",
+    "name": "Colombia",
+    "unicode_flag": "🇨🇴",
+    "uuid": "640cd8e1-58df-4a31-8b56-1aca9bd6150e"
+  },
+  "model": "app.country",
+  "pk": 49
+},
+{
+  "fields": {
+    "code": "KM",
+    "created_at": "2021-05-03T14:01:40.725Z",
+    "modified_at": "2021-05-03T14:01:40.725Z",
+    "name": "Comoros",
+    "unicode_flag": "🇰🇲",
+    "uuid": "f1e47db8-f1cd-45a1-bd7d-b2e95e5b80f2"
+  },
+  "model": "app.country",
+  "pk": 50
+},
+{
+  "fields": {
+    "code": "CG",
+    "created_at": "2021-05-03T14:01:40.727Z",
+    "modified_at": "2021-05-03T14:01:40.727Z",
+    "name": "Congo",
+    "unicode_flag": "🇨🇬",
+    "uuid": "86979cab-81a8-4880-9a79-46b9f3c399d5"
+  },
+  "model": "app.country",
+  "pk": 51
+},
+{
+  "fields": {
+    "code": "CD",
+    "created_at": "2021-05-03T14:01:40.732Z",
+    "modified_at": "2021-05-03T14:01:40.732Z",
+    "name": "Congo (the Democratic Republic of the)",
+    "unicode_flag": "🇨🇩",
+    "uuid": "c2289780-bdd9-41cd-8e79-f7917335b26d"
+  },
+  "model": "app.country",
+  "pk": 52
+},
+{
+  "fields": {
+    "code": "CK",
+    "created_at": "2021-05-03T14:01:40.733Z",
+    "modified_at": "2021-05-03T14:01:40.733Z",
+    "name": "Cook Islands",
+    "unicode_flag": "🇨🇰",
+    "uuid": "f73adb75-d8a0-4ba1-a2cc-03c226b6d18e"
+  },
+  "model": "app.country",
+  "pk": 53
+},
+{
+  "fields": {
+    "code": "CR",
+    "created_at": "2021-05-03T14:01:40.735Z",
+    "modified_at": "2021-05-03T14:01:40.735Z",
+    "name": "Costa Rica",
+    "unicode_flag": "🇨🇷",
+    "uuid": "fa4ce849-3906-42a7-abd2-a2ee06751372"
+  },
+  "model": "app.country",
+  "pk": 54
+},
+{
+  "fields": {
+    "code": "CI",
+    "created_at": "2021-05-03T14:01:40.736Z",
+    "modified_at": "2021-05-03T14:01:40.736Z",
+    "name": "Côte d'Ivoire",
+    "unicode_flag": "🇨🇮",
+    "uuid": "751d3e9d-7994-41f3-9dff-b3d345e424ab"
+  },
+  "model": "app.country",
+  "pk": 55
+},
+{
+  "fields": {
+    "code": "HR",
+    "created_at": "2021-05-03T14:01:40.737Z",
+    "modified_at": "2021-05-03T14:01:40.737Z",
+    "name": "Croatia",
+    "unicode_flag": "🇭🇷",
+    "uuid": "dee5e21a-9107-4483-a725-b0ba6d387b20"
+  },
+  "model": "app.country",
+  "pk": 56
+},
+{
+  "fields": {
+    "code": "CU",
+    "created_at": "2021-05-03T14:01:40.738Z",
+    "modified_at": "2021-05-03T14:01:40.738Z",
+    "name": "Cuba",
+    "unicode_flag": "🇨🇺",
+    "uuid": "739bb8fc-b179-4f98-85f5-5f2f5872cee1"
+  },
+  "model": "app.country",
+  "pk": 57
+},
+{
+  "fields": {
+    "code": "CW",
+    "created_at": "2021-05-03T14:01:40.739Z",
+    "modified_at": "2021-05-03T14:01:40.739Z",
+    "name": "Curaçao",
+    "unicode_flag": "🇨🇼",
+    "uuid": "6d005a7d-f094-4729-a0f7-b8fb2a9fac63"
+  },
+  "model": "app.country",
+  "pk": 58
+},
+{
+  "fields": {
+    "code": "CY",
+    "created_at": "2021-05-03T14:01:40.740Z",
+    "modified_at": "2021-05-03T14:01:40.740Z",
+    "name": "Cyprus",
+    "unicode_flag": "🇨🇾",
+    "uuid": "db010659-3df4-406c-814a-7307c7763b2f"
+  },
+  "model": "app.country",
+  "pk": 59
+},
+{
+  "fields": {
+    "code": "CZ",
+    "created_at": "2021-05-03T14:01:40.740Z",
+    "modified_at": "2021-05-03T14:01:40.740Z",
+    "name": "Czechia",
+    "unicode_flag": "🇨🇿",
+    "uuid": "876cca3f-c01e-4e2f-9fa7-0d163246291e"
+  },
+  "model": "app.country",
+  "pk": 60
+},
+{
+  "fields": {
+    "code": "DK",
+    "created_at": "2021-05-03T14:01:40.741Z",
+    "modified_at": "2021-05-03T14:01:40.741Z",
+    "name": "Denmark",
+    "unicode_flag": "🇩🇰",
+    "uuid": "b93cb45f-6e82-4427-bb12-045285dff5b7"
+  },
+  "model": "app.country",
+  "pk": 61
+},
+{
+  "fields": {
+    "code": "DJ",
+    "created_at": "2021-05-03T14:01:40.742Z",
+    "modified_at": "2021-05-03T14:01:40.742Z",
+    "name": "Djibouti",
+    "unicode_flag": "🇩🇯",
+    "uuid": "7fdfdae6-6843-4eaf-a7f4-ac277c7a1793"
+  },
+  "model": "app.country",
+  "pk": 62
+},
+{
+  "fields": {
+    "code": "DM",
+    "created_at": "2021-05-03T14:01:40.743Z",
+    "modified_at": "2021-05-03T14:01:40.743Z",
+    "name": "Dominica",
+    "unicode_flag": "🇩🇲",
+    "uuid": "216a3017-481e-406f-8a2e-92e7e8d9fc6c"
+  },
+  "model": "app.country",
+  "pk": 63
+},
+{
+  "fields": {
+    "code": "DO",
+    "created_at": "2021-05-03T14:01:40.744Z",
+    "modified_at": "2021-05-03T14:01:40.744Z",
+    "name": "Dominican Republic",
+    "unicode_flag": "🇩🇴",
+    "uuid": "80362590-bfbc-4631-93a0-25834216cb39"
+  },
+  "model": "app.country",
+  "pk": 64
+},
+{
+  "fields": {
+    "code": "EC",
+    "created_at": "2021-05-03T14:01:40.745Z",
+    "modified_at": "2021-05-03T14:01:40.745Z",
+    "name": "Ecuador",
+    "unicode_flag": "🇪🇨",
+    "uuid": "ec144577-055a-4c0b-ab08-30215b999f68"
+  },
+  "model": "app.country",
+  "pk": 65
+},
+{
+  "fields": {
+    "code": "EG",
+    "created_at": "2021-05-03T14:01:40.746Z",
+    "modified_at": "2021-05-03T14:01:40.746Z",
+    "name": "Egypt",
+    "unicode_flag": "🇪🇬",
+    "uuid": "7ac03fe2-2d2a-405c-97cb-feb3cc5d2bf8"
+  },
+  "model": "app.country",
+  "pk": 66
+},
+{
+  "fields": {
+    "code": "SV",
+    "created_at": "2021-05-03T14:01:40.747Z",
+    "modified_at": "2021-05-03T14:01:40.747Z",
+    "name": "El Salvador",
+    "unicode_flag": "🇸🇻",
+    "uuid": "3e6df177-fd03-4ccc-a2e9-a9ad29d059f9"
+  },
+  "model": "app.country",
+  "pk": 67
+},
+{
+  "fields": {
+    "code": "GQ",
+    "created_at": "2021-05-03T14:01:40.748Z",
+    "modified_at": "2021-05-03T14:01:40.748Z",
+    "name": "Equatorial Guinea",
+    "unicode_flag": "🇬🇶",
+    "uuid": "fa8c7b62-99f6-4b80-9bb6-fe469fa0663c"
+  },
+  "model": "app.country",
+  "pk": 68
+},
+{
+  "fields": {
+    "code": "ER",
+    "created_at": "2021-05-03T14:01:40.749Z",
+    "modified_at": "2021-05-03T14:01:40.749Z",
+    "name": "Eritrea",
+    "unicode_flag": "🇪🇷",
+    "uuid": "1aee6b96-b9b5-4ba0-aa14-670b1d287be3"
+  },
+  "model": "app.country",
+  "pk": 69
+},
+{
+  "fields": {
+    "code": "EE",
+    "created_at": "2021-05-03T14:01:40.750Z",
+    "modified_at": "2021-05-03T14:01:40.750Z",
+    "name": "Estonia",
+    "unicode_flag": "🇪🇪",
+    "uuid": "e4a2b6ab-b84a-406c-affa-d952d48728c1"
+  },
+  "model": "app.country",
+  "pk": 70
+},
+{
+  "fields": {
+    "code": "SZ",
+    "created_at": "2021-05-03T14:01:40.751Z",
+    "modified_at": "2021-05-03T14:01:40.751Z",
+    "name": "Eswatini",
+    "unicode_flag": "🇸🇿",
+    "uuid": "71ae62ab-9046-49c8-be9f-0cb3c7665f70"
+  },
+  "model": "app.country",
+  "pk": 71
+},
+{
+  "fields": {
+    "code": "ET",
+    "created_at": "2021-05-03T14:01:40.751Z",
+    "modified_at": "2021-05-03T14:01:40.751Z",
+    "name": "Ethiopia",
+    "unicode_flag": "🇪🇹",
+    "uuid": "4e9c1d1a-d928-439f-9cce-a0355a4944c0"
+  },
+  "model": "app.country",
+  "pk": 72
+},
+{
+  "fields": {
+    "code": "FK",
+    "created_at": "2021-05-03T14:01:40.752Z",
+    "modified_at": "2021-05-03T14:01:40.752Z",
+    "name": "Falkland Islands (Malvinas)",
+    "unicode_flag": "🇫🇰",
+    "uuid": "71ff4bc9-fdd7-4e09-b929-6a5dc88b5010"
+  },
+  "model": "app.country",
+  "pk": 73
+},
+{
+  "fields": {
+    "code": "FO",
+    "created_at": "2021-05-03T14:01:40.753Z",
+    "modified_at": "2021-05-03T14:01:40.753Z",
+    "name": "Faroe Islands",
+    "unicode_flag": "🇫🇴",
+    "uuid": "9f8dbe62-d823-408b-9b0e-d34d8a2b14c2"
+  },
+  "model": "app.country",
+  "pk": 74
+},
+{
+  "fields": {
+    "code": "FJ",
+    "created_at": "2021-05-03T14:01:40.754Z",
+    "modified_at": "2021-05-03T14:01:40.754Z",
+    "name": "Fiji",
+    "unicode_flag": "🇫🇯",
+    "uuid": "0efdd032-89ee-4df1-82c1-dc6c49680560"
+  },
+  "model": "app.country",
+  "pk": 75
+},
+{
+  "fields": {
+    "code": "FI",
+    "created_at": "2021-05-03T14:01:40.755Z",
+    "modified_at": "2021-05-03T14:01:40.755Z",
+    "name": "Finland",
+    "unicode_flag": "🇫🇮",
+    "uuid": "432e7b85-622f-4fbb-b373-e088c47085ea"
+  },
+  "model": "app.country",
+  "pk": 76
+},
+{
+  "fields": {
+    "code": "FR",
+    "created_at": "2021-05-03T14:01:40.756Z",
+    "modified_at": "2021-05-03T14:01:40.756Z",
+    "name": "France",
+    "unicode_flag": "🇫🇷",
+    "uuid": "84921652-492a-4cae-8dcd-844698ba65e2"
+  },
+  "model": "app.country",
+  "pk": 77
+},
+{
+  "fields": {
+    "code": "GF",
+    "created_at": "2021-05-03T14:01:40.757Z",
+    "modified_at": "2021-05-03T14:01:40.757Z",
+    "name": "French Guiana",
+    "unicode_flag": "🇬🇫",
+    "uuid": "7d29d777-1be3-4c4d-9299-23643720c4cb"
+  },
+  "model": "app.country",
+  "pk": 78
+},
+{
+  "fields": {
+    "code": "PF",
+    "created_at": "2021-05-03T14:01:40.758Z",
+    "modified_at": "2021-05-03T14:01:40.758Z",
+    "name": "French Polynesia",
+    "unicode_flag": "🇵🇫",
+    "uuid": "d206c89f-1c59-4f97-82e6-40d130342d80"
+  },
+  "model": "app.country",
+  "pk": 79
+},
+{
+  "fields": {
+    "code": "TF",
+    "created_at": "2021-05-03T14:01:40.758Z",
+    "modified_at": "2021-05-03T14:01:40.758Z",
+    "name": "French Southern Territories",
+    "unicode_flag": "🇹🇫",
+    "uuid": "6e9f555b-ebae-4e81-9e50-84a6c44be48d"
+  },
+  "model": "app.country",
+  "pk": 80
+},
+{
+  "fields": {
+    "code": "GA",
+    "created_at": "2021-05-03T14:01:40.759Z",
+    "modified_at": "2021-05-03T14:01:40.759Z",
+    "name": "Gabon",
+    "unicode_flag": "🇬🇦",
+    "uuid": "d32da0b0-dfcc-4944-afc3-586a1de80a52"
+  },
+  "model": "app.country",
+  "pk": 81
+},
+{
+  "fields": {
+    "code": "GM",
+    "created_at": "2021-05-03T14:01:40.760Z",
+    "modified_at": "2021-05-03T14:01:40.760Z",
+    "name": "Gambia",
+    "unicode_flag": "🇬🇲",
+    "uuid": "db441a64-2ccd-4f8d-9dab-3f3cb508cc16"
+  },
+  "model": "app.country",
+  "pk": 82
+},
+{
+  "fields": {
+    "code": "GE",
+    "created_at": "2021-05-03T14:01:40.761Z",
+    "modified_at": "2021-05-03T14:01:40.761Z",
+    "name": "Georgia",
+    "unicode_flag": "🇬🇪",
+    "uuid": "a735e440-fe40-4b99-9986-b7a1e3e43c5a"
+  },
+  "model": "app.country",
+  "pk": 83
+},
+{
+  "fields": {
+    "code": "DE",
+    "created_at": "2021-05-03T14:01:40.762Z",
+    "modified_at": "2021-05-03T14:01:40.762Z",
+    "name": "Germany",
+    "unicode_flag": "🇩🇪",
+    "uuid": "62af6a03-b6f5-4b60-980b-c3a53c3a9c33"
+  },
+  "model": "app.country",
+  "pk": 84
+},
+{
+  "fields": {
+    "code": "GH",
+    "created_at": "2021-05-03T14:01:40.763Z",
+    "modified_at": "2021-05-03T14:01:40.763Z",
+    "name": "Ghana",
+    "unicode_flag": "🇬🇭",
+    "uuid": "9a093a6c-dab7-4c2d-8275-fb821859a531"
+  },
+  "model": "app.country",
+  "pk": 85
+},
+{
+  "fields": {
+    "code": "GI",
+    "created_at": "2021-05-03T14:01:40.764Z",
+    "modified_at": "2021-05-03T14:01:40.764Z",
+    "name": "Gibraltar",
+    "unicode_flag": "🇬🇮",
+    "uuid": "5c2a00e4-d967-427f-a7cd-4d9efec1f6b5"
+  },
+  "model": "app.country",
+  "pk": 86
+},
+{
+  "fields": {
+    "code": "GR",
+    "created_at": "2021-05-03T14:01:40.765Z",
+    "modified_at": "2021-05-03T14:01:40.765Z",
+    "name": "Greece",
+    "unicode_flag": "🇬🇷",
+    "uuid": "99f0bdc7-c39b-4c81-8b8a-1652977db950"
+  },
+  "model": "app.country",
+  "pk": 87
+},
+{
+  "fields": {
+    "code": "GL",
+    "created_at": "2021-05-03T14:01:40.766Z",
+    "modified_at": "2021-05-03T14:01:40.766Z",
+    "name": "Greenland",
+    "unicode_flag": "🇬🇱",
+    "uuid": "3348da4b-621f-44c2-b760-6e23a54a3c87"
+  },
+  "model": "app.country",
+  "pk": 88
+},
+{
+  "fields": {
+    "code": "GD",
+    "created_at": "2021-05-03T14:01:40.767Z",
+    "modified_at": "2021-05-03T14:01:40.767Z",
+    "name": "Grenada",
+    "unicode_flag": "🇬🇩",
+    "uuid": "fc7c7d2c-f6ac-4d0e-83aa-a90784e9fedc"
+  },
+  "model": "app.country",
+  "pk": 89
+},
+{
+  "fields": {
+    "code": "GP",
+    "created_at": "2021-05-03T14:01:40.768Z",
+    "modified_at": "2021-05-03T14:01:40.768Z",
+    "name": "Guadeloupe",
+    "unicode_flag": "🇬🇵",
+    "uuid": "09881596-17bf-4ace-838c-d549361c681a"
+  },
+  "model": "app.country",
+  "pk": 90
+},
+{
+  "fields": {
+    "code": "GU",
+    "created_at": "2021-05-03T14:01:40.823Z",
+    "modified_at": "2021-05-03T14:01:40.823Z",
+    "name": "Guam",
+    "unicode_flag": "🇬🇺",
+    "uuid": "16d687bf-cb7d-4eed-af83-49dde798eef4"
+  },
+  "model": "app.country",
+  "pk": 91
+},
+{
+  "fields": {
+    "code": "GT",
+    "created_at": "2021-05-03T14:01:40.824Z",
+    "modified_at": "2021-05-03T14:01:40.824Z",
+    "name": "Guatemala",
+    "unicode_flag": "🇬🇹",
+    "uuid": "edcb70cd-bb0d-425e-b4cf-2ab243f5b6fc"
+  },
+  "model": "app.country",
+  "pk": 92
+},
+{
+  "fields": {
+    "code": "GG",
+    "created_at": "2021-05-03T14:01:40.825Z",
+    "modified_at": "2021-05-03T14:01:40.825Z",
+    "name": "Guernsey",
+    "unicode_flag": "🇬🇬",
+    "uuid": "d1db467a-c19e-49c9-99ea-a8e895716507"
+  },
+  "model": "app.country",
+  "pk": 93
+},
+{
+  "fields": {
+    "code": "GN",
+    "created_at": "2021-05-03T14:01:40.826Z",
+    "modified_at": "2021-05-03T14:01:40.826Z",
+    "name": "Guinea",
+    "unicode_flag": "🇬🇳",
+    "uuid": "095fa7a1-3058-4682-9531-b86dbccf98b3"
+  },
+  "model": "app.country",
+  "pk": 94
+},
+{
+  "fields": {
+    "code": "GW",
+    "created_at": "2021-05-03T14:01:40.827Z",
+    "modified_at": "2021-05-03T14:01:40.827Z",
+    "name": "Guinea-Bissau",
+    "unicode_flag": "🇬🇼",
+    "uuid": "06001358-f0c7-487c-8dad-b52b713fceea"
+  },
+  "model": "app.country",
+  "pk": 95
+},
+{
+  "fields": {
+    "code": "GY",
+    "created_at": "2021-05-03T14:01:40.829Z",
+    "modified_at": "2021-05-03T14:01:40.829Z",
+    "name": "Guyana",
+    "unicode_flag": "🇬🇾",
+    "uuid": "101b42d7-66f3-4910-8aac-8f378fa9bd5f"
+  },
+  "model": "app.country",
+  "pk": 96
+},
+{
+  "fields": {
+    "code": "HT",
+    "created_at": "2021-05-03T14:01:40.830Z",
+    "modified_at": "2021-05-03T14:01:40.830Z",
+    "name": "Haiti",
+    "unicode_flag": "🇭🇹",
+    "uuid": "2069b39d-9cb7-45c7-a338-513cd19def73"
+  },
+  "model": "app.country",
+  "pk": 97
+},
+{
+  "fields": {
+    "code": "HM",
+    "created_at": "2021-05-03T14:01:40.831Z",
+    "modified_at": "2021-05-03T14:01:40.831Z",
+    "name": "Heard Island and McDonald Islands",
+    "unicode_flag": "🇭🇲",
+    "uuid": "cec33535-85d0-46ad-aa27-17260e1948cb"
+  },
+  "model": "app.country",
+  "pk": 98
+},
+{
+  "fields": {
+    "code": "VA",
+    "created_at": "2021-05-03T14:01:40.832Z",
+    "modified_at": "2021-05-03T14:01:40.832Z",
+    "name": "Holy See",
+    "unicode_flag": "🇻🇦",
+    "uuid": "6ecaa2fc-96ce-4211-b859-914e509fe9d0"
+  },
+  "model": "app.country",
+  "pk": 99
+},
+{
+  "fields": {
+    "code": "HN",
+    "created_at": "2021-05-03T14:01:40.833Z",
+    "modified_at": "2021-05-03T14:01:40.833Z",
+    "name": "Honduras",
+    "unicode_flag": "🇭🇳",
+    "uuid": "ee1a24cf-fc1d-4dce-b712-e1007011541d"
+  },
+  "model": "app.country",
+  "pk": 100
+},
+{
+  "fields": {
+    "code": "HK",
+    "created_at": "2021-05-03T14:01:40.835Z",
+    "modified_at": "2021-05-03T14:01:40.835Z",
+    "name": "Hong Kong",
+    "unicode_flag": "🇭🇰",
+    "uuid": "e4670cc1-44d4-474d-9708-97e1d75633a0"
+  },
+  "model": "app.country",
+  "pk": 101
+},
+{
+  "fields": {
+    "code": "HU",
+    "created_at": "2021-05-03T14:01:40.836Z",
+    "modified_at": "2021-05-03T14:01:40.836Z",
+    "name": "Hungary",
+    "unicode_flag": "🇭🇺",
+    "uuid": "51ae1348-26e7-4174-9ac6-e5e836ff98d6"
+  },
+  "model": "app.country",
+  "pk": 102
+},
+{
+  "fields": {
+    "code": "IS",
+    "created_at": "2021-05-03T14:01:40.837Z",
+    "modified_at": "2021-05-03T14:01:40.837Z",
+    "name": "Iceland",
+    "unicode_flag": "🇮🇸",
+    "uuid": "dff94905-58e6-4e85-8905-af6d2a1bcbcf"
+  },
+  "model": "app.country",
+  "pk": 103
+},
+{
+  "fields": {
+    "code": "IN",
+    "created_at": "2021-05-03T14:01:40.838Z",
+    "modified_at": "2021-05-03T14:01:40.838Z",
+    "name": "India",
+    "unicode_flag": "🇮🇳",
+    "uuid": "c3f8a45a-1d39-48e2-b27e-22c04e608d1f"
+  },
+  "model": "app.country",
+  "pk": 104
+},
+{
+  "fields": {
+    "code": "ID",
+    "created_at": "2021-05-03T14:01:40.839Z",
+    "modified_at": "2021-05-03T14:01:40.839Z",
+    "name": "Indonesia",
+    "unicode_flag": "🇮🇩",
+    "uuid": "7c1c3ad6-76d0-495a-800f-36e7de9e12b1"
+  },
+  "model": "app.country",
+  "pk": 105
+},
+{
+  "fields": {
+    "code": "IR",
+    "created_at": "2021-05-03T14:01:40.840Z",
+    "modified_at": "2021-05-03T14:01:40.840Z",
+    "name": "Iran",
+    "unicode_flag": "🇮🇷",
+    "uuid": "90e6f625-7648-4c97-801d-0d76a5964b79"
+  },
+  "model": "app.country",
+  "pk": 106
+},
+{
+  "fields": {
+    "code": "IQ",
+    "created_at": "2021-05-03T14:01:40.841Z",
+    "modified_at": "2021-05-03T14:01:40.841Z",
+    "name": "Iraq",
+    "unicode_flag": "🇮🇶",
+    "uuid": "db13edec-4f7f-4007-b8bc-a0d10b48991a"
+  },
+  "model": "app.country",
+  "pk": 107
+},
+{
+  "fields": {
+    "code": "IE",
+    "created_at": "2021-05-03T14:01:40.843Z",
+    "modified_at": "2021-05-03T14:01:40.843Z",
+    "name": "Ireland",
+    "unicode_flag": "🇮🇪",
+    "uuid": "10648d71-4714-45ea-adac-9fdb13df26ce"
+  },
+  "model": "app.country",
+  "pk": 108
+},
+{
+  "fields": {
+    "code": "IM",
+    "created_at": "2021-05-03T14:01:40.844Z",
+    "modified_at": "2021-05-03T14:01:40.844Z",
+    "name": "Isle of Man",
+    "unicode_flag": "🇮🇲",
+    "uuid": "0e69c971-65ef-447c-a118-401b1ea16265"
+  },
+  "model": "app.country",
+  "pk": 109
+},
+{
+  "fields": {
+    "code": "IL",
+    "created_at": "2021-05-03T14:01:40.844Z",
+    "modified_at": "2021-05-03T14:01:40.844Z",
+    "name": "Israel",
+    "unicode_flag": "🇮🇱",
+    "uuid": "32eddd6a-c1fb-4b83-8bd0-ad95254c5dd3"
+  },
+  "model": "app.country",
+  "pk": 110
+},
+{
+  "fields": {
+    "code": "IT",
+    "created_at": "2021-05-03T14:01:40.845Z",
+    "modified_at": "2021-05-03T14:01:40.845Z",
+    "name": "Italy",
+    "unicode_flag": "🇮🇹",
+    "uuid": "8946ded0-47e1-4975-b4ef-4aa167cc4363"
+  },
+  "model": "app.country",
+  "pk": 111
+},
+{
+  "fields": {
+    "code": "JM",
+    "created_at": "2021-05-03T14:01:40.846Z",
+    "modified_at": "2021-05-03T14:01:40.846Z",
+    "name": "Jamaica",
+    "unicode_flag": "🇯🇲",
+    "uuid": "7ef46df1-88af-4d07-ae93-f41f4d17bfd8"
+  },
+  "model": "app.country",
+  "pk": 112
+},
+{
+  "fields": {
+    "code": "JP",
+    "created_at": "2021-05-03T14:01:40.847Z",
+    "modified_at": "2021-05-03T14:01:40.847Z",
+    "name": "Japan",
+    "unicode_flag": "🇯🇵",
+    "uuid": "ffad76eb-81f0-4286-a0dd-cccb04bd239d"
+  },
+  "model": "app.country",
+  "pk": 113
+},
+{
+  "fields": {
+    "code": "JE",
+    "created_at": "2021-05-03T14:01:40.848Z",
+    "modified_at": "2021-05-03T14:01:40.848Z",
+    "name": "Jersey",
+    "unicode_flag": "🇯🇪",
+    "uuid": "ca0bbb97-cbdb-4971-a92d-9128f3da2b94"
+  },
+  "model": "app.country",
+  "pk": 114
+},
+{
+  "fields": {
+    "code": "JO",
+    "created_at": "2021-05-03T14:01:40.849Z",
+    "modified_at": "2021-05-03T14:01:40.849Z",
+    "name": "Jordan",
+    "unicode_flag": "🇯🇴",
+    "uuid": "5dd891b9-861c-468c-af0c-0f0c5458dadb"
+  },
+  "model": "app.country",
+  "pk": 115
+},
+{
+  "fields": {
+    "code": "KZ",
+    "created_at": "2021-05-03T14:01:40.849Z",
+    "modified_at": "2021-05-03T14:01:40.849Z",
+    "name": "Kazakhstan",
+    "unicode_flag": "🇰🇿",
+    "uuid": "a92bf701-3b96-4554-8898-3d8769f75479"
+  },
+  "model": "app.country",
+  "pk": 116
+},
+{
+  "fields": {
+    "code": "KE",
+    "created_at": "2021-05-03T14:01:40.850Z",
+    "modified_at": "2021-05-03T14:01:40.850Z",
+    "name": "Kenya",
+    "unicode_flag": "🇰🇪",
+    "uuid": "6e796cc4-2d3a-4481-bac7-6fb260b2980d"
+  },
+  "model": "app.country",
+  "pk": 117
+},
+{
+  "fields": {
+    "code": "KI",
+    "created_at": "2021-05-03T14:01:40.851Z",
+    "modified_at": "2021-05-03T14:01:40.851Z",
+    "name": "Kiribati",
+    "unicode_flag": "🇰🇮",
+    "uuid": "691051e5-1d60-4cc0-a81b-79f794f45d01"
+  },
+  "model": "app.country",
+  "pk": 118
+},
+{
+  "fields": {
+    "code": "XK",
+    "created_at": "2021-05-07T09:20:18.122Z",
+    "modified_at": "2021-05-07T11:26:41.383Z",
+    "name": "Kosovo",
+    "unicode_flag": "🇿",
+    "uuid": "2312f64a-d072-49d9-a556-f3dea69e9fe2"
+  },
+  "model": "app.country",
+  "pk": 250
+},
+{
+  "fields": {
+    "code": "KW",
+    "created_at": "2021-05-03T14:01:40.852Z",
+    "modified_at": "2021-05-03T14:01:40.852Z",
+    "name": "Kuwait",
+    "unicode_flag": "🇰🇼",
+    "uuid": "25135ced-7d0d-4b23-949a-f75a010fa91c"
+  },
+  "model": "app.country",
+  "pk": 119
+},
+{
+  "fields": {
+    "code": "KG",
+    "created_at": "2021-05-03T14:01:40.854Z",
+    "modified_at": "2021-05-03T14:01:40.854Z",
+    "name": "Kyrgyzstan",
+    "unicode_flag": "🇰🇬",
+    "uuid": "51df690b-0df0-43d1-851e-5d4251568a18"
+  },
+  "model": "app.country",
+  "pk": 120
+},
+{
+  "fields": {
+    "code": "LA",
+    "created_at": "2021-05-03T14:01:40.855Z",
+    "modified_at": "2021-05-03T14:01:40.855Z",
+    "name": "Laos",
+    "unicode_flag": "🇱🇦",
+    "uuid": "600de967-4725-4ca0-9503-cb772eee0a3b"
+  },
+  "model": "app.country",
+  "pk": 121
+},
+{
+  "fields": {
+    "code": "LV",
+    "created_at": "2021-05-03T14:01:40.856Z",
+    "modified_at": "2021-05-03T14:01:40.856Z",
+    "name": "Latvia",
+    "unicode_flag": "🇱🇻",
+    "uuid": "40717f58-633c-493f-9454-be65565e9b18"
+  },
+  "model": "app.country",
+  "pk": 122
+},
+{
+  "fields": {
+    "code": "LB",
+    "created_at": "2021-05-03T14:01:40.856Z",
+    "modified_at": "2021-05-03T14:01:40.857Z",
+    "name": "Lebanon",
+    "unicode_flag": "🇱🇧",
+    "uuid": "eb41ea3d-0302-4cc3-a893-ea20bbfb49ba"
+  },
+  "model": "app.country",
+  "pk": 123
+},
+{
+  "fields": {
+    "code": "LS",
+    "created_at": "2021-05-03T14:01:40.857Z",
+    "modified_at": "2021-05-03T14:01:40.857Z",
+    "name": "Lesotho",
+    "unicode_flag": "🇱🇸",
+    "uuid": "565a3297-4b1a-4576-b53b-4dc3333908de"
+  },
+  "model": "app.country",
+  "pk": 124
+},
+{
+  "fields": {
+    "code": "LR",
+    "created_at": "2021-05-03T14:01:40.858Z",
+    "modified_at": "2021-05-03T14:01:40.858Z",
+    "name": "Liberia",
+    "unicode_flag": "🇱🇷",
+    "uuid": "4eca3c4f-59a7-49be-a2e6-26dff57bb56b"
+  },
+  "model": "app.country",
+  "pk": 125
+},
+{
+  "fields": {
+    "code": "LY",
+    "created_at": "2021-05-03T14:01:40.860Z",
+    "modified_at": "2021-05-03T14:01:40.860Z",
+    "name": "Libya",
+    "unicode_flag": "🇱🇾",
+    "uuid": "f60499c6-4c22-427b-b427-c8685025f0bb"
+  },
+  "model": "app.country",
+  "pk": 126
+},
+{
+  "fields": {
+    "code": "LI",
+    "created_at": "2021-05-03T14:01:40.861Z",
+    "modified_at": "2021-05-03T14:01:40.861Z",
+    "name": "Liechtenstein",
+    "unicode_flag": "🇱🇮",
+    "uuid": "252030ff-a880-4530-b818-8af895635bb9"
+  },
+  "model": "app.country",
+  "pk": 127
+},
+{
+  "fields": {
+    "code": "LT",
+    "created_at": "2021-05-03T14:01:40.862Z",
+    "modified_at": "2021-05-03T14:01:40.862Z",
+    "name": "Lithuania",
+    "unicode_flag": "🇱🇹",
+    "uuid": "9730b2f2-fe36-4aa7-a3ab-a75405419368"
+  },
+  "model": "app.country",
+  "pk": 128
+},
+{
+  "fields": {
+    "code": "LU",
+    "created_at": "2021-05-03T14:01:40.863Z",
+    "modified_at": "2021-05-03T14:01:40.863Z",
+    "name": "Luxembourg",
+    "unicode_flag": "🇱🇺",
+    "uuid": "7f58299e-b7c8-49a5-90df-2ee8463aaee7"
+  },
+  "model": "app.country",
+  "pk": 129
+},
+{
+  "fields": {
+    "code": "MO",
+    "created_at": "2021-05-03T14:01:40.864Z",
+    "modified_at": "2021-05-03T14:01:40.864Z",
+    "name": "Macao",
+    "unicode_flag": "🇲🇴",
+    "uuid": "89c76435-527f-481c-8a95-8a14bcbef383"
+  },
+  "model": "app.country",
+  "pk": 130
+},
+{
+  "fields": {
+    "code": "MG",
+    "created_at": "2021-05-03T14:01:40.929Z",
+    "modified_at": "2021-05-03T14:01:40.929Z",
+    "name": "Madagascar",
+    "unicode_flag": "🇲🇬",
+    "uuid": "c75a3ead-5d9c-480e-8694-403508b383e6"
+  },
+  "model": "app.country",
+  "pk": 131
+},
+{
+  "fields": {
+    "code": "MW",
+    "created_at": "2021-05-03T14:01:40.933Z",
+    "modified_at": "2021-05-03T14:01:40.933Z",
+    "name": "Malawi",
+    "unicode_flag": "🇲🇼",
+    "uuid": "66777ffc-e40b-4661-871d-f92020a055d0"
+  },
+  "model": "app.country",
+  "pk": 132
+},
+{
+  "fields": {
+    "code": "MY",
+    "created_at": "2021-05-03T14:01:40.934Z",
+    "modified_at": "2021-05-03T14:01:40.934Z",
+    "name": "Malaysia",
+    "unicode_flag": "🇲🇾",
+    "uuid": "1ed5afc1-7a50-432a-ab9a-dd549b3b4d2a"
+  },
+  "model": "app.country",
+  "pk": 133
+},
+{
+  "fields": {
+    "code": "MV",
+    "created_at": "2021-05-03T14:01:40.935Z",
+    "modified_at": "2021-05-03T14:01:40.935Z",
+    "name": "Maldives",
+    "unicode_flag": "🇲🇻",
+    "uuid": "a3ab1954-75f8-4edf-8d7b-6c493a69c9f9"
+  },
+  "model": "app.country",
+  "pk": 134
+},
+{
+  "fields": {
+    "code": "ML",
+    "created_at": "2021-05-03T14:01:40.936Z",
+    "modified_at": "2021-05-03T14:01:40.936Z",
+    "name": "Mali",
+    "unicode_flag": "🇲🇱",
+    "uuid": "c3dadabd-d91c-4b7c-a1c2-8d4e0c945d33"
+  },
+  "model": "app.country",
+  "pk": 135
+},
+{
+  "fields": {
+    "code": "MT",
+    "created_at": "2021-05-03T14:01:40.938Z",
+    "modified_at": "2021-05-03T14:01:40.938Z",
+    "name": "Malta",
+    "unicode_flag": "🇲🇹",
+    "uuid": "2743e7dd-bc1c-4e46-b407-0ad46e2de028"
+  },
+  "model": "app.country",
+  "pk": 136
+},
+{
+  "fields": {
+    "code": "MH",
+    "created_at": "2021-05-03T14:01:40.938Z",
+    "modified_at": "2021-05-03T14:01:40.938Z",
+    "name": "Marshall Islands",
+    "unicode_flag": "🇲🇭",
+    "uuid": "58b24272-9521-4642-8336-775797bfc86e"
+  },
+  "model": "app.country",
+  "pk": 137
+},
+{
+  "fields": {
+    "code": "MQ",
+    "created_at": "2021-05-03T14:01:40.939Z",
+    "modified_at": "2021-05-03T14:01:40.939Z",
+    "name": "Martinique",
+    "unicode_flag": "🇲🇶",
+    "uuid": "111d0bb6-fe21-4b6e-969d-91a85ec90b13"
+  },
+  "model": "app.country",
+  "pk": 138
+},
+{
+  "fields": {
+    "code": "MR",
+    "created_at": "2021-05-03T14:01:40.940Z",
+    "modified_at": "2021-05-03T14:01:40.940Z",
+    "name": "Mauritania",
+    "unicode_flag": "🇲🇷",
+    "uuid": "7e743dd9-b368-4429-94f0-6613d6ce464b"
+  },
+  "model": "app.country",
+  "pk": 139
+},
+{
+  "fields": {
+    "code": "MU",
+    "created_at": "2021-05-03T14:01:40.941Z",
+    "modified_at": "2021-05-03T14:01:40.941Z",
+    "name": "Mauritius",
+    "unicode_flag": "🇲🇺",
+    "uuid": "e1d555fc-9ae8-4242-a63c-7d7064af4bd3"
+  },
+  "model": "app.country",
+  "pk": 140
+},
+{
+  "fields": {
+    "code": "YT",
+    "created_at": "2021-05-03T14:01:40.942Z",
+    "modified_at": "2021-05-03T14:01:40.942Z",
+    "name": "Mayotte",
+    "unicode_flag": "🇾🇹",
+    "uuid": "ab3801f7-5301-428b-843c-b960bbed458f"
+  },
+  "model": "app.country",
+  "pk": 141
+},
+{
+  "fields": {
+    "code": "MX",
+    "created_at": "2021-05-03T14:01:40.943Z",
+    "modified_at": "2021-05-03T14:01:40.943Z",
+    "name": "Mexico",
+    "unicode_flag": "🇲🇽",
+    "uuid": "de635225-e7ac-4258-b0f7-287121073bc9"
+  },
+  "model": "app.country",
+  "pk": 142
+},
+{
+  "fields": {
+    "code": "FM",
+    "created_at": "2021-05-03T14:01:40.944Z",
+    "modified_at": "2021-05-03T14:01:40.944Z",
+    "name": "Micronesia (Federated States of)",
+    "unicode_flag": "🇫🇲",
+    "uuid": "1aef7739-1ef2-4be8-b80a-2f296ed7931a"
+  },
+  "model": "app.country",
+  "pk": 143
+},
+{
+  "fields": {
+    "code": "MD",
+    "created_at": "2021-05-03T14:01:40.945Z",
+    "modified_at": "2021-05-03T14:01:40.945Z",
+    "name": "Moldova",
+    "unicode_flag": "🇲🇩",
+    "uuid": "fad8bf9c-2f1e-4fee-83c3-f50694e4f94a"
+  },
+  "model": "app.country",
+  "pk": 144
+},
+{
+  "fields": {
+    "code": "MC",
+    "created_at": "2021-05-03T14:01:40.946Z",
+    "modified_at": "2021-05-03T14:01:40.946Z",
+    "name": "Monaco",
+    "unicode_flag": "🇲🇨",
+    "uuid": "9436d343-7f0c-44a8-9fdd-100d5e5feb99"
+  },
+  "model": "app.country",
+  "pk": 145
+},
+{
+  "fields": {
+    "code": "MN",
+    "created_at": "2021-05-03T14:01:40.947Z",
+    "modified_at": "2021-05-03T14:01:40.947Z",
+    "name": "Mongolia",
+    "unicode_flag": "🇲🇳",
+    "uuid": "a9274611-4d0e-414f-8983-d3f8aa4c1dcc"
+  },
+  "model": "app.country",
+  "pk": 146
+},
+{
+  "fields": {
+    "code": "ME",
+    "created_at": "2021-05-03T14:01:40.948Z",
+    "modified_at": "2021-05-03T14:01:40.948Z",
+    "name": "Montenegro",
+    "unicode_flag": "🇲🇪",
+    "uuid": "db56dc31-4d14-43cc-a2ba-d24df9c9283a"
+  },
+  "model": "app.country",
+  "pk": 147
+},
+{
+  "fields": {
+    "code": "MS",
+    "created_at": "2021-05-03T14:01:40.949Z",
+    "modified_at": "2021-05-03T14:01:40.949Z",
+    "name": "Montserrat",
+    "unicode_flag": "🇲🇸",
+    "uuid": "6e701c4b-3638-4594-893e-fead7eba155e"
+  },
+  "model": "app.country",
+  "pk": 148
+},
+{
+  "fields": {
+    "code": "MA",
+    "created_at": "2021-05-03T14:01:40.950Z",
+    "modified_at": "2021-05-03T14:01:40.950Z",
+    "name": "Morocco",
+    "unicode_flag": "🇲🇦",
+    "uuid": "12cf6e10-2089-4220-ac7a-b49ae41a47f3"
+  },
+  "model": "app.country",
+  "pk": 149
+},
+{
+  "fields": {
+    "code": "MZ",
+    "created_at": "2021-05-03T14:01:40.950Z",
+    "modified_at": "2021-05-03T14:01:40.950Z",
+    "name": "Mozambique",
+    "unicode_flag": "🇲🇿",
+    "uuid": "915829b5-1eee-4d3a-b2a7-6a3c8a564ac6"
+  },
+  "model": "app.country",
+  "pk": 150
+},
+{
+  "fields": {
+    "code": "MM",
+    "created_at": "2021-05-03T14:01:40.951Z",
+    "modified_at": "2021-05-03T14:01:40.951Z",
+    "name": "Myanmar",
+    "unicode_flag": "🇲🇲",
+    "uuid": "abb7ea74-6204-4020-8f3f-96f2e578a3af"
+  },
+  "model": "app.country",
+  "pk": 151
+},
+{
+  "fields": {
+    "code": "NA",
+    "created_at": "2021-05-03T14:01:40.952Z",
+    "modified_at": "2021-05-03T14:01:40.952Z",
+    "name": "Namibia",
+    "unicode_flag": "🇳🇦",
+    "uuid": "01a61dde-dbdd-4353-a337-f92f899cf9c7"
+  },
+  "model": "app.country",
+  "pk": 152
+},
+{
+  "fields": {
+    "code": "NR",
+    "created_at": "2021-05-03T14:01:40.953Z",
+    "modified_at": "2021-05-03T14:01:40.953Z",
+    "name": "Nauru",
+    "unicode_flag": "🇳🇷",
+    "uuid": "e7dc0643-9fe0-4e88-ad82-05c0fbd6bf03"
+  },
+  "model": "app.country",
+  "pk": 153
+},
+{
+  "fields": {
+    "code": "NP",
+    "created_at": "2021-05-03T14:01:40.954Z",
+    "modified_at": "2021-05-03T14:01:40.954Z",
+    "name": "Nepal",
+    "unicode_flag": "🇳🇵",
+    "uuid": "397abdaf-9b04-4844-a7d2-664d6000c919"
+  },
+  "model": "app.country",
+  "pk": 154
+},
+{
+  "fields": {
+    "code": "NL",
+    "created_at": "2021-05-03T14:01:40.955Z",
+    "modified_at": "2021-05-03T14:01:40.955Z",
+    "name": "Netherlands",
+    "unicode_flag": "🇳🇱",
+    "uuid": "978a74d2-7250-4d8c-809f-3c5bbcaad1e5"
+  },
+  "model": "app.country",
+  "pk": 155
+},
+{
+  "fields": {
+    "code": "NC",
+    "created_at": "2021-05-03T14:01:40.956Z",
+    "modified_at": "2021-05-03T14:01:40.956Z",
+    "name": "New Caledonia",
+    "unicode_flag": "🇳🇨",
+    "uuid": "f0abf396-ac44-4a57-8731-09c6b8c6c6e2"
+  },
+  "model": "app.country",
+  "pk": 156
+},
+{
+  "fields": {
+    "code": "NZ",
+    "created_at": "2021-05-03T14:01:40.957Z",
+    "modified_at": "2021-05-03T14:01:40.957Z",
+    "name": "New Zealand",
+    "unicode_flag": "🇳🇿",
+    "uuid": "a10886b4-f54b-4094-80f3-e995db6a7e8c"
+  },
+  "model": "app.country",
+  "pk": 157
+},
+{
+  "fields": {
+    "code": "NI",
+    "created_at": "2021-05-03T14:01:40.958Z",
+    "modified_at": "2021-05-03T14:01:40.958Z",
+    "name": "Nicaragua",
+    "unicode_flag": "🇳🇮",
+    "uuid": "3f9bbc38-c1fb-4fb0-86bc-7d6db7497383"
+  },
+  "model": "app.country",
+  "pk": 158
+},
+{
+  "fields": {
+    "code": "NE",
+    "created_at": "2021-05-03T14:01:40.959Z",
+    "modified_at": "2021-05-03T14:01:40.960Z",
+    "name": "Niger",
+    "unicode_flag": "🇳🇪",
+    "uuid": "7da7e6f8-0e68-4c12-9d34-6d17da31ea41"
+  },
+  "model": "app.country",
+  "pk": 159
+},
+{
+  "fields": {
+    "code": "NG",
+    "created_at": "2021-05-03T14:01:40.961Z",
+    "modified_at": "2021-05-03T14:01:40.961Z",
+    "name": "Nigeria",
+    "unicode_flag": "🇳🇬",
+    "uuid": "e2c339bf-1610-4ad9-98f6-1675626eba39"
+  },
+  "model": "app.country",
+  "pk": 160
+},
+{
+  "fields": {
+    "code": "NU",
+    "created_at": "2021-05-03T14:01:40.962Z",
+    "modified_at": "2021-05-03T14:01:40.962Z",
+    "name": "Niue",
+    "unicode_flag": "🇳🇺",
+    "uuid": "d470f228-0bd9-44a8-9e75-dcec37bfa30b"
+  },
+  "model": "app.country",
+  "pk": 161
+},
+{
+  "fields": {
+    "code": "NF",
+    "created_at": "2021-05-03T14:01:40.963Z",
+    "modified_at": "2021-05-03T14:01:40.963Z",
+    "name": "Norfolk Island",
+    "unicode_flag": "🇳🇫",
+    "uuid": "da3d0f80-42ac-49ae-ac8b-d9bc7d26b014"
+  },
+  "model": "app.country",
+  "pk": 162
+},
+{
+  "fields": {
+    "code": "MP",
+    "created_at": "2021-05-03T14:01:40.966Z",
+    "modified_at": "2021-05-03T14:01:40.966Z",
+    "name": "Northern Mariana Islands",
+    "unicode_flag": "🇲🇵",
+    "uuid": "8b4b1d4c-6c9a-4e2d-9a8b-4cebfecae714"
+  },
+  "model": "app.country",
+  "pk": 165
+},
+{
+  "fields": {
+    "code": "KP",
+    "created_at": "2021-05-03T14:01:40.964Z",
+    "modified_at": "2021-05-03T14:01:40.964Z",
+    "name": "North Korea",
+    "unicode_flag": "🇰🇵",
+    "uuid": "2a51a116-e8f1-47a0-a50b-ca2b640639bc"
+  },
+  "model": "app.country",
+  "pk": 163
+},
+{
+  "fields": {
+    "code": "MK",
+    "created_at": "2021-05-03T14:01:40.965Z",
+    "modified_at": "2021-05-03T14:01:40.965Z",
+    "name": "North Macedonia",
+    "unicode_flag": "🇲🇰",
+    "uuid": "819e0a8f-1595-45b2-b302-17dde3727e3f"
+  },
+  "model": "app.country",
+  "pk": 164
+},
+{
+  "fields": {
+    "code": "NO",
+    "created_at": "2021-05-03T14:01:40.966Z",
+    "modified_at": "2021-05-03T14:01:40.967Z",
+    "name": "Norway",
+    "unicode_flag": "🇳🇴",
+    "uuid": "a941df89-a7d8-4229-b4cb-b9762ba43e1f"
+  },
+  "model": "app.country",
+  "pk": 166
+},
+{
+  "fields": {
+    "code": "OM",
+    "created_at": "2021-05-03T14:01:40.967Z",
+    "modified_at": "2021-05-03T14:01:40.967Z",
+    "name": "Oman",
+    "unicode_flag": "🇴🇲",
+    "uuid": "96086962-37af-40c3-9917-100072d82c76"
+  },
+  "model": "app.country",
+  "pk": 167
+},
+{
+  "fields": {
+    "code": "PK",
+    "created_at": "2021-05-03T14:01:40.968Z",
+    "modified_at": "2021-05-03T14:01:40.968Z",
+    "name": "Pakistan",
+    "unicode_flag": "🇵🇰",
+    "uuid": "d90152e9-34e3-4e17-bd75-db8fe879aee9"
+  },
+  "model": "app.country",
+  "pk": 168
+},
+{
+  "fields": {
+    "code": "PW",
+    "created_at": "2021-05-03T14:01:40.972Z",
+    "modified_at": "2021-05-03T14:01:40.972Z",
+    "name": "Palau",
+    "unicode_flag": "🇵🇼",
+    "uuid": "83ee0ba7-802d-45e8-ba9e-c98e9af5e93a"
+  },
+  "model": "app.country",
+  "pk": 169
+},
+{
+  "fields": {
+    "code": "PS",
+    "created_at": "2021-05-03T14:01:40.973Z",
+    "modified_at": "2021-05-03T14:01:40.973Z",
+    "name": "Palestine, State of",
+    "unicode_flag": "🇵🇸",
+    "uuid": "2593d2dd-4101-40a0-9435-a2beb39f70a9"
+  },
+  "model": "app.country",
+  "pk": 170
+},
+{
+  "fields": {
+    "code": "PA",
+    "created_at": "2021-05-03T14:01:40.973Z",
+    "modified_at": "2021-05-03T14:01:40.973Z",
+    "name": "Panama",
+    "unicode_flag": "🇵🇦",
+    "uuid": "2c705326-1035-447e-9890-e49d50c470db"
+  },
+  "model": "app.country",
+  "pk": 171
+},
+{
+  "fields": {
+    "code": "PG",
+    "created_at": "2021-05-03T14:01:40.974Z",
+    "modified_at": "2021-05-03T14:01:40.974Z",
+    "name": "Papua New Guinea",
+    "unicode_flag": "🇵🇬",
+    "uuid": "864457f5-31e0-4fd7-b0a1-c11381bb3074"
+  },
+  "model": "app.country",
+  "pk": 172
+},
+{
+  "fields": {
+    "code": "PY",
+    "created_at": "2021-05-03T14:01:41.023Z",
+    "modified_at": "2021-05-03T14:01:41.023Z",
+    "name": "Paraguay",
+    "unicode_flag": "🇵🇾",
+    "uuid": "4c61a01d-075f-4db1-87a6-d0c926c03259"
+  },
+  "model": "app.country",
+  "pk": 173
+},
+{
+  "fields": {
+    "code": "PE",
+    "created_at": "2021-05-03T14:01:41.025Z",
+    "modified_at": "2021-05-03T14:01:41.025Z",
+    "name": "Peru",
+    "unicode_flag": "🇵🇪",
+    "uuid": "b272bcac-e63b-4932-8846-eb63ac3fdcd6"
+  },
+  "model": "app.country",
+  "pk": 174
+},
+{
+  "fields": {
+    "code": "PH",
+    "created_at": "2021-05-03T14:01:41.031Z",
+    "modified_at": "2021-05-03T14:01:41.031Z",
+    "name": "Philippines",
+    "unicode_flag": "🇵🇭",
+    "uuid": "ca227154-fb28-4adf-9098-0aaaded5bac2"
+  },
+  "model": "app.country",
+  "pk": 175
+},
+{
+  "fields": {
+    "code": "PN",
+    "created_at": "2021-05-03T14:01:41.035Z",
+    "modified_at": "2021-05-03T14:01:41.035Z",
+    "name": "Pitcairn",
+    "unicode_flag": "🇵🇳",
+    "uuid": "1bd9f341-a86a-44db-847e-c230be650484"
+  },
+  "model": "app.country",
+  "pk": 176
+},
+{
+  "fields": {
+    "code": "PL",
+    "created_at": "2021-05-03T14:01:41.036Z",
+    "modified_at": "2021-05-03T14:01:41.036Z",
+    "name": "Poland",
+    "unicode_flag": "🇵🇱",
+    "uuid": "b0e11574-b83e-4122-9ff1-91fdd32f1add"
+  },
+  "model": "app.country",
+  "pk": 177
+},
+{
+  "fields": {
+    "code": "PT",
+    "created_at": "2021-05-03T14:01:41.037Z",
+    "modified_at": "2021-05-03T14:01:41.037Z",
+    "name": "Portugal",
+    "unicode_flag": "🇵🇹",
+    "uuid": "38afe0e0-c089-468b-9ccb-79a2a23a962e"
+  },
+  "model": "app.country",
+  "pk": 178
+},
+{
+  "fields": {
+    "code": "PR",
+    "created_at": "2021-05-03T14:01:41.038Z",
+    "modified_at": "2021-05-03T14:01:41.038Z",
+    "name": "Puerto Rico",
+    "unicode_flag": "🇵🇷",
+    "uuid": "d08faeea-b2ba-4e2d-80b2-e6045302041c"
+  },
+  "model": "app.country",
+  "pk": 179
+},
+{
+  "fields": {
+    "code": "QA",
+    "created_at": "2021-05-03T14:01:41.039Z",
+    "modified_at": "2021-05-03T14:01:41.039Z",
+    "name": "Qatar",
+    "unicode_flag": "🇶🇦",
+    "uuid": "13925af7-89fe-49cc-bf99-8b8d4f9ec0ef"
+  },
+  "model": "app.country",
+  "pk": 180
+},
+{
+  "fields": {
+    "code": "RE",
+    "created_at": "2021-05-03T14:01:41.040Z",
+    "modified_at": "2021-05-03T14:01:41.040Z",
+    "name": "Réunion",
+    "unicode_flag": "🇷🇪",
+    "uuid": "38b07932-edc5-490a-be7d-1ea79b0a9b39"
+  },
+  "model": "app.country",
+  "pk": 181
+},
+{
+  "fields": {
+    "code": "RO",
+    "created_at": "2021-05-03T14:01:41.040Z",
+    "modified_at": "2021-05-03T14:01:41.040Z",
+    "name": "Romania",
+    "unicode_flag": "🇷🇴",
+    "uuid": "1ac5a500-fc4e-4a1f-9791-53a337099bee"
+  },
+  "model": "app.country",
+  "pk": 182
+},
+{
+  "fields": {
+    "code": "RU",
+    "created_at": "2021-05-03T14:01:41.041Z",
+    "modified_at": "2021-05-03T14:01:41.041Z",
+    "name": "Russia",
+    "unicode_flag": "🇷🇺",
+    "uuid": "5532af8a-b381-499b-a06b-7b4cdc7a7eb0"
+  },
+  "model": "app.country",
+  "pk": 183
+},
+{
+  "fields": {
+    "code": "RW",
+    "created_at": "2021-05-03T14:01:41.042Z",
+    "modified_at": "2021-05-03T14:01:41.042Z",
+    "name": "Rwanda",
+    "unicode_flag": "🇷🇼",
+    "uuid": "a8317ad3-6c7a-4187-b523-ef4a6957e013"
+  },
+  "model": "app.country",
+  "pk": 184
+},
+{
+  "fields": {
+    "code": "BL",
+    "created_at": "2021-05-03T14:01:41.043Z",
+    "modified_at": "2021-05-03T14:01:41.043Z",
+    "name": "Saint Barthélemy",
+    "unicode_flag": "🇧🇱",
+    "uuid": "6c4a038d-72b6-4910-88df-7b7ae7d5801f"
+  },
+  "model": "app.country",
+  "pk": 185
+},
+{
+  "fields": {
+    "code": "SH",
+    "created_at": "2021-05-03T14:01:41.044Z",
+    "modified_at": "2021-05-03T14:01:41.044Z",
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "unicode_flag": "🇸🇭",
+    "uuid": "4da94351-50c8-40e7-ad37-329e7956b385"
+  },
+  "model": "app.country",
+  "pk": 186
+},
+{
+  "fields": {
+    "code": "KN",
+    "created_at": "2021-05-03T14:01:41.045Z",
+    "modified_at": "2021-05-03T14:01:41.045Z",
+    "name": "Saint Kitts and Nevis",
+    "unicode_flag": "🇰🇳",
+    "uuid": "d7818ca2-7a2c-4635-9e0b-32965141d031"
+  },
+  "model": "app.country",
+  "pk": 187
+},
+{
+  "fields": {
+    "code": "LC",
+    "created_at": "2021-05-03T14:01:41.046Z",
+    "modified_at": "2021-05-03T14:01:41.046Z",
+    "name": "Saint Lucia",
+    "unicode_flag": "🇱🇨",
+    "uuid": "947cce1f-a1e1-4f76-8604-6b24c5a30b47"
+  },
+  "model": "app.country",
+  "pk": 188
+},
+{
+  "fields": {
+    "code": "MF",
+    "created_at": "2021-05-03T14:01:41.047Z",
+    "modified_at": "2021-05-03T14:01:41.047Z",
+    "name": "Saint Martin (French part)",
+    "unicode_flag": "🇲🇫",
+    "uuid": "910f5340-bb82-46f4-9e85-db83e80780ce"
+  },
+  "model": "app.country",
+  "pk": 189
+},
+{
+  "fields": {
+    "code": "PM",
+    "created_at": "2021-05-03T14:01:41.048Z",
+    "modified_at": "2021-05-03T14:01:41.048Z",
+    "name": "Saint Pierre and Miquelon",
+    "unicode_flag": "🇵🇲",
+    "uuid": "92251896-3790-4335-884f-edefcfd8be68"
+  },
+  "model": "app.country",
+  "pk": 190
+},
+{
+  "fields": {
+    "code": "VC",
+    "created_at": "2021-05-03T14:01:41.049Z",
+    "modified_at": "2021-05-03T14:01:41.049Z",
+    "name": "Saint Vincent and the Grenadines",
+    "unicode_flag": "🇻🇨",
+    "uuid": "ecc6006e-9d90-46fe-9093-dbceb2abd756"
+  },
+  "model": "app.country",
+  "pk": 191
+},
+{
+  "fields": {
+    "code": "WS",
+    "created_at": "2021-05-03T14:01:41.049Z",
+    "modified_at": "2021-05-03T14:01:41.049Z",
+    "name": "Samoa",
+    "unicode_flag": "🇼🇸",
+    "uuid": "abe83c72-c4ac-4a53-adfd-9f2c4e07f27e"
+  },
+  "model": "app.country",
+  "pk": 192
+},
+{
+  "fields": {
+    "code": "SM",
+    "created_at": "2021-05-03T14:01:41.050Z",
+    "modified_at": "2021-05-03T14:01:41.050Z",
+    "name": "San Marino",
+    "unicode_flag": "🇸🇲",
+    "uuid": "7b59596f-1a36-4ca7-8f62-e0c71a2b0218"
+  },
+  "model": "app.country",
+  "pk": 193
+},
+{
+  "fields": {
+    "code": "ST",
+    "created_at": "2021-05-03T14:01:41.129Z",
+    "modified_at": "2021-05-03T14:01:41.129Z",
+    "name": "Sao Tome and Principe",
+    "unicode_flag": "🇸🇹",
+    "uuid": "182f305f-7179-4fe3-93b2-d5240b46e2d7"
+  },
+  "model": "app.country",
+  "pk": 194
+},
+{
+  "fields": {
+    "code": "SA",
+    "created_at": "2021-05-03T14:01:41.130Z",
+    "modified_at": "2021-05-03T14:01:41.130Z",
+    "name": "Saudi Arabia",
+    "unicode_flag": "🇸🇦",
+    "uuid": "041cd514-43e5-4379-9a7c-300bda4b2bc4"
+  },
+  "model": "app.country",
+  "pk": 195
+},
+{
+  "fields": {
+    "code": "SN",
+    "created_at": "2021-05-03T14:01:41.130Z",
+    "modified_at": "2021-05-03T14:01:41.131Z",
+    "name": "Senegal",
+    "unicode_flag": "🇸🇳",
+    "uuid": "98971508-fb50-4b5f-968a-1bdf67711baf"
+  },
+  "model": "app.country",
+  "pk": 196
+},
+{
+  "fields": {
+    "code": "RS",
+    "created_at": "2021-05-03T14:01:41.132Z",
+    "modified_at": "2021-05-03T14:01:41.132Z",
+    "name": "Serbia",
+    "unicode_flag": "🇷🇸",
+    "uuid": "671d6eca-7697-4326-a1dd-ce590464ad22"
+  },
+  "model": "app.country",
+  "pk": 197
+},
+{
+  "fields": {
+    "code": "SC",
+    "created_at": "2021-05-03T14:01:41.132Z",
+    "modified_at": "2021-05-03T14:01:41.132Z",
+    "name": "Seychelles",
+    "unicode_flag": "🇸🇨",
+    "uuid": "38fe0284-09b7-44b3-9221-d8d9db2cc8d7"
+  },
+  "model": "app.country",
+  "pk": 198
+},
+{
+  "fields": {
+    "code": "SL",
+    "created_at": "2021-05-03T14:01:41.133Z",
+    "modified_at": "2021-05-03T14:01:41.133Z",
+    "name": "Sierra Leone",
+    "unicode_flag": "🇸🇱",
+    "uuid": "29f80426-0cad-46df-9fe7-c748e7433c48"
+  },
+  "model": "app.country",
+  "pk": 199
+},
+{
+  "fields": {
+    "code": "SG",
+    "created_at": "2021-05-03T14:01:41.225Z",
+    "modified_at": "2021-05-03T14:01:41.225Z",
+    "name": "Singapore",
+    "unicode_flag": "🇸🇬",
+    "uuid": "9d36d2b3-d2bf-4b10-9ea9-ee67cef3c064"
+  },
+  "model": "app.country",
+  "pk": 200
+},
+{
+  "fields": {
+    "code": "SX",
+    "created_at": "2021-05-03T14:01:41.228Z",
+    "modified_at": "2021-05-03T14:01:41.228Z",
+    "name": "Sint Maarten (Dutch part)",
+    "unicode_flag": "🇸🇽",
+    "uuid": "bee88923-46cf-4cf7-ad40-f8724846dfd2"
+  },
+  "model": "app.country",
+  "pk": 201
+},
+{
+  "fields": {
+    "code": "SK",
+    "created_at": "2021-05-03T14:01:41.229Z",
+    "modified_at": "2021-05-03T14:01:41.229Z",
+    "name": "Slovakia",
+    "unicode_flag": "🇸🇰",
+    "uuid": "d03320e5-c0fd-4e66-b7c6-6028fdc70406"
+  },
+  "model": "app.country",
+  "pk": 202
+},
+{
+  "fields": {
+    "code": "SI",
+    "created_at": "2021-05-03T14:01:41.230Z",
+    "modified_at": "2021-05-03T14:01:41.230Z",
+    "name": "Slovenia",
+    "unicode_flag": "🇸🇮",
+    "uuid": "229a84ea-90f4-4e98-8060-8c8b4ac84908"
+  },
+  "model": "app.country",
+  "pk": 203
+},
+{
+  "fields": {
+    "code": "SB",
+    "created_at": "2021-05-03T14:01:41.230Z",
+    "modified_at": "2021-05-03T14:01:41.230Z",
+    "name": "Solomon Islands",
+    "unicode_flag": "🇸🇧",
+    "uuid": "5fb03f43-0551-4a36-ae0d-baffa60da85f"
+  },
+  "model": "app.country",
+  "pk": 204
+},
+{
+  "fields": {
+    "code": "SO",
+    "created_at": "2021-05-03T14:01:41.232Z",
+    "modified_at": "2021-05-03T14:01:41.232Z",
+    "name": "Somalia",
+    "unicode_flag": "🇸🇴",
+    "uuid": "2aa1fb3b-ea9a-436f-bddb-f1f21542c4d2"
+  },
+  "model": "app.country",
+  "pk": 205
+},
+{
+  "fields": {
+    "code": "ZA",
+    "created_at": "2021-05-03T14:01:41.233Z",
+    "modified_at": "2021-05-03T14:01:41.233Z",
+    "name": "South Africa",
+    "unicode_flag": "🇿🇦",
+    "uuid": "e868c48d-34bd-4772-9944-8ac04f458b05"
+  },
+  "model": "app.country",
+  "pk": 206
+},
+{
+  "fields": {
+    "code": "GS",
+    "created_at": "2021-05-03T14:01:41.234Z",
+    "modified_at": "2021-05-03T14:01:41.234Z",
+    "name": "South Georgia and the South Sandwich Islands",
+    "unicode_flag": "🇬🇸",
+    "uuid": "4b1ad604-2bd9-49ec-adf4-b5837a177ec8"
+  },
+  "model": "app.country",
+  "pk": 207
+},
+{
+  "fields": {
+    "code": "KR",
+    "created_at": "2021-05-03T14:01:41.235Z",
+    "modified_at": "2021-05-03T14:01:41.235Z",
+    "name": "South Korea",
+    "unicode_flag": "🇰🇷",
+    "uuid": "8e16aede-42b6-4969-9b73-1abb10813532"
+  },
+  "model": "app.country",
+  "pk": 208
+},
+{
+  "fields": {
+    "code": "SS",
+    "created_at": "2021-05-03T14:01:41.236Z",
+    "modified_at": "2021-05-03T14:01:41.236Z",
+    "name": "South Sudan",
+    "unicode_flag": "🇸🇸",
+    "uuid": "706143be-001c-46fe-af7e-849db29bf6e7"
+  },
+  "model": "app.country",
+  "pk": 209
+},
+{
+  "fields": {
+    "code": "ES",
+    "created_at": "2021-05-03T14:01:41.237Z",
+    "modified_at": "2021-05-03T14:01:41.237Z",
+    "name": "Spain",
+    "unicode_flag": "🇪🇸",
+    "uuid": "4562f725-9eae-48fd-aa9a-c7a39aef41f6"
+  },
+  "model": "app.country",
+  "pk": 210
+},
+{
+  "fields": {
+    "code": "LK",
+    "created_at": "2021-05-03T14:01:41.323Z",
+    "modified_at": "2021-05-03T14:01:41.323Z",
+    "name": "Sri Lanka",
+    "unicode_flag": "🇱🇰",
+    "uuid": "029ffd60-7c20-4cfd-93ad-1e2e87dd60b2"
+  },
+  "model": "app.country",
+  "pk": 211
+},
+{
+  "fields": {
+    "code": "SD",
+    "created_at": "2021-05-03T14:01:41.325Z",
+    "modified_at": "2021-05-03T14:01:41.325Z",
+    "name": "Sudan",
+    "unicode_flag": "🇸🇩",
+    "uuid": "04cae58f-d083-4b8b-8439-758e3e317ff8"
+  },
+  "model": "app.country",
+  "pk": 212
+},
+{
+  "fields": {
+    "code": "SR",
+    "created_at": "2021-05-03T14:01:41.326Z",
+    "modified_at": "2021-05-03T14:01:41.326Z",
+    "name": "Suriname",
+    "unicode_flag": "🇸🇷",
+    "uuid": "a1c5cd2c-6e2e-4cbc-8d0f-e257fe735bd4"
+  },
+  "model": "app.country",
+  "pk": 213
+},
+{
+  "fields": {
+    "code": "SJ",
+    "created_at": "2021-05-03T14:01:41.327Z",
+    "modified_at": "2021-05-03T14:01:41.327Z",
+    "name": "Svalbard and Jan Mayen",
+    "unicode_flag": "🇸🇯",
+    "uuid": "4793404f-41e5-400f-9e31-825b3268e628"
+  },
+  "model": "app.country",
+  "pk": 214
+},
+{
+  "fields": {
+    "code": "SE",
+    "created_at": "2021-05-03T14:01:41.328Z",
+    "modified_at": "2021-05-03T14:01:41.328Z",
+    "name": "Sweden",
+    "unicode_flag": "🇸🇪",
+    "uuid": "92b560ee-7a95-4aba-b4a3-6118eb20aa4c"
+  },
+  "model": "app.country",
+  "pk": 215
+},
+{
+  "fields": {
+    "code": "CH",
+    "created_at": "2021-05-03T14:01:41.329Z",
+    "modified_at": "2021-05-03T14:01:41.329Z",
+    "name": "Switzerland",
+    "unicode_flag": "🇨🇭",
+    "uuid": "3ad83bd2-c3aa-467d-84b2-376f266d2d30"
+  },
+  "model": "app.country",
+  "pk": 216
+},
+{
+  "fields": {
+    "code": "SY",
+    "created_at": "2021-05-03T14:01:41.330Z",
+    "modified_at": "2021-05-03T14:01:41.330Z",
+    "name": "Syria",
+    "unicode_flag": "🇸🇾",
+    "uuid": "a5a12438-5c33-477b-8d6f-b3905193f494"
+  },
+  "model": "app.country",
+  "pk": 217
+},
+{
+  "fields": {
+    "code": "TW",
+    "created_at": "2021-05-03T14:01:41.332Z",
+    "modified_at": "2021-05-03T14:01:41.332Z",
+    "name": "Taiwan",
+    "unicode_flag": "🇹🇼",
+    "uuid": "a9e89d83-d029-4b05-880a-75e4dd3fde92"
+  },
+  "model": "app.country",
+  "pk": 218
+},
+{
+  "fields": {
+    "code": "TJ",
+    "created_at": "2021-05-03T14:01:41.333Z",
+    "modified_at": "2021-05-03T14:01:41.333Z",
+    "name": "Tajikistan",
+    "unicode_flag": "🇹🇯",
+    "uuid": "de99d84b-0ef8-4b6f-8ca5-baf0a711f78c"
+  },
+  "model": "app.country",
+  "pk": 219
+},
+{
+  "fields": {
+    "code": "TZ",
+    "created_at": "2021-05-03T14:01:41.334Z",
+    "modified_at": "2021-05-03T14:01:41.334Z",
+    "name": "Tanzania",
+    "unicode_flag": "🇹🇿",
+    "uuid": "621abf0b-4fd9-453c-b7cd-56e689ea640a"
+  },
+  "model": "app.country",
+  "pk": 220
+},
+{
+  "fields": {
+    "code": "TH",
+    "created_at": "2021-05-03T14:01:41.335Z",
+    "modified_at": "2021-05-03T14:01:41.335Z",
+    "name": "Thailand",
+    "unicode_flag": "🇹🇭",
+    "uuid": "d60f19de-81a3-4b48-b010-e00b672a8f18"
+  },
+  "model": "app.country",
+  "pk": 221
+},
+{
+  "fields": {
+    "code": "TL",
+    "created_at": "2021-05-03T14:01:41.424Z",
+    "modified_at": "2021-05-03T14:01:41.424Z",
+    "name": "Timor-Leste",
+    "unicode_flag": "🇹🇱",
+    "uuid": "28246031-8bb8-4958-86bd-7dd245b391e1"
+  },
+  "model": "app.country",
+  "pk": 222
+},
+{
+  "fields": {
+    "code": "TG",
+    "created_at": "2021-05-03T14:01:41.425Z",
+    "modified_at": "2021-05-03T14:01:41.425Z",
+    "name": "Togo",
+    "unicode_flag": "🇹🇬",
+    "uuid": "dda9c4b7-e91c-47db-af2a-918c093eceeb"
+  },
+  "model": "app.country",
+  "pk": 223
+},
+{
+  "fields": {
+    "code": "TK",
+    "created_at": "2021-05-03T14:01:41.426Z",
+    "modified_at": "2021-05-03T14:01:41.426Z",
+    "name": "Tokelau",
+    "unicode_flag": "🇹🇰",
+    "uuid": "90440014-f6e1-4b4f-83f0-99e7efcdbaae"
+  },
+  "model": "app.country",
+  "pk": 224
+},
+{
+  "fields": {
+    "code": "TO",
+    "created_at": "2021-05-03T14:01:41.427Z",
+    "modified_at": "2021-05-03T14:01:41.427Z",
+    "name": "Tonga",
+    "unicode_flag": "🇹🇴",
+    "uuid": "bd9c52b1-151f-48c6-9c5d-96ac7389c101"
+  },
+  "model": "app.country",
+  "pk": 225
+},
+{
+  "fields": {
+    "code": "TT",
+    "created_at": "2021-05-03T14:01:41.428Z",
+    "modified_at": "2021-05-03T14:01:41.428Z",
+    "name": "Trinidad and Tobago",
+    "unicode_flag": "🇹🇹",
+    "uuid": "e5e368f1-9315-4a3a-8b65-4395df6acffd"
+  },
+  "model": "app.country",
+  "pk": 226
+},
+{
+  "fields": {
+    "code": "TN",
+    "created_at": "2021-05-03T14:01:41.430Z",
+    "modified_at": "2021-05-03T14:01:41.430Z",
+    "name": "Tunisia",
+    "unicode_flag": "🇹🇳",
+    "uuid": "9592f079-0130-4d59-a7bc-2ef1e584a56b"
+  },
+  "model": "app.country",
+  "pk": 227
+},
+{
+  "fields": {
+    "code": "TR",
+    "created_at": "2021-05-03T14:01:41.431Z",
+    "modified_at": "2021-05-03T14:01:41.431Z",
+    "name": "Turkey",
+    "unicode_flag": "🇹🇷",
+    "uuid": "59b02762-c830-490f-8e6d-7622c0880114"
+  },
+  "model": "app.country",
+  "pk": 228
+},
+{
+  "fields": {
+    "code": "TM",
+    "created_at": "2021-05-03T14:01:41.432Z",
+    "modified_at": "2021-05-03T14:01:41.432Z",
+    "name": "Turkmenistan",
+    "unicode_flag": "🇹🇲",
+    "uuid": "996668bb-d3d3-4fd4-8f70-11ab0d09f8ff"
+  },
+  "model": "app.country",
+  "pk": 229
+},
+{
+  "fields": {
+    "code": "TC",
+    "created_at": "2021-05-03T14:01:41.433Z",
+    "modified_at": "2021-05-03T14:01:41.433Z",
+    "name": "Turks and Caicos Islands",
+    "unicode_flag": "🇹🇨",
+    "uuid": "e0f845dc-0785-48be-8c54-a87d25ab5642"
+  },
+  "model": "app.country",
+  "pk": 230
+},
+{
+  "fields": {
+    "code": "TV",
+    "created_at": "2021-05-03T14:01:41.434Z",
+    "modified_at": "2021-05-03T14:01:41.434Z",
+    "name": "Tuvalu",
+    "unicode_flag": "🇹🇻",
+    "uuid": "3d2b0246-8464-4f08-a5f6-bee84e3f8d0c"
+  },
+  "model": "app.country",
+  "pk": 231
+},
+{
+  "fields": {
+    "code": "UG",
+    "created_at": "2021-05-03T14:01:41.435Z",
+    "modified_at": "2021-05-03T14:01:41.435Z",
+    "name": "Uganda",
+    "unicode_flag": "🇺🇬",
+    "uuid": "f5872ce2-5866-49d1-b228-b1111c4c27b8"
+  },
+  "model": "app.country",
+  "pk": 232
+},
+{
+  "fields": {
+    "code": "UA",
+    "created_at": "2021-05-03T14:01:41.436Z",
+    "modified_at": "2021-05-03T14:01:41.436Z",
+    "name": "Ukraine",
+    "unicode_flag": "🇺🇦",
+    "uuid": "2ffa12f8-ebf7-4733-890c-77e6dbce2292"
+  },
+  "model": "app.country",
+  "pk": 233
+},
+{
+  "fields": {
+    "code": "AE",
+    "created_at": "2021-05-03T14:01:41.437Z",
+    "modified_at": "2021-05-03T14:01:41.437Z",
+    "name": "United Arab Emirates",
+    "unicode_flag": "🇦🇪",
+    "uuid": "d4f2aed4-03fe-4bdf-8057-cc2908f36914"
+  },
+  "model": "app.country",
+  "pk": 234
+},
+{
+  "fields": {
+    "code": "GB",
+    "created_at": "2021-05-03T14:01:41.438Z",
+    "modified_at": "2021-05-03T14:01:41.438Z",
+    "name": "United Kingdom",
+    "unicode_flag": "🇬🇧",
+    "uuid": "6456eae2-f85f-4118-9e42-c82e1a0ad53c"
+  },
+  "model": "app.country",
+  "pk": 235
+},
+{
+  "fields": {
+    "code": "UM",
+    "created_at": "2021-05-03T14:01:41.439Z",
+    "modified_at": "2021-05-03T14:01:41.439Z",
+    "name": "United States Minor Outlying Islands",
+    "unicode_flag": "🇺🇲",
+    "uuid": "b205ac11-ca52-43c5-ab34-e3ddd911dea9"
+  },
+  "model": "app.country",
+  "pk": 236
+},
+{
+  "fields": {
+    "code": "US",
+    "created_at": "2021-05-03T14:01:41.440Z",
+    "modified_at": "2021-05-03T14:01:41.440Z",
+    "name": "United States of America",
+    "unicode_flag": "🇺🇸",
+    "uuid": "d3d89b2a-2e27-411b-9beb-28ccf4047386"
+  },
+  "model": "app.country",
+  "pk": 237
+},
+{
+  "fields": {
+    "code": "UY",
+    "created_at": "2021-05-03T14:01:41.441Z",
+    "modified_at": "2021-05-03T14:01:41.441Z",
+    "name": "Uruguay",
+    "unicode_flag": "🇺🇾",
+    "uuid": "6f6867c4-06e8-4ace-81dc-480ee1fb5d5f"
+  },
+  "model": "app.country",
+  "pk": 238
+},
+{
+  "fields": {
+    "code": "UZ",
+    "created_at": "2021-05-03T14:01:41.442Z",
+    "modified_at": "2021-05-03T14:01:41.442Z",
+    "name": "Uzbekistan",
+    "unicode_flag": "🇺🇿",
+    "uuid": "47b7e383-5108-4c96-b7b9-462ecb9ccf50"
+  },
+  "model": "app.country",
+  "pk": 239
+},
+{
+  "fields": {
+    "code": "VU",
+    "created_at": "2021-05-03T14:01:41.443Z",
+    "modified_at": "2021-05-03T14:01:41.443Z",
+    "name": "Vanuatu",
+    "unicode_flag": "🇻🇺",
+    "uuid": "4bf8d829-e16d-4de8-8b90-c657baebbf8f"
+  },
+  "model": "app.country",
+  "pk": 240
+},
+{
+  "fields": {
+    "code": "VE",
+    "created_at": "2021-05-03T14:01:41.444Z",
+    "modified_at": "2021-05-03T14:01:41.444Z",
+    "name": "Venezuela",
+    "unicode_flag": "🇻🇪",
+    "uuid": "863742e0-89bc-40fe-812b-b145eac6a3dd"
+  },
+  "model": "app.country",
+  "pk": 241
+},
+{
+  "fields": {
+    "code": "VN",
+    "created_at": "2021-05-03T14:01:41.445Z",
+    "modified_at": "2021-05-03T14:01:41.445Z",
+    "name": "Vietnam",
+    "unicode_flag": "🇻🇳",
+    "uuid": "edaf8673-01f4-4edc-8e45-6c355a65c6c7"
+  },
+  "model": "app.country",
+  "pk": 242
+},
+{
+  "fields": {
+    "code": "VG",
+    "created_at": "2021-05-03T14:01:41.445Z",
+    "modified_at": "2021-05-03T14:01:41.445Z",
+    "name": "Virgin Islands (British)",
+    "unicode_flag": "🇻🇬",
+    "uuid": "1cb81937-b99e-47c1-950d-0fd31c5522ae"
+  },
+  "model": "app.country",
+  "pk": 243
+},
+{
+  "fields": {
+    "code": "VI",
+    "created_at": "2021-05-03T14:01:41.446Z",
+    "modified_at": "2021-05-03T14:01:41.446Z",
+    "name": "Virgin Islands (U.S.)",
+    "unicode_flag": "🇻🇮",
+    "uuid": "c5fac543-6e58-4d84-a15f-2efbbcca6e29"
+  },
+  "model": "app.country",
+  "pk": 244
+},
+{
+  "fields": {
+    "code": "WF",
+    "created_at": "2021-05-03T14:01:41.447Z",
+    "modified_at": "2021-05-03T14:01:41.447Z",
+    "name": "Wallis and Futuna",
+    "unicode_flag": "🇼🇫",
+    "uuid": "27e61b6c-d3f5-4de7-a888-88d58e2358cc"
+  },
+  "model": "app.country",
+  "pk": 245
+},
+{
+  "fields": {
+    "code": "EH",
+    "created_at": "2021-05-03T14:01:41.448Z",
+    "modified_at": "2021-05-03T14:01:41.448Z",
+    "name": "Western Sahara",
+    "unicode_flag": "🇪🇭",
+    "uuid": "41cd9bbb-e841-44dd-87f5-ba9b5046c1e3"
+  },
+  "model": "app.country",
+  "pk": 246
+},
+{
+  "fields": {
+    "code": "YE",
+    "created_at": "2021-05-03T14:01:41.449Z",
+    "modified_at": "2021-05-03T14:01:41.449Z",
+    "name": "Yemen",
+    "unicode_flag": "🇾🇪",
+    "uuid": "33776170-deea-4b95-9e9f-8564e3d9c25a"
+  },
+  "model": "app.country",
+  "pk": 247
+},
+{
+  "fields": {
+    "code": "ZM",
+    "created_at": "2021-05-03T14:01:41.450Z",
+    "modified_at": "2021-05-03T14:01:41.450Z",
+    "name": "Zambia",
+    "unicode_flag": "🇿🇲",
+    "uuid": "60e47ed6-b352-4ae8-b841-2ed39723e516"
+  },
+  "model": "app.country",
+  "pk": 248
+},
+{
+  "fields": {
+    "code": "ZW",
+    "created_at": "2021-05-03T14:01:41.451Z",
+    "modified_at": "2021-05-03T14:01:41.451Z",
+    "name": "Zimbabwe",
+    "unicode_flag": "🇿🇼",
+    "uuid": "90260833-7d01-420b-afe9-3f788ca2e6a7"
+  },
+  "model": "app.country",
+  "pk": 249
+}
+]

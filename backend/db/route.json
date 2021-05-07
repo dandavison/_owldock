@@ -1,0 +1,2180 @@
+[
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:46.773Z",
+    "host_country": 3,
+    "modified_at": "2021-05-07T13:17:09.275Z",
+    "name": "Work Permit Exemption",
+    "uuid": "6ee23441-0437-4f59-8a93-c20ec4e5f996"
+  },
+  "model": "immigration.route",
+  "pk": 198
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:46.852Z",
+    "host_country": 3,
+    "modified_at": "2021-05-05T23:35:46.852Z",
+    "name": "Work Permit Intra Company Transfer (Managers and Specialists)",
+    "uuid": "310c6ae9-c482-4db4-8cdb-193bc0a557a9"
+  },
+  "model": "immigration.route",
+  "pk": 199
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:46.876Z",
+    "host_country": 3,
+    "modified_at": "2021-05-05T23:35:46.876Z",
+    "name": "Work Permit Local Hire",
+    "uuid": "18de2ff0-b9b2-4878-ad7d-26e3055aa777"
+  },
+  "model": "immigration.route",
+  "pk": 200
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:46.937Z",
+    "host_country": 3,
+    "modified_at": "2021-05-05T23:35:46.937Z",
+    "name": "Work Registration Certificate (Up to 60 Days)",
+    "uuid": "0c9f4bf8-140a-4ffb-ae81-1dff3d873246"
+  },
+  "model": "immigration.route",
+  "pk": 201
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:46.944Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:46.944Z",
+    "name": "Blue Card",
+    "uuid": "db5ce16d-474c-452d-b592-874bffc2d1fd"
+  },
+  "model": "immigration.route",
+  "pk": 202
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:46.965Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:46.965Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "6eaf70ff-c63c-4da8-aed0-7e6837edaa92"
+  },
+  "model": "immigration.route",
+  "pk": 203
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.036Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.036Z",
+    "name": "Intra Company Transfer Permit (EU DIrective 2014/66)",
+    "uuid": "5adba5db-683d-46d2-ab77-3cb0da49403c"
+  },
+  "model": "immigration.route",
+  "pk": 204
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.061Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.061Z",
+    "name": "Posting to Client Site (Betriebsentsendung) over 6 months",
+    "uuid": "dca6df47-2b1e-4a56-b8aa-31968ef5ebcb"
+  },
+  "model": "immigration.route",
+  "pk": 205
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.065Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.065Z",
+    "name": "Posting to Client Site (Betriebsentsendung) up to 6 months",
+    "uuid": "6fbe69c1-ddb2-43fa-a929-14aa18ce3204"
+  },
+  "model": "immigration.route",
+  "pk": 206
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.069Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.069Z",
+    "name": "Posting to Client Site (Entsendebewilligung) up to 4 months",
+    "uuid": "fb5e13b4-5795-429f-ba79-d156cb4b15be"
+  },
+  "model": "immigration.route",
+  "pk": 207
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.073Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.073Z",
+    "name": "Red-White-Red Card (Shortage Occupations, Key Personnel, Highly Qualified)",
+    "uuid": "c026e1e0-154e-4b82-98ed-b37bc7517733"
+  },
+  "model": "immigration.route",
+  "pk": 208
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.148Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.148Z",
+    "name": "Temporary Assignment for Joint Ventures up to 6 months",
+    "uuid": "f0600f38-6806-4e8d-82ea-1dfd289fea58"
+  },
+  "model": "immigration.route",
+  "pk": 209
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.152Z",
+    "host_country": 15,
+    "modified_at": "2021-05-05T23:35:47.152Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "a47815d9-d910-487f-8f02-b717d0a13464"
+  },
+  "model": "immigration.route",
+  "pk": 210
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.158Z",
+    "host_country": 22,
+    "modified_at": "2021-05-05T23:35:47.158Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "e30dc69d-a6e3-4d1e-bbff-1c3abd07f54a"
+  },
+  "model": "immigration.route",
+  "pk": 211
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.171Z",
+    "host_country": 22,
+    "modified_at": "2021-05-05T23:35:47.171Z",
+    "name": "Single Permit (Highly Qualified Employee/Director/Specialised Technician)",
+    "uuid": "61b0d0e6-a0e6-4cba-804f-e84bd924213f"
+  },
+  "model": "immigration.route",
+  "pk": 212
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.236Z",
+    "host_country": 22,
+    "modified_at": "2021-05-05T23:35:47.236Z",
+    "name": "Single Permit (Specialised Technican) up to 6 months",
+    "uuid": "809e4b89-c720-4c42-bab4-6504b7b668fb"
+  },
+  "model": "immigration.route",
+  "pk": 213
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.262Z",
+    "host_country": 22,
+    "modified_at": "2021-05-05T23:35:47.263Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "c689e4d7-f5e6-4242-b366-eaea06811a86"
+  },
+  "model": "immigration.route",
+  "pk": 214
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.330Z",
+    "host_country": 22,
+    "modified_at": "2021-05-05T23:35:47.330Z",
+    "name": "Work Permit (Highly Qualified Employee/Director/Specialised Technician) up to 90 days",
+    "uuid": "659b4288-3edc-4267-bdf8-f4666a527ba5"
+  },
+  "model": "immigration.route",
+  "pk": 215
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.339Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.339Z",
+    "name": "Blue Card",
+    "uuid": "1ceee8f0-8a54-4165-933e-57a447e28296"
+  },
+  "model": "immigration.route",
+  "pk": 216
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.357Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.357Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "c06024e7-f9fc-4dfe-83fd-96267ba0a18f"
+  },
+  "model": "immigration.route",
+  "pk": 217
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.432Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.433Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "559233db-d52f-4ebb-beb9-f85a1a714242"
+  },
+  "model": "immigration.route",
+  "pk": 218
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.456Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.457Z",
+    "name": "Temporary Work Authorisation up to 90 days",
+    "uuid": "146d914d-1c8d-4377-9642-4058c552166e"
+  },
+  "model": "immigration.route",
+  "pk": 219
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.461Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.461Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "6aa36535-3273-4913-b4ff-329564939cc8"
+  },
+  "model": "immigration.route",
+  "pk": 220
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.553Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.553Z",
+    "name": "Work Permit Exemption",
+    "uuid": "628aee57-ee54-478c-9bc5-803b790ec767"
+  },
+  "model": "immigration.route",
+  "pk": 222
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.528Z",
+    "host_country": 35,
+    "modified_at": "2021-05-05T23:35:47.528Z",
+    "name": "Work Permit (Local Hire)",
+    "uuid": "11e21bd9-ad51-4968-90b6-d87a4dfc0e54"
+  },
+  "model": "immigration.route",
+  "pk": 221
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.559Z",
+    "host_country": 56,
+    "modified_at": "2021-05-05T23:35:47.559Z",
+    "name": "Blue Card",
+    "uuid": "6107adc0-ddf8-440f-9445-4b3774901aa6"
+  },
+  "model": "immigration.route",
+  "pk": 223
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.637Z",
+    "host_country": 56,
+    "modified_at": "2021-05-05T23:35:47.637Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "7e5b83e9-bbcb-459e-b87a-09c11430d9dc"
+  },
+  "model": "immigration.route",
+  "pk": 224
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.647Z",
+    "host_country": 56,
+    "modified_at": "2021-05-05T23:35:47.647Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "d435c299-f6db-462e-96be-91614b44026a"
+  },
+  "model": "immigration.route",
+  "pk": 225
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.670Z",
+    "host_country": 56,
+    "modified_at": "2021-05-05T23:35:47.670Z",
+    "name": "Local Hire Stay and Work Permit - Key Positions",
+    "uuid": "00b2a843-5de3-4ce8-9590-545451a635c4"
+  },
+  "model": "immigration.route",
+  "pk": 226
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.740Z",
+    "host_country": 56,
+    "modified_at": "2021-05-05T23:35:47.740Z",
+    "name": "Temporary Assignment (under 90 days)",
+    "uuid": "b418c00e-be14-4469-be45-d9474481bd68"
+  },
+  "model": "immigration.route",
+  "pk": 227
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.745Z",
+    "host_country": 56,
+    "modified_at": "2021-05-05T23:35:47.745Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "064c3dac-e378-4776-8d2e-44c5d0834702"
+  },
+  "model": "immigration.route",
+  "pk": 228
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.749Z",
+    "host_country": 59,
+    "modified_at": "2021-05-05T23:35:47.749Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "26845e00-21c3-409b-a2d5-857e767c1dc4"
+  },
+  "model": "immigration.route",
+  "pk": 229
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.835Z",
+    "host_country": 59,
+    "modified_at": "2021-05-05T23:35:47.835Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "2bc7f9d2-83fd-4658-8b67-939ef86efea4"
+  },
+  "model": "immigration.route",
+  "pk": 230
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.856Z",
+    "host_country": 59,
+    "modified_at": "2021-05-05T23:35:47.856Z",
+    "name": "Local Hire Temporary Residence Permit (Employment)",
+    "uuid": "819e1e6f-8dfe-4304-a783-ecd5ef8e2cca"
+  },
+  "model": "immigration.route",
+  "pk": 231
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.929Z",
+    "host_country": 59,
+    "modified_at": "2021-05-05T23:35:47.929Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "d137de02-f67f-4c7a-b83a-45c5042a1475"
+  },
+  "model": "immigration.route",
+  "pk": 232
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.936Z",
+    "host_country": 59,
+    "modified_at": "2021-05-05T23:35:47.936Z",
+    "name": "Work and Residence Permit (International Companies)",
+    "uuid": "c12b0b24-7713-490d-aa5f-3dada0db8fde"
+  },
+  "model": "immigration.route",
+  "pk": 233
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:47.963Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:47.963Z",
+    "name": "Blue Card",
+    "uuid": "bab96cc2-f551-49cd-bba8-11f2d8156846"
+  },
+  "model": "immigration.route",
+  "pk": 234
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.033Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.033Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "ddd4aa85-980f-4b56-8195-59622c620f98"
+  },
+  "model": "immigration.route",
+  "pk": 235
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.046Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.046Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "be09f35e-fc0d-4748-98cd-588139dcb7e9"
+  },
+  "model": "immigration.route",
+  "pk": 236
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.079Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.079Z",
+    "name": "Local Hire Temporary Work Permit (under 90 days)",
+    "uuid": "4dc1fbcb-7a12-4451-af7a-364512f1aa77"
+  },
+  "model": "immigration.route",
+  "pk": 237
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.138Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.138Z",
+    "name": "Local Hire Work and Residence Permit",
+    "uuid": "5fb95e4e-8106-4b4d-8875-679d69925a6f"
+  },
+  "model": "immigration.route",
+  "pk": 238
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.169Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.169Z",
+    "name": "Temporary Assignments (under 7 consecutive days)",
+    "uuid": "e5bacd16-0b6a-4de1-8a84-dbcfa3a8b0b6"
+  },
+  "model": "immigration.route",
+  "pk": 239
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.173Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.173Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "ed793e0a-bce2-497e-b7ec-5425dbe05a51"
+  },
+  "model": "immigration.route",
+  "pk": 240
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.223Z",
+    "host_country": 60,
+    "modified_at": "2021-05-05T23:35:48.223Z",
+    "name": "Work and Residence Permit (Assignment from outside the EEA)",
+    "uuid": "f6524a92-21a6-4d8d-aa33-ee059af17564"
+  },
+  "model": "immigration.route",
+  "pk": 241
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.232Z",
+    "host_country": 61,
+    "modified_at": "2021-05-05T23:35:48.232Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "91517b93-9447-407e-bf45-610e348451a7"
+  },
+  "model": "immigration.route",
+  "pk": 242
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.243Z",
+    "host_country": 61,
+    "modified_at": "2021-05-05T23:35:48.243Z",
+    "name": "Fast Track Scheme",
+    "uuid": "2a8728cb-8dc6-4646-8ce5-f055239d7168"
+  },
+  "model": "immigration.route",
+  "pk": 243
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.324Z",
+    "host_country": 61,
+    "modified_at": "2021-05-05T23:35:48.324Z",
+    "name": "Fast Track Scheme under 90 days",
+    "uuid": "d6018eb0-9b63-47e9-ad1d-d74693a8863b"
+  },
+  "model": "immigration.route",
+  "pk": 244
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.330Z",
+    "host_country": 61,
+    "modified_at": "2021-05-05T23:35:48.330Z",
+    "name": "Positive List/Pay Limit Scheme",
+    "uuid": "918b2af3-e59c-4901-adba-cb16ad90d06e"
+  },
+  "model": "immigration.route",
+  "pk": 245
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.353Z",
+    "host_country": 61,
+    "modified_at": "2021-05-05T23:35:48.353Z",
+    "name": "Temporary Assignments under 90 days (\"fitter\" rule)",
+    "uuid": "dee2d53a-a0e7-443c-9809-006a75d8d3f9"
+  },
+  "model": "immigration.route",
+  "pk": 246
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.357Z",
+    "host_country": 61,
+    "modified_at": "2021-05-05T23:35:48.357Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "0727e58a-99be-47d7-a3a3-7f05aaebbd0d"
+  },
+  "model": "immigration.route",
+  "pk": 247
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.362Z",
+    "host_country": 70,
+    "modified_at": "2021-05-05T23:35:48.362Z",
+    "name": "Blue Card",
+    "uuid": "a2dee791-baac-4a4f-9cf8-7701c50a5bd1"
+  },
+  "model": "immigration.route",
+  "pk": 248
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.447Z",
+    "host_country": 70,
+    "modified_at": "2021-05-05T23:35:48.447Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "5cb3554c-fc0e-4077-a54f-a92ae49cb113"
+  },
+  "model": "immigration.route",
+  "pk": 249
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.463Z",
+    "host_country": 70,
+    "modified_at": "2021-05-05T23:35:48.463Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "34bef479-23f9-4687-ad69-be6a94b328f6"
+  },
+  "model": "immigration.route",
+  "pk": 250
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.544Z",
+    "host_country": 70,
+    "modified_at": "2021-05-05T23:35:48.544Z",
+    "name": "Local Hire Temporary Residence Permit for Employment",
+    "uuid": "8b6e01bb-0636-40bb-87af-4f0a5ecd9278"
+  },
+  "model": "immigration.route",
+  "pk": 251
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.568Z",
+    "host_country": 70,
+    "modified_at": "2021-05-05T23:35:48.568Z",
+    "name": "Registration of Short-Term Employment (365/455 days)",
+    "uuid": "8c315361-e963-408a-a0d2-f506063ca0b6"
+  },
+  "model": "immigration.route",
+  "pk": 252
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.572Z",
+    "host_country": 70,
+    "modified_at": "2021-05-05T23:35:48.572Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "26c293b1-f894-477b-8936-f99991a69339"
+  },
+  "model": "immigration.route",
+  "pk": 253
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.632Z",
+    "host_country": 76,
+    "modified_at": "2021-05-05T23:35:48.632Z",
+    "name": "Blue Card",
+    "uuid": "6769e3c2-26e5-4ea5-becd-f06688414417"
+  },
+  "model": "immigration.route",
+  "pk": 254
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.659Z",
+    "host_country": 76,
+    "modified_at": "2021-05-05T23:35:48.659Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "a32ae359-a7da-48a6-a370-4b4e19b2644e"
+  },
+  "model": "immigration.route",
+  "pk": 255
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.679Z",
+    "host_country": 76,
+    "modified_at": "2021-05-05T23:35:48.679Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "b365d6ad-2bc7-4559-933b-066f66ece53b"
+  },
+  "model": "immigration.route",
+  "pk": 256
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.747Z",
+    "host_country": 76,
+    "modified_at": "2021-05-05T23:35:48.747Z",
+    "name": "Residence Permit Based on Employment",
+    "uuid": "5d180a02-4e8f-4acc-87af-b990f80d300b"
+  },
+  "model": "immigration.route",
+  "pk": 257
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.766Z",
+    "host_country": 76,
+    "modified_at": "2021-05-05T23:35:48.766Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "9287cced-e584-4408-b195-2fddade1ba9d"
+  },
+  "model": "immigration.route",
+  "pk": 258
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.771Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:48.771Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "0f563748-403f-4b90-9b64-0d5c0daec5b8"
+  },
+  "model": "immigration.route",
+  "pk": 259
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.831Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:48.831Z",
+    "name": "Foreign Service Providers (Détachés Hors Mobilité Intragroupe)",
+    "uuid": "b8c0ef6f-f452-4c38-8ded-cb92b019e908"
+  },
+  "model": "immigration.route",
+  "pk": 260
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.842Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:48.842Z",
+    "name": "Foreign Service Providers (Détachés Hors Mobilité Intragroupe) Up to 90 days",
+    "uuid": "ee12b771-f1f2-4479-8a7b-383c9740da29"
+  },
+  "model": "immigration.route",
+  "pk": 261
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.848Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:48.848Z",
+    "name": "Intra Company Transfer Directive (2014/66) or Passeport Talent up to 12 months",
+    "uuid": "6fb881d0-d6b7-4162-9dd5-f2cee968328d"
+  },
+  "model": "immigration.route",
+  "pk": 262
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.935Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:48.935Z",
+    "name": "Intra Company Transfer Directive, Blue Card or Passeport Talent (2014/66) over 12 months",
+    "uuid": "b08272d5-6c91-4e6f-b21d-eb8069497a35"
+  },
+  "model": "immigration.route",
+  "pk": 263
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:48.962Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:48.962Z",
+    "name": "Local Hire (Salarié)",
+    "uuid": "b9463508-c24d-44d8-8197-b8520ab51022"
+  },
+  "model": "immigration.route",
+  "pk": 264
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.027Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:49.027Z",
+    "name": "Local Hire Travailleurs Temporaires",
+    "uuid": "060acc4f-dae3-4202-bf30-59fea8998d18"
+  },
+  "model": "immigration.route",
+  "pk": 265
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.037Z",
+    "host_country": 77,
+    "modified_at": "2021-05-05T23:35:49.037Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "e5859a2a-6a2d-4ae7-8888-f6035d37da93"
+  },
+  "model": "immigration.route",
+  "pk": 266
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.042Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.042Z",
+    "name": "Blue Card",
+    "uuid": "8ae986b3-b205-45e0-a774-0aef57cae6e4"
+  },
+  "model": "immigration.route",
+  "pk": 267
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.124Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.124Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "29eadba9-effd-4d5e-acbb-4744e536d157"
+  },
+  "model": "immigration.route",
+  "pk": 268
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.135Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.135Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "8690a814-6f99-41c1-8efc-2efde569cb9c"
+  },
+  "model": "immigration.route",
+  "pk": 269
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.161Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.161Z",
+    "name": "Local Hire Residence Permit for Employment",
+    "uuid": "e699aacf-f149-4d0d-9544-8746f8d238f4"
+  },
+  "model": "immigration.route",
+  "pk": 270
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.239Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.239Z",
+    "name": "Residence Permit for Employment (International Personnel Exchange)",
+    "uuid": "e4aa5959-7a0f-4f61-8435-83d743d8ac77"
+  },
+  "model": "immigration.route",
+  "pk": 271
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.247Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.247Z",
+    "name": "Swiss Nationals",
+    "uuid": "3b6c2c55-2dbb-4185-8848-c8682fd038d0"
+  },
+  "model": "immigration.route",
+  "pk": 272
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.251Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.251Z",
+    "name": "Temporary Assignment (Under 90 days)",
+    "uuid": "09b859e8-c47d-45c1-bfb0-a2cd3367b3e1"
+  },
+  "model": "immigration.route",
+  "pk": 273
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.257Z",
+    "host_country": 84,
+    "modified_at": "2021-05-05T23:35:49.257Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "fc1a66d2-ae6f-44bc-8e82-47b6be656d3a"
+  },
+  "model": "immigration.route",
+  "pk": 274
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.332Z",
+    "host_country": 87,
+    "modified_at": "2021-05-05T23:35:49.332Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "efe40534-1232-41da-96ca-dce8d9042b91"
+  },
+  "model": "immigration.route",
+  "pk": 275
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.342Z",
+    "host_country": 87,
+    "modified_at": "2021-05-05T23:35:49.342Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "3163b669-196b-4388-8bd5-450fff1dca30"
+  },
+  "model": "immigration.route",
+  "pk": 276
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.364Z",
+    "host_country": 87,
+    "modified_at": "2021-05-05T23:35:49.364Z",
+    "name": "Local Hire Work Permit for Senior Employees (Article 17)",
+    "uuid": "9c57b28a-1879-46e5-a27a-ef934ad738ee"
+  },
+  "model": "immigration.route",
+  "pk": 277
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.450Z",
+    "host_country": 87,
+    "modified_at": "2021-05-05T23:35:49.450Z",
+    "name": "Short-Term Assignment for Technical Staff (Article 18, Para. 1E)",
+    "uuid": "a9a1ef9a-ba43-4b53-ae0c-e51a520243f1"
+  },
+  "model": "immigration.route",
+  "pk": 278
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.455Z",
+    "host_country": 87,
+    "modified_at": "2021-05-05T23:35:49.455Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "7e9cb161-5b27-4334-8637-02e4ff9930f5"
+  },
+  "model": "immigration.route",
+  "pk": 279
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.462Z",
+    "host_country": 102,
+    "modified_at": "2021-05-05T23:35:49.462Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "6a162e52-470b-4090-af58-fde3d8fb3b29"
+  },
+  "model": "immigration.route",
+  "pk": 280
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.477Z",
+    "host_country": 102,
+    "modified_at": "2021-05-05T23:35:49.477Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "5e85d6b0-7506-4918-be76-a39883bc9a30"
+  },
+  "model": "immigration.route",
+  "pk": 281
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.549Z",
+    "host_country": 102,
+    "modified_at": "2021-05-05T23:35:49.549Z",
+    "name": "Local Hire Work and Residence Permit",
+    "uuid": "5e222451-fd77-4dc5-9a13-19276a6da4d8"
+  },
+  "model": "immigration.route",
+  "pk": 282
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.627Z",
+    "host_country": 102,
+    "modified_at": "2021-05-05T23:35:49.627Z",
+    "name": "Temporary Assignment (under 15 days)",
+    "uuid": "8536d31c-055f-4cbe-9c8e-dc2406a21625"
+  },
+  "model": "immigration.route",
+  "pk": 283
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.636Z",
+    "host_country": 102,
+    "modified_at": "2021-05-05T23:35:49.636Z",
+    "name": "Temporary Work Permit (under 90 days)",
+    "uuid": "eac2320e-b3ab-4bfb-9b8b-b3a32333c096"
+  },
+  "model": "immigration.route",
+  "pk": 284
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.644Z",
+    "host_country": 102,
+    "modified_at": "2021-05-05T23:35:49.644Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "e9c66cf1-4203-4170-bdcd-9c11a46fbc77"
+  },
+  "model": "immigration.route",
+  "pk": 285
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.649Z",
+    "host_country": 103,
+    "modified_at": "2021-05-05T23:35:49.649Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "b08eb9c2-d9f6-48be-bffa-ea3f239728d2"
+  },
+  "model": "immigration.route",
+  "pk": 286
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.732Z",
+    "host_country": 103,
+    "modified_at": "2021-05-05T23:35:49.732Z",
+    "name": "Work and Residence Permit (Expert Knowledge)",
+    "uuid": "7d1e99fc-6535-4eeb-8fc2-b331c19c07ec"
+  },
+  "model": "immigration.route",
+  "pk": 287
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.753Z",
+    "host_country": 103,
+    "modified_at": "2021-05-05T23:35:49.753Z",
+    "name": "Work and Residence Permit (Service Contract)",
+    "uuid": "58eadadd-a56e-4f2d-80dc-8304399ac02e"
+  },
+  "model": "immigration.route",
+  "pk": 288
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.833Z",
+    "host_country": 103,
+    "modified_at": "2021-05-05T23:35:49.833Z",
+    "name": "Work and Residence Permit (Shortage of Local Labour)",
+    "uuid": "bdeba812-d2c9-4327-a0a4-5a1dc8363d29"
+  },
+  "model": "immigration.route",
+  "pk": 289
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.850Z",
+    "host_country": 108,
+    "modified_at": "2021-05-05T23:35:49.850Z",
+    "name": "Atypical Working Scheme",
+    "uuid": "404bb543-0c02-48e5-be8d-f4411223ba8a"
+  },
+  "model": "immigration.route",
+  "pk": 290
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.856Z",
+    "host_country": 108,
+    "modified_at": "2021-05-05T23:35:49.856Z",
+    "name": "Critical Skills or Intra Company Transfer Employment Permit",
+    "uuid": "0431e2f3-18b3-4d06-b792-7006a9e7e3db"
+  },
+  "model": "immigration.route",
+  "pk": 291
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.947Z",
+    "host_country": 108,
+    "modified_at": "2021-05-05T23:35:49.947Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "1733781c-ec5d-41e7-90af-cbf717ae122c"
+  },
+  "model": "immigration.route",
+  "pk": 292
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:49.954Z",
+    "host_country": 108,
+    "modified_at": "2021-05-05T23:35:49.954Z",
+    "name": "General or Contract for Services Employment Permit",
+    "uuid": "2dae9366-2e19-4ad5-b901-efd873847c93"
+  },
+  "model": "immigration.route",
+  "pk": 293
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.026Z",
+    "host_country": 108,
+    "modified_at": "2021-05-05T23:35:50.026Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "de8e793f-0df8-4698-86d5-f83bb1fe66c7"
+  },
+  "model": "immigration.route",
+  "pk": 294
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.040Z",
+    "host_country": 111,
+    "modified_at": "2021-05-05T23:35:50.040Z",
+    "name": "Blue Card",
+    "uuid": "6a816df3-8fa2-4830-b098-deebea306788"
+  },
+  "model": "immigration.route",
+  "pk": 295
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.062Z",
+    "host_country": 111,
+    "modified_at": "2021-05-05T23:35:50.062Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "250de5aa-77de-4da6-99cf-d73dc0e7ba73"
+  },
+  "model": "immigration.route",
+  "pk": 296
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.123Z",
+    "host_country": 111,
+    "modified_at": "2021-05-05T23:35:50.123Z",
+    "name": "Foreign Service Provider (Non-Affiliated Companies)",
+    "uuid": "95e80d65-b01e-4b48-838a-527bb7ad18bd"
+  },
+  "model": "immigration.route",
+  "pk": 297
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.138Z",
+    "host_country": 111,
+    "modified_at": "2021-05-05T23:35:50.138Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "6744caa9-29ec-4fc1-87a8-cc2cd1992a68"
+  },
+  "model": "immigration.route",
+  "pk": 298
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.163Z",
+    "host_country": 111,
+    "modified_at": "2021-05-05T23:35:50.163Z",
+    "name": "Non-Quota Work Pemrit for Intra-Company Transferee",
+    "uuid": "c494a143-eafb-425b-8534-b575f55b1232"
+  },
+  "model": "immigration.route",
+  "pk": 299
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.249Z",
+    "host_country": 111,
+    "modified_at": "2021-05-05T23:35:50.249Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "92ad955a-7a6a-4d6e-93b1-9e72bb10cbd7"
+  },
+  "model": "immigration.route",
+  "pk": 300
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.255Z",
+    "host_country": 122,
+    "modified_at": "2021-05-05T23:35:50.255Z",
+    "name": "Blue Card",
+    "uuid": "bad29487-8f4e-42f7-8da8-754b855941ca"
+  },
+  "model": "immigration.route",
+  "pk": 301
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.332Z",
+    "host_country": 122,
+    "modified_at": "2021-05-05T23:35:50.332Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "24d0704b-e274-46f7-b0bc-10ed4246a4a2"
+  },
+  "model": "immigration.route",
+  "pk": 302
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.341Z",
+    "host_country": 122,
+    "modified_at": "2021-05-05T23:35:50.341Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "1ba6bca6-cc0d-4570-8de3-b1b760e55705"
+  },
+  "model": "immigration.route",
+  "pk": 303
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.367Z",
+    "host_country": 122,
+    "modified_at": "2021-05-05T23:35:50.367Z",
+    "name": "Temporary Residence Permit for Employment",
+    "uuid": "9b9b60cc-5e4a-4832-86e4-86b2326546fc"
+  },
+  "model": "immigration.route",
+  "pk": 304
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.442Z",
+    "host_country": 122,
+    "modified_at": "2021-05-05T23:35:50.442Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "77d906c4-0361-4fb0-aba4-9c3b889a285b"
+  },
+  "model": "immigration.route",
+  "pk": 305
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.448Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.448Z",
+    "name": "Blue Card",
+    "uuid": "b6d8eb2e-a2c4-4bbb-89da-f86cdeddf990"
+  },
+  "model": "immigration.route",
+  "pk": 306
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.547Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.547Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "48894226-76f2-4a97-9173-f01a3dc7fd5c"
+  },
+  "model": "immigration.route",
+  "pk": 307
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.558Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.558Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "2a5ebb6d-b882-4d0f-ace7-29161f6933dc"
+  },
+  "model": "immigration.route",
+  "pk": 308
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.631Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.631Z",
+    "name": "Local Hire Temporary Residence Permit",
+    "uuid": "96f5a901-3001-43b9-b1de-4a8b1ac564a4"
+  },
+  "model": "immigration.route",
+  "pk": 309
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.655Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.655Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "0443311b-e20a-4dab-b5b6-5e0d04e5c039"
+  },
+  "model": "immigration.route",
+  "pk": 310
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.667Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.667Z",
+    "name": "Work Permit Exemption (Shortage Occupations)",
+    "uuid": "e851ca08-d160-4aa7-9fcc-b0aa507c5379"
+  },
+  "model": "immigration.route",
+  "pk": 312
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.659Z",
+    "host_country": 128,
+    "modified_at": "2021-05-05T23:35:50.659Z",
+    "name": "Work Permit (up to one year)",
+    "uuid": "34bf21a1-0e93-480b-8790-9e64adba0d72"
+  },
+  "model": "immigration.route",
+  "pk": 311
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.728Z",
+    "host_country": 129,
+    "modified_at": "2021-05-05T23:35:50.728Z",
+    "name": "Blue Card",
+    "uuid": "641c551e-3a5e-49f7-8478-895f14a8676b"
+  },
+  "model": "immigration.route",
+  "pk": 313
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.750Z",
+    "host_country": 129,
+    "modified_at": "2021-05-05T23:35:50.750Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "45ad60f0-6bbc-451e-81e2-eea47e0035b3"
+  },
+  "model": "immigration.route",
+  "pk": 314
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.758Z",
+    "host_country": 129,
+    "modified_at": "2021-05-05T23:35:50.758Z",
+    "name": "Intra Company Transfer Directive (2014/66) or  Assignment for Service Providers from Outside EEA/Switzerland",
+    "uuid": "e8284aeb-67c5-4f91-bf03-a60fad51cbec"
+  },
+  "model": "immigration.route",
+  "pk": 315
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.862Z",
+    "host_country": 129,
+    "modified_at": "2021-05-05T23:35:50.862Z",
+    "name": "Local Hire Work Permit",
+    "uuid": "313a46bb-e08c-4a18-ae34-3c211693b84c"
+  },
+  "model": "immigration.route",
+  "pk": 316
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:50.935Z",
+    "host_country": 129,
+    "modified_at": "2021-05-05T23:35:50.935Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "a7bb6f12-8d3b-45f1-ba03-5a9d73375430"
+  },
+  "model": "immigration.route",
+  "pk": 317
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.028Z",
+    "host_country": 136,
+    "modified_at": "2021-05-05T23:35:51.028Z",
+    "name": "Blue Card",
+    "uuid": "5fe432d5-1273-4079-8755-3355cbcd6091"
+  },
+  "model": "immigration.route",
+  "pk": 318
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.137Z",
+    "host_country": 136,
+    "modified_at": "2021-05-05T23:35:51.137Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "6e091912-3968-44f3-8980-9f12c6c96443"
+  },
+  "model": "immigration.route",
+  "pk": 319
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.147Z",
+    "host_country": 136,
+    "modified_at": "2021-05-05T23:35:51.147Z",
+    "name": "Employment Licence (under 6 months)",
+    "uuid": "f8791917-29d1-4818-b8d8-c35fb7c0948e"
+  },
+  "model": "immigration.route",
+  "pk": 320
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.154Z",
+    "host_country": 136,
+    "modified_at": "2021-05-05T23:35:51.154Z",
+    "name": "Key Employee Initiative",
+    "uuid": "61bb3b9e-0af9-4d57-ab5a-1cea1ea1589e"
+  },
+  "model": "immigration.route",
+  "pk": 321
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.248Z",
+    "host_country": 136,
+    "modified_at": "2021-05-05T23:35:51.248Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "67c8fc5b-2ce7-4190-a42c-46a4174d5405"
+  },
+  "model": "immigration.route",
+  "pk": 322
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.252Z",
+    "host_country": 136,
+    "modified_at": "2021-05-05T23:35:51.252Z",
+    "name": "Work and Residence Permit",
+    "uuid": "71905f20-d65f-443c-9011-225ac5647c28"
+  },
+  "model": "immigration.route",
+  "pk": 323
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.347Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.347Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "081c3a88-87ee-4b90-bff0-bb90ccf4da32"
+  },
+  "model": "immigration.route",
+  "pk": 324
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.359Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.359Z",
+    "name": "Highly SKilled (\"Knowledge\") Migrant",
+    "uuid": "c470f098-6703-413e-9957-059211c5855c"
+  },
+  "model": "immigration.route",
+  "pk": 325
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.378Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.378Z",
+    "name": "Highly Skilled (\"Knowledge\") Migrant One Step Process",
+    "uuid": "ff78c529-8fb0-4178-afa1-a3990636e344"
+  },
+  "model": "immigration.route",
+  "pk": 326
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.449Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.449Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "f3cb8943-98c6-43ba-a3b7-6e4bdff0a70f"
+  },
+  "model": "immigration.route",
+  "pk": 327
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.534Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.534Z",
+    "name": "Temporary Work (under 90 days)",
+    "uuid": "2368b0ec-cc00-47d1-934a-d4f69c7b3b21"
+  },
+  "model": "immigration.route",
+  "pk": 328
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.538Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.538Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "332d5356-bb72-4160-96e2-d2a238fd434f"
+  },
+  "model": "immigration.route",
+  "pk": 329
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.543Z",
+    "host_country": 155,
+    "modified_at": "2021-05-05T23:35:51.543Z",
+    "name": "Work Permit (TWV)",
+    "uuid": "188e0fc9-7ba5-4430-998e-d6c6b3cc1728"
+  },
+  "model": "immigration.route",
+  "pk": 330
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.560Z",
+    "host_country": 166,
+    "modified_at": "2021-05-05T23:35:51.560Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "f6d3b8ec-8d30-49c0-86ec-454624e86302"
+  },
+  "model": "immigration.route",
+  "pk": 331
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.623Z",
+    "host_country": 166,
+    "modified_at": "2021-05-05T23:35:51.623Z",
+    "name": "Local Hire or Seconded Employee Residence Permit",
+    "uuid": "c3af2e29-90f7-4f40-a96b-3bbb45e2dec0"
+  },
+  "model": "immigration.route",
+  "pk": 332
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.650Z",
+    "host_country": 166,
+    "modified_at": "2021-05-05T23:35:51.650Z",
+    "name": "Temporary Assignment Permit (under 90 days)",
+    "uuid": "47be07b4-7794-4178-b8ee-1943b0475a97"
+  },
+  "model": "immigration.route",
+  "pk": 333
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.655Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:51.655Z",
+    "name": "Blue Card",
+    "uuid": "3f0018ae-2c30-4319-98b2-3e8c8088caca"
+  },
+  "model": "immigration.route",
+  "pk": 334
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.739Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:51.739Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "7c373e5e-8d89-441d-8ff1-fedb3d87de8e"
+  },
+  "model": "immigration.route",
+  "pk": 335
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.751Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:51.751Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "06ffaafd-be16-4093-bffe-94113ea8e268"
+  },
+  "model": "immigration.route",
+  "pk": 336
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:51.929Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:51.929Z",
+    "name": "Intra Company Transfer Work Permit Type C",
+    "uuid": "28d0c166-0458-4a6b-b11b-c77b93942870"
+  },
+  "model": "immigration.route",
+  "pk": 337
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:52.025Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:52.025Z",
+    "name": "Local Hire Work Permit Type A",
+    "uuid": "3fb62893-767c-4061-98fd-506c7b3ccaad"
+  },
+  "model": "immigration.route",
+  "pk": 338
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:52.228Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:52.228Z",
+    "name": "Service Provider Work Permit Type D",
+    "uuid": "fd9f66a3-cd44-4b82-b5c4-c85db65f473b"
+  },
+  "model": "immigration.route",
+  "pk": 339
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:52.427Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:52.427Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "7ced8ed5-9a0d-4c4d-8f5d-d91dc6c540a6"
+  },
+  "model": "immigration.route",
+  "pk": 340
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:52.623Z",
+    "host_country": 177,
+    "modified_at": "2021-05-05T23:35:52.623Z",
+    "name": "Work Permit Exemption for Management Board Members Type B",
+    "uuid": "abcdafe9-388d-44c9-88b2-97cfa9238a2a"
+  },
+  "model": "immigration.route",
+  "pk": 341
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:52.823Z",
+    "host_country": 178,
+    "modified_at": "2021-05-05T23:35:52.823Z",
+    "name": "Blue Card",
+    "uuid": "b6b1e98f-aa25-43c4-b6ee-f49e1dc78a59"
+  },
+  "model": "immigration.route",
+  "pk": 342
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:53.139Z",
+    "host_country": 178,
+    "modified_at": "2021-05-05T23:35:53.139Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "71bfe5b1-c1ab-457b-8395-11b5a190219b"
+  },
+  "model": "immigration.route",
+  "pk": 343
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:53.323Z",
+    "host_country": 178,
+    "modified_at": "2021-05-05T23:35:53.323Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "a4c55b1c-9826-426a-a230-36d3918019b4"
+  },
+  "model": "immigration.route",
+  "pk": 344
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:53.623Z",
+    "host_country": 178,
+    "modified_at": "2021-05-05T23:35:53.623Z",
+    "name": "Local Hire Residence Visa (Highly Qualified)",
+    "uuid": "541da297-0fe9-4fb3-b33d-d6bf1f66b703"
+  },
+  "model": "immigration.route",
+  "pk": 345
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:53.923Z",
+    "host_country": 178,
+    "modified_at": "2021-05-05T23:35:53.923Z",
+    "name": "Temporary Stay Visa (Highly Qualified, ICT or Service Provider)",
+    "uuid": "2f1ed64c-80c0-406e-8e26-be2b4a5a59a8"
+  },
+  "model": "immigration.route",
+  "pk": 346
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:54.024Z",
+    "host_country": 178,
+    "modified_at": "2021-05-05T23:35:54.024Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "c96b9539-e372-4fac-9c41-d6c6891344dc"
+  },
+  "model": "immigration.route",
+  "pk": 347
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:54.224Z",
+    "host_country": 182,
+    "modified_at": "2021-05-05T23:35:54.224Z",
+    "name": "Blue Card",
+    "uuid": "a53bb0d8-0dcf-4864-bcaf-6e426085d3f3"
+  },
+  "model": "immigration.route",
+  "pk": 348
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:54.623Z",
+    "host_country": 182,
+    "modified_at": "2021-05-05T23:35:54.623Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "bc41ea98-641a-435d-afb9-b44359ee8e64"
+  },
+  "model": "immigration.route",
+  "pk": 349
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:54.728Z",
+    "host_country": 182,
+    "modified_at": "2021-05-05T23:35:54.728Z",
+    "name": "Intra Company Transfer Directive (2014/66) or Assignee Work Permit",
+    "uuid": "1dfa870a-3f57-41ba-bca8-f527c5a0ee8e"
+  },
+  "model": "immigration.route",
+  "pk": 350
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:54.948Z",
+    "host_country": 182,
+    "modified_at": "2021-05-05T23:35:54.948Z",
+    "name": "Local Hire Work Permit",
+    "uuid": "865709be-8a13-488e-9d51-3f51aeac8cf6"
+  },
+  "model": "immigration.route",
+  "pk": 351
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.043Z",
+    "host_country": 182,
+    "modified_at": "2021-05-05T23:35:55.043Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "2db02ab4-bce4-436c-be58-870dcb651022"
+  },
+  "model": "immigration.route",
+  "pk": 352
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.049Z",
+    "host_country": 183,
+    "modified_at": "2021-05-05T23:35:55.049Z",
+    "name": "Highly Qualified Specialist Work Permit",
+    "uuid": "80bf395e-ad59-40db-af0d-73effaf35fe5"
+  },
+  "model": "immigration.route",
+  "pk": 353
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.125Z",
+    "host_country": 183,
+    "modified_at": "2021-05-05T23:35:55.125Z",
+    "name": "Standard Work Permit (Ltd or Branch Office)",
+    "uuid": "2247a993-8116-4f60-913f-eefb05bc3ddd"
+  },
+  "model": "immigration.route",
+  "pk": 354
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.142Z",
+    "host_country": 183,
+    "modified_at": "2021-05-05T23:35:55.142Z",
+    "name": "Technical Support Visa (Under 90 days)",
+    "uuid": "5c6c748b-eb64-4d72-95c9-056c2786fa7b"
+  },
+  "model": "immigration.route",
+  "pk": 355
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.147Z",
+    "host_country": 183,
+    "modified_at": "2021-05-05T23:35:55.147Z",
+    "name": "Work Patent for Former CIS Nationals",
+    "uuid": "157ce2ad-9997-4378-95e3-0595e500cf45"
+  },
+  "model": "immigration.route",
+  "pk": 356
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.153Z",
+    "host_country": 183,
+    "modified_at": "2021-05-05T23:35:55.153Z",
+    "name": "Work Permit and Accreditation Card (Rep. Office)",
+    "uuid": "e32ace47-6420-4902-a9a5-517d2a8593e4"
+  },
+  "model": "immigration.route",
+  "pk": 357
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.225Z",
+    "host_country": 202,
+    "modified_at": "2021-05-05T23:35:55.225Z",
+    "name": "Blue Card",
+    "uuid": "894968d4-a30a-49bb-8fc8-f4a5d8ca4cdc"
+  },
+  "model": "immigration.route",
+  "pk": 358
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.250Z",
+    "host_country": 202,
+    "modified_at": "2021-05-05T23:35:55.250Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "4c2c369b-d391-463a-96da-ab703d4b56c6"
+  },
+  "model": "immigration.route",
+  "pk": 359
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.264Z",
+    "host_country": 202,
+    "modified_at": "2021-05-05T23:35:55.264Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "7e4dfa5b-f911-4147-903e-176653efb2ae"
+  },
+  "model": "immigration.route",
+  "pk": 360
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.349Z",
+    "host_country": 202,
+    "modified_at": "2021-05-05T23:35:55.349Z",
+    "name": "Local Hire Single Permit",
+    "uuid": "ec4540ea-03bd-4ec3-a15a-c292d162fe13"
+  },
+  "model": "immigration.route",
+  "pk": 361
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.429Z",
+    "host_country": 202,
+    "modified_at": "2021-05-05T23:35:55.429Z",
+    "name": "Temporary Assignment (under 90 days)",
+    "uuid": "a64f53ad-b16e-46e5-8d44-01d179a2e8af"
+  },
+  "model": "immigration.route",
+  "pk": 362
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.436Z",
+    "host_country": 202,
+    "modified_at": "2021-05-05T23:35:55.436Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "1f622c58-7773-46f5-875b-50e76966fbab"
+  },
+  "model": "immigration.route",
+  "pk": 363
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.441Z",
+    "host_country": 203,
+    "modified_at": "2021-05-05T23:35:55.441Z",
+    "name": "Blue Card",
+    "uuid": "7d378ee5-539d-4bd4-832d-499018e5d2e2"
+  },
+  "model": "immigration.route",
+  "pk": 364
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.452Z",
+    "host_country": 203,
+    "modified_at": "2021-05-05T23:35:55.452Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "f112280d-d359-4c17-b000-acc9e304c57d"
+  },
+  "model": "immigration.route",
+  "pk": 365
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.534Z",
+    "host_country": 203,
+    "modified_at": "2021-05-05T23:35:55.534Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "e12508f8-b5cf-490d-a18e-92397734b83a"
+  },
+  "model": "immigration.route",
+  "pk": 366
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.547Z",
+    "host_country": 203,
+    "modified_at": "2021-05-05T23:35:55.547Z",
+    "name": "Local Hire Work and Residence Permit",
+    "uuid": "20e89859-9c74-4d33-9fd7-2f3631e63f35"
+  },
+  "model": "immigration.route",
+  "pk": 367
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.560Z",
+    "host_country": 203,
+    "modified_at": "2021-05-05T23:35:55.560Z",
+    "name": "Service Provider Work Permit (3 months out of 12 months)",
+    "uuid": "42207ac8-25d2-49b9-8b51-e971cf39f1c5"
+  },
+  "model": "immigration.route",
+  "pk": 368
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.564Z",
+    "host_country": 203,
+    "modified_at": "2021-05-05T23:35:55.564Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "beb7622f-227b-4e84-8688-b6197dd4357c"
+  },
+  "model": "immigration.route",
+  "pk": 369
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.571Z",
+    "host_country": 210,
+    "modified_at": "2021-05-05T23:35:55.571Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "0044ebe6-476a-4f51-ba7d-ab3c04fa339e"
+  },
+  "model": "immigration.route",
+  "pk": 370
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.630Z",
+    "host_country": 210,
+    "modified_at": "2021-05-05T23:35:55.630Z",
+    "name": "Highly Skilled (Entrepreneurs’ Law)",
+    "uuid": "9fa159fc-bdca-4611-b2ae-fa5c08327350"
+  },
+  "model": "immigration.route",
+  "pk": 371
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.648Z",
+    "host_country": 210,
+    "modified_at": "2021-05-05T23:35:55.648Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "8d2ecbc9-4518-4a11-8a2c-bcd9eba816ba"
+  },
+  "model": "immigration.route",
+  "pk": 372
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.768Z",
+    "host_country": 210,
+    "modified_at": "2021-05-05T23:35:55.768Z",
+    "name": "Local Hire Work Permit (Small Companies)",
+    "uuid": "8f157ee5-f187-40c9-b72a-b23243833d1d"
+  },
+  "model": "immigration.route",
+  "pk": 373
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.814Z",
+    "host_country": 210,
+    "modified_at": "2021-05-05T23:35:55.814Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "d70f3695-aed0-408f-8430-1fdc1fefc9ff"
+  },
+  "model": "immigration.route",
+  "pk": 374
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.820Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:55.820Z",
+    "name": "Blue Card",
+    "uuid": "cb4e3ebc-336d-4a0a-98eb-6e535775d3ac"
+  },
+  "model": "immigration.route",
+  "pk": 375
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.837Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:55.837Z",
+    "name": "EEA Nationals",
+    "uuid": "f59c5bf8-b31c-4266-8bd4-e49dc389b125"
+  },
+  "model": "immigration.route",
+  "pk": 376
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.927Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:55.927Z",
+    "name": "Intra Company Transfer Directive (2014/66)",
+    "uuid": "5d997803-04c7-48c0-81f1-99222370dc52"
+  },
+  "model": "immigration.route",
+  "pk": 377
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.942Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:55.942Z",
+    "name": "Short Term Work Permit (up to 90 days)",
+    "uuid": "f44308da-44de-4cbd-8d00-b31a6a03d0ce"
+  },
+  "model": "immigration.route",
+  "pk": 378
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.947Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:55.947Z",
+    "name": "Swiss Nationals",
+    "uuid": "439c897c-1eb9-4965-b509-8f0e3a87edc0"
+  },
+  "model": "immigration.route",
+  "pk": 379
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:55.957Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:55.957Z",
+    "name": "Vander Elst (Assignment from within EEA)",
+    "uuid": "ef280937-0a2c-4b99-9d8e-44ce478c40cf"
+  },
+  "model": "immigration.route",
+  "pk": 380
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.026Z",
+    "host_country": 215,
+    "modified_at": "2021-05-05T23:35:56.026Z",
+    "name": "Work and Residence Permit",
+    "uuid": "5c8ef998-3af0-45a3-b0b9-b5721846018a"
+  },
+  "model": "immigration.route",
+  "pk": 381
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.048Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.048Z",
+    "name": "Assignment B Permit (Long Term) - Non EU/EFTA",
+    "uuid": "86e667c0-b5dc-400d-9b39-f4ce311bc29e"
+  },
+  "model": "immigration.route",
+  "pk": 382
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.056Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.056Z",
+    "name": "EEA/Swiss Nationals",
+    "uuid": "ba09eba5-51f5-4f1f-983e-6ed93f475b61"
+  },
+  "model": "immigration.route",
+  "pk": 383
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.066Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.066Z",
+    "name": "Highly Skilled (Entrepreneurs’ Law)",
+    "uuid": "a4bb4cea-19cd-43f0-914d-e7a8482799c4"
+  },
+  "model": "immigration.route",
+  "pk": 384
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.151Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.151Z",
+    "name": "Local Hire 120 Day Permit - Non EU/EFTA",
+    "uuid": "6f4749ff-3772-4700-a162-f2921b96f26e"
+  },
+  "model": "immigration.route",
+  "pk": 385
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.160Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.160Z",
+    "name": "Local Hire 4 Month Permit - Non EU/EFTA",
+    "uuid": "5c2b80cf-9cb8-4bd2-b343-1fa3e04b3f84"
+  },
+  "model": "immigration.route",
+  "pk": 386
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.166Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.166Z",
+    "name": "Local Hire B Permit (Long Term) - Non EU/EFTA",
+    "uuid": "0f224263-f406-44c2-b482-8cad7493b0a2"
+  },
+  "model": "immigration.route",
+  "pk": 387
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.182Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.182Z",
+    "name": "Local Hire L Permit (Short Term) - Non EU/EFTA",
+    "uuid": "49f6a145-697b-4089-bc9b-759613a6ade9"
+  },
+  "model": "immigration.route",
+  "pk": 388
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.231Z",
+    "host_country": 216,
+    "modified_at": "2021-05-05T23:35:56.231Z",
+    "name": "Local Hire Work Permit (Small Companies)",
+    "uuid": "ddd02e2c-48ff-46f2-9d8b-6aeb3c42dd38"
+  },
+  "model": "immigration.route",
+  "pk": 389
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.251Z",
+    "host_country": 228,
+    "modified_at": "2021-05-05T23:35:56.251Z",
+    "name": "Assembly, Maintenance and Service (AMS) Visa",
+    "uuid": "5df29987-8840-4a43-82d2-4773379912ce"
+  },
+  "model": "immigration.route",
+  "pk": 390
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.255Z",
+    "host_country": 228,
+    "modified_at": "2021-05-05T23:35:56.255Z",
+    "name": "Work Permit",
+    "uuid": "e043a755-d74b-4b57-83d3-14a9b21b08bb"
+  },
+  "model": "immigration.route",
+  "pk": 391
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.360Z",
+    "host_country": 233,
+    "modified_at": "2021-05-05T23:35:56.360Z",
+    "name": "Accreditation Card",
+    "uuid": "03f311d6-f2f4-4ce7-aeca-f8caab2649aa"
+  },
+  "model": "immigration.route",
+  "pk": 393
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.443Z",
+    "host_country": 233,
+    "modified_at": "2021-05-05T23:35:56.443Z",
+    "name": "Standard Work Permit (Ltd or Branch Office)",
+    "uuid": "8e2f3dc6-f4ee-4b59-86da-963fa96d827e"
+  },
+  "model": "immigration.route",
+  "pk": 394
+},
+{
+  "fields": {
+    "created_at": "2021-05-05T23:35:56.334Z",
+    "host_country": 235,
+    "modified_at": "2021-05-05T23:35:56.334Z",
+    "name": "Intra Company Transfer Visa",
+    "uuid": "73e8fde4-a1d0-4e04-ad1b-430e46cc4234"
+  },
+  "model": "immigration.route",
+  "pk": 392
+},
+{
+  "fields": {
+    "created_at": "2021-05-03T14:46:23.235Z",
+    "host_country": 235,
+    "modified_at": "2021-05-03T14:46:23.235Z",
+    "name": "Skilled Worker Visa",
+    "uuid": "e81c4060-568b-4aae-a2a3-3f368bd08850"
+  },
+  "model": "immigration.route",
+  "pk": 1
+}
+]
