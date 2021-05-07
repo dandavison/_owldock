@@ -362,7 +362,7 @@ class ProcessStep(BaseModel):
         ]
 
     def __str__(self) -> str:
-        return f"{self.sequence_number}. {self.name}"
+        return f"{self.sequence_number}. {self.name} ({self.host_country.name})"
 
     def is_required_for_move(self, move: Move) -> bool:
         """
