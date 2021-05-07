@@ -43,7 +43,7 @@ class ProcessStepInline(NestedStackedInline):
     model = ProcessStep
     form = ProcessStepAdminForm
     filter_horizontal = ["required_only_if_nationalities"]
-    extra = 1
+    extra = 0
     inlines = [IssuedDocumentInline, ServiceItemInline]
     sortable_field_name = "sequence_number"
     fieldsets = [
