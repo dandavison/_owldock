@@ -134,6 +134,7 @@ class ProcessRuleSetAdmin(NestedModelAdmin):
                     "minimum_salary",
                     "duration_min_days",
                     "duration_max_days",
+                    "intra_company_moves_only",
                 ]
             },
         ),
