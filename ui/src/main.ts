@@ -66,10 +66,10 @@ function ApplicantList() {
   }
 }
 
-function QueryProcesses() {
+function Assessment() {
   switch (getRole()) {
     case Role.ClientContact:
-      return import("./views/QueryProcesses.vue");
+      return import("./views/Assessment.vue");
     case Role.ProviderContact:
       return import("./views/InvalidRole.vue");
     case Role.Invalid:
@@ -99,7 +99,7 @@ const routes = [
     component: ClientProviderRelationshipList,
     name: "My Providers",
   },
-  { path: "/portal/assessment", component: QueryProcesses, name: "Assessment" },
+  { path: "/portal/assessment", component: Assessment, name: "Assessment" },
 ];
 
 const router = new VueRouter({ mode: "history", routes });
