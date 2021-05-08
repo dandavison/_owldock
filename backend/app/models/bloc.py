@@ -6,4 +6,4 @@ from owldock.models.base import BaseModel
 
 class Bloc(BaseModel):
     name = CharField(help_text="The name of this bloc", max_length=128)
-    countries = ManyToManyField(Country)
+    countries = ManyToManyField(Country, blank=True)

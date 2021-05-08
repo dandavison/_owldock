@@ -45,7 +45,7 @@ class BlocChoiceFieldMixin:
         for countries_attrname, bloc_attrname in self._bloc_fields:
             if self.cleaned_data.get(bloc_attrname):
                 bloc = self.cleaned_data[bloc_attrname]
-                if self.cleaned_data[countries_attrname] and set(
+                if self.cleaned_data.get(countries_attrname) and set(
                     self.cleaned_data[countries_attrname]
                 ) != set(bloc.countries.all()):
                     raise ValidationError(
