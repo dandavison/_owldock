@@ -364,10 +364,7 @@ class ProcessStep(BaseModel):
         ]
 
     def __str__(self) -> str:
-        if self.host_country:
-            return f"{self.host_country.name}: {self.name}"
-        else:
-            return f"<generic>: {self.name}"
+        return self.name
 
     def is_required_for_move(self, move: Move) -> bool:
         """
