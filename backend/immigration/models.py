@@ -285,7 +285,9 @@ class ProcessStep(BaseModel):
     One step in a Process.
     """
 
-    host_country = ForeignKey(Country, on_delete=deletion.CASCADE, null=True)
+    host_country = ForeignKey(
+        Country, on_delete=deletion.CASCADE, null=True, blank=True
+    )
     process_rule_set = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
     sequence_number = PositiveIntegerField(

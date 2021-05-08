@@ -52,6 +52,7 @@ class ProcessStepAdmin(NestedModelAdmin):
             {
                 "fields": [
                     "name",
+                    "host_country",
                     "government_fee",
                     "estimated_min_duration_days",
                     "estimated_max_duration_days",
@@ -73,6 +74,16 @@ class ProcessStepAdmin(NestedModelAdmin):
         ),
     ]
 
+    def get_queryset(self, request: HttpRequest) -> QuerySet[ProcessStep]:
+        return (
+            super()
+            .get_queryset(request)
+            .select_related(
+                "host_country",
+            )
+            .order_by("host_country__name")
+        )
+
 
 @admin.register(IssuedDocumentType)
 class IssuedDocumentTypeAdmin(admin.ModelAdmin):
@@ -90,6 +101,7 @@ class RouteAdmin(admin.ModelAdmin):
 
 class ProcessRuleSetStepInline(NestedStackedInline):
     model = ProcessRuleSetStep
+    sortable_field_name = "sequence_number"
     extra = 0
 
 
