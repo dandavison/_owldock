@@ -290,9 +290,6 @@ class ProcessStep(BaseModel):
     )
     process_rule_set = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
-    sequence_number = PositiveIntegerField(
-        help_text="Order of this step relative to other steps of this process."
-    )
     issued_documents = ManyToManyField(
         IssuedDocumentType,
         through=IssuedDocument,
@@ -351,7 +348,6 @@ class ProcessStep(BaseModel):
     )
 
     class Meta:
-        ordering = ["sequence_number"]
         constraints = [
             UniqueConstraint(
                 fields=("process_rule_set", "name"),
