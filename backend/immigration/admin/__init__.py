@@ -101,8 +101,22 @@ class RouteAdmin(admin.ModelAdmin):
     list_editable = ["name", "host_country"]
 
 
+class ProcessRuleSetStepAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        if self.instance.process_ruleset_id:
+            self.fields["process_step"].queryset = ProcessStep.objects.filter(
+                host_country=self.instance.process_ruleset.route.host_country
+            ).order_by("name")
+        else:
+            # New, in-memory instance without FKs
+            # TODO
+            pass
+
+
 class ProcessRuleSetStepInline(NestedStackedInline):
     model = ProcessRuleSetStep
+    form = ProcessRuleSetStepAdminForm
     sortable_field_name = "sequence_number"
     extra = 0
 
