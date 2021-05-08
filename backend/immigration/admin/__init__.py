@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import QuerySet
-from django.forms import ModelForm, ChoiceField
+from django.forms import ModelForm, ModelChoiceField
 from django.http import HttpRequest
 from nested_admin import (
     NestedStackedInline,
@@ -8,7 +8,7 @@ from nested_admin import (
     NestedModelAdmin,
 )
 
-from app.models.bloc import Blocs
+from app.models.bloc import Bloc
 from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ignore
 from immigration.models import (
     IssuedDocument,
@@ -32,8 +32,8 @@ class ServiceItemInline(NestedTabularInline):
 
 
 class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
-    required_only_if_nationalities_bloc = ChoiceField(
-        choices=Blocs.choices() + [("", "")],
+    required_only_if_nationalities_bloc = ModelChoiceField(
+        Bloc.objects.all(),
         required=False,
     )
 
@@ -126,12 +126,12 @@ class ProcessRuleSetStepInline(NestedStackedInline):
 
 
 class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
-    nationalities_bloc = ChoiceField(
-        choices=Blocs.choices() + [("", "")],
+    nationalities_bloc = ModelChoiceField(
+        Bloc.objects.all(),
         required=False,
     )
-    home_countries_bloc = ChoiceField(
-        choices=Blocs.choices() + [("", "")],
+    home_countries_bloc = ModelChoiceField(
+        Bloc.objects.all(),
         required=False,
     )
 
