@@ -40,20 +40,18 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
     ]
 
 
-class ProcessStepInline(NestedStackedInline):
-    model = ProcessStep
+@admin.register(ProcessStep)
+class ProcessStepAdmin(NestedModelAdmin):
     form = ProcessStepAdminForm
     filter_horizontal = ["required_only_if_nationalities"]
     extra = 0
     inlines = [IssuedDocumentInline, ServiceItemInline]
-    sortable_field_name = "sequence_number"
     fieldsets = [
         (
             None,
             {
                 "fields": [
                     "name",
-                    "sequence_number",
                     "government_fee",
                     "estimated_min_duration_days",
                     "estimated_max_duration_days",
@@ -116,7 +114,7 @@ class ProcessRuleSetAdmin(NestedModelAdmin):
     form = ProcessRuleSetAdminForm
     list_display = ["route"]
     filter_horizontal = ["nationalities", "home_countries"]
-    inlines = [ProcessRuleSetStepInline, ProcessStepInline]
+    inlines = [ProcessRuleSetStepInline]
     fieldsets = [
         (None, {"fields": ["route"]}),
         (
