@@ -1,5 +1,7 @@
 from django.contrib import admin
+from django.db.models import QuerySet
 from django.forms import ModelForm, ChoiceField
+from django.http import HttpRequest
 from nested_admin import (
     NestedStackedInline,
     NestedTabularInline,
@@ -155,3 +157,13 @@ class ProcessRuleSetAdmin(NestedModelAdmin):
             },
         ),
     ]
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[ProcessRuleSet]:
+        # FIXME: Prevent issuing many queries for host_country
+        return (
+            super()
+            .get_queryset(request)
+            .prefetch_related("process_steps__host_country")
+            .prefetch_related("processrulesetstep_set__process_step__host_country")
+            .order_by("route__host_country__name")
+        )
