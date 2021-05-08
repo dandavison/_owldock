@@ -101,24 +101,28 @@ class RouteAdmin(admin.ModelAdmin):
     list_editable = ["name", "host_country"]
 
 
-class ProcessRuleSetStepAdminForm(ModelForm):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        if self.instance.process_ruleset_id:
-            self.fields["process_step"].queryset = ProcessStep.objects.filter(
-                host_country=self.instance.process_ruleset.route.host_country
-            ).order_by("name")
-        else:
-            # New, in-memory instance without FKs
-            # TODO
-            pass
-
-
 class ProcessRuleSetStepInline(NestedStackedInline):
     model = ProcessRuleSetStep
-    form = ProcessRuleSetStepAdminForm
     sortable_field_name = "sequence_number"
     extra = 0
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        # Filter inline dropdowns part II.
+        #
+        # Pass filtered queryset to inline form constructors. It seems that
+        # there's a case for Django providing an API for this. See
+        # ProcessRuleSetAdmin.get_inline_instances for part I, and
+        # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
+        # https://groups.google.com/g/django-developers/c/10GP72w4aZs
+        if db_field.name == "process_step":
+            kwargs["queryset"] = (
+                ProcessStep.objects.filter(
+                    host_country=self._parent_obj.route.host_country
+                )
+                .select_related("host_country")
+                .order_by("name")
+            )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
@@ -181,3 +185,18 @@ class ProcessRuleSetAdmin(NestedModelAdmin):
             .prefetch_related("processrulesetstep_set__process_step__host_country")
             .order_by("route__host_country__name")
         )
+
+    def get_inline_instances(self, request, obj=None):
+        # Filter inline dropdowns part I.
+        # Stash parent model instance on inline admin instances, so that they
+        # can make it available to their forms, so that dropdown querysets can
+        # depend on the parent model instance. It seems that there's a case for
+        # Django providing an API for this. See
+        # ProcessRuleSetStepInline.formfield_for_foreignkey above for part II,
+        # and
+        # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
+        # https://groups.google.com/g/django-developers/c/10GP72w4aZs
+        inlines = super().get_inline_instances(request, obj)
+        for inline in inlines:
+            inline._parent_obj = obj
+        return inlines
