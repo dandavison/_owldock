@@ -364,7 +364,10 @@ class ProcessStep(BaseModel):
         ]
 
     def __str__(self) -> str:
-        return self.name
+        if self.host_country:
+            return f"{self.host_country.name}: {self.name}"
+        else:
+            return f"<generic>: {self.name}"
 
     def is_required_for_move(self, move: Move) -> bool:
         """
@@ -415,7 +418,10 @@ class ProcessRuleSetStep(BaseModel):
     )
 
     def __str__(self) -> str:
-        return f"{self.sequence_number}. {self.process_step.name}"
+        if self.id:
+            return f"{self.sequence_number}. {self.process_step.name}"
+        else:
+            return f"{self.sequence_number}. (New instance without process step)"
 
 
 class ServiceItem(BaseModel):
