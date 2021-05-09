@@ -41,6 +41,8 @@ def load_europe_services(
                 process_step = ProcessStep.objects.create(
                     process_rule_set=process_rule_set,
                     name=service_item_name[:128],
+                    # This column has gone, but this code executes in a datamigration.
+                    # TODO: move it into the datamigration.
                     sequence_number=sequence_number,
                 )
                 ServiceItem.objects.create(

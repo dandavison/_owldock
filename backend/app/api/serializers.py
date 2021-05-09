@@ -231,7 +231,6 @@ class ProcessStepSerializer(ModelSerializer):
             "required_only_if_nationalities",
             "required_only_if_payroll_location",
             "service_item",
-            "sequence_number",
             "uuid",
         ]
 
