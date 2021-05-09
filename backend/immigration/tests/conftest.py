@@ -1,6 +1,6 @@
 import pytest
 
-from app.models import bloc
+from app.models import Bloc
 from immigration.models import Location, ProcessRuleSet, Route
 from immigration.tests.factories import (
     IssuedDocumentFactory,
@@ -43,7 +43,7 @@ def greece_local_hire_article_17_rule_set(
 ) -> ProcessRuleSet:
     process_rule_set = ProcessRuleSetFactory(
         route=greece_local_hire_article_17_route,
-        nationalities=bloc.NonEU.countries(),
+        nationalities=Bloc.objects.get(name="non-EU").countries.all(),
         home_countries=None,
         contract_location=Location.HOST_COUNTRY,
         payroll_location=Location.HOST_COUNTRY,
@@ -130,7 +130,7 @@ def greece_eu_eea_swiss_national_registration_rule_set(
 ) -> ProcessRuleSet:
     process_rule_set = ProcessRuleSetFactory(
         route=greece_eu_eea_swiss_national_registration_route,
-        nationalities=bloc.EU.countries(),
+        nationalities=Bloc.objects.get(name="EU").countries.all(),
         home_countries=None,
         contract_location=None,
         payroll_location=None,
@@ -201,7 +201,7 @@ def greece_technical_assignment_article_18_route_rule_set(
 ) -> ProcessRuleSet:
     process_rule_set = ProcessRuleSetFactory(
         route=greece_technical_assignment_article_18_route,
-        nationalities=bloc.NonEU.countries(),
+        nationalities=Bloc.objects.get(name="non-EU").countries.all(),
         home_countries=None,
         contract_location=Location.HOME_COUNTRY,
         payroll_location=Location.HOME_COUNTRY,
