@@ -114,7 +114,6 @@ export interface ProcessStepSerializer {
   required_only_if_nationalities?: any[];
   required_only_if_payroll_location?: any;
   service_item: ServiceItemSerializer;
-  sequence_number: number;
   uuid?: string;
 }
 
@@ -146,7 +145,7 @@ export interface CaseSerializer {
   id?: number;
   uuid?: string;
   applicant: ApplicantSerializer;
-  move: MoveSerializer;
+  move?: MoveSerializer;
   process: ProcessSerializer;
   steps: CaseStepSerializer[];
   created_at?: string;
