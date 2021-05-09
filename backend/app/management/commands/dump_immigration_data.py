@@ -8,6 +8,7 @@ from immigration.models import (
     IssuedDocument,
     IssuedDocumentType,
     ProcessRuleSet,
+    ProcessRuleSetStep,
     ProcessStep,
     Route,
     ServiceItem,
@@ -25,12 +26,19 @@ class Command(BaseCommand):
             ).order_by("route__host_country", "route__name"),
             "processruleset.json",
         )
+        print("processrulesetstep...")
+        self._serialize_queryset(
+            ProcessRuleSetStep.objects.prefetch_related().order_by(
+                "process_rule_set__route__host_country", "process_rule_set__route__name"
+            ),
+            "processrulesetstep.json",
+        )
         print("processstep...")
         self._serialize_queryset(
             ProcessStep.objects.prefetch_related("issued_documents").order_by(
                 "process_rule_set__route__host_country",
                 "process_rule_set__route__name",
-                "sequence_number",
+                "id",
             ),
             "processstep.json",
         )
