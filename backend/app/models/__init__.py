@@ -25,6 +25,6 @@ class User(AbstractUser):
 
 
 from app.models.bloc import Bloc
+from app.models.country import *  # noqa
 from app.models.file import *  # noqa
-from app.models.process import *  # noqa
 from app.models.provider import *  # noqa

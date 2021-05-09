@@ -1,6 +1,6 @@
 from django.db.models import CharField, ManyToManyField
 
-from app.models.process import Country
+from app.models.country import Country
 from owldock.models.base import BaseModel
 
 
