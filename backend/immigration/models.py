@@ -255,10 +255,10 @@ class ProcessRuleSet(BaseModel):
             self._satisfies_intra_company_move,
         ]
 
-    @property
-    def steps(self):
-        # FIXME This isn't correct
-        return list(self.processstep_set.all())
+    def get_process_steps(self):
+        return list(
+            ProcessStep.objects.filter(processrulesetstep__process_ruleset=self)
+        )
 
 
 class IssuedDocumentType(BaseModel):
@@ -286,7 +286,6 @@ class ProcessStep(BaseModel):
     """
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
-    process_ruleset = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
     issued_documents = ManyToManyField(
         IssuedDocumentType,
@@ -347,10 +346,6 @@ class ProcessStep(BaseModel):
 
     class Meta:
         constraints = [
-            UniqueConstraint(
-                fields=("process_ruleset", "name"),
-                name="imm__process_step__name__uniq",
-            ),
             UniqueConstraint(
                 fields=("host_country", "name"),
                 name="imm__process_step__host_country__name__uniq",

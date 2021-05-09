@@ -160,7 +160,7 @@ def greece_eu_eea_swiss_national_registration_rule_set(
     # Steps
     posted_worker_step = ProcessStepFactory(
         host_country=greece,
-        name="Posted Worker Notification",
+        name="Posted Worker Notification (EU/EEA)",
         estimated_min_duration_days=1,
         estimated_max_duration_days=10,
         applicant_can_enter_host_country_after=False,

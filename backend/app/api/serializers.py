@@ -226,7 +226,6 @@ class ProcessStepSerializer(ModelSerializer):
             "government_fee",
             "issued_documents",
             "name",
-            "process_ruleset",
             "required_only_if_duration_exceeds",
             "required_only_if_nationalities",
             "required_only_if_payroll_location",
@@ -240,7 +239,7 @@ class ProcessSerializer(Serializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     route = RouteSerializer()
-    steps = ProcessStepSerializer(many=True)
+    steps = ProcessStepSerializer(many=True, source="get_process_steps")
 
 
 @ts_interface()
@@ -358,11 +357,11 @@ class CaseSerializer(ModelSerializer):
             .select_related(
                 "route__host_country",
             )
-            .prefetch_related("processstep_set__serviceitem")
+            .prefetch_related("processrulesetstep_set__process_step__serviceitem")
         )
         uuid2process = {p.uuid: p for p in processes}
         uuid2process_step = {
-            s.uuid: s for p in processes for s in p.processstep_set.all()
+            s.uuid: s for p in processes for s in p.get_process_steps()
         }
 
         # Fetch stored files in default DB

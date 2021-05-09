@@ -5,7 +5,6 @@ from immigration.models import (
     Move,
     Process,
     ProcessRuleSet,
-    ProcessStep,
 )
 
 
@@ -15,7 +14,7 @@ def get_processes(move: Union[Move, MoveSerializer]) -> List[Process]:
     """
     print(f"get_processes() for {move}")
     matching_processes = []
-    for process_ruleset in _get_all_process_rule_sets():
+    for process_ruleset in _get_all_process_rulesets():
         print(f"Considering {process_ruleset}")
         process = _make_process_for_move(process_ruleset, move)
         if process:
@@ -36,17 +35,11 @@ def _make_process_for_move(
         if not result:
             return None
     steps = []
-    for step in _get_all_steps_for_process_rule_set(process_ruleset):
+    for step in process_ruleset.get_process_steps():
         if step.is_required_for_move(move):
             steps.append(step)
     return Process(route=process_ruleset.route, steps=steps)
 
 
-def _get_all_process_rule_sets() -> List[ProcessRuleSet]:
+def _get_all_process_rulesets() -> List[ProcessRuleSet]:
     return list(ProcessRuleSet.objects.all())
-
-
-def _get_all_steps_for_process_rule_set(
-    process_ruleset: ProcessRuleSet,
-) -> List[ProcessStep]:
-    return list(process_ruleset.processstep_set.all())

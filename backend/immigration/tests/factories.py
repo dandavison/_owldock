@@ -96,9 +96,6 @@ class ProcessStepFactory(BaseModelFactory):
     class Meta:
         model = ProcessStep
 
-    # FIXME: This foreign key is obsolete and should be eliminated
-    process_ruleset_id = 1
-
     host_country = factory.LazyAttribute(
         lambda _: random.choice(list(Country.objects.all()))
     )
