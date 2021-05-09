@@ -35,7 +35,7 @@ for generic_id, canonical_id in ps_ids:
                 process_step_url(ps),
                 ps.name,
                 ps.host_country.name if ps.host_country else "(no country)",
-                process_rule_set_url(ps.process_rule_set),
+                process_rule_set_url(ps.process_ruleset),
             )
         )
     rows.append(("", "", "", ""))

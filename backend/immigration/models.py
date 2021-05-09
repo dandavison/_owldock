@@ -286,7 +286,7 @@ class ProcessStep(BaseModel):
     """
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
-    process_rule_set = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
+    process_ruleset = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
     issued_documents = ManyToManyField(
         IssuedDocumentType,
@@ -348,7 +348,7 @@ class ProcessStep(BaseModel):
     class Meta:
         constraints = [
             UniqueConstraint(
-                fields=("process_rule_set", "name"),
+                fields=("process_ruleset", "name"),
                 name="imm__process_step__name__uniq",
             ),
             UniqueConstraint(

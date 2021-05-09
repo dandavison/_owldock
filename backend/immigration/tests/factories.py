@@ -95,7 +95,7 @@ class ProcessStepFactory(BaseModelFactory):
     class Meta:
         model = ProcessStep
 
-    process_rule_set = factory.SubFactory(ProcessRuleSetFactory)
+    process_ruleset = factory.SubFactory(ProcessRuleSetFactory)
     name = "Fake Process Step"
     sequence_number = 1
     # TODO: issued_documents

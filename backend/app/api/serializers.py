@@ -226,7 +226,7 @@ class ProcessStepSerializer(ModelSerializer):
             "government_fee",
             "issued_documents",
             "name",
-            "process_rule_set",
+            "process_ruleset",
             "required_only_if_duration_exceeds",
             "required_only_if_nationalities",
             "required_only_if_payroll_location",
