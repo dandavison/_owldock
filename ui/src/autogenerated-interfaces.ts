@@ -109,7 +109,6 @@ export interface ProcessStepSerializer {
   government_fee?: number;
   issued_documents: IssuedDocumentSerializer[];
   name: string;
-  process_ruleset: any;
   required_only_if_duration_exceeds?: number;
   required_only_if_nationalities?: any[];
   required_only_if_payroll_location?: any;
@@ -145,10 +144,8 @@ export interface CaseSerializer {
   id?: number;
   uuid?: string;
   applicant: ApplicantSerializer;
-  move?: MoveSerializer;
+  move: MoveSerializer;
   process: ProcessSerializer;
   steps: CaseStepSerializer[];
   created_at?: string;
-  target_entry_date: string;
-  target_exit_date: string;
 }

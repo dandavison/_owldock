@@ -7,6 +7,7 @@ from app.api.serializers import (
     ApplicantSerializer,
     CaseSerializer,
     CaseStepSerializer,
+    MoveSerializer,
     ProcessSerializer,
     ProcessStepSerializer,
     ProviderContactSerializer,
@@ -44,8 +45,16 @@ def make_post_data_for_client_contact_case_create_endpoint(
     creating a case.
     """
     applicant_srlzr = ApplicantSerializer(applicant)
-    provider_contact_srlzr = ProviderContactSerializer(provider_contact)
+    now = timezone.now()
+    move_serlzr = MoveSerializer(
+        {
+            "host_country": process.route.host_country,
+            "target_entry_date": now.date(),
+            "target_exit_date": (now + timedelta(days=500)).date(),
+        }
+    )
     process_srlzr = ProcessSerializer(process)
+    provider_contact_srlzr = ProviderContactSerializer(provider_contact)
     case_steps_srlzrs = _create_case_steps_from_process_steps(
         [
             (ProcessStepSerializer(s), provider_contact_srlzr)
@@ -55,14 +64,12 @@ def make_post_data_for_client_contact_case_create_endpoint(
         ]
     )
 
-    now = timezone.now()
     return {
         "applicant": applicant_srlzr.data,
-        "provider_contact": provider_contact_srlzr.data,
+        "move": move_serlzr.data,
         "process": process_srlzr.data,
         "steps": [s.data for s in case_steps_srlzrs],
-        "target_entry_date": now.date(),
-        "target_exit_date": (now + timedelta(days=500)).date(),
+        "provider_contact": provider_contact_srlzr.data,
     }
 
 

@@ -294,7 +294,7 @@ class CaseSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     applicant = ApplicantSerializer()
-    move = MoveSerializer(required=False)
+    move = MoveSerializer()
     process = ProcessSerializer()
     steps = CaseStepSerializer(many=True)
 
@@ -308,8 +308,6 @@ class CaseSerializer(ModelSerializer):
             "process",
             "steps",
             "created_at",
-            "target_entry_date",
-            "target_exit_date",
         ]
 
     @classmethod
@@ -442,14 +440,18 @@ class CaseSerializer(ModelSerializer):
     @atomic
     def create_for_client_contact(self, client_contact: ClientContact) -> Case:
         applicant_data = self.validated_data.pop("applicant")
+        move_data = self.validated_data.pop("move")
         process_data = self.validated_data.pop("process")
         case_steps_data = self.validated_data.pop("steps")
+
         case = Case.objects.create(
             client_contact=client_contact,
             applicant=Applicant.objects.get(uuid=applicant_data["uuid"]),
             process_uuid=process_data["uuid"],
-            **self.validated_data,
+            target_entry_date=move_data["target_entry_date"],
+            target_exit_date=move_data["target_exit_date"],
         )
+
         for case_step_data in case_steps_data:
             case_step = case.steps.create(
                 process_step_uuid=case_step_data["process_step"]["uuid"],
