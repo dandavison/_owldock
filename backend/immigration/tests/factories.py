@@ -12,6 +12,7 @@ from immigration.models import (
     Location,
     Move,
     ProcessRuleSet,
+    ProcessRuleSetStep,
     ProcessStep,
     Route,
     ServiceItem,
@@ -95,9 +96,13 @@ class ProcessStepFactory(BaseModelFactory):
     class Meta:
         model = ProcessStep
 
-    process_ruleset = factory.SubFactory(ProcessRuleSetFactory)
+    # FIXME: This foreign key is obsolete and should be eliminated
+    process_ruleset_id = 1
+
+    host_country = factory.LazyAttribute(
+        lambda _: random.choice(list(Country.objects.all()))
+    )
     name = "Fake Process Step"
-    sequence_number = 1
     # TODO: issued_documents
     estimated_min_duration_days = factory.LazyAttribute(
         lambda _: random.choice(range(1, 30))
@@ -136,6 +141,15 @@ class ProcessStepFactory(BaseModelFactory):
         if extracted:
             for country in extracted:
                 self.required_only_if_nationalities.add(country)
+
+
+class ProcessRuleSetStepFactory(BaseModelFactory):
+    class Meta:
+        model = ProcessRuleSetStep
+
+    process_ruleset = factory.SubFactory(ProcessRuleSetFactory)
+    process_step = factory.SubFactory(ProcessStepFactory)
+    sequence_number = 1
 
 
 class ServiceItemFactory(BaseModelFactory):

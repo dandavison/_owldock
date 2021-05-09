@@ -6,6 +6,7 @@ from immigration.tests.factories import (
     IssuedDocumentFactory,
     IssuedDocumentTypeFactory,
     ProcessRuleSetFactory,
+    ProcessRuleSetStepFactory,
     ProcessStepFactory,
     RouteFactory,
 )
@@ -39,6 +40,7 @@ def greece_technical_assignment_article_18_route(greece) -> Route:
 
 @pytest.fixture()
 def greece_local_hire_article_17_rule_set(
+    greece,
     greece_local_hire_article_17_route,
 ) -> ProcessRuleSet:
     process_ruleset = ProcessRuleSetFactory(
@@ -54,9 +56,8 @@ def greece_local_hire_article_17_rule_set(
     )
     # Steps
     visa_step = ProcessStepFactory(
-        process_ruleset=process_ruleset,
+        host_country=greece,
         name="Visa Type D Application",
-        sequence_number=1,
         estimated_min_duration_days=1,
         estimated_max_duration_days=30,
         applicant_can_enter_host_country_after=True,
@@ -64,10 +65,14 @@ def greece_local_hire_article_17_rule_set(
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=None,
     )
-    ProcessStepFactory(
+    ProcessRuleSetStepFactory(
+        process_step=visa_step,
         process_ruleset=process_ruleset,
+        sequence_number=1,
+    )
+    residence_permit_step = ProcessStepFactory(
+        host_country=greece,
         name="Residence Permit for Employment",
-        sequence_number=2,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
@@ -75,10 +80,14 @@ def greece_local_hire_article_17_rule_set(
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=None,
     )
-    ProcessStepFactory(
+    ProcessRuleSetStepFactory(
+        process_step=residence_permit_step,
         process_ruleset=process_ruleset,
+        sequence_number=2,
+    )
+    biometrics_step = ProcessStepFactory(
+        host_country=greece,
         name="Fingerprints and Biometrics Data",
-        sequence_number=3,
         estimated_min_duration_days=90,
         estimated_max_duration_days=180,
         applicant_can_enter_host_country_after=False,
@@ -86,16 +95,24 @@ def greece_local_hire_article_17_rule_set(
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=None,
     )
-    issuance_step = ProcessStepFactory(
+    ProcessRuleSetStepFactory(
+        process_step=biometrics_step,
         process_ruleset=process_ruleset,
+        sequence_number=3,
+    )
+    issuance_step = ProcessStepFactory(
         name="Issuance of Residence Card",
-        sequence_number=4,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=None,
+    )
+    ProcessRuleSetStepFactory(
+        process_step=issuance_step,
+        process_ruleset=process_ruleset,
+        sequence_number=4,
     )
     # Issued Documents
     IssuedDocumentFactory(
@@ -126,6 +143,7 @@ def greece_local_hire_article_17_rule_set(
 
 @pytest.fixture()
 def greece_eu_eea_swiss_national_registration_rule_set(
+    greece,
     greece_eu_eea_swiss_national_registration_route,
 ) -> ProcessRuleSet:
     process_ruleset = ProcessRuleSetFactory(
@@ -141,9 +159,8 @@ def greece_eu_eea_swiss_national_registration_rule_set(
     )
     # Steps
     posted_worker_step = ProcessStepFactory(
-        process_ruleset=process_ruleset,
+        host_country=greece,
         name="Posted Worker Notification",
-        sequence_number=1,
         estimated_min_duration_days=1,
         estimated_max_duration_days=10,
         applicant_can_enter_host_country_after=False,
@@ -151,10 +168,14 @@ def greece_eu_eea_swiss_national_registration_rule_set(
         required_only_if_payroll_location=Location.HOME_COUNTRY,
         required_only_if_duration_exceeds=None,
     )
-    ProcessStepFactory(
+    ProcessRuleSetStepFactory(
+        process_step=posted_worker_step,
         process_ruleset=process_ruleset,
+        sequence_number=1,
+    )
+    tax_registration_step = ProcessStepFactory(
+        host_country=greece,
         name="Tax Registration",
-        sequence_number=2,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
@@ -162,16 +183,25 @@ def greece_eu_eea_swiss_national_registration_rule_set(
         required_only_if_payroll_location=Location.HOST_COUNTRY,
         required_only_if_duration_exceeds=None,
     )
-    certificate_step = ProcessStepFactory(
+    ProcessRuleSetStepFactory(
+        process_step=tax_registration_step,
         process_ruleset=process_ruleset,
+        sequence_number=2,
+    )
+    certificate_step = ProcessStepFactory(
+        host_country=greece,
         name="EU Registration Certificate",
-        sequence_number=3,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=90,
+    )
+    ProcessRuleSetStepFactory(
+        process_step=certificate_step,
+        process_ruleset=process_ruleset,
+        sequence_number=3,
     )
     # Issued Documents
     IssuedDocumentFactory(
@@ -197,6 +227,7 @@ def greece_eu_eea_swiss_national_registration_rule_set(
 
 @pytest.fixture()
 def greece_technical_assignment_article_18_route_rule_set(
+    greece,
     greece_technical_assignment_article_18_route,
 ) -> ProcessRuleSet:
     process_ruleset = ProcessRuleSetFactory(
@@ -212,9 +243,8 @@ def greece_technical_assignment_article_18_route_rule_set(
     )
     # Steps
     visa_step = ProcessStepFactory(
-        process_ruleset=process_ruleset,
-        name="Visa Type D Application",
-        sequence_number=1,
+        host_country=greece,
+        name="Visa Type D Application (art. 18)",
         estimated_min_duration_days=5,
         estimated_max_duration_days=10,
         applicant_can_enter_host_country_after=True,
@@ -222,16 +252,25 @@ def greece_technical_assignment_article_18_route_rule_set(
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=None,
     )
-    posted_worker_step = ProcessStepFactory(
+    ProcessRuleSetStepFactory(
+        process_step=visa_step,
         process_ruleset=process_ruleset,
+        sequence_number=1,
+    )
+    posted_worker_step = ProcessStepFactory(
+        host_country=greece,
         name="Posted Worker Notification",
-        sequence_number=2,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=True,
         required_only_if_payroll_location=None,
         required_only_if_duration_exceeds=None,
+    )
+    ProcessRuleSetStepFactory(
+        process_step=posted_worker_step,
+        process_ruleset=process_ruleset,
+        sequence_number=2,
     )
     # Issued Documents
     IssuedDocumentFactory(
