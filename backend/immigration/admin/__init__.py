@@ -21,6 +21,23 @@ from immigration.models import (
 )
 
 
+class HasInlinesNestedModelAdmin(NestedModelAdmin):
+    def get_inline_instances(self, request, obj=None):
+        # Filter inline dropdowns part I.
+        # Stash parent model instance on inline admin instances, so that they
+        # can make it available to their forms, so that dropdown querysets can
+        # depend on the parent model instance. It seems that there's a case for
+        # Django providing an API for this. See
+        # ProcessRuleSetStepInline.formfield_for_foreignkey above for part II,
+        # and
+        # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
+        # https://groups.google.com/g/django-developers/c/10GP72w4aZs
+        inlines = super().get_inline_instances(request, obj)
+        for inline in inlines:
+            inline._parent_obj = obj
+        return inlines
+
+
 class IssuedDocumentInline(NestedTabularInline):
     model = IssuedDocument
     extra = 1
@@ -142,7 +159,7 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
 
 
 @admin.register(ProcessRuleSet)
-class ProcessRuleSetAdmin(NestedModelAdmin):
+class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     form = ProcessRuleSetAdminForm
     list_display = ["route"]
     filter_horizontal = ["nationalities", "home_countries"]
@@ -185,18 +202,3 @@ class ProcessRuleSetAdmin(NestedModelAdmin):
             .prefetch_related("processrulesetstep_set__process_step__host_country")
             .order_by("route__host_country__name")
         )
-
-    def get_inline_instances(self, request, obj=None):
-        # Filter inline dropdowns part I.
-        # Stash parent model instance on inline admin instances, so that they
-        # can make it available to their forms, so that dropdown querysets can
-        # depend on the parent model instance. It seems that there's a case for
-        # Django providing an API for this. See
-        # ProcessRuleSetStepInline.formfield_for_foreignkey above for part II,
-        # and
-        # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
-        # https://groups.google.com/g/django-developers/c/10GP72w4aZs
-        inlines = super().get_inline_instances(request, obj)
-        for inline in inlines:
-            inline._parent_obj = obj
-        return inlines
