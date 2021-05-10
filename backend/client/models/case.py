@@ -98,7 +98,7 @@ class Case(BaseModel):
             host_country=self.process.route.host_country,
             target_entry_date=self.target_entry_date,
             target_exit_date=self.target_exit_date,
-            nationalities=list(self.applicant.nationalities.all()),
+            nationalities=list(self.applicant.nationalities),
             activity=None,
             contract_location=None,
             payroll_location=None,

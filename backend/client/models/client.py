@@ -9,6 +9,7 @@ from django.db.models import deletion
 from django.db.models.query import QuerySet
 
 from app.models import Provider, ProviderContact
+from client.models import Applicant, Case
 from owldock.models.base import BaseModel
 from owldock.models.fields import UUIDPseudoForeignKeyField
 from owldock.state_machine.role import Role
@@ -122,8 +123,8 @@ class ClientContact(BaseModel):
             provider__uuid__in=[
                 r.provider_uuid for r in self.client.provider_relationships()
             ],
-            provider__routes__processruleset__uuid=process_uuid,
-        ).distinct()
+            # TODO: provider support for routes
+        )
 
     def provider_primary_contacts_for_process(
         self, process_uuid: UUID
@@ -136,9 +137,8 @@ class ClientContact(BaseModel):
         """
         # TODO: sort by preferred status
         provider_uuids = [r.provider_uuid for r in self.client.provider_relationships()]
-        providers = Provider.objects.filter(
-            uuid__in=provider_uuids, routes__processruleset__uuid=process_uuid
-        ).distinct()
+        # TODO: provider support for routes
+        providers = Provider.objects.filter(uuid__in=provider_uuids)
         return ProviderContact.objects.filter(
             id__in=providers.values("primary_contact")
         )

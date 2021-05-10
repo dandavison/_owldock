@@ -148,6 +148,7 @@ export default Vue.extend({
       }
       this.case_.process.route = NullRoute();
       this.case_.process.route.host_country = country;
+      this.case_.move.host_country = country;
       if (this.case_.applicant.nationalities.length > 0) {
         const nationalityCodes = this.case_.applicant.nationalities.map(
           (country) => country.code

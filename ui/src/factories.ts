@@ -55,8 +55,8 @@ export function NullApplicant(): ApplicantSerializer {
 export function NullMove(): MoveSerializer {
   return {
     host_country: NullCountry(),
-    target_entry_date: "",
-    target_exit_date: "",
+    target_entry_date: undefined,
+    target_exit_date: undefined,
   };
 }
 

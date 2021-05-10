@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from typing import Callable, List, NewType, Optional
 
 from django.db.models import (
@@ -102,6 +102,9 @@ class Process:
 
     route: Route
     steps: "List[ProcessStep]"
+
+    def get_process_steps(self):
+        return self.steps
 
 
 class ProcessRuleSet(BaseModel):

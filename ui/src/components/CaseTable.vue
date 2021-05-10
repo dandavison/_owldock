@@ -37,7 +37,10 @@
 
     <b-table-column v-if="columnSpec.dateRange" label="Dates" v-slot="props">
       <editable-date-range
-        :dateRange="[props.row.target_entry_date, props.row.target_exit_date]"
+        :dateRange="[
+          props.row.move.target_entry_date,
+          props.row.move.target_exit_date,
+        ]"
         :editingSpec="caseSpec(props.index, 'dateRange')"
       />
     </b-table-column>

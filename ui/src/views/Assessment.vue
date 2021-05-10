@@ -81,6 +81,7 @@ export default Vue.extend({
 
   methods: {
     async handleChangeHostCountry(country: CountrySerializer) {
+      this.case_.process.route.host_country = country;
       this.move.host_country = country;
 
       const matchingProcesses = (await http.postFetchDataOrNull(
@@ -97,8 +98,8 @@ export default Vue.extend({
     },
 
     handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
-      this.case_.move.target_entry_date = dateToYYYYMMDD(entryDate);
-      this.case_.move.target_exit_date = dateToYYYYMMDD(exitDate);
+      this.move.target_entry_date = dateToYYYYMMDD(entryDate);
+      this.move.target_exit_date = dateToYYYYMMDD(exitDate);
     },
   },
 });
