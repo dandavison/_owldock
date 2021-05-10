@@ -36,16 +36,30 @@ class HasInlinesNestedModelAdmin(NestedModelAdmin):
             inline._parent_obj = obj
         return inlines
 
+    # For the second part of this, see the implementations of
+    # formfield_for_foreignkey on Inline classes below, to which the following
+    # comment applies:
+    # Filter inline dropdowns part II.
+    #
+    # Pass filtered queryset to inline form constructors. It seems that
+    # there's a case for Django providing an API for this. See
+    # ProcessRuleSetAdmin.get_inline_instances for part I, and
+    # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
+    # https://groups.google.com/g/django-developers/c/10GP72w4aZs
+
 
 class ProcessStepIssuedDocumentInline(NestedTabularInline):
     model = ProcessStep.issued_documents.through
     extra = 0
     readonly_fields = ["processstep"]
 
-
-class IssuedDocumentInline(NestedTabularInline):
-    model = IssuedDocument
-    extra = 0
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        # See HasInlinesNestedModelAdmin
+        if hasattr(self, "_parent_obj") and db_field.name == "issueddocument":
+            kwargs["queryset"] = IssuedDocument.objects.filter(
+                host_country=self._parent_obj.host_country
+            ).order_by("name")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class ServiceItemInline(NestedTabularInline):
@@ -63,7 +77,7 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
 
 
 @admin.register(ProcessStep)
-class ProcessStepAdmin(NestedModelAdmin):
+class ProcessStepAdmin(HasInlinesNestedModelAdmin):
     form = ProcessStepAdminForm
     filter_horizontal = ["required_only_if_nationalities"]
     extra = 0
@@ -166,14 +180,8 @@ class ProcessRuleSetStepInline(NestedStackedInline):
     extra = 0
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        # Filter inline dropdowns part II.
-        #
-        # Pass filtered queryset to inline form constructors. It seems that
-        # there's a case for Django providing an API for this. See
-        # ProcessRuleSetAdmin.get_inline_instances for part I, and
-        # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
-        # https://groups.google.com/g/django-developers/c/10GP72w4aZs
-        if self._parent_obj and db_field.name == "process_step":
+        # See HasInlinesNestedModelAdmin
+        if hasattr(self, "_parent_obj") and db_field.name == "process_step":
             kwargs["queryset"] = (
                 ProcessStep.objects.filter(
                     host_country=self._parent_obj.route.host_country
