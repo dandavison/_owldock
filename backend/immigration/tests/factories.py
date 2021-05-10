@@ -44,6 +44,7 @@ class MoveFactory(factory.Factory):
 class RouteFactory(BaseModelFactory):
     class Meta:
         model = Route
+        django_get_or_create = ("name", "host_country")
 
     name = "Work Permit"
     host_country = factory.LazyAttribute(
@@ -95,6 +96,7 @@ class ProcessRuleSetFactory(BaseModelFactory):
 class ProcessStepFactory(BaseModelFactory):
     class Meta:
         model = ProcessStep
+        django_get_or_create = ("name", "host_country")
 
     host_country = factory.LazyAttribute(
         lambda _: random.choice(list(Country.objects.all()))
@@ -152,6 +154,7 @@ class ProcessRuleSetStepFactory(BaseModelFactory):
 class ServiceItemFactory(BaseModelFactory):
     class Meta:
         model = ServiceItem
+        django_get_or_create = ("process_step", "description")
 
     process_step = factory.SubFactory(ProcessStepFactory)
     description = "Fake Process Step Service Item"
