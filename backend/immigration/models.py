@@ -82,9 +82,6 @@ class Route(BaseModel):
         related_name="routes_for_which_host_country",
     )
 
-    def __str__(self):
-        return f"{self.host_country}: {self.name}"
-
     class Meta:
         constraints = [
             UniqueConstraint(

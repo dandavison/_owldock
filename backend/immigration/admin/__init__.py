@@ -155,8 +155,13 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     form = ProcessRuleSetAdminForm
     list_display = [
         "route",
+        "host_country",
         "available_to_nationalities",
         "available_to_home_countries",
+        "contract_location",
+        "payroll_location",
+        "duration_min_days",
+        "duration_max_days",
     ]
     list_filter = ["route__host_country"]
     filter_horizontal = ["nationalities", "home_countries"]
@@ -203,6 +208,10 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         self.get_bloc_description_from_countries = (
             Bloc.objects.make_get_description_from_countries()
         )
+
+    @admin.display(description="Host country")
+    def host_country(self, obj: ProcessRuleSet) -> str:
+        return obj.route.host_country.name
 
     @admin.display(description="Available to nationalities")
     def available_to_nationalities(self, obj: ProcessRuleSet) -> str:
