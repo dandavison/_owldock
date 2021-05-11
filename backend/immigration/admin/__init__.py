@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import QuerySet
-from django.forms import ModelForm, ModelChoiceField
+from django.forms import ChoiceField, ModelForm, ModelChoiceField, RadioSelect
 from django.http import HttpRequest
 from nested_admin import (
     NestedStackedInline,
@@ -8,7 +8,6 @@ from nested_admin import (
     NestedModelAdmin,
 )
 
-from app.models.bloc import Bloc
 from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ignore
 from immigration.models import (
     IssuedDocument,
@@ -49,14 +48,12 @@ class ServiceItemInline(NestedTabularInline):
 
 
 class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
-    required_only_if_nationalities_bloc = ModelChoiceField(
-        Bloc.objects.all(),
-        required=False,
+    required_only_if_nationalities_bloc = BlocChoiceFieldMixin.make_bloc_field()
+    required_only_if_nationalities_bloc_include = (
+        BlocChoiceFieldMixin.make_bloc_include_field()
     )
 
-    _bloc_fields = [
-        ("required_only_if_nationalities", "required_only_if_nationalities_bloc"),
-    ]
+    _bloc_fields = ["required_only_if_nationalities"]
 
 
 @admin.register(ProcessStep)
@@ -87,6 +84,7 @@ class ProcessStepAdmin(NestedModelAdmin):
             {
                 "fields": [
                     "required_only_if_nationalities_bloc",
+                    "required_only_if_nationalities_bloc_include",
                     "required_only_if_nationalities",
                 ],
             },
@@ -143,19 +141,12 @@ class ProcessRuleSetStepInline(NestedStackedInline):
 
 
 class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
-    nationalities_bloc = ModelChoiceField(
-        Bloc.objects.all(),
-        required=False,
-    )
-    home_countries_bloc = ModelChoiceField(
-        Bloc.objects.all(),
-        required=False,
-    )
+    nationalities_bloc = BlocChoiceFieldMixin.make_bloc_field()
+    nationalities_bloc_include = BlocChoiceFieldMixin.make_bloc_include_field()
+    home_countries_bloc = BlocChoiceFieldMixin.make_bloc_field()
+    home_countries_bloc_include = BlocChoiceFieldMixin.make_bloc_include_field()
 
-    _bloc_fields = [
-        ("nationalities", "nationalities_bloc"),
-        ("home_countries", "home_countries_bloc"),
-    ]
+    _bloc_fields = ["nationalities" "home_countries"]
 
 
 @admin.register(ProcessRuleSet)
@@ -169,13 +160,21 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         (
             None,
             {
-                "fields": ["nationalities_bloc", "nationalities"],
+                "fields": [
+                    "nationalities_bloc",
+                    "nationalities_bloc_include",
+                    "nationalities",
+                ],
             },
         ),
         (
             None,
             {
-                "fields": ["home_countries_bloc", "home_countries"],
+                "fields": [
+                    "home_countries_bloc",
+                    "home_countries_bloc_include",
+                    "home_countries",
+                ],
             },
         ),
         (

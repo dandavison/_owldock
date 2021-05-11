@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.forms import ModelForm, ModelChoiceField
+from django.forms import ChoiceField, ModelForm, ModelChoiceField, RadioSelect
 
 from app.models import (
     Bloc,
@@ -18,14 +18,10 @@ admin.site.register(StoredFile)
 
 
 class BlocAdminForm(BlocChoiceFieldMixin, ModelForm):
-    countries_bloc = ModelChoiceField(
-        Bloc.objects.all(),
-        required=False,
-    )
+    countries_bloc = BlocChoiceFieldMixin.make_bloc_field()
+    countries_bloc_include = BlocChoiceFieldMixin.make_bloc_include_field()
 
-    _bloc_fields = [
-        ("countries", "countries_bloc"),
-    ]
+    _bloc_fields = ["countries"]
 
 
 @admin.register(Bloc)
@@ -36,6 +32,7 @@ class BlocAdmin(admin.ModelAdmin):
     fields = [
         "name",
         "countries_bloc",
+        "countries_bloc_include",
         "countries",
     ]
 
