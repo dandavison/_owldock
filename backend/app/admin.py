@@ -36,6 +36,6 @@ class BlocAdmin(admin.ModelAdmin):
         "countries",
     ]
 
-    @admin.display(description="Number of countries")
+    @admin.display(description="Countries")
     def number_of_countries(self, obj: Bloc) -> int:
         return obj.countries.count()
