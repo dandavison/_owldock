@@ -11,7 +11,6 @@ from app.models import (
 from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ignore
 
 
-admin.site.register(Country)
 admin.site.register(Provider)
 admin.site.register(ProviderContact)
 admin.site.register(StoredFile)
@@ -39,3 +38,14 @@ class BlocAdmin(admin.ModelAdmin):
     @admin.display(description="Countries")
     def number_of_countries(self, obj: Bloc) -> int:
         return obj.countries.count()
+
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ["name", "code", "unicode_flag"]
+    ordering = ["name"]
+    fields = [
+        "name",
+        "code",
+        "unicode_flag",
+    ]
