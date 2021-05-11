@@ -67,11 +67,26 @@ class BlocManager(Manager):
         return dict(bloc_id2country_ids)
 
     def get_country_ids2blocs(self) -> "Dict[Tuple[int], List[Bloc]]":
+        """
+        Return map of country-id-set to list-of-blocs-which-equal-that-set
+        """
         bloc_id2bloc = {b.id: b for b in Bloc.objects.all()}
         country_ids2blocs = defaultdict(list)
         for bloc_id, country_ids in self.get_bloc_id2country_ids().items():
             country_ids2blocs[tuple(sorted(country_ids))].append(bloc_id2bloc[bloc_id])
         return dict(country_ids2blocs)
+
+    def get_country_id2containing_blocs(self) -> "Dict[int, List[Bloc]]":
+        """
+        Return map of country-id to list-of-blocs-containing-that-country
+        """
+        bloc_id2bloc = {b.id: b for b in Bloc.objects.all()}
+        country_id2containing_blocs = defaultdict(list)
+        for bloc_id, country_id in Bloc.countries.through.objects.values_list(
+            "bloc_id", "country_id"
+        ):
+            country_id2containing_blocs[country_id].append(bloc_id2bloc[bloc_id])
+        return dict(country_id2containing_blocs)
 
 
 class Bloc(BaseModel):

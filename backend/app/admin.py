@@ -43,10 +43,25 @@ class BlocAdmin(admin.ModelAdmin):
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ["name", "code", "unicode_flag"]
+    list_display = ["name", "code", "unicode_flag", "get_blocs"]
     ordering = ["name"]
     fields = [
         "name",
         "code",
         "unicode_flag",
     ]
+
+    def get_sortable_by(self, request: HttpRequest):
+        # This is a pretty random choice of method to use for the purpose, but
+        # we need to recompute this on each request; __init__ is called once at
+        # server start time.
+        self.country_ids_2containing_blocs = (
+            Bloc.objects.get_country_id2containing_blocs()
+        )
+        return super().get_sortable_by(request)
+
+    @admin.display(description="Blocs")
+    def get_blocs(self, obj: Country) -> str:
+        return ", ".join(
+            sorted(b.name for b in self.country_ids_2containing_blocs.get(obj.id, []))
+        )
