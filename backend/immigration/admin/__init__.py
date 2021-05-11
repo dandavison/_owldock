@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import QuerySet
-from django.forms import ChoiceField, ModelForm, ModelChoiceField, RadioSelect
+from django.forms import ModelForm
 from django.http import HttpRequest
 from nested_admin import (
     NestedStackedInline,
