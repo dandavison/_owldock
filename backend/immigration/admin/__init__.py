@@ -8,6 +8,7 @@ from nested_admin import (
     NestedModelAdmin,
 )
 
+from app.models import Bloc
 from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ignore
 from immigration.models import (
     IssuedDocument,
@@ -152,7 +153,11 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
 @admin.register(ProcessRuleSet)
 class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     form = ProcessRuleSetAdminForm
-    list_display = ["route"]
+    list_display = [
+        "route",
+        "available_to_nationalities",
+        "available_to_home_countries",
+    ]
     list_filter = ["route__host_country"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
@@ -192,6 +197,28 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             },
         ),
     ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.get_bloc_description_from_countries = (
+            Bloc.objects.make_get_description_from_countries()
+        )
+
+    @admin.display(description="Available to nationalities")
+    def available_to_nationalities(self, obj: ProcessRuleSet) -> str:
+        nationalities = set(obj.nationalities.all())
+        if not nationalities:
+            return "any"
+        else:
+            return self.get_bloc_description_from_countries(nationalities)
+
+    @admin.display(description="Available to home countries")
+    def available_to_home_countries(self, obj: ProcessRuleSet) -> str:
+        home_countries = set(obj.home_countries.all())
+        if not home_countries:
+            return "any"
+        else:
+            return self.get_bloc_description_from_countries(home_countries)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[ProcessRuleSet]:
         # FIXME: Prevent issuing many queries for host_country
