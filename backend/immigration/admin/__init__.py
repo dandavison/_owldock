@@ -131,7 +131,7 @@ class ProcessRuleSetStepInline(NestedStackedInline):
         # ProcessRuleSetAdmin.get_inline_instances for part I, and
         # https://stackoverflow.com/questions/9422735/accessing-parent-model-instance-from-modelform-of-admin-inline
         # https://groups.google.com/g/django-developers/c/10GP72w4aZs
-        if db_field.name == "process_step":
+        if self._parent_obj and db_field.name == "process_step":
             kwargs["queryset"] = (
                 ProcessStep.objects.filter(
                     host_country=self._parent_obj.route.host_country
