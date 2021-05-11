@@ -203,11 +203,14 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         ),
     ]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def get_sortable_by(self, request: HttpRequest):
+        # This is a pretty random choice of method to use for the purpose, but
+        # we need to recompute this on each request; __init__ is called once at
+        # server start time.
         self.get_bloc_description_from_countries = (
             Bloc.objects.make_get_description_from_countries()
         )
+        return super().get_sortable_by(request)
 
     @admin.display(description="Host country")
     def host_country(self, obj: ProcessRuleSet) -> str:
