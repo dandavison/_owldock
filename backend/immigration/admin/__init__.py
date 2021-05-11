@@ -120,6 +120,7 @@ class RouteAdmin(admin.ModelAdmin):
 class ProcessRuleSetStepInline(NestedStackedInline):
     model = ProcessRuleSetStep
     sortable_field_name = "sequence_number"
+    ordering = ["sequence_number"]
     extra = 0
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
