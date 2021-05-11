@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.forms import ChoiceField, ModelForm, ModelChoiceField, RadioSelect
+from django.forms import ModelForm
+from django.http import HttpRequest
 
 from app.models import (
     Bloc,
