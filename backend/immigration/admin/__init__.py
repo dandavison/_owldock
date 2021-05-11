@@ -153,6 +153,7 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
 class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     form = ProcessRuleSetAdminForm
     list_display = ["route"]
+    list_filter = ["route__host_country"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
     fieldsets = [
