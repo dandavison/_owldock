@@ -146,7 +146,7 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
     home_countries_bloc = BlocChoiceFieldMixin.make_bloc_field()
     home_countries_bloc_include = BlocChoiceFieldMixin.make_bloc_include_field()
 
-    _bloc_fields = ["nationalities" "home_countries"]
+    _bloc_fields = ["nationalities", "home_countries"]
 
 
 @admin.register(ProcessRuleSet)
