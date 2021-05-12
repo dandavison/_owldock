@@ -85,48 +85,6 @@
 },
 {
   "fields": {
-    "created_at": "2021-05-07T13:41:46.884Z",
-    "issued_document_type": 6,
-    "modified_at": "2021-05-07T13:41:46.884Z",
-    "process_step": 1086,
-    "proves_right_to_enter": false,
-    "proves_right_to_reside": false,
-    "proves_right_to_work": false,
-    "uuid": "bfe55c81-b8a5-4ec4-80dc-e2ee548043eb"
-  },
-  "model": "immigration.issueddocument",
-  "pk": 7
-},
-{
-  "fields": {
-    "created_at": "2021-05-07T13:41:46.886Z",
-    "issued_document_type": 7,
-    "modified_at": "2021-05-07T13:41:46.886Z",
-    "process_step": 1087,
-    "proves_right_to_enter": false,
-    "proves_right_to_reside": false,
-    "proves_right_to_work": false,
-    "uuid": "6d111b34-6361-4e86-a7e9-fce47c52acc4"
-  },
-  "model": "immigration.issueddocument",
-  "pk": 8
-},
-{
-  "fields": {
-    "created_at": "2021-05-07T13:41:46.887Z",
-    "issued_document_type": 5,
-    "modified_at": "2021-05-07T13:41:46.887Z",
-    "process_step": 1088,
-    "proves_right_to_enter": false,
-    "proves_right_to_reside": false,
-    "proves_right_to_work": false,
-    "uuid": "9a00eb7d-7b96-41fd-8853-c0b79c81bf2c"
-  },
-  "model": "immigration.issueddocument",
-  "pk": 9
-},
-{
-  "fields": {
     "created_at": "2021-05-07T16:19:40.936Z",
     "issued_document_type": 7,
     "modified_at": "2021-05-07T16:24:38.435Z",
@@ -180,5 +138,89 @@
   },
   "model": "immigration.issueddocument",
   "pk": 13
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:07:47.248Z",
+    "issued_document_type": 7,
+    "modified_at": "2021-05-10T10:07:47.248Z",
+    "process_step": 1480,
+    "proves_right_to_enter": true,
+    "proves_right_to_reside": false,
+    "proves_right_to_work": false,
+    "uuid": "9ba807f1-add3-4572-a47c-bcb54b28d4fe"
+  },
+  "model": "immigration.issueddocument",
+  "pk": 14
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:22:08.903Z",
+    "issued_document_type": 11,
+    "modified_at": "2021-05-10T10:22:08.903Z",
+    "process_step": 1481,
+    "proves_right_to_enter": false,
+    "proves_right_to_reside": true,
+    "proves_right_to_work": true,
+    "uuid": "073c4fc1-7452-414c-bb42-04ccea4407c2"
+  },
+  "model": "immigration.issueddocument",
+  "pk": 15
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:22:08.907Z",
+    "issued_document_type": 12,
+    "modified_at": "2021-05-10T10:22:08.907Z",
+    "process_step": 1481,
+    "proves_right_to_enter": false,
+    "proves_right_to_reside": true,
+    "proves_right_to_work": true,
+    "uuid": "e2cce8fd-7ca0-4a40-97c1-fa926d9b2508"
+  },
+  "model": "immigration.issueddocument",
+  "pk": 16
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:28:45.843Z",
+    "issued_document_type": 13,
+    "modified_at": "2021-05-10T10:28:45.843Z",
+    "process_step": 2156,
+    "proves_right_to_enter": false,
+    "proves_right_to_reside": false,
+    "proves_right_to_work": false,
+    "uuid": "a0682b4c-55af-4066-9c66-2c39c13ce6d4"
+  },
+  "model": "immigration.issueddocument",
+  "pk": 17
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:39:12.733Z",
+    "issued_document_type": 14,
+    "modified_at": "2021-05-10T10:39:12.733Z",
+    "process_step": 2157,
+    "proves_right_to_enter": false,
+    "proves_right_to_reside": false,
+    "proves_right_to_work": false,
+    "uuid": "9c123c3e-7217-41fd-84b3-bdc63febfb84"
+  },
+  "model": "immigration.issueddocument",
+  "pk": 18
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T20:30:07.368Z",
+    "issued_document_type": 15,
+    "modified_at": "2021-05-10T20:30:07.368Z",
+    "process_step": 2158,
+    "proves_right_to_enter": false,
+    "proves_right_to_reside": false,
+    "proves_right_to_work": false,
+    "uuid": "215d4fc7-6a5e-4f30-a7c7-989f48dd2d7b"
+  },
+  "model": "immigration.issueddocument",
+  "pk": 19
 }
 ]

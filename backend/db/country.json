@@ -1177,18 +1177,6 @@
 },
 {
   "fields": {
-    "code": "VA",
-    "created_at": "2021-05-03T14:01:40.832Z",
-    "modified_at": "2021-05-03T14:01:40.832Z",
-    "name": "Holy See",
-    "unicode_flag": "🇻🇦",
-    "uuid": "6ecaa2fc-96ce-4211-b859-914e509fe9d0"
-  },
-  "model": "app.country",
-  "pk": 99
-},
-{
-  "fields": {
     "code": "HN",
     "created_at": "2021-05-03T14:01:40.833Z",
     "modified_at": "2021-05-03T14:01:40.833Z",
@@ -2890,6 +2878,18 @@
   },
   "model": "app.country",
   "pk": 240
+},
+{
+  "fields": {
+    "code": "VA",
+    "created_at": "2021-05-03T14:01:40.832Z",
+    "modified_at": "2021-05-11T17:00:10.531Z",
+    "name": "Vatican City",
+    "unicode_flag": "🇻🇦",
+    "uuid": "6ecaa2fc-96ce-4211-b859-914e509fe9d0"
+  },
+  "model": "app.country",
+  "pk": 99
 },
 {
   "fields": {

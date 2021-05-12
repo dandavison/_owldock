@@ -872,8 +872,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.364Z",
     "host_country": 87,
-    "modified_at": "2021-05-05T23:35:49.364Z",
-    "name": "Local Hire Work Permit for Senior Employees (Article 17)",
+    "modified_at": "2021-05-11T17:15:51.133Z",
+    "name": "Local Hire Work Permit: Senior Employees",
     "uuid": "9c57b28a-1879-46e5-a27a-ef934ad738ee"
   },
   "model": "immigration.route",
@@ -894,8 +894,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.455Z",
     "host_country": 87,
-    "modified_at": "2021-05-05T23:35:49.455Z",
-    "name": "Vander Elst (Assignment from within EEA)",
+    "modified_at": "2021-05-11T18:34:33.026Z",
+    "name": "Van der Elst (Assignment from within EEA)",
     "uuid": "7e9cb161-5b27-4334-8637-02e4ff9930f5"
   },
   "model": "immigration.route",

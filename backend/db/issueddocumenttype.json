@@ -1,6 +1,16 @@
 [
 {
   "fields": {
+    "created_at": "2021-05-10T10:39:02.728Z",
+    "modified_at": "2021-05-10T10:39:02.728Z",
+    "name": "AMA AMKA",
+    "uuid": "678ef299-d8af-42a4-9b5d-600bd8f654c4"
+  },
+  "model": "immigration.issueddocumenttype",
+  "pk": 14
+},
+{
+  "fields": {
     "created_at": "2021-05-03T14:49:35.389Z",
     "modified_at": "2021-05-03T14:49:35.389Z",
     "name": "Biometric Residence Permit",
@@ -18,6 +28,16 @@
   },
   "model": "immigration.issueddocumenttype",
   "pk": 9
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:19:23.530Z",
+    "modified_at": "2021-05-10T10:19:23.530Z",
+    "name": "Blue receipt",
+    "uuid": "ac483ec1-eb35-46d3-add4-5295dedc7043"
+  },
+  "model": "immigration.issueddocumenttype",
+  "pk": 12
 },
 {
   "fields": {
@@ -81,6 +101,26 @@
 },
 {
   "fields": {
+    "created_at": "2021-05-10T10:28:34.703Z",
+    "modified_at": "2021-05-10T10:28:34.703Z",
+    "name": "Tax registration number",
+    "uuid": "3c08ee40-ff9f-47b2-88fd-33fc476a24bd"
+  },
+  "model": "immigration.issueddocumenttype",
+  "pk": 13
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T20:29:54.846Z",
+    "modified_at": "2021-05-10T20:29:54.846Z",
+    "name": "Translated document in Greek",
+    "uuid": "3e942111-b016-462f-9791-5e0dda304ae8"
+  },
+  "model": "immigration.issueddocumenttype",
+  "pk": 15
+},
+{
+  "fields": {
     "created_at": "2021-05-07T13:33:56.191Z",
     "modified_at": "2021-05-07T13:33:56.191Z",
     "name": "Visa Type D",
@@ -88,6 +128,16 @@
   },
   "model": "immigration.issueddocumenttype",
   "pk": 7
+},
+{
+  "fields": {
+    "created_at": "2021-05-10T10:15:34.334Z",
+    "modified_at": "2021-05-10T10:15:34.335Z",
+    "name": "Work and residence permit",
+    "uuid": "35f5745a-7123-4ce8-b0d4-246c156af10e"
+  },
+  "model": "immigration.issueddocumenttype",
+  "pk": 11
 },
 {
   "fields": {
