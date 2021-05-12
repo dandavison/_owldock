@@ -270,9 +270,8 @@ class IssuedDocument(BaseModel):
     A document issued on completion of a ProcessStep.
     """
 
-    name = CharField(
-        max_length=128, help_text="Name of this issued document.", default=""
-    )
+    host_country = ForeignKey(Country, on_delete=deletion.CASCADE, null=True)
+    name = CharField(max_length=128, help_text="Name of this issued document.")
     issued_document_type = ForeignKey(IssuedDocumentType, on_delete=deletion.CASCADE)
     process_step = ForeignKey("ProcessStep", on_delete=deletion.CASCADE)
     proves_right_to_enter = BooleanField(default=False)
@@ -290,12 +289,6 @@ class ProcessStep(BaseModel):
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
-    issued_documents = ManyToManyField(
-        IssuedDocumentType,
-        through=IssuedDocument,
-        help_text="Issued documents associated with this process step.",
-        blank=True,
-    )
     government_fee = DecimalField(
         "Government fee in host country currency",
         max_digits=9,
