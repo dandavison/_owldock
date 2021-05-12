@@ -293,15 +293,25 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             .order_by("sequence_number")
         ):
             first = True
-            for id in prss.process_step.issued_documents.all():
+            issued_documents = prss.process_step.issued_documents.all()
+            if issued_documents:
+                for id in issued_documents:
+                    html += "<tr>"
+                    if first:
+                        html += (
+                            f"<td>{prss.sequence_number}. {prss.process_step.name}</td>"
+                        )
+                        first = False
+                    else:
+                        html += "<td></td>"
+                    html += f"<td style='padding-left: 10px;'>{id.name}</td>"
+                    html += "</tr>"
+            else:
                 html += "<tr>"
-                if first:
-                    html += f"<td>{prss.sequence_number}. {prss.process_step.name}</td>"
-                    first = False
-                else:
-                    html += "<td></td>"
-                html += f"<td style='padding-left: 10px;'>{id.name}</td>"
+                html += f"<td>{prss.sequence_number}. {prss.process_step.name}</td>"
+                html += "<td></td>"
                 html += "</tr>"
+
         html += "</tbody></table>"
         return mark_safe(html)
 
