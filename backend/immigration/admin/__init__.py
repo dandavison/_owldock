@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.db.models import QuerySet
 from django.forms import ModelForm
 from django.http import HttpRequest
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from nested_admin import (
     NestedStackedInline,
     NestedTabularInline,
@@ -219,6 +221,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
+    readonly_fields = ["step_summary"]
     fieldsets = [
         (None, {"fields": ["route"]}),
         (
@@ -251,6 +254,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
                     "duration_min_days",
                     "duration_max_days",
                     "intra_company_moves_only",
+                    "step_summary",
                 ]
             },
         ),
@@ -272,6 +276,34 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             Bloc.objects.make_get_description_from_countries()
         )
         return super().get_sortable_by(request)
+
+    @admin.display(description="Steps summary")
+    def step_summary(self, obj: ProcessRuleSet) -> str:
+        html = "<table><tbody>"
+        html += (
+            "<thead><tr>"
+            "<th style='font-weight: bold'>Step</th>"
+            "<th style='font-weight: bold; padding-left: 10px;'>Issued Document</th>"
+            "</tr></thead>"
+        )
+        html += "<tr></tr>"
+        for prss in (
+            obj.process_steps.through.objects.filter(process_ruleset=obj)
+            .prefetch_related("process_step__issued_documents")
+            .order_by("sequence_number")
+        ):
+            first = True
+            for id in prss.process_step.issued_documents.all():
+                html += "<tr>"
+                if first:
+                    html += f"<td>{prss.sequence_number}. {prss.process_step.name}</td>"
+                    first = False
+                else:
+                    html += "<td></td>"
+                html += f"<td style='padding-left: 10px;'>{id.name}</td>"
+                html += "</tr>"
+        html += "</tbody></table>"
+        return mark_safe(html)
 
     @admin.display(description="Process steps")
     def process_ruleset_steps_count(self, obj: ProcessRuleSet) -> int:
