@@ -165,7 +165,9 @@ class IssuedDocumentFactory(BaseModelFactory):
         model = IssuedDocument
 
     name = "Visa"
-    process_step = factory.SubFactory(ProcessStepFactory)
+    host_country = factory.LazyAttribute(
+        lambda _: random.choice(list(Country.objects.all()))
+    )
     proves_right_to_enter = factory.LazyAttribute(
         lambda _: random.choice([True, False])
     )

@@ -1,7 +1,13 @@
 import pytest
 
 from app.models import Bloc
-from immigration.models import Location, ProcessRuleSet, ProcessStep, Route
+from immigration.models import (
+    IssuedDocument,
+    Location,
+    ProcessRuleSet,
+    ProcessStep,
+    Route,
+)
 from immigration.tests.factories import (
     IssuedDocumentFactory,
     ProcessRuleSetFactory,
@@ -38,8 +44,60 @@ def greece_technical_assignment_article_18_route(greece) -> Route:
 
 
 @pytest.fixture()
-def greece_visa_type_D_application_step(greece) -> ProcessStep:
-    return ProcessStepFactory(
+def greece_visa_type_D(greece) -> IssuedDocument:
+    return IssuedDocumentFactory(
+        name="Visa Type D",
+        proves_right_to_enter=True,
+        proves_right_to_reside=False,
+        proves_right_to_work=False,
+    )
+
+
+@pytest.fixture()
+def greece_blue_receipt(greece) -> IssuedDocument:
+    return IssuedDocumentFactory(
+        name="Blue Receipt",
+        proves_right_to_enter=False,
+        proves_right_to_reside=False,
+        proves_right_to_work=True,
+    )
+
+
+@pytest.fixture()
+def greece_residence_card(greece) -> IssuedDocument:
+    return IssuedDocumentFactory(
+        name="Residence Card for Employment",
+        proves_right_to_enter=False,
+        proves_right_to_reside=True,
+        proves_right_to_work=True,
+    )
+
+
+@pytest.fixture()
+def greece_eu_registration_certificate(greece) -> IssuedDocument:
+    return IssuedDocumentFactory(
+        name="EU Registration Certificate",
+        proves_right_to_enter=True,
+        proves_right_to_reside=False,
+        proves_right_to_work=False,
+    )
+
+
+@pytest.fixture()
+def greece_posted_worker_notification(greece) -> IssuedDocument:
+    return IssuedDocumentFactory(
+        name="Posted Worker Notification",
+        proves_right_to_enter=False,
+        proves_right_to_reside=False,
+        proves_right_to_work=False,
+    )
+
+
+@pytest.fixture()
+def greece_visa_type_D_application_step(
+    greece, greece_visa_type_D, greece_blue_receipt
+) -> ProcessStep:
+    step = ProcessStepFactory(
         host_country=greece,
         name="Visa Type D Application",
         estimated_min_duration_days=1,
@@ -50,11 +108,16 @@ def greece_visa_type_D_application_step(greece) -> ProcessStep:
         required_only_if_duration_less_than=None,
         required_only_if_duration_greater_than=None,
     )
+    step.issued_documents.add(greece_visa_type_D)
+    step.issued_documents.add(greece_blue_receipt)
+    return step
 
 
 @pytest.fixture()
-def greece_posted_worker_notification_step(greece) -> ProcessStep:
-    return ProcessStepFactory(
+def greece_posted_worker_notification_step(
+    greece, greece_posted_worker_notification
+) -> ProcessStep:
+    step = ProcessStepFactory(
         host_country=greece,
         name="Posted Worker Notification (EU/EEA)",
         estimated_min_duration_days=1,
@@ -65,6 +128,8 @@ def greece_posted_worker_notification_step(greece) -> ProcessStep:
         required_only_if_duration_less_than=None,
         required_only_if_duration_greater_than=None,
     )
+    step.issued_documents.add(greece_posted_worker_notification)
+    return step
 
 
 @pytest.fixture()
@@ -113,8 +178,10 @@ def greece_biometrics_step(greece) -> ProcessStep:
 
 
 @pytest.fixture()
-def greece_issuance_of_residence_card_step(greece) -> ProcessStep:
-    return ProcessStepFactory(
+def greece_issuance_of_residence_card_step(
+    greece, greece_residence_card
+) -> ProcessStep:
+    step = ProcessStepFactory(
         name="Issuance of Residence Card",
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
@@ -124,11 +191,15 @@ def greece_issuance_of_residence_card_step(greece) -> ProcessStep:
         required_only_if_duration_less_than=None,
         required_only_if_duration_greater_than=None,
     )
+    step.issued_documents.add(greece_residence_card)
+    return step
 
 
 @pytest.fixture()
-def greece_eu_registration_certificate_step(greece) -> ProcessStep:
-    return ProcessStepFactory(
+def greece_eu_registration_certificate_step(
+    greece, greece_eu_registration_certificate
+) -> ProcessStep:
+    step = ProcessStepFactory(
         host_country=greece,
         name="EU Registration Certificate",
         estimated_min_duration_days=1,
@@ -139,6 +210,8 @@ def greece_eu_registration_certificate_step(greece) -> ProcessStep:
         required_only_if_duration_less_than=None,
         required_only_if_duration_greater_than=90,
     )
+    step.issued_documents.add(greece_eu_registration_certificate)
+    return step
 
 
 @pytest.fixture()
@@ -182,28 +255,6 @@ def greece_local_hire_article_17_rule_set(
         process_ruleset=process_ruleset,
         sequence_number=4,
     )
-    # Issued Documents
-    IssuedDocumentFactory(
-        name="D visa",
-        process_step=greece_visa_type_D_application_step,
-        proves_right_to_enter=True,
-        proves_right_to_reside=False,
-        proves_right_to_work=False,
-    )
-    IssuedDocumentFactory(
-        name="Blue Receipt",
-        process_step=greece_visa_type_D_application_step,
-        proves_right_to_enter=False,
-        proves_right_to_reside=False,
-        proves_right_to_work=True,
-    )
-    IssuedDocumentFactory(
-        name="Residence Card for Employment",
-        process_step=greece_issuance_of_residence_card_step,
-        proves_right_to_enter=False,
-        proves_right_to_reside=True,
-        proves_right_to_work=True,
-    )
     return process_ruleset
 
 
@@ -242,21 +293,6 @@ def greece_eu_eea_swiss_national_registration_rule_set(
         process_ruleset=process_ruleset,
         sequence_number=3,
     )
-    # Issued Documents
-    IssuedDocumentFactory(
-        name="EU Registration Certificate",
-        process_step=greece_eu_registration_certificate_step,
-        proves_right_to_enter=True,
-        proves_right_to_reside=False,
-        proves_right_to_work=False,
-    )
-    IssuedDocumentFactory(
-        name="Posted Worker Notification",
-        process_step=greece_posted_worker_notification_step,
-        proves_right_to_enter=False,
-        proves_right_to_reside=False,
-        proves_right_to_work=False,
-    )
     return process_ruleset
 
 
@@ -288,20 +324,5 @@ def greece_technical_assignment_article_18_route_rule_set(
         process_step=greece_posted_worker_notification_step,
         process_ruleset=process_ruleset,
         sequence_number=2,
-    )
-    # Issued Documents
-    IssuedDocumentFactory(
-        name="D visa",
-        process_step=greece_visa_type_D_application_step,
-        proves_right_to_enter=True,
-        proves_right_to_reside=True,
-        proves_right_to_work=True,
-    )
-    IssuedDocumentFactory(
-        name="Posted Worker Notification",
-        process_step=greece_posted_worker_notification_step,
-        proves_right_to_enter=False,
-        proves_right_to_reside=False,
-        proves_right_to_work=False,
     )
     return process_ruleset
