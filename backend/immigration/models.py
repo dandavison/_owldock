@@ -289,6 +289,15 @@ class IssuedDocument(BaseModel):
     proves_right_to_enter = BooleanField(default=False)
     proves_right_to_reside = BooleanField(default=False)
     proves_right_to_work = BooleanField(default=False)
+    proves_right_to_travel_in = ManyToManyField(
+        Country,
+        help_text=(
+            "Countries to which the holder of the document may travel. "
+            "Blank means no travel rights to other countries conferred by document."
+        ),
+        related_name="+",
+        blank=True,
+    )
 
 
 class ProcessStep(BaseModel):

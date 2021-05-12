@@ -132,19 +132,30 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         )
 
 
+class IssuedDocumentAdminForm(BlocChoiceFieldMixin, ModelForm):
+    proves_right_to_travel_in_bloc = BlocChoiceFieldMixin.make_bloc_field()
+    proves_right_to_travel_in_bloc_include = (
+        BlocChoiceFieldMixin.make_bloc_include_field()
+    )
+
+    _bloc_fields = ["proves_right_to_travel_in"]
+
+
 @admin.register(IssuedDocument)
 class IssuedDocumentAdmin(admin.ModelAdmin):
+    form = IssuedDocumentAdminForm
     list_display = [
         "name",
         "host_country",
         "proves_right_to_enter",
         "proves_right_to_reside",
         "proves_right_to_work",
+        "proves_right_to_travel_in_count",
         "process_steps_count",
     ]
     list_filter = ["host_country"]
     ordering = ["host_country", "name"]
-    fields = [
+    _fields = [
         "name",
         "host_country",
         "proves_right_to_enter",
@@ -152,6 +163,27 @@ class IssuedDocumentAdmin(admin.ModelAdmin):
         "proves_right_to_work",
     ]
     inlines = [ProcessStepIssuedDocumentInline]
+    filter_horizontal = ["proves_right_to_travel_in"]
+    fieldsets = [
+        (
+            None,
+            {"fields": _fields},
+        ),
+        (
+            None,
+            {
+                "fields": [
+                    "proves_right_to_travel_in_bloc",
+                    "proves_right_to_travel_in_bloc_include",
+                    "proves_right_to_travel_in",
+                ],
+            },
+        ),
+    ]
+
+    @admin.display(description="Proves right to travel in")
+    def proves_right_to_travel_in_count(self, obj: IssuedDocument) -> int:
+        return len(obj.proves_right_to_travel_in.all())
 
     @admin.display(description="Process steps")
     def process_steps_count(self, obj: IssuedDocument) -> int:
@@ -164,7 +196,7 @@ class IssuedDocumentAdmin(admin.ModelAdmin):
             .select_related(
                 "host_country",
             )
-            .prefetch_related("processstep_set")
+            .prefetch_related("processstep_set", "proves_right_to_travel_in")
             .order_by("host_country__name")
         )
 
