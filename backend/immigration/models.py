@@ -270,6 +270,9 @@ class IssuedDocument(BaseModel):
     A document issued on completion of a ProcessStep.
     """
 
+    name = CharField(
+        max_length=128, help_text="Name of this issued document.", default=""
+    )
     issued_document_type = ForeignKey(IssuedDocumentType, on_delete=deletion.CASCADE)
     process_step = ForeignKey("ProcessStep", on_delete=deletion.CASCADE)
     proves_right_to_enter = BooleanField(default=False)
