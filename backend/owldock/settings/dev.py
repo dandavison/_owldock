@@ -17,6 +17,7 @@ INSTALLED_APPS.extend(  # noqa
     [
         "django_extensions",
         "django_fsm",  # for graph_transitions
+        "django_read_only",
         "django_seed",
     ]
 )

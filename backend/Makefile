@@ -24,6 +24,9 @@ migrate-render:
 	python manage.py migrate
 	python manage.py migrate --database client
 
+python-render:
+	DJANGO_READ_ONLY=1 DJANGO_SETTINGS_MODULE=owldock.settings.dev python manage.py shell_plus
+
 recreate-db-render:
 	python manage.py drop_all_tables
 	python manage.py migrate
@@ -47,7 +50,7 @@ type-check-pyright:
 	pyright --venv-path . app client owldock
 
 python:
-	$(MANAGE) shell_plus
+	DJANGO_READ_ONLY=1 $(MANAGE) shell_plus
 
 migrate:
 	$(MANAGE) migrate
