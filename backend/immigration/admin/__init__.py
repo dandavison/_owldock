@@ -55,7 +55,7 @@ class ProcessStepIssuedDocumentInline(NestedTabularInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         # See HasInlinesNestedModelAdmin
-        if hasattr(self, "_parent_obj") and db_field.name == "issueddocument":
+        if getattr(self, "_parent_obj", None) and db_field.name == "issueddocument":
             kwargs["queryset"] = IssuedDocument.objects.filter(
                 host_country=self._parent_obj.host_country
             ).order_by("name")
@@ -181,7 +181,7 @@ class ProcessRuleSetStepInline(NestedStackedInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         # See HasInlinesNestedModelAdmin
-        if hasattr(self, "_parent_obj") and db_field.name == "process_step":
+        if getattr(self, "_parent_obj", None) and db_field.name == "process_step":
             kwargs["queryset"] = (
                 ProcessStep.objects.filter(
                     host_country=self._parent_obj.route.host_country
