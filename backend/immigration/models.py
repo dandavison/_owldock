@@ -289,6 +289,11 @@ class ProcessStep(BaseModel):
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
+    issued_documents = ManyToManyField(
+        IssuedDocument,
+        help_text="Issued documents associated with this process step.",
+        blank=True,
+    )
     government_fee = DecimalField(
         "Government fee in host country currency",
         max_digits=9,
