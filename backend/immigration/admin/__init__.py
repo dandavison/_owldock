@@ -37,14 +37,20 @@ class HasInlinesNestedModelAdmin(NestedModelAdmin):
         return inlines
 
 
+class ProcessStepIssuedDocumentInline(NestedTabularInline):
+    model = ProcessStep.issued_documents.through
+    extra = 0
+    readonly_fields = ["processstep"]
+
+
 class IssuedDocumentInline(NestedTabularInline):
     model = IssuedDocument
-    extra = 1
+    extra = 0
 
 
 class ServiceItemInline(NestedTabularInline):
     model = ServiceItem
-    extra = 1
+    extra = 0
 
 
 class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
@@ -61,23 +67,25 @@ class ProcessStepAdmin(NestedModelAdmin):
     form = ProcessStepAdminForm
     filter_horizontal = ["required_only_if_nationalities"]
     extra = 0
-    inlines = [IssuedDocumentInline, ServiceItemInline]
+    inlines = [ProcessStepIssuedDocumentInline, ServiceItemInline]
+    _fields = [
+        "name",
+        "host_country",
+        "government_fee",
+        "estimated_min_duration_days",
+        "estimated_max_duration_days",
+        "applicant_can_enter_host_country_after",
+        "applicant_can_work_in_host_country_after",
+        "required_only_if_payroll_location",
+        "required_only_if_duration_exceeds",
+    ]
+    list_display = _fields + ["issued_documents_count"]
+    list_filter = ["host_country"]
+    ordering = ["host_country", "name"]
     fieldsets = [
         (
             None,
-            {
-                "fields": [
-                    "name",
-                    "host_country",
-                    "government_fee",
-                    "estimated_min_duration_days",
-                    "estimated_max_duration_days",
-                    "applicant_can_enter_host_country_after",
-                    "applicant_can_work_in_host_country_after",
-                    "required_only_if_payroll_location",
-                    "required_only_if_duration_exceeds",
-                ]
-            },
+            {"fields": _fields},
         ),
         (
             None,
@@ -91,6 +99,10 @@ class ProcessStepAdmin(NestedModelAdmin):
         ),
     ]
 
+    @admin.display(description="Issued documents")
+    def issued_documents_count(self, obj: ProcessStep) -> int:
+        return len(obj.issued_documents.all())
+
     def get_queryset(self, request: HttpRequest) -> QuerySet[ProcessStep]:
         return (
             super()
@@ -98,6 +110,7 @@ class ProcessStepAdmin(NestedModelAdmin):
             .select_related(
                 "host_country",
             )
+            .prefetch_related("issued_documents")
             .order_by("host_country__name")
         )
 
@@ -105,17 +118,38 @@ class ProcessStepAdmin(NestedModelAdmin):
 @admin.register(IssuedDocument)
 class IssuedDocumentAdmin(admin.ModelAdmin):
     list_display = [
-        "id",
-        "host_country",
         "name",
+        "host_country",
+        "proves_right_to_enter",
+        "proves_right_to_reside",
+        "proves_right_to_work",
+        "process_steps_count",
+    ]
+    list_filter = ["host_country"]
+    ordering = ["host_country", "name"]
+    fields = [
+        "name",
+        "host_country",
         "proves_right_to_enter",
         "proves_right_to_reside",
         "proves_right_to_work",
     ]
-    list_display_links = ["id"]
-    list_editable = ["name"]
-    list_filter = ["host_country"]
-    ordering = ["host_country", "name"]
+    inlines = [ProcessStepIssuedDocumentInline]
+
+    @admin.display(description="Process steps")
+    def process_steps_count(self, obj: IssuedDocument) -> int:
+        return len(obj.processstep_set.all())
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[IssuedDocument]:
+        return (
+            super()
+            .get_queryset(request)
+            .select_related(
+                "host_country",
+            )
+            .prefetch_related("processstep_set")
+            .order_by("host_country__name")
+        )
 
 
 @admin.register(Route)
@@ -172,6 +206,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         "duration_min_days",
         "duration_max_days",
         "data_entry_status",
+        "process_ruleset_steps_count",
     ]
     list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
@@ -229,6 +264,10 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             Bloc.objects.make_get_description_from_countries()
         )
         return super().get_sortable_by(request)
+
+    @admin.display(description="Process steps")
+    def process_ruleset_steps_count(self, obj: ProcessRuleSet) -> int:
+        return len(obj.processrulesetstep_set.all())
 
     @admin.display(description="Host country")
     def host_country(self, obj: ProcessRuleSet) -> str:
