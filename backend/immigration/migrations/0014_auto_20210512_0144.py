@@ -10,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveConstraint(
-            model_name='processstep',
-            name='imm__process_step__name__uniq',
-        ),
         migrations.AddField(
             model_name='issueddocument',
             name='name',
