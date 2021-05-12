@@ -28,6 +28,11 @@ class Location(TextChoices):
     HOST_COUNTRY = "HOST_COUNTRY", "Host Country"
 
 
+class RightConferredOn(TextChoices):
+    APPLICATION = "Application"
+    COMPLETION = "Completion"
+
+
 class DataEntryStatus(TextChoices):
     NOT_STARTED = "Not started"
     DRAFT = "Draft"
@@ -312,6 +317,18 @@ class ProcessStep(BaseModel):
     estimated_max_duration_days = PositiveIntegerField(
         help_text="Maximum number of working days this step is expected to take",
         null=True,
+    )
+    applicant_can_enter_host_country_on = CharField(
+        choices=RightConferredOn.choices,
+        max_length=16,
+        null=True,
+        blank=True,
+    )
+    applicant_can_work_in_host_country_on = CharField(
+        choices=RightConferredOn.choices,
+        max_length=16,
+        null=True,
+        blank=True,
     )
     applicant_can_enter_host_country_after = BooleanField(
         help_text="Can the applicant enter the host country on completion of this step?",

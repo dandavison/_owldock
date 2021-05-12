@@ -90,8 +90,8 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "government_fee",
         "estimated_min_duration_days",
         "estimated_max_duration_days",
-        "applicant_can_enter_host_country_after",
-        "applicant_can_work_in_host_country_after",
+        "applicant_can_enter_host_country_on",
+        "applicant_can_work_in_host_country_on",
         "required_only_if_payroll_location",
         "required_only_if_duration_exceeds",
     ]
