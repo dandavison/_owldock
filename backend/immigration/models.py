@@ -273,11 +273,6 @@ class ProcessRuleSet(BaseModel):
         )
 
 
-# TODO: deleteme
-class IssuedDocumentType(BaseModel):
-    name = CharField(max_length=128, help_text="Name of this issued document type.")
-
-
 class IssuedDocument(BaseModel):
     """
     A document issued on completion of a ProcessStep.
@@ -285,9 +280,6 @@ class IssuedDocument(BaseModel):
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE, null=True)
     name = CharField(max_length=128, help_text="Name of this issued document.")
-
-    # TODO: deleteme
-    process_step = ForeignKey("ProcessStep", on_delete=deletion.CASCADE)
 
     proves_right_to_enter = BooleanField(default=False)
     proves_right_to_reside = BooleanField(default=False)
