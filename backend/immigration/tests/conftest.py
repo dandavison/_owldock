@@ -47,7 +47,8 @@ def greece_visa_type_D_application_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=True,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=None,
-        required_only_if_duration_exceeds=None,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=None,
     )
 
 
@@ -61,7 +62,8 @@ def greece_posted_worker_notification_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=True,
         required_only_if_payroll_location=Location.HOME_COUNTRY,
-        required_only_if_duration_exceeds=None,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=None,
     )
 
 
@@ -75,7 +77,8 @@ def greece_residence_permit_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=True,
         required_only_if_payroll_location=None,
-        required_only_if_duration_exceeds=None,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=None,
     )
 
 
@@ -89,7 +92,8 @@ def greece_tax_registration_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=Location.HOST_COUNTRY,
-        required_only_if_duration_exceeds=None,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=None,
     )
 
 
@@ -103,7 +107,8 @@ def greece_biometrics_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=None,
-        required_only_if_duration_exceeds=None,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=None,
     )
 
 
@@ -116,7 +121,8 @@ def greece_issuance_of_residence_card_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=None,
-        required_only_if_duration_exceeds=None,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=None,
     )
 
 
@@ -130,7 +136,8 @@ def greece_eu_registration_certificate_step(greece) -> ProcessStep:
         applicant_can_enter_host_country_after=False,
         applicant_can_work_in_host_country_after=False,
         required_only_if_payroll_location=None,
-        required_only_if_duration_exceeds=90,
+        required_only_if_duration_less_than=None,
+        required_only_if_duration_greater_than=90,
     )
 
 

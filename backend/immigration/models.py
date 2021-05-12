@@ -348,10 +348,18 @@ class ProcessStep(BaseModel):
         null=True,
         blank=True,
     )
-    required_only_if_duration_exceeds = PositiveIntegerField(
+    required_only_if_duration_less_than = PositiveIntegerField(
         help_text=(
-            "Visit duration (days) triggering requirement for this step. "
-            "Blank means no duration condition."
+            "Maximum visit duration (days) triggering requirement for this step. "
+            "Blank means no maximum duration condition."
+        ),
+        null=True,
+        blank=True,
+    )
+    required_only_if_duration_greater_than = PositiveIntegerField(
+        help_text=(
+            "Minimum visit duration (days) triggering requirement for this step. "
+            "Blank means no minimum duration condition."
         ),
         null=True,
         blank=True,
@@ -396,9 +404,9 @@ class ProcessStep(BaseModel):
         to trigger it.
         """
         return bool(
-            self.required_only_if_duration_exceeds
+            self.required_only_if_duration_greater_than
             and move.duration
-            and move.duration.days < self.required_only_if_duration_exceeds
+            and move.duration.days < self.required_only_if_duration_greater_than
         )
 
     def _should_exclude_based_on_nationalities(self, move: Move) -> bool:

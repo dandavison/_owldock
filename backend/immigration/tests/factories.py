@@ -117,7 +117,8 @@ class ProcessStepFactory(BaseModelFactory):
     required_only_if_payroll_location = factory.LazyAttribute(
         lambda _: random.choice(Location.choices)[0]
     )
-    required_only_if_duration_exceeds = factory.LazyAttribute(
+    required_only_if_duration_less_than = factory.LazyAttribute(lambda _: None)
+    required_only_if_duration_greater_than = factory.LazyAttribute(
         lambda _: random.choice(range(0, 100))
     )
 
