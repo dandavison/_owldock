@@ -171,8 +171,9 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         "payroll_location",
         "duration_min_days",
         "duration_max_days",
+        "data_entry_status",
     ]
-    list_filter = ["route__host_country"]
+    list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
     fieldsets = [
@@ -207,6 +208,14 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
                     "duration_min_days",
                     "duration_max_days",
                     "intra_company_moves_only",
+                ]
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
+                    "data_entry_status",
                 ]
             },
         ),

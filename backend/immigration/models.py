@@ -28,6 +28,12 @@ class Location(TextChoices):
     HOST_COUNTRY = "HOST_COUNTRY", "Host Country"
 
 
+class DataEntryStatus(TextChoices):
+    NOT_STARTED = "Not started"
+    DRAFT = "Draft"
+    FINAL = "Final"
+
+
 @dataclass
 class Occupation:
     name: str
@@ -111,6 +117,12 @@ class ProcessRuleSet(BaseModel):
     If a Move satisfies all the rules then a Process can be constructed allowing
     the Route to be used for the Move.
     """
+
+    data_entry_status = CharField(
+        choices=DataEntryStatus.choices,
+        max_length=16,
+        default=DataEntryStatus.NOT_STARTED,
+    )
 
     route = ForeignKey(Route, on_delete=deletion.CASCADE)
     process_steps = ManyToManyField(
@@ -295,7 +307,7 @@ class ProcessStep(BaseModel):
         blank=True,
     )
     government_fee = DecimalField(
-        "Government fee in host country currency",
+        help_text="Government fee in host country currency",
         max_digits=9,
         decimal_places=2,
         null=True,
