@@ -54,7 +54,6 @@ from client.models.case_step import (
 )
 from immigration.models import (
     IssuedDocument,
-    IssuedDocumentType,
     ProcessRuleSet,
     ProcessStep,
     Route,
@@ -186,20 +185,10 @@ class RouteSerializer(ModelSerializer):
 
 
 @ts_interface()
-class IssuedDocumentTypeSerializer(ModelSerializer):
-    class Meta:
-        model = IssuedDocumentType
-        fields = ["name"]
-
-
-@ts_interface()
 class IssuedDocumentSerializer(ModelSerializer):
-    # TODO
-    # issued_document_type = IssuedDocumentTypeSerializer()
-
     class Meta:
         model = IssuedDocument
-        fields = ["id"]  # TODO: "issued_document_type"
+        fields = ["id", "name"]
 
 
 @ts_interface()

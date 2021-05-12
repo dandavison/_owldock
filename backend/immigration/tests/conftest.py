@@ -4,7 +4,6 @@ from app.models import Bloc
 from immigration.models import Location, ProcessRuleSet, ProcessStep, Route
 from immigration.tests.factories import (
     IssuedDocumentFactory,
-    IssuedDocumentTypeFactory,
     ProcessRuleSetFactory,
     ProcessRuleSetStepFactory,
     ProcessStepFactory,
@@ -178,23 +177,21 @@ def greece_local_hire_article_17_rule_set(
     )
     # Issued Documents
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(name="D visa"),
+        name="D visa",
         process_step=greece_visa_type_D_application_step,
         proves_right_to_enter=True,
         proves_right_to_reside=False,
         proves_right_to_work=False,
     )
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(name="Blue Receipt"),
+        name="Blue Receipt",
         process_step=greece_visa_type_D_application_step,
         proves_right_to_enter=False,
         proves_right_to_reside=False,
         proves_right_to_work=True,
     )
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(
-            name="Residence Card for Employment"
-        ),
+        name="Residence Card for Employment",
         process_step=greece_issuance_of_residence_card_step,
         proves_right_to_enter=False,
         proves_right_to_reside=True,
@@ -240,18 +237,14 @@ def greece_eu_eea_swiss_national_registration_rule_set(
     )
     # Issued Documents
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(
-            name="EU Registration Certificate"
-        ),
+        name="EU Registration Certificate",
         process_step=greece_eu_registration_certificate_step,
         proves_right_to_enter=True,
         proves_right_to_reside=False,
         proves_right_to_work=False,
     )
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(
-            name="Posted Worker Notification"
-        ),
+        name="Posted Worker Notification",
         process_step=greece_posted_worker_notification_step,
         proves_right_to_enter=False,
         proves_right_to_reside=False,
@@ -291,16 +284,14 @@ def greece_technical_assignment_article_18_route_rule_set(
     )
     # Issued Documents
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(name="D visa"),
+        name="D visa",
         process_step=greece_visa_type_D_application_step,
         proves_right_to_enter=True,
         proves_right_to_reside=True,
         proves_right_to_work=True,
     )
     IssuedDocumentFactory(
-        issued_document_type=IssuedDocumentTypeFactory(
-            name="Posted Worker Notification"
-        ),
+        name="Posted Worker Notification",
         process_step=greece_posted_worker_notification_step,
         proves_right_to_enter=False,
         proves_right_to_reside=False,

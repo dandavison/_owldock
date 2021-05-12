@@ -8,7 +8,6 @@ from django.utils import timezone
 from app.models import Country
 from immigration.models import (
     IssuedDocument,
-    IssuedDocumentType,
     Location,
     Move,
     ProcessRuleSet,
@@ -160,18 +159,11 @@ class ServiceItemFactory(BaseModelFactory):
     description = "Fake Process Step Service Item"
 
 
-class IssuedDocumentTypeFactory(BaseModelFactory):
-    class Meta:
-        model = IssuedDocumentType
-
-    name = "Visa"
-
-
 class IssuedDocumentFactory(BaseModelFactory):
     class Meta:
         model = IssuedDocument
 
-    issued_document_type = factory.SubFactory(IssuedDocumentTypeFactory)
+    name = "Visa"
     process_step = factory.SubFactory(ProcessStepFactory)
     proves_right_to_enter = factory.LazyAttribute(
         lambda _: random.choice([True, False])

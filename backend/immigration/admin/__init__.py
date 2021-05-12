@@ -12,7 +12,6 @@ from app.models import Bloc
 from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ignore
 from immigration.models import (
     IssuedDocument,
-    IssuedDocumentType,
     ProcessRuleSet,
     ProcessRuleSetStep,
     ProcessStep,
@@ -103,11 +102,20 @@ class ProcessStepAdmin(NestedModelAdmin):
         )
 
 
-@admin.register(IssuedDocumentType)
-class IssuedDocumentTypeAdmin(admin.ModelAdmin):
-    list_display = ["id", "name"]
+@admin.register(IssuedDocument)
+class IssuedDocumentAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "host_country",
+        "name",
+        "proves_right_to_enter",
+        "proves_right_to_reside",
+        "proves_right_to_work",
+    ]
     list_display_links = ["id"]
     list_editable = ["name"]
+    list_filter = ["host_country"]
+    ordering = ["host_country", "name"]
 
 
 @admin.register(Route)

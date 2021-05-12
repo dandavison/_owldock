@@ -261,6 +261,7 @@ class ProcessRuleSet(BaseModel):
         )
 
 
+# TODO: deleteme
 class IssuedDocumentType(BaseModel):
     name = CharField(max_length=128, help_text="Name of this issued document type.")
 
@@ -272,14 +273,13 @@ class IssuedDocument(BaseModel):
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE, null=True)
     name = CharField(max_length=128, help_text="Name of this issued document.")
-    issued_document_type = ForeignKey(IssuedDocumentType, on_delete=deletion.CASCADE)
+
+    # TODO: deleteme
     process_step = ForeignKey("ProcessStep", on_delete=deletion.CASCADE)
+
     proves_right_to_enter = BooleanField(default=False)
     proves_right_to_reside = BooleanField(default=False)
     proves_right_to_work = BooleanField(default=False)
-
-    def __str__(self) -> str:
-        return f"{self.issued_document_type} ({self.process_step})"
 
 
 class ProcessStep(BaseModel):

@@ -6,7 +6,6 @@ from django.conf import settings
 from app.models import Country
 from immigration.models import (
     IssuedDocument,
-    IssuedDocumentType,
     ProcessRuleSet,
     ProcessRuleSetStep,
     ProcessStep,
@@ -56,13 +55,6 @@ class Command(BaseCommand):
                 "id",
             ),
             "issueddocument.json",
-        )
-        print("issueddocumenttype...")
-        self._serialize_queryset(
-            IssuedDocumentType.objects.order_by(
-                "name",
-            ),
-            "issueddocumenttype.json",
         )
         print("serviceitem...")
         self._serialize_queryset(
