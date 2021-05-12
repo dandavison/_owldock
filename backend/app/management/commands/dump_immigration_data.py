@@ -28,16 +28,16 @@ class Command(BaseCommand):
         )
         print("processrulesetstep...")
         self._serialize_queryset(
-            ProcessRuleSetStep.objects.prefetch_related().order_by(
-                "process_rule_set__route__host_country", "process_rule_set__route__name"
+            ProcessRuleSetStep.objects.order_by(
+                "process_ruleset__route__host_country", "process_ruleset__route__name"
             ),
             "processrulesetstep.json",
         )
         print("processstep...")
         self._serialize_queryset(
             ProcessStep.objects.prefetch_related("issued_documents").order_by(
-                "process_rule_set__route__host_country",
-                "process_rule_set__route__name",
+                "processruleset__route__host_country",
+                "processruleset__route__name",
                 "id",
             ),
             "processstep.json",
