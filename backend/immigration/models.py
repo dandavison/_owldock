@@ -5,7 +5,6 @@ from typing import Callable, List, NewType, Optional
 from django.db.models import (
     BooleanField,
     CharField,
-    DecimalField,
     deletion,
     ForeignKey,
     OneToOneField,
@@ -15,6 +14,7 @@ from django.db.models import (
     TextField,
     UniqueConstraint,
 )
+from djmoney.models.fields import MoneyField
 
 from app.models import Country
 from owldock.models.base import BaseModel
@@ -171,10 +171,11 @@ class ProcessRuleSet(BaseModel):
         null=True,
         blank=True,
     )
-    minimum_salary = DecimalField(
+    minimum_salary = MoneyField(
         "Minimum salary in host country currency",
-        max_digits=9,
+        max_digits=14,
         decimal_places=2,
+        default_currency="EUR",
         null=True,
         blank=True,
     )
@@ -312,10 +313,11 @@ class ProcessStep(BaseModel):
         help_text="Issued documents associated with this process step.",
         blank=True,
     )
-    government_fee = DecimalField(
+    government_fee = MoneyField(
         help_text="Government fee in host country currency",
-        max_digits=9,
+        max_digits=14,
         decimal_places=2,
+        default_currency="EUR",
         null=True,
         blank=True,
     )
