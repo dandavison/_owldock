@@ -278,7 +278,9 @@ class ProcessRuleSet(BaseModel):
 
     def get_process_steps(self):
         return list(
-            ProcessStep.objects.filter(processrulesetstep__process_ruleset=self)
+            ProcessStep.objects.filter(
+                processrulesetstep__process_ruleset=self
+            ).order_by("processrulesetstep__sequence_number")
         )
 
 
