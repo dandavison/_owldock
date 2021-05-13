@@ -277,9 +277,7 @@ class IssuedDocumentAdmin(admin.ModelAdmin):
 
 @admin.register(Route)
 class RouteAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "host_country"]
-    list_display_links = ["id"]
-    list_editable = ["name", "host_country"]
+    list_display = ["name", "host_country", "processruleset"]
 
 
 class ProcessRuleSetStepInline(NestedStackedInline):
