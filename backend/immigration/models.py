@@ -132,7 +132,7 @@ class ProcessRuleSet(BaseModel):
         default=DataEntryStatus.NOT_STARTED,
     )
 
-    route = ForeignKey(Route, on_delete=deletion.CASCADE)
+    route = OneToOneField(Route, on_delete=deletion.CASCADE)
     process_steps = ManyToManyField(
         "ProcessStep",
         through="ProcessRuleSetStep",
