@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import QuerySet
-from django.forms import ModelForm, ValidationError
+from django.forms import ModelForm
 from django.http import HttpRequest
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -80,20 +80,6 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
     )
 
     _bloc_fields = ["required_only_if_nationalities", "required_only_if_home_country"]
-
-    def clean(self):
-        super().clean()
-        host_country = self.cleaned_data.get("host_country")
-        government_fee = self.cleaned_data.get("government_fee")
-        if host_country and government_fee:
-            if (
-                host_country.currency
-                and host_country.currency != government_fee.currency
-            ):
-                raise ValidationError(
-                    f"Host country currency ({host_country.currency.name}) "
-                    f"does not match minimum government_fee currency ({government_fee.currency.name})."
-                )
 
 
 @admin.register(ProcessStep)
@@ -306,19 +292,6 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
     home_countries_bloc_include = BlocChoiceFieldMixin.make_bloc_include_field()
 
     _bloc_fields = ["nationalities", "home_countries"]
-
-    def clean(self):
-        super().clean()
-        route = self.cleaned_data.get("route")
-        minimum_salary = self.cleaned_data.get("minimum_salary")
-        if route and minimum_salary:
-            host_country_currency = route.host_country.currency
-            salary_currency = minimum_salary.currency
-            if host_country_currency and host_country_currency != salary_currency:
-                raise ValidationError(
-                    f"Host country currency ({host_country_currency.name}) "
-                    f"does not match minimum salary currency ({salary_currency.name})."
-                )
 
 
 @admin.register(ProcessRuleSet)
