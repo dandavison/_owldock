@@ -78,6 +78,7 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
     _bloc_fields = ["required_only_if_nationalities"]
 
     def clean(self):
+        super().clean()
         host_country = self.cleaned_data.get("host_country")
         government_fee = self.cleaned_data.get("government_fee")
         if host_country and government_fee:
@@ -249,6 +250,7 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
     _bloc_fields = ["nationalities", "home_countries"]
 
     def clean(self):
+        super().clean()
         route = self.cleaned_data.get("route")
         minimum_salary = self.cleaned_data.get("minimum_salary")
         if route and minimum_salary:
