@@ -89,12 +89,9 @@ export interface RouteSerializer {
   name: string;
 }
 
-export interface IssuedDocumentTypeSerializer {
-  name: string;
-}
-
 export interface IssuedDocumentSerializer {
   id?: number;
+  name: string;
 }
 
 export interface ServiceItemSerializer {
@@ -106,10 +103,11 @@ export interface ProcessStepSerializer {
   applicant_can_work_in_host_country_after?: boolean;
   estimated_max_duration_days?: number;
   estimated_min_duration_days?: number;
-  government_fee?: number;
+  government_fee?: any;
   issued_documents: IssuedDocumentSerializer[];
   name: string;
-  required_only_if_duration_exceeds?: number;
+  required_only_if_duration_greater_than?: number;
+  required_only_if_duration_less_than?: number;
   required_only_if_nationalities?: any[];
   required_only_if_payroll_location?: any;
   service_item: ServiceItemSerializer;
