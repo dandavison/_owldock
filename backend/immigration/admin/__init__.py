@@ -128,13 +128,41 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                 "fields": [
                     "name",
                     "host_country",
-                    "government_fee",
+                ]
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
                     "estimated_min_duration_days",
                     "estimated_max_duration_days",
+                    "government_fee",
+                ]
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
                     "applicant_can_enter_host_country_on",
                     "applicant_can_work_in_host_country_on",
+                ]
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
                     "required_only_if_contract_location",
                     "required_only_if_payroll_location",
+                ]
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
                     "required_only_if_duration_less_than",
                     "required_only_if_duration_greater_than",
                 ]
