@@ -16,8 +16,9 @@ objects without to type-check.
 """
 import logging
 from collections import defaultdict
+from datetime import timedelta
 from operator import attrgetter
-from typing import List, Union
+from typing import List, Optional, Union
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
@@ -170,9 +171,20 @@ class OccupationSerializer(Serializer):
 
 @ts_interface()
 class MoveSerializer(Serializer):
-    host_country = CountrySerializer()
+    host_country = CountrySerializer(required=False, allow_null=True)
     target_entry_date = DateField(required=False, allow_null=True)
     target_exit_date = DateField(required=False, allow_null=True)
+    activity = CharField(required=False, allow_null=True)
+    nationalities = CountrySerializer(many=True, required=False, allow_null=True)
+    contract_location = CharField(required=False, allow_null=True)
+    payroll_location = CharField(required=False, allow_null=True)
+
+    @property
+    def duration(self) -> Optional[timedelta]:
+        if self.target_entry_date and self.target_exit_date:
+            return self.target_exit_date - self.target_entry_date
+        else:
+            return None
 
 
 @ts_interface()

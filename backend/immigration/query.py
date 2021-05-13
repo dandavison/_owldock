@@ -1,37 +1,31 @@
-from typing import List, Optional, Union
+from typing import List, Optional
 
-from app.api.serializers import MoveSerializer
-from immigration.models import (
-    Move,
-    Process,
-    ProcessRuleSet,
-)
+from immigration.models import Move, Process, ProcessStep, ProcessRuleSet, Route
 
 
-def get_processes(move: Union[Move, MoveSerializer]) -> List[Process]:
+def get_processes(move: dict) -> List[Process]:
     """
     Return a list of processes that could be used to effect this move.
+
+    This is the main operation in Assessment.
     """
-    print(f"get_processes() for {move}")
+    print(f"get_processes() for {repr(move)}")
     matching_processes = []
     for process_ruleset in _get_all_process_rulesets():
-        print(f"Considering {process_ruleset}")
         process = _make_process_for_move(process_ruleset, move)
         if process:
-            print("Matches!")
             matching_processes.append(process)
     return matching_processes
 
 
 def _make_process_for_move(
-    process_ruleset: ProcessRuleSet, move: Move
+    process_ruleset: ProcessRuleSet, move: dict
 ) -> Optional[Process]:
     """
     If the move satisfies the process rule, then return the resulting process.
     """
     for predicate in process_ruleset.get_predicates():
         result = predicate(move)
-        print(f"    predicate {predicate.__name__} => {result}")
         if not result:
             return None
     steps = []

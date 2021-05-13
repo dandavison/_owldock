@@ -3,27 +3,23 @@ from django.http import HttpRequest, HttpResponse
 from django.views import View
 
 from app.api.serializers import MoveSerializer, ProcessSerializer
-from app.models import Country
-from immigration.models import Move
 from immigration.query import get_processes
 from owldock.http import HttpResponseBadRequest, OwldockJsonResponse
 
+red = lambda s: __import__("clint").textui.colored.red(s, always=True, bold=True)
 
 # TODO: auth?
 class ProcessQuery(View):
     def post(self, request: HttpRequest) -> HttpResponse:
-        move_serializer = MoveSerializer(data=json.loads(request.body))
+        data = json.loads(request.body)
+        print(red(json.dumps(data, indent=2)))
+        move_serializer = MoveSerializer(data=data)
         if move_serializer.is_valid():
-            # TODO
-            move = Move(
-                host_country=Country.objects.get(
-                    name=move_serializer.validated_data["host_country"]["name"]
-                )
-            )
-            processes = get_processes(move)
+            processes = get_processes(move_serializer.data)
             process_serializer = ProcessSerializer(processes, many=True)
             return OwldockJsonResponse(process_serializer.data)
         else:
+            __import__("pdb").set_trace()
             return HttpResponseBadRequest(
                 f"validation-errors: {move_serializer.errors}"
             )

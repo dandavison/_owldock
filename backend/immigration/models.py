@@ -71,13 +71,6 @@ class Move:
         ]
         return f"{self.__class__.__name__}({', '.join(data)})"
 
-    @property
-    def duration(self) -> Optional[timedelta]:
-        if self.target_entry_date and self.target_exit_date:
-            return self.target_exit_date - self.target_entry_date
-        else:
-            return None
-
 
 class Route(BaseModel):
     """
@@ -214,11 +207,11 @@ class ProcessRuleSet(BaseModel):
         ]
         return f"{self.route}: {', '.join(data)}"
 
-    def _satisfies_host_country(self, move: Move) -> bool:
-        return move.host_country == self.route.host_country
+    def _satisfies_host_country(self, move: dict) -> bool:
+        return move["host_country"]["code"] == self.route.host_country.code
 
-    def _satisfies_nationalities(self, move: Move) -> bool:
-        move_nationalities = set(move.nationalities or [])
+    def _satisfies_nationalities(self, move: dict) -> bool:
+        move_nationalities = set(move["nationalities"] or [])
         if not move_nationalities:
             return True
         nationalities = set(self.nationalities.all())
@@ -226,17 +219,18 @@ class ProcessRuleSet(BaseModel):
             return True
         return bool(move_nationalities & nationalities)
 
-    def _satisfies_contract_location(self, move: Move) -> bool:
-        return self._matches(move.contract_location, self.contract_location)
+    def _satisfies_contract_location(self, move: dict) -> bool:
+        return self._matches(move["contract_location"], self.contract_location)
 
-    def _satisfies_duration(self, move: Move) -> bool:
+    def _satisfies_duration(self, move: dict) -> bool:
         INFINITELY_LONG = timedelta(days=999999999)
-        if move.target_entry_date is None:
+        __import__("pdb").set_trace()
+        if move["target_entry_date"] is None:
             return True
-        if move.target_exit_date is None:
+        if move["target_exit_date"] is None:
             move_duration = INFINITELY_LONG
         else:
-            move_duration = move.target_exit_date - move.target_entry_date
+            move_duration = move["target_exit_date"] - move["target_entry_date"]
 
         if self.duration_min_days and move_duration.days < self.duration_min_days:
             return False
@@ -244,22 +238,22 @@ class ProcessRuleSet(BaseModel):
             return False
         return True
 
-    def _satisfies_intra_company_move(self, move: Move) -> bool:
-        if self.intra_company_moves_only and not move.is_intra_company:
+    def _satisfies_intra_company_move(self, move: dict) -> bool:
+        if self.intra_company_moves_only and not move["is_intra_company"]:
             return False
         return True
 
-    def _satisfies_minimum_salary(self, move: Move) -> bool:
-        return self._matches(move.payroll_location, self.payroll_location)
+    def _satisfies_minimum_salary(self, move: dict) -> bool:
+        return self._matches(move["payroll_location"], self.payroll_location)
 
-    def _satisfies_payroll_location(self, move: Move) -> bool:
-        return self._matches(move.payroll_location, self.payroll_location)
+    def _satisfies_payroll_location(self, move: dict) -> bool:
+        return self._matches(move["payroll_location"], self.payroll_location)
 
     @staticmethod
     def _matches(value_1, value_2) -> bool:
         return value_1 is None or value_2 is None or value_1 == value_2
 
-    def get_predicates(self) -> "List[Callable[[Move], bool]]":
+    def get_predicates(self) -> "List[Callable[[dict], bool]]":
         """
         Return a list of predicate functions.
 

@@ -83,7 +83,17 @@ export default Vue.extend({
     async handleChangeHostCountry(country: CountrySerializer) {
       this.case_.process.route.host_country = country;
       this.move.host_country = country;
+      this.fetchMatchingProcesses();
+    },
 
+    handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
+      this.move.target_entry_date = dateToYYYYMMDD(entryDate);
+      this.move.target_exit_date = dateToYYYYMMDD(exitDate);
+      // debugger;
+      this.fetchMatchingProcesses();
+    },
+
+    async fetchMatchingProcesses(): Promise<void> {
       const matchingProcesses = (await http.postFetchDataOrNull(
         "/api/process/query/",
         {
@@ -95,11 +105,6 @@ export default Vue.extend({
           Object.assign(NullCase(), { process })
         );
       }
-    },
-
-    handleInputDateRange([entryDate, exitDate]: [Date, Date]): void {
-      this.move.target_entry_date = dateToYYYYMMDD(entryDate);
-      this.move.target_exit_date = dateToYYYYMMDD(exitDate);
     },
   },
 });
