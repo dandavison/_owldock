@@ -33,7 +33,14 @@ class Country(BaseModel):
             if self._COUNTRY_ID_TO_CURRENCIES is None:
                 self._compute_country_id_to_currencies()
                 assert self._COUNTRY_ID_TO_CURRENCIES
-            return sorted(self._COUNTRY_ID_TO_CURRENCIES.get(self.id, [None]))[0]
+            return sorted(self._COUNTRY_ID_TO_CURRENCIES.get(self.id, [None]), key=str)[
+                0
+            ]
+
+    @property
+    def currency_code(self):
+        currency = self.currency
+        return currency.code if currency else None
 
     @classmethod
     def _compute_country_id_to_currencies(cls):

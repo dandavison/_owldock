@@ -30,6 +30,17 @@ export interface CaseSpec {
   route?: EditingSpec;
   provider?: EditingSpec;
   steps?: { provider: EditingSpec };
+  // ProcessRuleSet properties
+  contract_location?: EditingSpec;
+  contractLocationRule?: EditingSpec;
+  durationRule?: EditingSpec;
+  home_countries?: EditingSpec;
+  intra_company_moves_only?: EditingSpec;
+  minimum_salary?: EditingSpec;
+  salaryRule?: EditingSpec;
+  nationalitiesRule?: EditingSpec;
+  payroll_location?: EditingSpec;
+  payrollLocationRule?: EditingSpec;
   [index: string]: EditingSpec | { provider: EditingSpec } | undefined;
 }
 

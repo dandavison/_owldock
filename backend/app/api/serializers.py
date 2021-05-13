@@ -26,6 +26,7 @@ from django.db.models import Prefetch, QuerySet
 from django.db.transaction import atomic
 from django_countries.serializers import CountryFieldMixin
 from django_typomatic import ts_interface
+from djmoney.contrib.django_rest_framework import MoneyField
 from rest_framework.serializers import (
     CharField,
     DateField,
@@ -72,9 +73,11 @@ class EnumSerializer(Serializer):
 
 @ts_interface()
 class CountrySerializer(ModelSerializer):
+    currency_code = CharField()
+
     class Meta:
         model = Country
-        fields = ["uuid", "name", "code", "unicode_flag"]
+        fields = ["uuid", "name", "code", "currency_code", "unicode_flag"]
 
 
 @ts_interface()
@@ -178,6 +181,10 @@ class MoveSerializer(Serializer):
     nationalities = CountrySerializer(many=True, required=False, allow_null=True)
     contract_location = CharField(required=False, allow_null=True)
     payroll_location = CharField(required=False, allow_null=True)
+    salary = MoneyField(
+        max_digits=10, decimal_places=2, required=False, allow_null=True
+    )
+    salary_currency = CharField(required=False, allow_null=True)
 
     @property
     def duration(self) -> Optional[timedelta]:

@@ -16,6 +16,7 @@ export function NullCountry(): CountrySerializer {
   return {
     name: "",
     code: "",
+    currency_code: "",
     unicode_flag: "",
   };
 }

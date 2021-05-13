@@ -11,3 +11,26 @@ export function dateToYYYYMMDD(date: Date): string {
   const offset = date.getTimezoneOffset() * 60 * 1000;
   return new Date(date.getTime() - offset).toISOString().slice(0, 10);
 }
+
+export const english = {
+  /// Return items formatted as English list with Oxford comma.
+  list(items: string[]): string {
+    if (items.length > 1) {
+      items = [...items];
+      const last = items[items.length - 1];
+      items[items.length - 1] = `and ${last}`;
+    }
+    return items.join(", ");
+  },
+  /// Return English quantified noun.
+  /// q(1, "day") === "1 day"
+  /// q(2, "day") === "2 days"
+  q(quantity: number, singularForm: string, pluralForm?: string): string {
+    if (quantity === 1) {
+      return `${quantity} ${singularForm}`;
+    } else {
+      pluralForm = pluralForm ?? `${singularForm}s`;
+      return `${quantity} ${pluralForm}`;
+    }
+  },
+};

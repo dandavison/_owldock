@@ -15,6 +15,7 @@ from django.db.models import (
     UniqueConstraint,
 )
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 from app.models import Country
 from owldock.models.base import BaseModel
@@ -58,6 +59,7 @@ class Move:
     nationalities: Optional[List[Country]] = None
     contract_location: Optional[Location] = None
     payroll_location: Optional[Location] = None
+    salary = Money("50000")
 
     def __str__(self):
         contract_location = (

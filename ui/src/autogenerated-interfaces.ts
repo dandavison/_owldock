@@ -7,6 +7,7 @@ export interface CountrySerializer {
   uuid?: string;
   name: string;
   code: string;
+  currency_code: string;
   unicode_flag: string;
 }
 
@@ -75,9 +76,15 @@ export interface OccupationSerializer {
 }
 
 export interface MoveSerializer {
-  host_country: CountrySerializer;
+  host_country?: CountrySerializer;
   target_entry_date?: string;
   target_exit_date?: string;
+  activity?: string;
+  nationalities?: CountrySerializer[];
+  contract_location?: string;
+  payroll_location?: string;
+  salary?: any;
+  salary_currency?: string;
 }
 
 export interface RouteSerializer {
