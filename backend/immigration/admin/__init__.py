@@ -113,6 +113,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "estimated_max_duration_days",
         "applicant_can_enter_host_country_on",
         "applicant_can_work_in_host_country_on",
+        "required_only_if_contract_location",
         "required_only_if_payroll_location",
         "required_only_if_duration_less_than",
         "required_only_if_duration_greater_than",

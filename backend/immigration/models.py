@@ -352,6 +352,16 @@ class ProcessStep(BaseModel):
         help_text="Can the applicant work in the host country on completion of this step?",
         default=False,
     )
+    required_only_if_contract_location = CharField(
+        choices=Location.choices,
+        help_text=(
+            "Contract location triggering requirement for this step. "
+            "Blank means no contract location condition."
+        ),
+        max_length=16,
+        null=True,
+        blank=True,
+    )
     required_only_if_payroll_location = CharField(
         choices=Location.choices,
         help_text=(
