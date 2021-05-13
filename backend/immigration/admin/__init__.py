@@ -105,7 +105,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
     ]
     extra = 0
     inlines = [ProcessStepIssuedDocumentInline, ServiceItemInline]
-    _fields = [
+    list_display = [
         "name",
         "host_country",
         "government_fee",
@@ -117,14 +117,28 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "required_only_if_payroll_location",
         "required_only_if_duration_less_than",
         "required_only_if_duration_greater_than",
+        "issued_documents_count",
     ]
-    list_display = _fields + ["issued_documents_count"]
     list_filter = ["host_country"]
     ordering = ["host_country", "name"]
     fieldsets = [
         (
             None,
-            {"fields": _fields},
+            {
+                "fields": [
+                    "name",
+                    "host_country",
+                    "government_fee",
+                    "estimated_min_duration_days",
+                    "estimated_max_duration_days",
+                    "applicant_can_enter_host_country_on",
+                    "applicant_can_work_in_host_country_on",
+                    "required_only_if_contract_location",
+                    "required_only_if_payroll_location",
+                    "required_only_if_duration_less_than",
+                    "required_only_if_duration_greater_than",
+                ]
+            },
         ),
         (
             None,
