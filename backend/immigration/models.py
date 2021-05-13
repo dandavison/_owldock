@@ -101,6 +101,9 @@ class Route(BaseModel):
             ),
         ]
 
+    def __str__(self) -> str:
+        return f"{self.host_country.name}: {self.name}"
+
 
 @dataclass
 class Process:
