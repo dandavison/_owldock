@@ -387,6 +387,15 @@ class ProcessStep(BaseModel):
         blank=True,
         related_name="+",
     )
+    required_only_if_home_country = ManyToManyField(
+        Country,
+        help_text=(
+            "Applicant home countries triggering requirement for this step. "
+            "Blank means no home country condition."
+        ),
+        blank=True,
+        related_name="+",
+    )
 
     class Meta:
         constraints = [

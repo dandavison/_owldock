@@ -74,8 +74,12 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
     required_only_if_nationalities_bloc_include = (
         BlocChoiceFieldMixin.make_bloc_include_field()
     )
+    required_only_if_home_country_bloc = BlocChoiceFieldMixin.make_bloc_field()
+    required_only_if_home_country_bloc_include = (
+        BlocChoiceFieldMixin.make_bloc_include_field()
+    )
 
-    _bloc_fields = ["required_only_if_nationalities"]
+    _bloc_fields = ["required_only_if_nationalities", "required_only_if_home_country"]
 
     def clean(self):
         super().clean()
@@ -95,7 +99,10 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
 @admin.register(ProcessStep)
 class ProcessStepAdmin(HasInlinesNestedModelAdmin):
     form = ProcessStepAdminForm
-    filter_horizontal = ["required_only_if_nationalities"]
+    filter_horizontal = [
+        "required_only_if_nationalities",
+        "required_only_if_home_country",
+    ]
     extra = 0
     inlines = [ProcessStepIssuedDocumentInline, ServiceItemInline]
     _fields = [
@@ -125,6 +132,16 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                     "required_only_if_nationalities_bloc",
                     "required_only_if_nationalities_bloc_include",
                     "required_only_if_nationalities",
+                ],
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
+                    "required_only_if_home_country_bloc",
+                    "required_only_if_home_country_bloc_include",
+                    "required_only_if_home_country",
                 ],
             },
         ),
