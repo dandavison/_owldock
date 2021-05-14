@@ -298,6 +298,7 @@ class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
 class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     form = ProcessRuleSetAdminForm
     list_display = [
+        "data_entry_status",
         "route",
         "host_country",
         "available_to_nationalities",
@@ -306,9 +307,9 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         "payroll_location",
         "duration_min_days",
         "duration_max_days",
-        "data_entry_status",
         "process_ruleset_steps_count",
     ]
+    list_display_links = ["route"]
     list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
