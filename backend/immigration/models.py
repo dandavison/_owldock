@@ -175,7 +175,7 @@ class ProcessRuleSet(BaseModel):
         blank=True,
     )
     minimum_salary = MoneyField(
-        help_text="Monthly gross amount; host country currency",
+        help_text="Annual gross salary in host country currency",
         max_digits=14,
         decimal_places=2,
         default_currency="EUR",
