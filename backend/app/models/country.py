@@ -6,6 +6,7 @@
 # going to try to create duplicates. But only if the unique_contraint is added
 # in the Django field definition.
 from collections import defaultdict
+from typing import Optional
 
 import moneyed
 import pycountry
@@ -22,10 +23,12 @@ class Country(BaseModel):
     _COUNTRY_ID_TO_CURRENCIES = None
 
     @property
-    def currency(self):
-        country_numeric_code = pycountry.countries.get(alpha_2=self.code).numeric
+    def currency(self) -> Optional[moneyed.Currency]:
+        pycountry_country = pycountry.countries.get(alpha_2=self.code)
+        if not pycountry_country:
+            return None
         try:
-            return moneyed.get_currency(iso=country_numeric_code)
+            return moneyed.get_currency(iso=pycountry_country.numeric)
         except moneyed.CurrencyDoesNotExist:
             # A disadvantage of this method is that some countries have more
             # than one currency and we have no information about which we should
@@ -38,7 +41,7 @@ class Country(BaseModel):
             ]
 
     @property
-    def currency_code(self):
+    def currency_code(self) -> Optional[str]:
         currency = self.currency
         return currency.code if currency else None
 
