@@ -131,7 +131,7 @@
 
     <b-table-column
       label=""
-      width="30px"
+      width="50px"
       :td-attrs="
         () => ({
           style: {
