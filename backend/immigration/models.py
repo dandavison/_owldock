@@ -279,6 +279,10 @@ class ProcessRuleSet(BaseModel):
             ).order_by("processrulesetstep__sequence_number")
         )
 
+    @property
+    def step_rulesets(self):
+        return list(self.processrulesetstep_set.order_by("sequence_number"))
+
 
 class IssuedDocument(BaseModel):
     """
@@ -418,6 +422,10 @@ class ProcessStep(BaseModel):
             return f"{self.host_country.name}: {self.name}"
         else:
             return f"<generic>: {self.name}"
+
+    @property
+    def duration_range(self) -> List[Optional[int]]:
+        return [self.estimated_min_duration_days, self.estimated_max_duration_days]
 
     def is_required_for_move(self, move: Move) -> bool:
         """

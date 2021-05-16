@@ -8,7 +8,7 @@ from uuid import UUID
 
 from django.db.models import Manager as DjangoModelManager
 from djmoney.money import Money
-from pydantic import BaseModel, PositiveInt, NonNegativeInt
+from pydantic import BaseModel, Field, PositiveInt, NonNegativeInt
 from pydantic.utils import GetterDict
 
 from immigration.models import Location
@@ -45,6 +45,35 @@ class Route(BaseModel):
         getter_dict = DjangoOrmGetterDict
 
 
+class ProcessStep(BaseModel):
+    name: str
+    government_fee: Optional[Decimal] = Field(alias="government_fee")
+    step_duration_range: List[Optional[int]] = Field(alias="duration_range")
+    contract_location: Optional[str] = Field(alias="required_only_if_contract_location")
+    payroll_location: Optional[str] = Field(alias="required_only_if_payroll_location")
+    duration_min_days: Optional[int] = Field(
+        alias="required_only_if_duration_greater_than"
+    )
+    duration_max_days: Optional[int] = Field(
+        alias="required_only_if_duration_less_than"
+    )
+    nationalities: List[Country] = Field(alias="required_only_if_nationalities")
+    home_country: List[Country] = Field(alias="required_only_if_home_country")
+
+    class Config:
+        orm_mode = True
+        getter_dict = DjangoOrmGetterDict
+
+
+class ProcessStepRuleSet(BaseModel):
+    sequence_number: NonNegativeInt
+    process_step: ProcessStep
+
+    class Config:
+        orm_mode = True
+        getter_dict = DjangoOrmGetterDict
+
+
 class ProcessRuleSetGetterDict(DjangoOrmGetterDict):
     def get(self, key: Any, default: Any = None) -> Any:
         # Serialize human-readable labels of these enums
@@ -68,6 +97,7 @@ class ProcessRuleSet(BaseModel):
     duration_max_days: Optional[PositiveInt]
     intra_company_moves_only: bool
     nationalities_description = ""  # computed in HTTP handler
+    step_rulesets: List[ProcessStepRuleSet]
 
     class Config:
         orm_mode = True
