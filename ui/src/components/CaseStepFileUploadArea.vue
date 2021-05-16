@@ -28,7 +28,7 @@ export default Vue.extend({
       this.step.uuid
     }/`;
     // TODO: clean way to disable UI Dev mode
-    const isUiDevMode = true;
+    const isUiDevMode = false;
     if (isUiDevMode) {
       /* eslint-disable @typescript-eslint/no-var-requires */
       uploadUrl = require("../dev-mode").devModeUrl(

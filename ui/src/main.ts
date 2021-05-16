@@ -11,8 +11,6 @@ import App from "./App.vue";
 import { getRole, Role } from "./role";
 import eventBus from "./event-bus";
 
-import "./dev-mode";
-
 function Portal() {
   switch (getRole()) {
     case Role.ClientContact:
