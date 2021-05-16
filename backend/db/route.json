@@ -45,21 +45,10 @@
 },
 {
   "fields": {
-    "created_at": "2021-05-05T23:35:46.944Z",
-    "host_country": 15,
-    "modified_at": "2021-05-05T23:35:46.944Z",
-    "name": "Blue Card",
-    "uuid": "db5ce16d-474c-452d-b592-874bffc2d1fd"
-  },
-  "model": "immigration.route",
-  "pk": 202
-},
-{
-  "fields": {
     "created_at": "2021-05-05T23:35:46.965Z",
     "host_country": 15,
-    "modified_at": "2021-05-05T23:35:46.965Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-12T16:28:35.552Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "6eaf70ff-c63c-4da8-aed0-7e6837edaa92"
   },
   "model": "immigration.route",
@@ -146,8 +135,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:47.158Z",
     "host_country": 22,
-    "modified_at": "2021-05-05T23:35:47.158Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.162Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "e30dc69d-a6e3-4d1e-bbff-1c3abd07f54a"
   },
   "model": "immigration.route",
@@ -155,21 +144,21 @@
 },
 {
   "fields": {
-    "created_at": "2021-05-05T23:35:47.171Z",
+    "created_at": "2021-05-05T23:35:47.330Z",
     "host_country": 22,
-    "modified_at": "2021-05-05T23:35:47.171Z",
-    "name": "Single Permit (Highly Qualified Employee/Director/Specialised Technician)",
-    "uuid": "61b0d0e6-a0e6-4cba-804f-e84bd924213f"
+    "modified_at": "2021-05-13T11:20:38.990Z",
+    "name": "Highly Qualified Employee/Director Permit",
+    "uuid": "659b4288-3edc-4267-bdf8-f4666a527ba5"
   },
   "model": "immigration.route",
-  "pk": 212
+  "pk": 215
 },
 {
   "fields": {
     "created_at": "2021-05-05T23:35:47.236Z",
     "host_country": 22,
-    "modified_at": "2021-05-05T23:35:47.236Z",
-    "name": "Single Permit (Specialised Technican) up to 6 months",
+    "modified_at": "2021-05-13T11:20:39.024Z",
+    "name": "Specialised Technician Permit",
     "uuid": "809e4b89-c720-4c42-bab4-6504b7b668fb"
   },
   "model": "immigration.route",
@@ -188,17 +177,6 @@
 },
 {
   "fields": {
-    "created_at": "2021-05-05T23:35:47.330Z",
-    "host_country": 22,
-    "modified_at": "2021-05-05T23:35:47.330Z",
-    "name": "Work Permit (Highly Qualified Employee/Director/Specialised Technician) up to 90 days",
-    "uuid": "659b4288-3edc-4267-bdf8-f4666a527ba5"
-  },
-  "model": "immigration.route",
-  "pk": 215
-},
-{
-  "fields": {
     "created_at": "2021-05-05T23:35:47.339Z",
     "host_country": 35,
     "modified_at": "2021-05-05T23:35:47.339Z",
@@ -212,8 +190,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:47.357Z",
     "host_country": 35,
-    "modified_at": "2021-05-05T23:35:47.357Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.157Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "c06024e7-f9fc-4dfe-83fd-96267ba0a18f"
   },
   "model": "immigration.route",
@@ -289,8 +267,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:47.637Z",
     "host_country": 56,
-    "modified_at": "2021-05-05T23:35:47.637Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.151Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "7e5b83e9-bbcb-459e-b87a-09c11430d9dc"
   },
   "model": "immigration.route",
@@ -344,8 +322,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:47.749Z",
     "host_country": 59,
-    "modified_at": "2021-05-05T23:35:47.749Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.146Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "26845e00-21c3-409b-a2d5-857e767c1dc4"
   },
   "model": "immigration.route",
@@ -410,8 +388,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:48.033Z",
     "host_country": 60,
-    "modified_at": "2021-05-05T23:35:48.033Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.142Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "ddd4aa85-980f-4b56-8195-59622c620f98"
   },
   "model": "immigration.route",
@@ -487,8 +465,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:48.232Z",
     "host_country": 61,
-    "modified_at": "2021-05-05T23:35:48.232Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.137Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "91517b93-9447-407e-bf45-610e348451a7"
   },
   "model": "immigration.route",
@@ -564,8 +542,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:48.447Z",
     "host_country": 70,
-    "modified_at": "2021-05-05T23:35:48.447Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.132Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "5cb3554c-fc0e-4077-a54f-a92ae49cb113"
   },
   "model": "immigration.route",
@@ -630,8 +608,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:48.659Z",
     "host_country": 76,
-    "modified_at": "2021-05-05T23:35:48.659Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.127Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "a32ae359-a7da-48a6-a370-4b4e19b2644e"
   },
   "model": "immigration.route",
@@ -674,8 +652,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:48.771Z",
     "host_country": 77,
-    "modified_at": "2021-05-05T23:35:48.771Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.106Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "0f563748-403f-4b90-9b64-0d5c0daec5b8"
   },
   "model": "immigration.route",
@@ -729,8 +707,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:48.962Z",
     "host_country": 77,
-    "modified_at": "2021-05-05T23:35:48.962Z",
-    "name": "Local Hire (Salarié)",
+    "modified_at": "2021-05-15T08:09:34.541Z",
+    "name": "Local Hire",
     "uuid": "b9463508-c24d-44d8-8197-b8520ab51022"
   },
   "model": "immigration.route",
@@ -773,8 +751,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.124Z",
     "host_country": 84,
-    "modified_at": "2021-05-05T23:35:49.124Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.100Z",
+    "name": "EU/EEA Nationals",
     "uuid": "29eadba9-effd-4d5e-acbb-4744e536d157"
   },
   "model": "immigration.route",
@@ -848,10 +826,21 @@
 },
 {
   "fields": {
+    "created_at": "2021-05-05T23:35:46.944Z",
+    "host_country": 87,
+    "modified_at": "2021-05-12T10:58:27.033Z",
+    "name": "Blue Card",
+    "uuid": "db5ce16d-474c-452d-b592-874bffc2d1fd"
+  },
+  "model": "immigration.route",
+  "pk": 202
+},
+{
+  "fields": {
     "created_at": "2021-05-05T23:35:49.332Z",
     "host_country": 87,
-    "modified_at": "2021-05-05T23:35:49.332Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.094Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "efe40534-1232-41da-96ca-dce8d9042b91"
   },
   "model": "immigration.route",
@@ -883,8 +872,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.450Z",
     "host_country": 87,
-    "modified_at": "2021-05-05T23:35:49.450Z",
-    "name": "Short-Term Assignment for Technical Staff (Article 18, Para. 1E)",
+    "modified_at": "2021-05-14T09:46:30.280Z",
+    "name": "Short-Term Assignment for Technical Expertise",
     "uuid": "a9a1ef9a-ba43-4b53-ae0c-e51a520243f1"
   },
   "model": "immigration.route",
@@ -905,8 +894,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.462Z",
     "host_country": 102,
-    "modified_at": "2021-05-05T23:35:49.462Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.089Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "6a162e52-470b-4090-af58-fde3d8fb3b29"
   },
   "model": "immigration.route",
@@ -971,8 +960,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.649Z",
     "host_country": 103,
-    "modified_at": "2021-05-05T23:35:49.649Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.084Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "b08eb9c2-d9f6-48be-bffa-ea3f239728d2"
   },
   "model": "immigration.route",
@@ -1037,8 +1026,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:49.947Z",
     "host_country": 108,
-    "modified_at": "2021-05-05T23:35:49.947Z",
-    "name": "EEA/Swiss Nationals",
+    "modified_at": "2021-05-13T11:19:29.076Z",
+    "name": "EU/EFTA Nationals",
     "uuid": "1733781c-ec5d-41e7-90af-cbf717ae122c"
   },
   "model": "immigration.route",
@@ -2025,43 +2014,10 @@
 },
 {
   "fields": {
-    "created_at": "2021-05-05T23:35:56.048Z",
-    "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.048Z",
-    "name": "Assignment B Permit (Long Term) - Non EU/EFTA",
-    "uuid": "86e667c0-b5dc-400d-9b39-f4ce311bc29e"
-  },
-  "model": "immigration.route",
-  "pk": 382
-},
-{
-  "fields": {
-    "created_at": "2021-05-05T23:35:56.056Z",
-    "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.056Z",
-    "name": "EEA/Swiss Nationals",
-    "uuid": "ba09eba5-51f5-4f1f-983e-6ed93f475b61"
-  },
-  "model": "immigration.route",
-  "pk": 383
-},
-{
-  "fields": {
-    "created_at": "2021-05-05T23:35:56.066Z",
-    "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.066Z",
-    "name": "Highly Skilled (Entrepreneurs’ Law)",
-    "uuid": "a4bb4cea-19cd-43f0-914d-e7a8482799c4"
-  },
-  "model": "immigration.route",
-  "pk": 384
-},
-{
-  "fields": {
     "created_at": "2021-05-05T23:35:56.151Z",
     "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.151Z",
-    "name": "Local Hire 120 Day Permit - Non EU/EFTA",
+    "modified_at": "2021-05-14T16:42:53.825Z",
+    "name": "120 Day/12 Months Permit",
     "uuid": "6f4749ff-3772-4700-a162-f2921b96f26e"
   },
   "model": "immigration.route",
@@ -2071,8 +2027,8 @@
   "fields": {
     "created_at": "2021-05-05T23:35:56.160Z",
     "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.160Z",
-    "name": "Local Hire 4 Month Permit - Non EU/EFTA",
+    "modified_at": "2021-05-14T13:42:26.037Z",
+    "name": "4 Month Permit",
     "uuid": "5c2b80cf-9cb8-4bd2-b343-1fa3e04b3f84"
   },
   "model": "immigration.route",
@@ -2080,10 +2036,21 @@
 },
 {
   "fields": {
+    "created_at": "2021-05-05T23:35:56.048Z",
+    "host_country": 216,
+    "modified_at": "2021-05-14T16:46:02.728Z",
+    "name": "B EU/EFTA Permit (Long Term)",
+    "uuid": "86e667c0-b5dc-400d-9b39-f4ce311bc29e"
+  },
+  "model": "immigration.route",
+  "pk": 382
+},
+{
+  "fields": {
     "created_at": "2021-05-05T23:35:56.166Z",
     "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.166Z",
-    "name": "Local Hire B Permit (Long Term) - Non EU/EFTA",
+    "modified_at": "2021-05-13T15:40:20.902Z",
+    "name": "B Permit (Long Term)",
     "uuid": "0f224263-f406-44c2-b482-8cad7493b0a2"
   },
   "model": "immigration.route",
@@ -2093,23 +2060,12 @@
   "fields": {
     "created_at": "2021-05-05T23:35:56.182Z",
     "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.182Z",
-    "name": "Local Hire L Permit (Short Term) - Non EU/EFTA",
+    "modified_at": "2021-05-14T13:25:19.668Z",
+    "name": "L Permit (Short Term)",
     "uuid": "49f6a145-697b-4089-bc9b-759613a6ade9"
   },
   "model": "immigration.route",
   "pk": 388
-},
-{
-  "fields": {
-    "created_at": "2021-05-05T23:35:56.231Z",
-    "host_country": 216,
-    "modified_at": "2021-05-05T23:35:56.231Z",
-    "name": "Local Hire Work Permit (Small Companies)",
-    "uuid": "ddd02e2c-48ff-46f2-9d8b-6aeb3c42dd38"
-  },
-  "model": "immigration.route",
-  "pk": 389
 },
 {
   "fields": {
