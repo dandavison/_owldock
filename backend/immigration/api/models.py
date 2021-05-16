@@ -7,6 +7,7 @@ from typing import Any, List, Optional
 from uuid import UUID
 
 from django.db.models import Manager as DjangoModelManager
+from djmoney.money import Money
 from pydantic import BaseModel, PositiveInt, NonNegativeInt
 from pydantic.utils import GetterDict
 
@@ -16,8 +17,6 @@ from immigration.models import Location
 class DjangoOrmGetterDict(GetterDict):
     # https://github.com/samuelcolvin/pydantic/pull/2463
     def get(self, key: Any, default: Any = None) -> Any:
-        from djmoney.money import Money
-
         value = super().get(key, default)
         if isinstance(value, DjangoModelManager):
             return list(value.all())
