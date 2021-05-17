@@ -4,10 +4,7 @@
     :data="rows"
     :paginated="paginated"
     :per-page="10"
-    :focusable="focusable"
-    :selected.sync="selectedRowProxy"
     @dblclick="(row) => $emit('dblclick', row)"
-    hoverable
   >
     <b-table-column
       v-if="columnSpec.nationalitiesRule"
@@ -177,9 +174,6 @@ export default Vue.extend({
     rows: Array as PropType<CaseSerializer[]>,
     columnSpec: Object as PropType<CaseSpec>,
     caseSpecs: Array as PropType<CaseSpec[] | null>,
-    selected: Object,
-    // TODO: focusable must always be true when using `selected`?
-    focusable: Boolean,
     paginated: {
       type: Boolean,
       default: false,
@@ -215,23 +209,8 @@ export default Vue.extend({
 
   data() {
     return {
-      selectedRowProxy: {},
       RuleEvaluationResult,
     };
-  },
-
-  watch: {
-    selectedRowProxy: function (row) {
-      // This is slightly convoluted. This component is standing downstream of a
-      // view, and upstream of b-table. But the b-table selected row feature
-      // doesn't really seem to be designed for that: it requires the use of
-      // :selected.sync=x, therefore `x` must be owned data, not the prop that
-      // the upstream view has passed in. So, this intermediate component owns
-      // some data (this.selectedRowProxy), and that data is updated by the
-      // required selected.sync with the downstream b-table, and this watcher
-      // notifies the upstream view when the selected row changes.
-      this.$emit("update:selected", row);
-    },
   },
 
   methods: {
