@@ -346,10 +346,9 @@ export default Vue.extend({
       row: CaseSerializer
     ): Record<string, string | RuleEvaluationResult | Record<string, string>> {
       const processRuleSet = (row.process as unknown) as ProcessRuleSet;
-      const result2rules = new Map<RuleEvaluationResult, Rule[]>();
       const ruleEvaluationResults =
         this.ruleEvaluationResults.get(processRuleSet.uuid)?.entries() || [];
-      let _result, _explanation;
+      const result2rules = new Map<RuleEvaluationResult, Rule[]>();
       for (const [rule, result] of ruleEvaluationResults) {
         if (!result2rules.has(result)) {
           result2rules.set(result, []);
@@ -364,6 +363,7 @@ export default Vue.extend({
       const pass = (result2rules.get(RuleEvaluationResult.Pass) ||
         []) as Rule[];
 
+      let _result, _explanation;
       if (fail.length > 0) {
         // Input data violates one or more rules.
         _result = RuleEvaluationResult.Fail;
