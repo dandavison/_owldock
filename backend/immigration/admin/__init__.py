@@ -101,8 +101,8 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "applicant_can_work_in_host_country_on",
         "required_only_if_contract_location",
         "required_only_if_payroll_location",
-        "required_only_if_duration_less_than",
         "required_only_if_duration_greater_than",
+        "required_only_if_duration_less_than",
         "issued_documents_count",
     ]
     list_filter = ["host_country"]
@@ -149,8 +149,8 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
             None,
             {
                 "fields": [
-                    "required_only_if_duration_less_than",
                     "required_only_if_duration_greater_than",
+                    "required_only_if_duration_less_than",
                 ]
             },
         ),
