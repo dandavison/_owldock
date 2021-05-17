@@ -424,8 +424,12 @@ class ProcessStep(BaseModel):
             return f"<generic>: {self.name}"
 
     @property
-    def duration_range(self) -> List[Optional[int]]:
+    def step_duration_range(self) -> List[Optional[int]]:
         return [self.estimated_min_duration_days, self.estimated_max_duration_days]
+
+    @property
+    def step_government_fee(self) -> List[Optional[int]]:
+        return self.government_fee
 
     def is_required_for_move(self, move: Move) -> bool:
         """

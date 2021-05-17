@@ -8,7 +8,7 @@ from uuid import UUID
 
 from django.db.models import Manager as DjangoModelManager
 from djmoney.money import Money
-from pydantic import BaseModel, Field, PositiveInt, NonNegativeInt
+from pydantic import BaseModel, PositiveInt, NonNegativeInt
 from pydantic.utils import GetterDict
 
 from immigration.models import Location
@@ -47,18 +47,14 @@ class Route(BaseModel):
 
 class ProcessStep(BaseModel):
     name: str
-    government_fee: Optional[Decimal] = Field(alias="government_fee")
-    step_duration_range: List[Optional[int]] = Field(alias="duration_range")
-    contract_location: Optional[str] = Field(alias="required_only_if_contract_location")
-    payroll_location: Optional[str] = Field(alias="required_only_if_payroll_location")
-    duration_min_days: Optional[int] = Field(
-        alias="required_only_if_duration_greater_than"
-    )
-    duration_max_days: Optional[int] = Field(
-        alias="required_only_if_duration_less_than"
-    )
-    nationalities: List[Country] = Field(alias="required_only_if_nationalities")
-    home_country: List[Country] = Field(alias="required_only_if_home_country")
+    step_government_fee: Optional[Decimal]
+    step_duration_range: List[Optional[int]]
+    required_only_if_contract_location: Optional[str]
+    required_only_if_payroll_location: Optional[str]
+    required_only_if_duration_greater_than: Optional[int]
+    required_only_if_duration_less_than: Optional[int]
+    required_only_if_nationalities: List[Country]
+    required_only_if_home_country: List[Country]
 
     class Config:
         orm_mode = True
