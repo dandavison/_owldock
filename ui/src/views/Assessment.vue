@@ -14,6 +14,8 @@
         style="overflow: visible"
       >
         <process-ruleset-table
+          :move="move"
+          :dates="[targetEntryDate, targetExitDate]"
           :rows="processRuleSets"
           :columnSpec="processSpec"
           :caseSpecs="[processSpec]"
