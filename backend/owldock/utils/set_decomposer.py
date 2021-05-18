@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, Set
+from typing import Dict, Iterable, List
 
 import numpy as np
 
@@ -25,19 +25,19 @@ class SetDecomposer:
     _empty_description = ""
     _universe_description = "(all)"
 
-    def __init__(self, bases: Dict[str, Iterable[str]], universe: Iterable[str]):
-        self.indices = {a: i for i, a in enumerate(sorted(universe))}
+    def __init__(self, basis: Dict[str, Iterable[str]], universe: Iterable[str]):
         self.universe = set(universe)
         self.size = len(set(universe))
-        self.bases: Dict[str, np.ndarray] = {
-            name: self._make_bitvector(set(x)) for name, x in bases.items()
-        }
+        self.indices = {a: i for i, a in enumerate(sorted(self.universe))}
+        self.basis_names = list(basis.keys())
+        self.basis = self._make_bitvectors(list(basis.values()))
 
-    def _make_bitvector(self, x: Set[str]) -> np.ndarray:
-        indices = [self.indices[a] for a in x]
-        v = np.zeros(len(self.universe), dtype=bool)
-        v[indices] = 1
-        return v
+    def _make_bitvectors(self, basis: List[Iterable[str]]) -> np.ndarray:
+        bitvectors = np.zeros((len(basis), len(self.universe)), dtype=bool)
+        for i, x in enumerate(basis):
+            indices = [self.indices[a] for a in set(x)]
+            bitvectors[i, indices] = True
+        return bitvectors
 
     def decompose(self, x: Iterable[str]) -> str:
         """
@@ -54,24 +54,14 @@ class SetDecomposer:
             )
         elif not x:
             return self._empty_description
-        v = self._make_bitvector(x)
-        no_edits = np.zeros(self.size, dtype=bool)
-        min_name, min_n_edits, min_edits = (
-            "",
-            len(self.universe) + 1,
-            (no_edits, no_edits),
+        v = self._make_bitvectors([x])
+        additions = v & ~self.basis
+        subtractions = ~v & self.basis
+        n_edits = additions.sum(axis=1) + subtractions.sum(axis=1)
+        closest = n_edits.argmin()
+        return self._make_description(
+            self.basis_names[closest], additions[closest], subtractions[closest]
         )
-        for name, base_v in self.bases.items():
-            additions = v & ~base_v
-            subtractions = ~v & base_v
-            n_edits = additions.sum() + subtractions.sum()
-            if n_edits < min_n_edits:
-                min_name, min_n_edits, min_edits = (
-                    name,
-                    n_edits,
-                    (additions, subtractions),
-                )
-        return self._make_description(min_name, *min_edits)
 
     def _make_description(
         self, base_name: str, additions: np.ndarray, subtractions: np.ndarray
