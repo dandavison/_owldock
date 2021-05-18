@@ -60,9 +60,9 @@ export default Vue.extend({
       if (result2rules.has(RuleEvaluationResult.Pass)) {
         return {
           _class: "step-included",
-          _explanation: `This step is required due to ${this.enListRules(
-            result2rules.get(RuleEvaluationResult.Fail) || []
-          )}`,
+          _explanation: `This step is required due a rule regarding ${this.enListRules(
+            result2rules.get(RuleEvaluationResult.Pass) || []
+          )}.`,
         };
       } else if (result2rules.has(RuleEvaluationResult.InsufficientInput)) {
         return {
