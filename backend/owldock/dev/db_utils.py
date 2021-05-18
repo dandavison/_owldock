@@ -1,8 +1,10 @@
 import sys
-from contextlib import ExitStack
-from contextlib import contextmanager
+from collections import Counter
+from contextlib import contextmanager, ExitStack
 
-from django.db import connections
+from django.db import connections, router
+from django.db.models import QuerySet
+from django.db.models.deletion import Collector
 from django.test.utils import CaptureQueriesContext
 
 
@@ -35,3 +37,17 @@ def print_queries():
         print("Queries:")
         for alias, capturer in capturers.items():
             print(f"    {alias}: {len(capturer.captured_queries)}")
+
+
+def objects_to_be_deleted(queryset: QuerySet):
+    collector = Collector(using=router.db_for_write(queryset.model))
+    collector.collect(queryset)
+    print("collector.dependencies:")
+    for model, dependent_models in collector.dependencies.items():
+        print(model, dependent_models)
+    print()
+    print("collector.fast_deletes:")
+    print({qs.model: qs.count() for qs in collector.fast_deletes})
+    print()
+    print("collector.data:")
+    print({k: len(v) for k, v in collector.data.items()})
