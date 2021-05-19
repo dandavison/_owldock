@@ -77,6 +77,50 @@ function Assessment() {
   }
 }
 
+function Plan() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/Plan.vue");
+    case Role.ProviderContact:
+      return import("./views/InvalidRole.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
+function Initiate() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/Initiate.vue");
+    case Role.ProviderContact:
+      return import("./views/InvalidRole.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
+function Move() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/Move.vue");
+    case Role.ProviderContact:
+      return import("./views/InvalidRole.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
+function Report() {
+  switch (getRole()) {
+    case Role.ClientContact:
+      return import("./views/Report.vue");
+    case Role.ProviderContact:
+      return import("./views/InvalidRole.vue");
+    case Role.Invalid:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
 const AccessData = () => import("./views/AccessData.vue");
 const NewCase = () => import("./views/NewCase.vue");
 
@@ -89,6 +133,11 @@ Vue.use(Buefy, {
 const routes = [
   { path: "/", component: Portal, name: "Home" },
   { path: "/portal", component: Portal, name: "Portal" },
+  { path: "/portal/plan", component: Plan, name: "Plan" },
+  { path: "/portal/initiate", component: Initiate, name: "Initiate" },
+  { path: "/portal/move", component: Move, name: "Move" },
+  { path: "/portal/report", component: Report, name: "Report" },
+  { path: "/portal/assessment", component: Assessment, name: "Assessment" },
   { path: "/portal/my-data", component: AccessData, name: "My Data" },
   { path: "/portal/new-case", component: NewCase, name: "New Case" },
   { path: "/portal/cases", component: CaseList, name: "My Cases" },
@@ -99,7 +148,6 @@ const routes = [
     component: ClientProviderRelationshipList,
     name: "My Providers",
   },
-  { path: "/portal/assessment", component: Assessment, name: "Assessment" },
 ];
 
 const router = new VueRouter({ mode: "history", routes });
