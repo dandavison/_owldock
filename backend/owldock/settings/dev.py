@@ -21,9 +21,7 @@ INSTALLED_APPS.extend(  # noqa
         "django_seed",
     ]
 )
-if "INTERNAL_IPS" not in locals():
-    INTERNAL_IPS = []
-INTERNAL_IPS.append("192.168.1.5")  # noqa
+
 MIDDLEWARE.extend(  # noqa
     [
         "app.middleware.process_exception.process_exception",
@@ -34,6 +32,9 @@ STATIC_ROOT = Path("static")
 UI_DEV_MODE = True
 
 DEBUG_TOOLBAR = False
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG_TOOLBAR,
+}
 if DEBUG_TOOLBAR:
     INSTALLED_APPS.insert(0, "debug_toolbar")  # noqa
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")  # noqa
