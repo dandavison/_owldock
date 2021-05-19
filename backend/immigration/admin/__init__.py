@@ -431,10 +431,11 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             return self.get_bloc_description_from_countries(home_countries)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[ProcessRuleSet]:
-        # FIXME: Prevent issuing many queries for host_country
         return (
             super()
             .get_queryset(request)
+            .prefetch_related("home_countries")
+            .prefetch_related("nationalities")
             .prefetch_related("process_steps__host_country")
             .prefetch_related("processrulesetstep_set__process_step__host_country")
             .order_by("route__host_country__name")
