@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.db.models import QuerySet
 from django.forms import ModelForm
 from django.http import HttpRequest
-from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from nested_admin import (
     NestedStackedInline,
@@ -434,10 +433,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         return (
             super()
             .get_queryset(request)
-            .prefetch_related("home_countries")
-            .prefetch_related("nationalities")
-            .prefetch_related("process_steps__host_country")
-            .prefetch_related("processrulesetstep_set__process_step__host_country")
+            .prefetch_related("home_countries", "nationalities", "process_steps")
             .order_by("route__host_country__name")
         )
 
