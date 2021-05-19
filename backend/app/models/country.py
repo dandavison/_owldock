@@ -30,6 +30,7 @@ class Country(BaseModel):
     name = models.CharField(max_length=128)
     code = models.CharField(max_length=2)
     unicode_flag = models.CharField(max_length=2)
+    immigration_summary = models.TextField()
 
     objects = CountryManager()
 

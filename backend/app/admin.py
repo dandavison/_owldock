@@ -49,6 +49,7 @@ class CountryAdmin(admin.ModelAdmin):
         "name",
         "code",
         "unicode_flag",
+        "immigration_summary",
     ]
 
     def get_sortable_by(self, request: HttpRequest):
