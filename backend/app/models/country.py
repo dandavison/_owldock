@@ -8,6 +8,7 @@
 from collections import defaultdict
 from typing import Optional
 
+import django_countries.fields
 import moneyed
 import pycountry
 from django.db import models
@@ -15,10 +16,22 @@ from django.db import models
 from owldock.models.base import BaseModel
 
 
+class CountryManager(models.Manager):
+    def get_or_create_from_code(self, code):
+        country = django_countries.fields.Country(code)
+        return self.get_or_create(
+            code=country.code,
+            name=country.name,
+            unicode_flag=country.unicode_flag,
+        )
+
+
 class Country(BaseModel):
     name = models.CharField(max_length=128)
     code = models.CharField(max_length=2)
     unicode_flag = models.CharField(max_length=2)
+
+    objects = CountryManager()
 
     _COUNTRY_ID_TO_CURRENCIES = None
 

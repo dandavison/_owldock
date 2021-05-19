@@ -4,9 +4,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from app.fixtures import country as country_fixture
-from app.models import Country
+from app.models import Bloc, Country
 from app.tests import factories
-from immigration.tests.conftest import *
+from immigration.tests.conftest import *  # noqa
 from owldock.tests.constants import TEST_PASSWORD
 
 
@@ -48,18 +48,32 @@ def country_B(load_country_fixture):
 
 
 @pytest.fixture
-def brazil(load_country_fixture):
-    return Country.objects.get(name="Brazil")
+def brazil():
+    return Country.objects.get_or_create_from_code("BR")[0]
 
 
 @pytest.fixture
-def france(load_country_fixture):
-    return Country.objects.get(name="France")
+def france():
+    return Country.objects.get_or_create_from_code("FR")[0]
 
 
 @pytest.fixture
-def greece(load_country_fixture):
-    return Country.objects.get(name="Greece")
+def greece():
+    return Country.objects.get_or_create_from_code("GR")[0]
+
+
+@pytest.fixture
+def brazil_bloc(brazil):
+    bloc = Bloc.objects.create(name="Brazil Bloc")
+    bloc.countries.add(brazil)
+    return bloc
+
+
+@pytest.fixture
+def france_bloc(france):
+    bloc = Bloc.objects.create(name="France Bloc")
+    bloc.countries.add(france)
+    return bloc
 
 
 @pytest.fixture

@@ -54,4 +54,6 @@ class Migration(migrations.Migration):
         ("immigration", "0005_load_europe_services"),
     ]
 
-    operations = [migrations.RunPython(create_blocs)]
+    # This migration was run in production, but is now an annoyance when
+    # creating the test db.
+    operations = []

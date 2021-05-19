@@ -1,6 +1,5 @@
 import pytest
 
-from app.models import Bloc
 from immigration.models import (
     IssuedDocument,
     Location,
@@ -217,6 +216,7 @@ def greece_eu_registration_certificate_step(
 @pytest.fixture()
 def greece_local_hire_article_17_rule_set(
     greece,
+    brazil_bloc,
     greece_local_hire_article_17_route,
     greece_visa_type_D_application_step,
     greece_residence_permit_step,
@@ -225,7 +225,7 @@ def greece_local_hire_article_17_rule_set(
 ) -> ProcessRuleSet:
     process_ruleset = ProcessRuleSetFactory(
         route=greece_local_hire_article_17_route,
-        nationalities=Bloc.objects.get(name="non-EU").countries.all(),
+        nationalities=brazil_bloc.countries.all(),  # In reality this is non-EU
         home_countries=None,
         contract_location=Location.HOST_COUNTRY,
         payroll_location=Location.HOST_COUNTRY,
@@ -261,6 +261,7 @@ def greece_local_hire_article_17_rule_set(
 @pytest.fixture()
 def greece_eu_eea_swiss_national_registration_rule_set(
     greece,
+    france_bloc,
     greece_eu_eea_swiss_national_registration_route,
     greece_posted_worker_notification_step,
     greece_tax_registration_step,
@@ -268,7 +269,7 @@ def greece_eu_eea_swiss_national_registration_rule_set(
 ) -> ProcessRuleSet:
     process_ruleset = ProcessRuleSetFactory(
         route=greece_eu_eea_swiss_national_registration_route,
-        nationalities=Bloc.objects.get(name="EU").countries.all(),
+        nationalities=france_bloc.countries.all(),  # In reality this is EU
         home_countries=None,
         contract_location=None,
         payroll_location=None,
@@ -299,13 +300,14 @@ def greece_eu_eea_swiss_national_registration_rule_set(
 @pytest.fixture()
 def greece_technical_assignment_article_18_route_rule_set(
     greece,
+    brazil_bloc,
     greece_technical_assignment_article_18_route,
     greece_visa_type_D_application_step,
     greece_posted_worker_notification_step,
 ) -> ProcessRuleSet:
     process_ruleset = ProcessRuleSetFactory(
         route=greece_technical_assignment_article_18_route,
-        nationalities=Bloc.objects.get(name="non-EU").countries.all(),
+        nationalities=brazil_bloc.countries.all(),  # In reality this is non-EU
         home_countries=None,
         contract_location=Location.HOME_COUNTRY,
         payroll_location=Location.HOME_COUNTRY,

@@ -28,4 +28,6 @@ class Migration(migrations.Migration):
         ("immigration", "0004_auto_20210505_2253"),
     ]
 
-    operations = [migrations.RunPython(forwards)]
+    # This migration was run in production, but is now an annoyance when
+    # creating the test db.
+    operations = []

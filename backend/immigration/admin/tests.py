@@ -22,7 +22,8 @@ class MockRequest:
 
 
 def test_processruleset_admin_view_queries(
-    greece_local_hire_article_17_rule_set, admin_user_client
+    greece_local_hire_article_17_rule_set,
+    admin_user_client,
 ):
     id = greece_local_hire_article_17_rule_set.id
     with assert_max_queries(20):
@@ -32,10 +33,11 @@ def test_processruleset_admin_view_queries(
 
 
 def test_processruleset_admin_list_view_queries(
-    greece_local_hire_article_17_rule_set, admin_user_client
+    greece_local_hire_article_17_rule_set,
+    admin_user_client,
 ):
     with assert_max_queries(20):
-        admin_user_client.get(f"/admin/immigration/processruleset/", follow=True)
+        admin_user_client.get("/admin/immigration/processruleset/", follow=True)
 
 
 @pytest.mark.skip
