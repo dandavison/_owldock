@@ -1,11 +1,13 @@
 import pytest
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from app.fixtures import country as country_fixture
 from app.models import Country
 from app.tests import factories
 from immigration.tests.conftest import *
+from owldock.tests.constants import TEST_PASSWORD
 
 
 def pytest_sessionstart(session):
@@ -88,3 +90,22 @@ def provider_contact_A(provider_A):
 @pytest.fixture
 def provider_contact_B(provider_B):
     return factories.ProviderContactFactory(provider=provider_B)
+
+
+@pytest.fixture
+def admin_user():
+    return get_user_model().objects.create_user(
+        username="superuser",
+        email="superuser@owldock.com",
+        first_name="Super",
+        last_name="User",
+        password=TEST_PASSWORD,
+        is_staff=True,
+        is_superuser=True,
+    )
+
+
+@pytest.fixture
+def admin_user_client(django_test_client, admin_user):
+    django_test_client.login(username=admin_user.username, password=TEST_PASSWORD)
+    return django_test_client
