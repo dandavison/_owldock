@@ -440,3 +440,10 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             .prefetch_related("processrulesetstep_set__process_step__host_country")
             .order_by("route__host_country__name")
         )
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "route":
+            kwargs["queryset"] = Route.objects.select_related("host_country").order_by(
+                "host_country__name", "name"
+            )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
