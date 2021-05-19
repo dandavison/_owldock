@@ -307,7 +307,6 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         "duration_min_days",
         "duration_max_days",
         "process_ruleset_steps_count",
-        "host_country",
     ]
     list_display_links = ["route"]
     list_filter = ["route__host_country", "data_entry_status"]
