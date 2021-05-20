@@ -69,7 +69,7 @@ class UUIDPseudoForeignKeyField(models.UUIDField):
     #
     # Then, a python property named 'parent' will be added to the model instance
     # object. This property, when accessed, will attempt to execute
-    # Parent.objects.get(id=self.parent_id)
+    # Parent.objects.get(uuid=self.parent_uuid)
     #
     # Nothing else is intended to change.
 
