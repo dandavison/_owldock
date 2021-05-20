@@ -24,7 +24,7 @@ urlpatterns = [
     # HTTP API
     path(
         "api/client-contact/applicants/",
-        login_required(client_contact.ApplicantsList.as_view()),
+        login_required(client_contact.ApplicantList.as_view()),
     ),
     path(
         "api/client-contact/create-case/",

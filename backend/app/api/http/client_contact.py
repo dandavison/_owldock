@@ -51,24 +51,17 @@ class _ClientContactView(BaseView):
             return super().dispatch(request, *args, **kwargs)
 
 
-class ApplicantsList(_ClientContactView):
+class ApplicantList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        # TODO: sorting
-        applicants = self.client_contact.applicants()
+        applicants = self.client_contact.applicants().all()
         serializer = ApplicantSerializer(applicants, many=True)
-        return OwldockJsonResponse(serializer.data)
+        data = list(serializer.data)
+        return OwldockJsonResponse(data)
 
 
 class CaseView(ClientOrProviderCaseViewMixin, _ClientContactView):
     def get(self, request: HttpRequest, uuid: UUID) -> HttpResponse:
         return self._get(request, uuid, self.client_contact)
-
-
-class ApplicantList(_ClientContactView):
-    def get(self, request: HttpRequest) -> HttpResponse:
-        applicants = self.client_contact.applicants().all()
-        serializer = ApplicantSerializer(applicants, many=True)
-        return OwldockJsonResponse(serializer.data)
 
 
 class CaseList(ClientOrProviderCaseListMixin, _ClientContactView):
