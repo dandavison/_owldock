@@ -43,13 +43,16 @@ class BlocAdmin(admin.ModelAdmin):
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ["name", "code", "unicode_flag", "get_blocs"]
+    list_display = ["name", "code", "unicode_flag", "get_blocs", "is_active"]
+    list_filter = ["is_active"]
+    list_editable = ["is_active"]
     ordering = ["name"]
     fields = [
         "name",
         "code",
         "unicode_flag",
         "immigration_summary",
+        "is_active",
     ]
 
     def get_sortable_by(self, request: HttpRequest):

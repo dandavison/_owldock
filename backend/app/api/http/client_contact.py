@@ -54,7 +54,7 @@ class _ClientContactView(BaseView):
 
 class ApplicantList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        with assert_max_queries(4):
+        with assert_max_queries(5):
             applicants = ApplicantSerializer.get_applicants_for_client_contact(
                 self.client_contact
             )

@@ -128,7 +128,15 @@ class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
         cls,
         client_contact: ClientContact,
     ) -> List[Applicant]:
-        applicants = list(client_contact.applicants().select_related("employer"))
+        # TEMP: for demo purposes
+        active_country_uuids = list(
+            Country.objects.filter(is_active=True).values_list("uuid", flat=True)
+        )
+        applicants_qs = Applicant.objects.filter(
+            applicantnationality__country_uuid__in=active_country_uuids
+        )
+        # END
+        applicants = list(applicants_qs.select_related("employer"))
         applicant_ids, user_uuids, home_country_uuids = [], [], []
         for a in applicants:
             applicant_ids.append(a.id)
