@@ -42,9 +42,11 @@ from app.models import (
     StoredFile,
     Provider,
     ProviderContact,
+    User,
 )
 from client.models import (
     Applicant,
+    ApplicantNationality,
     Case,
     Client,
     ClientContact,
@@ -116,10 +118,44 @@ class ApplicantSerializer(CountryFieldMixin, ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     id = IntegerField(read_only=False, allow_null=True, required=False, min_value=1)
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
-    user = UserSerializer()
+    user = UserSerializer(source="_user")
     employer = ClientSerializer()
-    home_country = CountrySerializer()
+    home_country = CountrySerializer(source="_home_country")
     nationalities = CountrySerializer(many=True)
+
+    @classmethod
+    def get_applicants_for_client_contact(
+        cls,
+        client_contact: ClientContact,
+    ) -> List[Applicant]:
+        applicants = list(client_contact.applicants().select_related("employer"))
+        applicant_ids, user_uuids, home_country_uuids = [], [], []
+        for a in applicants:
+            applicant_ids.append(a.id)
+            user_uuids.append(a.user_uuid)
+            home_country_uuids.append(a.home_country_uuid)
+        uuid2user = {u.uuid: u for u in User.objects.filter(uuid__in=user_uuids)}
+        applicant_ids__nationality_uuids = ApplicantNationality.objects.filter(
+            applicant_id__in=applicant_ids
+        ).values_list("applicant_id", "country_uuid")
+        uuid2country = {
+            c.uuid: c
+            for c in Country.objects.filter(
+                uuid__in=set(
+                    home_country_uuids
+                    + [uuid for _, uuid in applicant_ids__nationality_uuids]
+                )
+            )
+        }
+        applicant_id2nationalities = defaultdict(list)
+        for applicant_id, country_uuid in applicant_ids__nationality_uuids:
+            applicant_id2nationalities[applicant_id].append(uuid2country[country_uuid])
+
+        for a in applicants:
+            a._prefetched_user = uuid2user[a.user_uuid]
+            a._prefetched_home_country = uuid2country[a.home_country_uuid]
+            a._prefetched_nationalities = applicant_id2nationalities[a.id]
+        return applicants
 
     class Meta:
         model = Applicant

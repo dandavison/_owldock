@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import deletion
 from django.db.models.query import QuerySet
-from typing import TYPE_CHECKING
+from typing import List, TYPE_CHECKING
 
 from app.models import Country
 from immigration.models import Move, ProcessRuleSet
@@ -20,6 +20,10 @@ class Applicant(BaseModel):
     employer = models.ForeignKey("Client", on_delete=deletion.CASCADE)
     home_country_uuid = UUIDPseudoForeignKeyField(Country)
     home_country: Country
+
+    _prefetched_user: "User"
+    _prefetched_home_country: Country
+    _prefetched_nationalities: List[Country]
 
     class Meta:
         constraints = [
@@ -49,6 +53,14 @@ class Applicant(BaseModel):
             "country_uuid", flat=True
         )
         return Country.objects.filter(uuid__in=list(country_uuids))
+
+    @property
+    def _home_country(self) -> Country:
+        return getattr(self, "_prefetched_home_country", None) or self.home_country
+
+    @property
+    def _user(self) -> "User":
+        return getattr(self, "_prefetched_user", None) or self.user
 
 
 class ApplicantNationality(BaseModel):

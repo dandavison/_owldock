@@ -30,6 +30,7 @@ from owldock.http import (
     HttpResponseNotFound,
     OwldockJsonResponse,
 )
+from owldock.dev.db_utils import assert_max_queries
 
 
 # TODO: Refactor to share implementation with _ProviderContactView
@@ -53,10 +54,16 @@ class _ClientContactView(BaseView):
 
 class ApplicantList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        applicants = self.client_contact.applicants().all()
-        serializer = ApplicantSerializer(applicants, many=True)
-        data = list(serializer.data)
-        return OwldockJsonResponse(data)
+        with assert_max_queries(4):
+            applicants = ApplicantSerializer.get_applicants_for_client_contact(
+                self.client_contact
+            )
+
+        with assert_max_queries(1):
+            serializer = ApplicantSerializer(applicants, many=True)
+            response = OwldockJsonResponse(serializer.data)
+
+        return response
 
 
 class CaseView(ClientOrProviderCaseViewMixin, _ClientContactView):
