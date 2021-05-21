@@ -38,6 +38,8 @@ def load_europe_services(
             route = Route.objects.create(name=route_name, host_country=host_country)
             process_rule_set = ProcessRuleSet.objects.create(route=route)
             for sequence_number, service_item_name in enumerate(service_item_names, 1):
+                if service_item_name.lower().startswith("package "):
+                    continue
                 process_step = ProcessStep.objects.create(
                     process_rule_set=process_rule_set,
                     name=service_item_name[:128],
