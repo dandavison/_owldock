@@ -81,6 +81,10 @@ urlpatterns = [
         login_required(process_ruleset.ProcessRuleSetQuery.as_view()),
     ),
     path(
+        "api/process/<int:id>",
+        login_required(process_ruleset.ProcessRuleSet.as_view()),
+    ),
+    path(
         "api/provider-contact/case/<uuid:uuid>/",
         login_required(provider_contact.CaseView.as_view()),
     ),

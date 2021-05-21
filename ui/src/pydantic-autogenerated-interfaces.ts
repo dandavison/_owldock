@@ -36,7 +36,9 @@ export interface ProcessStepRuleSet {
   process_step: ProcessStep;
 }
 export interface ProcessStep {
+  id: number;
   name: string;
+  depends_on: ProcessStep[];
   step_government_fee?: number;
   step_duration_range: number[];
   required_only_if_contract_location?: string;

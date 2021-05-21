@@ -161,11 +161,21 @@
     </b-table-column>
 
     <template #detail="props">
-      <process-step-ruleset-list
-        :stepRulesets="props.row.process.step_rulesets"
-        :move="move"
-        :dates="dates"
-      />
+      <div class="level">
+        <div class="level-left">
+          <process-step-ruleset-list
+            :stepRulesets="props.row.process.step_rulesets"
+            :move="move"
+            :dates="dates"
+          />
+        </div>
+        <div class="level-right">
+          <process-steps-gantt
+            :steps="props.row.process.step_rulesets"
+            :width="600"
+          />
+        </div>
+      </div>
     </template>
   </b-table>
 </template>
@@ -178,6 +188,7 @@ import EditableRoute from "../components/EditableRoute.vue";
 import ProcessStepRulesetList from "@/components/ProcessStepRulesetList.vue";
 import { CaseSpec, EditingSpec } from "@/editable-component";
 import { RuleEvaluationResult } from "@/immigration/rules/base";
+import ProcessStepsGantt from "./ProcessStepsGantt.vue";
 
 export default Vue.extend({
   props: {
@@ -218,6 +229,7 @@ export default Vue.extend({
   components: {
     EditableRoute,
     ProcessStepRulesetList,
+    ProcessStepsGantt,
   },
 
   data() {

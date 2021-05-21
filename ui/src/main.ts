@@ -123,6 +123,7 @@ function Report() {
 
 const AccessData = () => import("./views/AccessData.vue");
 const NewCase = () => import("./views/NewCase.vue");
+const ProcessSteps = () => import("./views/ProcessSteps.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {
@@ -147,6 +148,13 @@ const routes = [
     path: "/portal/providers",
     component: ClientProviderRelationshipList,
     name: "My Providers",
+  },
+  {
+    path: "/portal/process/:id/steps/",
+    component: ProcessSteps,
+    name: "Process steps",
+    props: true,
+    meta: { navbar: false },
   },
 ];
 

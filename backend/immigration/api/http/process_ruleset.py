@@ -10,6 +10,14 @@ from immigration.api import models as api_models
 from owldock.http import OwldockJsonResponse
 
 
+class ProcessRuleSet(View):
+    def get(self, request: HttpRequest, id: int) -> HttpResponse:
+        orm_process_ruleset = orm_models.ProcessRuleSet.objects.get(id=id)
+        api_process_ruleset = api_models.ProcessRuleSet.from_orm(orm_process_ruleset)
+        data = api_process_ruleset.dict()
+        return OwldockJsonResponse(data)
+
+
 # TODO: auth?
 class ProcessRuleSetQuery(View):
     def get(self, request: HttpRequest, country_code: str) -> HttpResponse:

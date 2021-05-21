@@ -313,6 +313,17 @@ class ProcessStep(BaseModel):
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
+    is_primary = BooleanField(
+        help_text=(
+            "Is this a 'primary step', i.e., one of the top-level immigration "
+            "steps all of which will normally be handled by the same provider?"
+        )
+    )
+    depends_on = ManyToManyField(
+        "ProcessStep",
+        help_text="Steps on which this step depends directly.",
+        blank=True,
+    )
     issued_documents = ManyToManyField(
         IssuedDocument,
         help_text="Issued documents associated with this process step.",

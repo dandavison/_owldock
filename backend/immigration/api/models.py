@@ -2,6 +2,7 @@
 This module contains pydantic model definitions, defining the shape of JSON
 documents being sent to or received from the javascript app.
 """
+from __future__ import annotations
 from decimal import Decimal
 from typing import Any, List, Optional
 from uuid import UUID
@@ -46,7 +47,9 @@ class Route(BaseModel):
 
 
 class ProcessStep(BaseModel):
+    id: int
     name: str
+    depends_on: List[ProcessStep]
     step_government_fee: Optional[Decimal]
     step_duration_range: List[Optional[int]]
     required_only_if_contract_location: Optional[str]
@@ -61,7 +64,11 @@ class ProcessStep(BaseModel):
         getter_dict = DjangoOrmGetterDict
 
 
+ProcessStep.update_forward_refs()
+
+
 class ProcessStepRuleSet(BaseModel):
+    # id: int
     sequence_number: NonNegativeInt
     process_step: ProcessStep
 

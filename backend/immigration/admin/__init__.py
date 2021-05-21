@@ -80,6 +80,12 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
 
     _bloc_fields = ["required_only_if_nationalities", "required_only_if_home_country"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["depends_on"].queryset = ProcessStep.objects.filter(
+            host_country=self.instance.host_country
+        ).order_by("name")
+
 
 @admin.register(ProcessStep)
 class ProcessStepAdmin(HasInlinesNestedModelAdmin):
@@ -87,6 +93,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
     filter_horizontal = [
         "required_only_if_nationalities",
         "required_only_if_home_country",
+        "depends_on",
     ]
     extra = 0
     inlines = [ProcessStepIssuedDocumentInline, ServiceItemInline]
@@ -171,6 +178,12 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                     "required_only_if_home_country_bloc_include",
                     "required_only_if_home_country",
                 ],
+            },
+        ),
+        (
+            None,
+            {
+                "fields": ["depends_on"],
             },
         ),
     ]
@@ -311,7 +324,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
-    readonly_fields = ["step_summary"]
+    readonly_fields = ["steps_summary", "steps_gantt"]
     fieldsets = [
         (None, {"fields": ["route"]}),
         (
@@ -344,7 +357,8 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
                     "duration_min_days",
                     "duration_max_days",
                     "intra_company_moves_only",
-                    "step_summary",
+                    "steps_summary",
+                    "steps_gantt",
                 ]
             },
         ),
@@ -368,7 +382,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
         return super().get_sortable_by(request)
 
     @admin.display(description="Steps summary")
-    def step_summary(self, obj: ProcessRuleSet) -> str:
+    def steps_summary(self, obj: ProcessRuleSet) -> str:
         html = "<table><tbody>"
         html += (
             "<thead><tr>"
@@ -404,6 +418,12 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
 
         html += "</tbody></table>"
         return mark_safe(html)
+
+    @admin.display(description="Gantt chart")
+    def steps_gantt(self, obj: ProcessRuleSet) -> str:
+        return mark_safe(
+            f"<iframe src='/portal/process/{obj.id}/steps/' style='height: 500px; width: 1000px'></iframe>"
+        )
 
     @admin.display(description="Process steps")
     def process_ruleset_steps_count(self, obj: ProcessRuleSet) -> int:
