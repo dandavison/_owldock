@@ -1,17 +1,20 @@
 <template>
-  <ol>
-    <li v-for="step of stepRulesets" :key="step.sequence_number">
-      <b-tooltip type="is-info is-light" multilined>
-        <div :class="getStepClass(step)._class">
-          {{ step.process_step.name }}
-        </div>
-        <template v-slot:content>
-          <span class="is-size-2">🦉</span>
-          {{ getStepClass(step)._explanation }}
-        </template>
-      </b-tooltip>
-    </li>
-  </ol>
+  <div class="content">
+    <h1 class="title is-5">Steps</h1>
+    <ol>
+      <li v-for="step of stepRulesets" :key="step.sequence_number">
+        <b-tooltip type="is-info is-light" multilined>
+          <div :class="getStepClass(step)._class">
+            {{ step.process_step.name }}
+          </div>
+          <template v-slot:content>
+            <span class="is-size-2">🦉</span>
+            {{ getStepClass(step)._explanation }}
+          </template>
+        </b-tooltip>
+      </li>
+    </ol>
+  </div>
 </template>
 
 <script lang="ts">
