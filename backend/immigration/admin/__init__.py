@@ -111,6 +111,10 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "required_only_if_duration_less_than",
         "issued_documents_count",
     ]
+    list_editable = [
+        "estimated_min_duration_days",
+        "estimated_max_duration_days",
+    ]
     list_filter = ["host_country"]
     ordering = ["host_country", "name"]
     fieldsets = [
