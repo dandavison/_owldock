@@ -54,9 +54,9 @@ function _computeStartTime(
     // Otherwise, it starts when the last of its dependencies finishes, i.e. at
     // the greatest of the lower-bound times imposed by its dependencies.
     const lowerBounds: number[] = [];
-    const dependencies = step.process_step.depends_on.map(
-      (s) => id2step.get(s.id) as ProcessStepRuleSetWithTime
-    );
+    const dependencies = step.process_step.depends_on
+      .map((s) => id2step.get(s.id) as ProcessStepRuleSetWithTime)
+      .filter(Boolean);
     for (const dependency of dependencies) {
       if (dependency.time === [-1, -1]) {
         dependency.time = _computeStartTime(dependency, id2step);
