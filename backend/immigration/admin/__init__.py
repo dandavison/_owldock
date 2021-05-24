@@ -77,10 +77,6 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
     required_only_if_home_country_bloc_include = (
         BlocChoiceFieldMixin.make_bloc_include_field()
     )
-    is_primary = BooleanField(
-        widget=RadioSelect(choices=[(True, "Yes"), (False, "No")]),
-        required=False,
-    )
 
     _bloc_fields = ["required_only_if_nationalities", "required_only_if_home_country"]
 
@@ -129,7 +125,6 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                 "fields": [
                     "name",
                     "host_country",
-                    "is_primary",
                 ]
             },
         ),
