@@ -82,9 +82,10 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["depends_on"].queryset = ProcessStep.objects.filter(
-            host_country=self.instance.host_country
-        ).order_by("name")
+        if self.instance.host_country_id:
+            self.fields["depends_on"].queryset = ProcessStep.objects.filter(
+                host_country=self.instance.host_country
+            ).order_by("name")
 
 
 @admin.register(ProcessStep)
