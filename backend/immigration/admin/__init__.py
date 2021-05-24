@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import QuerySet
-from django.forms import ModelForm
+from django.forms import BooleanField, ModelForm, RadioSelect
 from django.http import HttpRequest
 from django.utils.safestring import mark_safe
 from nested_admin import (
@@ -77,6 +77,10 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
     required_only_if_home_country_bloc_include = (
         BlocChoiceFieldMixin.make_bloc_include_field()
     )
+    is_primary = BooleanField(
+        widget=RadioSelect(choices=[(True, "Yes"), (False, "No")]),
+        required=False,
+    )
 
     _bloc_fields = ["required_only_if_nationalities", "required_only_if_home_country"]
 
@@ -125,6 +129,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                 "fields": [
                     "name",
                     "host_country",
+                    "is_primary",
                 ]
             },
         ),
