@@ -1,5 +1,5 @@
 <template>
-  <process-steps-gantt :steps="steps" :width="1000" />
+  <process-steps-gantt :steps="steps" :width="1800" />
 </template>
 
 <script lang="ts">

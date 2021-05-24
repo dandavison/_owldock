@@ -427,7 +427,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     @admin.display(description="Gantt chart")
     def steps_gantt(self, obj: ProcessRuleSet) -> str:
         return mark_safe(
-            f"<iframe src='/portal/process/{obj.id}/steps/' style='height: 500px; width: 1000px'></iframe>"
+            f"<iframe src='/portal/process/{obj.id}/steps/' style='height: 500px; width: 1800px'></iframe>"
         )
 
     @admin.display(description="Process steps")
