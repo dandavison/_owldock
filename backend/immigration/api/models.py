@@ -4,15 +4,18 @@ documents being sent to or received from the javascript app.
 """
 from __future__ import annotations
 from decimal import Decimal
-from typing import Any, List, Optional
+from operator import itemgetter
+from typing import Any, Dict, List, Optional
 from uuid import UUID
+
+from cytoolz import itertoolz
 
 from django.db.models import Manager as DjangoModelManager
 from djmoney.money import Money
 from pydantic import BaseModel, PositiveInt, NonNegativeInt
 from pydantic.utils import GetterDict
 
-from immigration.models import Location
+from immigration import models as orm_models
 
 
 class DjangoOrmGetterDict(GetterDict):
@@ -49,7 +52,7 @@ class Route(BaseModel):
 class ProcessStep(BaseModel):
     id: int
     name: str
-    depends_on: List[ProcessStep]
+    depends_on_: List[ProcessStep]
     step_government_fee: Optional[Decimal]
     step_duration_range: List[Optional[int]]
     required_only_if_contract_location: Optional[str]
@@ -82,7 +85,7 @@ class ProcessRuleSetGetterDict(DjangoOrmGetterDict):
         # Serialize human-readable labels of these enums
         if key in {"contract_location", "payroll_location"}:
             value = getattr(self._obj, key, default)
-            return Location(value).label if value else None
+            return orm_models.Location(value).label if value else None
         else:
             return super().get(key, default)
 
@@ -105,6 +108,55 @@ class ProcessRuleSet(BaseModel):
     class Config:
         orm_mode = True
         getter_dict = ProcessRuleSetGetterDict
+
+    @classmethod
+    def get_orm_model(cls, id: int) -> orm_models.ProcessRuleSet:
+        """
+        Return ProcessRuleSet `id`, with all related objects prefetched such
+        that no queries are made during subsequent serialization.
+        """
+        orm_process_ruleset = (
+            orm_models.ProcessRuleSet.objects.select_related(
+                "route__host_country",
+            )
+            .prefetch_related(
+                "processrulesetstep_set",
+                "nationalities",
+                "home_countries",
+            )
+            .get(id=id)
+        )
+        # Create a pool of ProcessStep instances with all related objects
+        # prefetched.
+        id2step = (
+            orm_models.ProcessStep.objects.filter(
+                host_country=orm_process_ruleset.route.host_country
+            )
+            .select_related("host_country")
+            .prefetch_related(
+                "required_only_if_nationalities",
+                "required_only_if_home_country",
+            )
+            .in_bulk()
+        )
+        id2depends_on_ids = itertoolz.groupby(
+            itemgetter(0),
+            (
+                orm_models.ProcessStep.depends_on.through.objects.filter(
+                    from_processstep__in=id2step
+                ).values_list("from_processstep_id", "to_processstep_id")
+            ),
+        )
+        # Cache instances from the ProcessStep pool on the `orm_process_ruleset`
+        # instance,  so that during subsequent traversals of
+        # `orm_process_ruleset`, attribute lookup finds the cached instances.
+        for sr in orm_process_ruleset.step_rulesets:
+            sr.process_step = id2step[sr.process_step_id]
+            sr.process_step._prefetched_depends_on = [
+                id2step[id] for _, id in id2depends_on_ids.get(sr.process_step_id, [])
+            ]
+
+        return orm_process_ruleset
 
 
 class ProcessRuleSetList(BaseModel):

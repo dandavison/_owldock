@@ -7,14 +7,20 @@ from app.models.bloc import Bloc
 from app.models.country import Country
 from immigration import models as orm_models
 from immigration.api import models as api_models
+from owldock.dev.db_utils import assert_max_queries, print_queries
 from owldock.http import OwldockJsonResponse
 
 
 class ProcessRuleSet(View):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
-        orm_process_ruleset = orm_models.ProcessRuleSet.objects.get(id=id)
-        api_process_ruleset = api_models.ProcessRuleSet.from_orm(orm_process_ruleset)
-        data = api_process_ruleset.dict()
+        with print_queries():
+            orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id)
+
+        with assert_max_queries(0):
+            api_process_ruleset = api_models.ProcessRuleSet.from_orm(
+                orm_process_ruleset
+            )
+            data = api_process_ruleset.dict()
         return OwldockJsonResponse(data)
 
 

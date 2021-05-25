@@ -47,14 +47,14 @@ function _computeStartTime(
   step: ProcessStepRuleSetWithTime,
   id2step: Map<number, ProcessStepRuleSetWithTime>
 ): [number, number] {
-  if (step.process_step.depends_on.length === 0) {
+  if (step.process_step.depends_on_.length === 0) {
     // A step with no dependencies starts immediately.
     return [0.0, (step.process_step.step_duration_range[0] || 0) as number];
   } else {
     // Otherwise, it starts when the last of its dependencies finishes, i.e. at
     // the greatest of the lower-bound times imposed by its dependencies.
     const lowerBounds: number[] = [];
-    const dependencies = step.process_step.depends_on
+    const dependencies = step.process_step.depends_on_
       .map((s) => id2step.get(s.id) as ProcessStepRuleSetWithTime)
       .filter(Boolean);
     for (const dependency of dependencies) {

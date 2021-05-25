@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, timedelta
-from typing import Callable, List, NewType, Optional
+from typing import Callable, Iterable, List, NewType, Optional
 
 from django.db.models import (
     BooleanField,
@@ -280,8 +280,10 @@ class ProcessRuleSet(BaseModel):
         )
 
     @property
-    def step_rulesets(self):
-        return list(self.processrulesetstep_set.order_by("sequence_number"))
+    def step_rulesets(self) -> "List[ProcessRuleSetStep]":
+        return sorted(
+            self.processrulesetstep_set.all(), key=lambda prss: prss.sequence_number
+        )
 
 
 class IssuedDocument(BaseModel):
@@ -414,6 +416,8 @@ class ProcessStep(BaseModel):
         related_name="+",
     )
 
+    _prefetched_depends_on: "List[ProcessStep]"
+
     class Meta:
         constraints = [
             UniqueConstraint(
@@ -435,6 +439,13 @@ class ProcessStep(BaseModel):
     @property
     def step_government_fee(self) -> List[Optional[int]]:
         return self.government_fee
+
+    @property
+    def depends_on_(self) -> "List[ProcessStep]":
+        try:
+            return self._prefetched_depends_on
+        except AttributeError:
+            return list(self.depends_on.all())
 
     def is_required_for_move(self, move: Move) -> bool:
         """

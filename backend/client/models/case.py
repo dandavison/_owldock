@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import deletion
-from django.db.models.query import QuerySet
-from typing import List, TYPE_CHECKING
+from typing import Iterable, List, TYPE_CHECKING
 
 from app.models import Country
 from immigration.models import Move, ProcessRuleSet
@@ -45,7 +44,7 @@ class Applicant(BaseModel):
         )
 
     @property
-    def nationalities(self) -> QuerySet[Country]:
+    def nationalities(self) -> Iterable[Country]:
         prefetched = getattr(self, "_prefetched_nationalities", None)
         if prefetched:
             return prefetched

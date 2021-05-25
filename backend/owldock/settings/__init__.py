@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
-from typing import List
+from typing import Any, Dict, List
 
 import dj_database_url
 
