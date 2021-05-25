@@ -39,6 +39,11 @@ if DEBUG_TOOLBAR:
     INSTALLED_APPS.insert(0, "debug_toolbar")  # noqa
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")  # noqa
 
+if False:
+    LOGGING["loggers"]["django.db.backends"] = {  # noqa
+        "level": "DEBUG",
+    }
+
 if UI_DEV_MODE:
     # In UI dev mode, the javascript client is running in a page served by a
     # node.js dev server; not Django. This is desirable, because then the UI
