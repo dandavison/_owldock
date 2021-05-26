@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import include
 from django.urls import path
 from django.urls import re_path
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
 from app.api.http import client_contact
@@ -73,7 +74,10 @@ urlpatterns = [
         "api/client-contact/list-provider-relationships/",
         login_required(client_contact.ClientProviderRelationshipList.as_view()),
     ),
-    path("api/countries/", login_required(countries.CountriesList.as_view())),
+    path(
+        "api/countries/",
+        login_required(cache_page(0xFFFFFFFF)(countries.CountriesList.as_view())),
+    ),
     path("api/occupations/", login_required(occupations.OccupationsList.as_view())),
     path("api/process/query/", login_required(process_query.ProcessQuery.as_view())),
     path(
