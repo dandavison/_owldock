@@ -7,7 +7,6 @@ from django.http import (
     HttpResponse,
 )
 
-from app.api.http.base import BaseView
 from app.api.http.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
@@ -24,6 +23,7 @@ from app.api.serializers import (
 )
 from app.models import ProviderContact
 from client.models import ClientContact
+from owldock.api.http.base import BaseView
 from owldock.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
