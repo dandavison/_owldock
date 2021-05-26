@@ -1,5 +1,6 @@
 import json
 
+from clint.textui import colored
 from django.conf import settings
 from django.http import (
     HttpRequest,
@@ -7,7 +8,7 @@ from django.http import (
 )
 from django.views import View
 
-from clint.textui import colored
+from owldock.dev.db_utils import print_queries
 
 
 class BaseView(View):
@@ -20,4 +21,11 @@ class BaseView(View):
                 and request.body
             ):
                 print(json.dumps(json.loads(request.body), indent=2, sort_keys=True))
-            return super().dispatch(request, *args, **kwargs)
+            with print_queries():
+                return super().dispatch(request, *args, **kwargs)
+
+    else:
+
+        def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+            with print_queries():
+                return super().dispatch(request, *args, **kwargs)
