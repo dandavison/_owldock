@@ -5,7 +5,7 @@ documents being sent to or received from the javascript app.
 from __future__ import annotations
 from decimal import Decimal
 from operator import itemgetter
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 from uuid import UUID
 
 from cytoolz import itertoolz
@@ -31,9 +31,19 @@ class DjangoOrmGetterDict(GetterDict):
 
 
 class Country(BaseModel):
+    uuid: UUID
     name: str
     code: str
+    currency_code: Optional[str]
     unicode_flag: str
+
+    class Config:
+        orm_mode = True
+        getter_dict = DjangoOrmGetterDict
+
+
+class CountryList(BaseModel):
+    __root__: List[Country]
 
     class Config:
         orm_mode = True

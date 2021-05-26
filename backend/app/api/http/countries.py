@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 
-from app.api.serializers import CountrySerializer
+from immigration.api import models as api_models
 from app.models import Country
 from owldock.api.http.base import BaseView
 from owldock.http import OwldockJsonResponse
@@ -8,6 +8,6 @@ from owldock.http import OwldockJsonResponse
 
 class CountriesList(BaseView):
     def get(self, request: HttpRequest):
-        serializer = CountrySerializer(data=Country.objects.all(), many=True)
-        serializer.is_valid()
-        return OwldockJsonResponse(serializer.data)
+        countries = api_models.CountryList.from_orm(list(Country.objects.all()))
+        data = countries.dict()["__root__"]
+        return OwldockJsonResponse(data)
