@@ -26,7 +26,7 @@ def assert_max_queries(expected: int):
 
 
 @contextmanager
-def print_queries():
+def print_query_counts():
     with ExitStack() as stack:
         capturers = {  # type: ignore
             cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))  # type: ignore
