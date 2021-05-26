@@ -146,6 +146,13 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
+
 LOGGING: Dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
