@@ -1,3 +1,4 @@
+import re
 import sys
 import sqlparse
 from collections import Counter
@@ -49,7 +50,8 @@ def _print_query_info(counts_only):
             print(f"    {alias}: {len(capturer.captured_queries)}")
             if not counts_only:
                 for query in capturer.captured_queries:
-                    print(sqlparse.format(query["sql"], reindent=True))
+                    sql = re.sub("^SELECT .+ FROM", "SELECT * FROM", query["sql"])
+                    print(sqlparse.format(sql, reindent=True))
                     print(query["time"])
                     print()
 
