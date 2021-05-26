@@ -1,12 +1,12 @@
 from django.http import Http404, HttpRequest, HttpResponse
-from django.views import View
 
 from app.api.serializers import ProcessSerializer
 from immigration.models import ProcessRuleSet
+from owldock.api.http.base import BaseView
 from owldock.http import OwldockJsonResponse
 
 
-class ProcessList(View):
+class ProcessList(BaseView):
     def get(self, request: HttpRequest) -> HttpResponse:
         """
         Return ProcessRuleSets matching host country and applicant nationality.

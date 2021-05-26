@@ -1,17 +1,17 @@
 from typing import List
 
 from django.http import HttpRequest, HttpResponse
-from django.views import View
 
 from app.models.bloc import Bloc
 from app.models.country import Country
 from immigration import models as orm_models
 from immigration.api import models as api_models
 from owldock.dev.db_utils import print_queries, print_query_counts
+from owldock.api.http.base import BaseView
 from owldock.http import OwldockJsonResponse
 
 
-class ProcessRuleSet(View):
+class ProcessRuleSet(BaseView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
         with print_query_counts():
             orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id)
@@ -25,7 +25,7 @@ class ProcessRuleSet(View):
 
 
 # TODO: auth?
-class ProcessRuleSetQuery(View):
+class ProcessRuleSetQuery(BaseView):
     def get(self, request: HttpRequest, country_code: str) -> HttpResponse:
         orm_process_rulesets = list(
             orm_models.ProcessRuleSet.objects.filter(
