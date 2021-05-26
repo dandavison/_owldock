@@ -1,4 +1,5 @@
 import sys
+import sqlparse
 from collections import Counter
 from contextlib import contextmanager, ExitStack
 
@@ -27,6 +28,15 @@ def assert_max_queries(expected: int):
 
 @contextmanager
 def print_query_counts():
+    yield from _print_query_info(counts_only=True)
+
+
+@contextmanager
+def print_queries():
+    yield from _print_query_info(counts_only=False)
+
+
+def _print_query_info(counts_only):
     with ExitStack() as stack:
         capturers = {  # type: ignore
             cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))  # type: ignore
@@ -34,9 +44,14 @@ def print_query_counts():
         }
         yield
 
-        print("Queries:")
+        print("Query counts:" if counts_only else "Queries:")
         for alias, capturer in capturers.items():
             print(f"    {alias}: {len(capturer.captured_queries)}")
+            if not counts_only:
+                for query in capturer.captured_queries:
+                    print(sqlparse.format(query["sql"], reindent=True))
+                    print(query["time"])
+                    print()
 
 
 def objects_to_be_deleted(queryset: QuerySet):
