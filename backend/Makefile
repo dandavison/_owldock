@@ -34,7 +34,7 @@ recreate-db-render:
 	python manage.py create_fake_world
 
 serve-render:
-	python ./manage.py runserver --noreload 0.0.0.0:8000
+	gunicorn owldock.wsgi:application
 
 dumpdata:
 	python ./manage.py dumpdata --all --indent 2 --database default > db/default.json
