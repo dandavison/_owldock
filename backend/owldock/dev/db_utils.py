@@ -1,7 +1,7 @@
+from datetime import datetime
 import re
 import sys
 import sqlparse
-from collections import Counter
 from contextlib import contextmanager, ExitStack
 
 from django.db import connections, router
@@ -43,7 +43,9 @@ def _print_query_info(counts_only):
             cxn.alias: stack.enter_context(CaptureQueriesContext(cxn))  # type: ignore
             for cxn in connections.all()
         }
+        t0 = datetime.now()
         yield
+        t1 = datetime.now()
 
         print("Query counts:" if counts_only else "Queries:")
         for alias, capturer in capturers.items():
@@ -54,6 +56,7 @@ def _print_query_info(counts_only):
                     print(query["time"])
                     print()
             print(f"    {alias}: {len(capturer.captured_queries)}")
+        print(f"Time: {(t1 - t0).total_seconds():.2f}")
 
 
 def objects_to_be_deleted(queryset: QuerySet):
