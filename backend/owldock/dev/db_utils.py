@@ -47,13 +47,13 @@ def _print_query_info(counts_only):
 
         print("Query counts:" if counts_only else "Queries:")
         for alias, capturer in capturers.items():
-            print(f"    {alias}: {len(capturer.captured_queries)}")
             if not counts_only:
                 for query in capturer.captured_queries:
                     sql = re.sub("^SELECT .+ FROM", "SELECT * FROM", query["sql"])
                     print(sqlparse.format(sql, reindent=True))
                     print(query["time"])
                     print()
+            print(f"    {alias}: {len(capturer.captured_queries)}")
 
 
 def objects_to_be_deleted(queryset: QuerySet):
