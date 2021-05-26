@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.db.models import QuerySet
-from django.forms import BooleanField, ModelForm, RadioSelect
+from django.db.models import Q, QuerySet
+from django.forms import ModelForm, RadioSelect, ValidationError
 from django.http import HttpRequest
 from django.utils.safestring import mark_safe
 from nested_admin import (
@@ -16,6 +16,7 @@ from immigration.models import (
     ProcessRuleSet,
     ProcessRuleSetStep,
     ProcessStep,
+    ProcessStepType,
     Route,
     ServiceItem,
 )
@@ -86,6 +87,40 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
             self.fields["depends_on"].queryset = ProcessStep.objects.filter(
                 host_country=self.instance.host_country
             ).order_by("name")
+
+    def clean(self):
+        host_country, type = (
+            self.cleaned_data.get("host_country"),
+            self.cleaned_data.get("type"),
+        )
+
+        if type == ProcessStepType.PRIMARY:
+            if host_country is None:
+                raise ValidationError(
+                    "A Primary step must have a host country. "
+                    "If this is unduly restrictive, please let the Owldock dev team know."
+                )
+        elif type == ProcessStepType.EVENT:
+            if host_country is not None:
+                raise ValidationError("An Event step may not have a host country.")
+        elif type == ProcessStepType.ANCILLARY:
+            # We allow ancillary steps to be host-country specific or not.
+            pass
+
+        has_duration = self.cleaned_data.get(
+            "estimated_min_duration_days"
+        ) and self.cleaned_data.get("estimated_max_duration_days")
+
+        if type == ProcessStepType.EVENT:
+            if has_duration:
+                raise ValidationError(
+                    "Estimated min and max duration may not be entered for an Event step."
+                )
+        else:
+            if not has_duration:
+                raise ValidationError(
+                    "Estimated min and max duration are required for Primary and Ancillary steps."
+                )
 
 
 @admin.register(ProcessStep)
@@ -297,10 +332,11 @@ class ProcessRuleSetStepInline(NestedStackedInline):
         if getattr(self, "_parent_obj", None) and db_field.name == "process_step":
             kwargs["queryset"] = (
                 ProcessStep.objects.filter(
-                    host_country=self._parent_obj.route.host_country
+                    Q(host_country=self._parent_obj.route.host_country)
+                    | Q(host_country__isnull=True)
                 )
                 .select_related("host_country")
-                .order_by("name")
+                .order_by("-host_country", "name")
             )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 

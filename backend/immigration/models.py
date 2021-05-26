@@ -319,7 +319,9 @@ class ProcessStep(BaseModel):
     One step in a Process.
     """
 
-    host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
+    host_country = ForeignKey(
+        Country, null=True, blank=True, on_delete=deletion.CASCADE
+    )
     name = CharField(max_length=128, help_text="Name of this step")
     type = CharField(
         choices=ProcessStepType.choices,
@@ -346,10 +348,12 @@ class ProcessStep(BaseModel):
     estimated_min_duration_days = PositiveIntegerField(
         help_text="Minimum number of working days this step is expected to take",
         null=True,
+        blank=True,
     )
     estimated_max_duration_days = PositiveIntegerField(
         help_text="Maximum number of working days this step is expected to take",
         null=True,
+        blank=True,
     )
     applicant_can_enter_host_country_on = CharField(
         choices=RightConferredOn.choices,
@@ -437,10 +441,13 @@ class ProcessStep(BaseModel):
         ]
 
     def __str__(self) -> str:
-        if self.host_country:
-            return f"{self.host_country.name}: {self.name}"
+        if self.type == ProcessStepType.EVENT:
+            return f"{self.type}: {self.name}"
         else:
-            return f"<generic>: {self.name}"
+            host_country = (
+                self.host_country.name if self.host_country else "(No host country)"
+            )
+            return f"{host_country} {self.type}: {self.name}"
 
     @property
     def step_duration_range(self) -> List[Optional[int]]:
