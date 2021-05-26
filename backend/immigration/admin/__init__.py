@@ -101,6 +101,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
     list_display = [
         "name",
         "host_country",
+        "type",
         "government_fee",
         "estimated_min_duration_days",
         "estimated_max_duration_days",
@@ -113,6 +114,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "issued_documents_count",
     ]
     list_editable = [
+        "type",
         "estimated_min_duration_days",
         "estimated_max_duration_days",
     ]
@@ -125,6 +127,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                 "fields": [
                     "name",
                     "host_country",
+                    "type",
                 ]
             },
         ),

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, timedelta
-from typing import Callable, Iterable, List, NewType, Optional
+from typing import Callable, List, NewType, Optional
 
 from django.db.models import (
     BooleanField,
@@ -38,6 +38,12 @@ class DataEntryStatus(TextChoices):
     NOT_STARTED = "Not started"
     DRAFT = "Draft"
     FINAL = "Final"
+
+
+class ProcessStepType(TextChoices):
+    PRIMARY = "Primary"
+    ANCILLARY = "Ancillary"
+    EVENT = "Event"
 
 
 @dataclass
@@ -315,6 +321,10 @@ class ProcessStep(BaseModel):
 
     host_country = ForeignKey(Country, on_delete=deletion.CASCADE)
     name = CharField(max_length=128, help_text="Name of this step")
+    type = CharField(
+        choices=ProcessStepType.choices,
+        max_length=16,
+    )
     depends_on = ManyToManyField(
         "ProcessStep",
         help_text="Steps on which this step depends directly.",
