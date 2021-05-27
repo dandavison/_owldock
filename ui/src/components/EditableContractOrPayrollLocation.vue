@@ -1,13 +1,13 @@
 <template>
   <b-select @input="handleInput">
-    <option :value="HomeOrHostCountry.Unspecified">
-      {{ HomeOrHostCountry.Unspecified }}
+    <option :value="HomeOrHostCountry.None">
+      {{ HomeOrHostCountryDisplayName.get(HomeOrHostCountry.Unspecified) }}
     </option>
     <option :value="HomeOrHostCountry.HostCountry">
-      {{ HomeOrHostCountry.HostCountry }}
+      {{ HomeOrHostCountryDisplayName.get(HomeOrHostCountry.HostCountry) }}
     </option>
     <option :value="HomeOrHostCountry.HomeCountry">
-      {{ HomeOrHostCountry.HomeCountry }}
+      {{ HomeOrHostCountryDisplayName.get(HomeOrHostCountry.HomeCountry) }}
     </option>
   </b-select>
 </template>
@@ -15,7 +15,10 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { HomeOrHostCountry } from "@/immigration/rules/base";
+import {
+  HomeOrHostCountry,
+  HomeOrHostCountryDisplayName,
+} from "@/immigration/rules/base";
 
 import eventBus from "@/event-bus";
 
@@ -25,7 +28,7 @@ export default Vue.extend({
   },
 
   data() {
-    return { HomeOrHostCountry };
+    return { HomeOrHostCountry, HomeOrHostCountryDisplayName };
   },
 
   methods: {

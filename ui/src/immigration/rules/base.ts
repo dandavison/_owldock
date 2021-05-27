@@ -31,7 +31,16 @@ export class BaseRule {
 }
 
 export enum HomeOrHostCountry {
-  HomeCountry = "Home Country",
-  HostCountry = "Host Country",
-  Unspecified = "",
+  HomeCountry = "HOME_COUNTRY",
+  HostCountry = "HOST_COUNTRY",
+  None = "",
 }
+
+export const HomeOrHostCountryDisplayName: Map<
+  HomeOrHostCountry,
+  string
+> = new Map([
+  [HomeOrHostCountry.HomeCountry, "Home Country"],
+  [HomeOrHostCountry.HostCountry, "Host Country"],
+  [HomeOrHostCountry.None, ""],
+]);

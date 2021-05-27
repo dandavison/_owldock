@@ -43,7 +43,12 @@ import Case from "@/components/Case.vue";
 import ProcessRulesetTable from "@/components/ProcessRulesetTable.vue";
 import { CaseSpec } from "@/editable-component";
 import { NullCase, NullMove } from "@/factories";
-import { Rule, RuleEvaluationResult } from "@/immigration/rules/base";
+import {
+  HomeOrHostCountry,
+  HomeOrHostCountryDisplayName,
+  Rule,
+  RuleEvaluationResult,
+} from "@/immigration/rules/base";
 import { ContractLocationRule } from "@/immigration/rules/contract-location";
 import { PayrollLocationRule } from "@/immigration/rules/payroll-location";
 import { SalaryRule } from "@/immigration/rules/salary";
@@ -292,7 +297,9 @@ export default Vue.extend({
       const processRuleSet = (row.process as unknown) as ProcessRuleSet;
       const rule = new ContractLocationRule(processRuleSet);
       const { result, explanation } = rule.evaluate(
-        this.move.contract_location || ""
+        HomeOrHostCountryDisplayName.get(
+          this.move.contract_location as HomeOrHostCountry
+        ) || ""
       );
       this.ruleEvaluationResults
         .get(processRuleSet.uuid)
@@ -311,7 +318,9 @@ export default Vue.extend({
       const processRuleSet = (row.process as unknown) as ProcessRuleSet;
       const rule = new PayrollLocationRule(processRuleSet);
       const { result, explanation } = rule.evaluate(
-        this.move.payroll_location || ""
+        HomeOrHostCountryDisplayName.get(
+          this.move.payroll_location as HomeOrHostCountry
+        ) || ""
       );
       this.ruleEvaluationResults
         .get(processRuleSet.uuid)
