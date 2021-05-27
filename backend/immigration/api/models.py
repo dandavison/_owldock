@@ -62,6 +62,7 @@ class Route(BaseModel):
 class ProcessStep(BaseModel):
     id: int
     name: str
+    host_country: Optional[Country]
     depends_on_: List[ProcessStep]
     step_government_fee: Optional[Decimal]
     step_duration_range: List[Optional[int]]
@@ -92,7 +93,9 @@ class ProcessStepList(BaseModel):
         return list(
             orm_models.ProcessStep.objects.get_for_host_country_codes(
                 [host_country_code]
-            ).prefetch_related(
+            )
+            .select_related("host_country")
+            .prefetch_related(
                 "depends_on",
                 "required_only_if_nationalities",
                 "required_only_if_home_country",
@@ -102,7 +105,7 @@ class ProcessStepList(BaseModel):
 
 class ProcessStepRuleSet(BaseModel):
     # id: int
-    sequence_number: NonNegativeInt
+    sequence_number: Optional[NonNegativeInt]
     process_step: ProcessStep
 
     class Config:
@@ -121,6 +124,7 @@ class ProcessRuleSetGetterDict(DjangoOrmGetterDict):
 
 
 class ProcessRuleSet(BaseModel):
+    id: int
     uuid: UUID
     route: Route
     nationalities: List[Country]

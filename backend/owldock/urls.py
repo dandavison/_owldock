@@ -90,6 +90,10 @@ urlpatterns = [
         login_required(process_ruleset.ProcessRuleSet.as_view()),
     ),
     path(
+        "api/processes/<str:country_code>/",
+        login_required(process_ruleset.ProcessRuleSetList.as_view()),
+    ),
+    path(
         "api/process-steps/<str:country_code>/",
         login_required(process_step.ProcessStepList.as_view()),
     ),

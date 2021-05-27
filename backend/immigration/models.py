@@ -291,7 +291,8 @@ class ProcessRuleSet(BaseModel):
     @property
     def step_rulesets(self) -> "List[ProcessRuleSetStep]":
         return sorted(
-            self.processrulesetstep_set.all(), key=lambda prss: prss.sequence_number
+            self.processrulesetstep_set.all(),
+            key=lambda prss: prss.sequence_number or 0,
         )
 
 
@@ -523,7 +524,8 @@ class ProcessRuleSetStep(BaseModel):
     process_ruleset = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     process_step = ForeignKey(ProcessStep, on_delete=deletion.CASCADE)
     sequence_number = PositiveIntegerField(
-        help_text="Order of this step relative to other steps of this process."
+        help_text="Order of this step relative to other steps of this process.",
+        null=True,
     )
 
     def __str__(self) -> str:

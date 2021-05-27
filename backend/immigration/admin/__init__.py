@@ -323,8 +323,6 @@ class RouteAdmin(admin.ModelAdmin):
 
 class ProcessRuleSetStepInline(NestedStackedInline):
     model = ProcessRuleSetStep
-    sortable_field_name = "sequence_number"
-    ordering = ["sequence_number"]
     extra = 0
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -434,20 +432,16 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
             "</tr></thead>"
         )
         html += "<tr></tr>"
-        for prss in (
-            obj.process_steps.through.objects.filter(process_ruleset=obj)
-            .prefetch_related("process_step__issued_documents")
-            .order_by("sequence_number")
-        ):
+        for prss in obj.process_steps.through.objects.filter(
+            process_ruleset=obj
+        ).prefetch_related("process_step__issued_documents"):
             first = True
             issued_documents = prss.process_step.issued_documents.all()
             if issued_documents:
                 for id in issued_documents:
                     html += "<tr>"
                     if first:
-                        html += (
-                            f"<td>{prss.sequence_number}. {prss.process_step.name}</td>"
-                        )
+                        html += f"<td>{prss.process_step.name}</td>"
                         first = False
                     else:
                         html += "<td></td>"
@@ -455,7 +449,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
                     html += "</tr>"
             else:
                 html += "<tr>"
-                html += f"<td>{prss.sequence_number}. {prss.process_step.name}</td>"
+                html += f"<td>{prss.process_step.name}</td>"
                 html += "<td></td>"
                 html += "</tr>"
 
@@ -465,7 +459,8 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     @admin.display(description="Gantt chart")
     def steps_gantt(self, obj: ProcessRuleSet) -> str:
         return mark_safe(
-            f"<iframe src='/portal/process/{obj.id}/steps/' style='height: 500px; width: 1800px'></iframe>"
+            f"<iframe src='/portal/processes/{obj.route.host_country.code}/{obj.id}/' "
+            f"style='height: 1500px; width: 1800px'></iframe>"
         )
 
     @admin.display(description="Process steps")

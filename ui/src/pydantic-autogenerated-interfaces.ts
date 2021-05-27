@@ -7,6 +7,7 @@
 
 export type CountryList = Country[];
 export type ProcessRuleSetList = ProcessRuleSet[];
+export type ProcessStepList = ProcessStep[];
 
 export interface Country {
   uuid: string;
@@ -16,6 +17,7 @@ export interface Country {
   unicode_flag: string;
 }
 export interface ProcessRuleSet {
+  id: number;
   uuid: string;
   route: Route;
   nationalities: Country[];
@@ -35,12 +37,13 @@ export interface Route {
   host_country: Country;
 }
 export interface ProcessStepRuleSet {
-  sequence_number: number;
+  sequence_number?: number;
   process_step: ProcessStep;
 }
 export interface ProcessStep {
   id: number;
   name: string;
+  host_country?: Country;
   depends_on_: ProcessStep[];
   step_government_fee?: number;
   step_duration_range: number[];

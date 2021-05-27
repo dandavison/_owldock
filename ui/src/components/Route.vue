@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: This is very similar to Process.vue -->
   <div class="media">
     <div class="media-left">
       <country :country="route.host_country" />
@@ -7,6 +8,7 @@
     <div class="media-content">
       <p class="title is-size-6">
         {{ route.name }}
+        <sup><i v-if="editable" class="fas fa-pencil-alt"></i></sup>
       </p>
     </div>
   </div>

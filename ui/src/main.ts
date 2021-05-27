@@ -124,6 +124,7 @@ function Report() {
 const AccessData = () => import("./views/AccessData.vue");
 const NewCase = () => import("./views/NewCase.vue");
 const ProcessSteps = () => import("./views/ProcessSteps.vue");
+const Processes = () => import("./views/Processes.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {
@@ -153,6 +154,20 @@ const routes = [
     path: "/portal/process/:id/steps/",
     component: ProcessSteps,
     name: "Process steps",
+    props: true,
+    meta: { navbar: false },
+  },
+  {
+    path: "/portal/processes/:countryCode/",
+    component: Processes,
+    name: "Immigration Processes",
+    props: true,
+    meta: { navbar: false },
+  },
+  {
+    path: "/portal/processes/:countryCode/:processIdString/",
+    component: Processes,
+    name: "Immigration Process",
     props: true,
     meta: { navbar: false },
   },

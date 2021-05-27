@@ -25,3 +25,10 @@ export function dismissMobileKeyboardOnDropdownScroll(
     };
   }
 }
+
+export async function renderComponentToString(vm: Vue): Promise<string> {
+  const el = document.createElement("div");
+  vm.$mount(el);
+  await vm.$nextTick();
+  return vm.$el.innerHTML;
+}

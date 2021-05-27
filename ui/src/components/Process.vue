@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: This is very similar to Route.vue  -->
   <div class="media">
     <div class="media-left">
       <country :country="case_.process.route.host_country" />
