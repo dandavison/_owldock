@@ -80,6 +80,26 @@ class ProcessStep(BaseModel):
 ProcessStep.update_forward_refs()
 
 
+class ProcessStepList(BaseModel):
+    __root__: List[ProcessStep]
+
+    class Config:
+        orm_mode = True
+        getter_dict = DjangoOrmGetterDict
+
+    @classmethod
+    def get_orm_models(cls, host_country_code: str) -> List[orm_models.ProcessStep]:
+        return list(
+            orm_models.ProcessStep.objects.get_for_host_country_code(
+                host_country_code
+            ).prefetch_related(
+                "depends_on",
+                "required_only_if_nationalities",
+                "required_only_if_home_country",
+            )
+        )
+
+
 class ProcessStepRuleSet(BaseModel):
     # id: int
     sequence_number: NonNegativeInt

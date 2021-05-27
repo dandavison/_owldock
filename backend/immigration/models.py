@@ -12,6 +12,7 @@ from django.db.models import (
     ManyToManyField,
     PositiveIntegerField,
     Q,
+    QuerySet,
     TextChoices,
     TextField,
     UniqueConstraint,
