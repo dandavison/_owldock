@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.db.models import Q, QuerySet
-from django.forms import ModelForm, RadioSelect, ValidationError
+from django.db.models import QuerySet
+from django.forms import ModelForm, ValidationError
 from django.http import HttpRequest
 from django.utils.safestring import mark_safe
 from nested_admin import (
@@ -331,9 +331,8 @@ class ProcessRuleSetStepInline(NestedStackedInline):
         # See HasInlinesNestedModelAdmin
         if getattr(self, "_parent_obj", None) and db_field.name == "process_step":
             kwargs["queryset"] = (
-                ProcessStep.objects.filter(
-                    Q(host_country=self._parent_obj.route.host_country)
-                    | Q(host_country__isnull=True)
+                ProcessStep.objects.get_for_host_country_code(
+                    self._parent_obj.route.host_country.code
                 )
                 .select_related("host_country")
                 .order_by("-host_country", "name")

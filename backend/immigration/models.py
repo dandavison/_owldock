@@ -8,8 +8,10 @@ from django.db.models import (
     deletion,
     ForeignKey,
     OneToOneField,
+    Manager,
     ManyToManyField,
     PositiveIntegerField,
+    Q,
     TextChoices,
     TextField,
     UniqueConstraint,
@@ -314,6 +316,13 @@ class IssuedDocument(BaseModel):
     )
 
 
+class ProcessStepManager(Manager):
+    def get_for_host_country_code(self, country_code: str) -> "QuerySet[ProcessStep]":
+        return self.filter(
+            Q(host_country__code=country_code) | Q(host_country__isnull=True)
+        )
+
+
 class ProcessStep(BaseModel):
     """
     One step in a Process.
@@ -431,6 +440,8 @@ class ProcessStep(BaseModel):
     )
 
     _prefetched_depends_on: "List[ProcessStep]"
+
+    objects = ProcessStepManager()
 
     class Meta:
         constraints = [

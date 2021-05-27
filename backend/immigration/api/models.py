@@ -10,7 +10,7 @@ from uuid import UUID
 
 from cytoolz import itertoolz
 
-from django.db.models import Manager as DjangoModelManager, Q
+from django.db.models import Manager as DjangoModelManager
 from djmoney.money import Money
 from pydantic import BaseModel, PositiveInt, NonNegativeInt
 from pydantic.utils import GetterDict
@@ -139,9 +139,8 @@ class ProcessRuleSet(BaseModel):
         # Create a pool of ProcessStep instances with all related objects
         # prefetched.
         id2step = (
-            orm_models.ProcessStep.objects.filter(
-                Q(host_country=orm_process_ruleset.route.host_country)
-                | Q(host_country__isnull=True)
+            orm_models.ProcessStep.objects.get_for_host_country_code(
+                orm_process_ruleset.route.host_country.code
             )
             .select_related("host_country")
             .prefetch_related(
