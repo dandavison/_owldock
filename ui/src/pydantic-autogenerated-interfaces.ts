@@ -5,11 +5,14 @@
 /* Do not modify it by hand - just update the pydantic models and then re-run the script
 */
 
+export type CountryList = Country[];
 export type ProcessRuleSetList = ProcessRuleSet[];
 
 export interface Country {
+  uuid: string;
   name: string;
   code: string;
+  currency_code?: string;
   unicode_flag: string;
 }
 export interface ProcessRuleSet {
