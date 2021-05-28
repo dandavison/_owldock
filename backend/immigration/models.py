@@ -318,9 +318,11 @@ class IssuedDocument(BaseModel):
 
 
 class ProcessStepManager(Manager):
-    def get_for_host_country_code(self, country_code: str) -> "QuerySet[ProcessStep]":
+    def get_for_host_country_codes(
+        self, country_codes: List[str]
+    ) -> "QuerySet[ProcessStep]":
         return self.filter(
-            Q(host_country__code=country_code) | Q(host_country__isnull=True)
+            Q(host_country__code__in=country_codes) | Q(host_country__isnull=True)
         )
 
 

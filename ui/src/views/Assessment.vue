@@ -219,7 +219,7 @@ export default Vue.extend({
       this.processRuleSets = [];
       this.ruleEvaluationResults = new Map();
       const processRuleSets = (await http.fetchDataOrNull(
-        `/api/processruleset/${country.code}`
+        `/api/processes/${country.code}/`
       )) as ProcessRuleSet[] | null;
       if (processRuleSets) {
         for (const process of processRuleSets) {

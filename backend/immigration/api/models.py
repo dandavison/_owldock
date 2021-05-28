@@ -90,8 +90,8 @@ class ProcessStepList(BaseModel):
     @classmethod
     def get_orm_models(cls, host_country_code: str) -> List[orm_models.ProcessStep]:
         return list(
-            orm_models.ProcessStep.objects.get_for_host_country_code(
-                host_country_code
+            orm_models.ProcessStep.objects.get_for_host_country_codes(
+                [host_country_code]
             ).prefetch_related(
                 "depends_on",
                 "required_only_if_nationalities",
@@ -140,12 +140,25 @@ class ProcessRuleSet(BaseModel):
         getter_dict = ProcessRuleSetGetterDict
 
     @classmethod
-    def get_orm_model(cls, id: int) -> orm_models.ProcessRuleSet:
+    def get_orm_model(cls, **kwargs) -> orm_models.ProcessRuleSet:
+        [process_ruleset] = ProcessRuleSetList.get_orm_models(**kwargs)
+        return process_ruleset
+
+
+class ProcessRuleSetList(BaseModel):
+    __root__: List[ProcessRuleSet]
+
+    class Config:
+        orm_mode = True
+        getter_dict = DjangoOrmGetterDict
+
+    @classmethod
+    def get_orm_models(cls, **kwargs) -> List[orm_models.ProcessRuleSet]:
         """
         Return ProcessRuleSet `id`, with all related objects prefetched such
         that no queries are made during subsequent serialization.
         """
-        orm_process_ruleset = (
+        orm_process_rulesets = list(
             orm_models.ProcessRuleSet.objects.select_related(
                 "route__host_country",
             )
@@ -154,13 +167,13 @@ class ProcessRuleSet(BaseModel):
                 "nationalities",
                 "home_countries",
             )
-            .get(id=id)
+            .filter(**kwargs)
         )
         # Create a pool of ProcessStep instances with all related objects
         # prefetched.
         id2step = (
-            orm_models.ProcessStep.objects.get_for_host_country_code(
-                orm_process_ruleset.route.host_country.code
+            orm_models.ProcessStep.objects.get_for_host_country_codes(
+                [pr.route.host_country.code for pr in orm_process_rulesets]
             )
             .select_related("host_country")
             .prefetch_related(
@@ -180,18 +193,12 @@ class ProcessRuleSet(BaseModel):
         # Cache instances from the ProcessStep pool on the `orm_process_ruleset`
         # instance,  so that during subsequent traversals of
         # `orm_process_ruleset`, attribute lookup finds the cached instances.
-        for sr in orm_process_ruleset.step_rulesets:
-            sr.process_step = id2step[sr.process_step_id]
-            sr.process_step._prefetched_depends_on = [
-                id2step[id] for _, id in id2depends_on_ids.get(sr.process_step_id, [])
-            ]
+        for pr in orm_process_rulesets:
+            for sr in pr.step_rulesets:
+                sr.process_step = id2step[sr.process_step_id]
+                sr.process_step._prefetched_depends_on = [
+                    id2step[id]
+                    for _, id in id2depends_on_ids.get(sr.process_step_id, [])
+                ]
 
-        return orm_process_ruleset
-
-
-class ProcessRuleSetList(BaseModel):
-    __root__: List[ProcessRuleSet]
-
-    class Config:
-        orm_mode = True
-        getter_dict = DjangoOrmGetterDict
+        return orm_process_rulesets

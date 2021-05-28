@@ -331,8 +331,8 @@ class ProcessRuleSetStepInline(NestedStackedInline):
         # See HasInlinesNestedModelAdmin
         if getattr(self, "_parent_obj", None) and db_field.name == "process_step":
             kwargs["queryset"] = (
-                ProcessStep.objects.get_for_host_country_code(
-                    self._parent_obj.route.host_country.code
+                ProcessStep.objects.get_for_host_country_codes(
+                    [self._parent_obj.route.host_country.code]
                 )
                 .select_related("host_country")
                 .order_by("-host_country", "name")

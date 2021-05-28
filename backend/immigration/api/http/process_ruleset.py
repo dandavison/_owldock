@@ -14,7 +14,7 @@ from owldock.http import OwldockJsonResponse
 class ProcessRuleSet(BaseView):
     def get(self, request: HttpRequest, id: int) -> HttpResponse:
         with print_query_counts():
-            orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id)
+            orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id=id)
 
         with print_queries():
             api_process_ruleset = api_models.ProcessRuleSet.from_orm(
@@ -25,17 +25,18 @@ class ProcessRuleSet(BaseView):
 
 
 # TODO: auth?
-class ProcessRuleSetQuery(BaseView):
+class ProcessRuleSetList(BaseView):
     def get(self, request: HttpRequest, country_code: str) -> HttpResponse:
-        orm_process_rulesets = list(
-            orm_models.ProcessRuleSet.objects.filter(
+        with print_query_counts():
+            orm_process_rulesets = api_models.ProcessRuleSetList.get_orm_models(
                 route__host_country__code=country_code
             )
-        )
-        api_process_rulesets = api_models.ProcessRuleSetList.from_orm(
-            orm_process_rulesets
-        )
-        data = api_process_rulesets.dict()["__root__"]
+
+        with print_queries():
+            api_process_rulesets = api_models.ProcessRuleSetList.from_orm(
+                orm_process_rulesets
+            )
+            data = api_process_rulesets.dict()["__root__"]
         self._add_bloc_descriptions("nationalities", data)
         return OwldockJsonResponse(data)
 
