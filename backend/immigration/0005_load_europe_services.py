@@ -26,4 +26,5 @@ class Migration(migrations.Migration):
         ("immigration", "0003_serviceitem"),
     ]
 
-    operations = [migrations.RunPython(forwards)]
+    # Operation deleted so that it doesn't run when recreating DB
+    operations = []

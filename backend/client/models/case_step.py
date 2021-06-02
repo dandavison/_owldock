@@ -98,7 +98,6 @@ class CaseStep(BaseModel):
     case = models.ForeignKey(Case, on_delete=deletion.CASCADE, related_name="steps")
     process_step_uuid = UUIDPseudoForeignKeyField(ProcessStep)
     process_step: ProcessStep
-    sequence_number = models.PositiveIntegerField()
     active_contract = models.OneToOneField(
         "CaseStepContract", null=True, on_delete=deletion.SET_NULL
     )
@@ -107,9 +106,6 @@ class CaseStep(BaseModel):
     # Added by django-fsm
     get_available_state_name_transitions: Callable
     get_available_user_state_name_transitions: Callable
-
-    class Meta:
-        ordering = ["sequence_number"]
 
     def validate(self):
         # TODO: Should UUIDPseudoForeignKeyField cause this to happen

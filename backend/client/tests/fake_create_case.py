@@ -87,7 +87,6 @@ def _create_case_steps_from_process_steps(
                     "provider_contact": provider_contact.data,
                 },
                 "process_step": process_step.data,
-                "sequence_number": i,
                 "state": {
                     "name": CaseStepState.FREE.name,
                     "value": CaseStepState.FREE.value,

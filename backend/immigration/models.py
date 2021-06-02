@@ -283,17 +283,12 @@ class ProcessRuleSet(BaseModel):
 
     def get_process_steps(self):
         return list(
-            ProcessStep.objects.filter(
-                processrulesetstep__process_ruleset=self
-            ).order_by("processrulesetstep__sequence_number")
+            ProcessStep.objects.filter(processrulesetstep__process_ruleset=self)
         )
 
     @property
     def step_rulesets(self) -> "List[ProcessRuleSetStep]":
-        return sorted(
-            self.processrulesetstep_set.all(),
-            key=lambda prss: prss.sequence_number or 0,
-        )
+        return list(self.processrulesetstep_set.all())
 
 
 class IssuedDocument(BaseModel):
@@ -523,16 +518,12 @@ class ProcessRuleSetStep(BaseModel):
 
     process_ruleset = ForeignKey(ProcessRuleSet, on_delete=deletion.CASCADE)
     process_step = ForeignKey(ProcessStep, on_delete=deletion.CASCADE)
-    sequence_number = PositiveIntegerField(
-        help_text="Order of this step relative to other steps of this process.",
-        null=True,
-    )
 
     def __str__(self) -> str:
         if self.id:
-            return f"{self.sequence_number}. {self.process_step.name}"
+            return self.process_step.name
         else:
-            return f"{self.sequence_number}. (New instance without process step)"
+            return "(New instance without process step)"
 
 
 class ServiceItem(BaseModel):

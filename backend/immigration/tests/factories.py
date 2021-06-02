@@ -148,7 +148,6 @@ class ProcessRuleSetStepFactory(BaseModelFactory):
 
     process_ruleset = factory.SubFactory(ProcessRuleSetFactory)
     process_step = factory.SubFactory(ProcessStepFactory)
-    sequence_number = 1
 
 
 class ServiceItemFactory(BaseModelFactory):

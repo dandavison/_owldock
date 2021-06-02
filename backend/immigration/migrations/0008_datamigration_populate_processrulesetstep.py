@@ -2,10 +2,6 @@
 
 from django.db import migrations
 
-from immigration.management.commands.datamigration_process_steps import (
-    datamigration_process_steps,
-)
-
 
 class Migration(migrations.Migration):
 
@@ -13,4 +9,5 @@ class Migration(migrations.Migration):
         ("immigration", "0007_auto_20210507_2257"),
     ]
 
-    operations = [migrations.RunPython(datamigration_process_steps)]
+    # Operations deleted after running migration
+    operations = []

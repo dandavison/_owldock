@@ -335,11 +335,9 @@ class CaseStepSerializer(ModelSerializer):
             "active_contract",
             "uuid",
             "process_step",
-            "sequence_number",
             "state",
             "stored_files",
         ]
-        ordering = ["sequence_number"]
 
 
 @ts_interface()
@@ -508,7 +506,6 @@ class CaseSerializer(ModelSerializer):
         for case_step_data in case_steps_data:
             case_step = case.steps.create(
                 process_step_uuid=case_step_data["process_step"]["uuid"],
-                sequence_number=case_step_data["sequence_number"],
             )
             provider_contact = ProviderContact.objects.get(
                 uuid=case_step_data["active_contract"]["provider_contact"]["uuid"]

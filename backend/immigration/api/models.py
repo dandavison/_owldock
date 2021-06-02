@@ -105,7 +105,6 @@ class ProcessStepList(BaseModel):
 
 class ProcessStepRuleSet(BaseModel):
     # id: int
-    sequence_number: Optional[NonNegativeInt]
     process_step: ProcessStep
 
     class Config:

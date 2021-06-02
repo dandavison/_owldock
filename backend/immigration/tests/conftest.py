@@ -238,22 +238,18 @@ def greece_local_hire_article_17_rule_set(
     ProcessRuleSetStepFactory(
         process_step=greece_visa_type_D_application_step,
         process_ruleset=process_ruleset,
-        sequence_number=1,
     )
     ProcessRuleSetStepFactory(
         process_step=greece_residence_permit_step,
         process_ruleset=process_ruleset,
-        sequence_number=2,
     )
     ProcessRuleSetStepFactory(
         process_step=greece_biometrics_step,
         process_ruleset=process_ruleset,
-        sequence_number=3,
     )
     ProcessRuleSetStepFactory(
         process_step=greece_issuance_of_residence_card_step,
         process_ruleset=process_ruleset,
-        sequence_number=4,
     )
     return process_ruleset
 
@@ -282,17 +278,14 @@ def greece_eu_eea_swiss_national_registration_rule_set(
     ProcessRuleSetStepFactory(
         process_step=greece_posted_worker_notification_step,
         process_ruleset=process_ruleset,
-        sequence_number=1,
     )
     ProcessRuleSetStepFactory(
         process_step=greece_tax_registration_step,
         process_ruleset=process_ruleset,
-        sequence_number=2,
     )
     ProcessRuleSetStepFactory(
         process_step=greece_eu_registration_certificate_step,
         process_ruleset=process_ruleset,
-        sequence_number=3,
     )
     return process_ruleset
 
@@ -320,11 +313,9 @@ def greece_technical_assignment_article_18_route_rule_set(
     ProcessRuleSetStepFactory(
         process_step=greece_visa_type_D_application_step,
         process_ruleset=process_ruleset,
-        sequence_number=1,
     )
     ProcessRuleSetStepFactory(
         process_step=greece_posted_worker_notification_step,
         process_ruleset=process_ruleset,
-        sequence_number=2,
     )
     return process_ruleset

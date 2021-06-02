@@ -37,15 +37,12 @@ def load_europe_services(
                 continue
             route = Route.objects.create(name=route_name, host_country=host_country)
             process_rule_set = ProcessRuleSet.objects.create(route=route)
-            for sequence_number, service_item_name in enumerate(service_item_names, 1):
+            for service_item_name in service_item_names:
                 if service_item_name.lower().startswith("package "):
                     continue
                 process_step = ProcessStep.objects.create(
                     process_rule_set=process_rule_set,
                     name=service_item_name[:128],
-                    # This column has gone, but this code executes in a datamigration.
-                    # TODO: move it into the datamigration.
-                    sequence_number=sequence_number,
                 )
                 ServiceItem.objects.create(
                     process_step=process_step, description=service_item_name
