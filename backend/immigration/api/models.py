@@ -90,17 +90,8 @@ class ProcessStepList(BaseModel):
 
     @classmethod
     def get_orm_models(cls, host_country_code: str) -> List[orm_models.ProcessStep]:
-        return list(
-            orm_models.ProcessStep.objects.get_for_host_country_codes(
-                [host_country_code]
-            )
-            .select_related("host_country")
-            .prefetch_related(
-                "depends_on",
-                "required_only_if_nationalities",
-                "required_only_if_home_country",
-            )
-        )
+        id2step = _prefetch_process_steps_for_host_country_codes([host_country_code])
+        return list(id2step.values())
 
 
 class ProcessStepRuleSet(BaseModel):
@@ -172,39 +163,42 @@ class ProcessRuleSetList(BaseModel):
             )
             .filter(**kwargs)
         )
-        # Create a pool of ProcessStep instances with all related objects
-        # prefetched.
-        id2step = (
-            orm_models.ProcessStep.objects.get_for_host_country_codes(
-                [pr.route.host_country.code for pr in orm_process_rulesets]
-            )
-            .select_related("host_country")
-            .prefetch_related(
-                "required_only_if_nationalities",
-                "required_only_if_home_country",
-            )
-            .in_bulk()
+        id2step = _prefetch_process_steps_for_host_country_codes(
+            [pr.route.host_country.code for pr in orm_process_rulesets]
         )
-        id2depends_on_ids = itertoolz.groupby(
-            itemgetter(0),
-            (
-                orm_models.ProcessStep.depends_on.through.objects.filter(
-                    from_processstep__in=id2step
-                ).values_list("from_processstep_id", "to_processstep_id")
-            ),
-        )
-        # Cache instances from the ProcessStep pool on the `orm_process_ruleset`
-        # instance,  so that during subsequent traversals of
-        # `orm_process_ruleset`, attribute lookup finds the cached instances.
         for pr in orm_process_rulesets:
             for sr in pr.step_rulesets:
                 sr.process_step = id2step[sr.process_step_id]
-                sr.process_step._prefetched_depends_on = [
-                    id2step[id]
-                    for _, id in id2depends_on_ids.get(sr.process_step_id, [])
-                    # id will not be in id2step if sr.process_step_id is a
-                    # global step and id is a step in a different country.
-                    if id in id2step
-                ]
 
         return orm_process_rulesets
+
+
+def _prefetch_process_steps_for_host_country_codes(country_codes: List[str]):
+    # Create a pool of ProcessStep instances with all related objects
+    # prefetched.
+    id2step = (
+        orm_models.ProcessStep.objects.get_for_host_country_codes(country_codes)
+        .select_related("host_country")
+        .prefetch_related(
+            "required_only_if_nationalities",
+            "required_only_if_home_country",
+        )
+        .in_bulk()
+    )
+    id2depends_on_ids = itertoolz.groupby(
+        itemgetter(0),
+        (
+            orm_models.ProcessStep.depends_on.through.objects.filter(
+                from_processstep__in=id2step
+            ).values_list("from_processstep_id", "to_processstep_id")
+        ),
+    )
+    for process_step in id2step.values():
+        process_step._prefetched_depends_on = [
+            id2step[id]
+            for _, id in id2depends_on_ids.get(id, [])
+            # id will not be in id2step if sr.process_step_id is a
+            # global step and id is a step in a different country.
+            if id in id2step
+        ]
+    return id2step
