@@ -59,11 +59,10 @@ class Route(BaseModel):
         getter_dict = DjangoOrmGetterDict
 
 
-class ProcessStep(BaseModel):
+class ProcessStepWithoutDependsOn(BaseModel):
     id: int
     name: str
     host_country: Optional[Country]
-    depends_on_: List[ProcessStep]
     step_government_fee: Optional[Decimal]
     step_duration_range: List[Optional[int]]
     required_only_if_contract_location: Optional[str]
@@ -78,7 +77,12 @@ class ProcessStep(BaseModel):
         getter_dict = DjangoOrmGetterDict
 
 
-ProcessStep.update_forward_refs()
+class ProcessStep(ProcessStepWithoutDependsOn):
+    depends_on_: List[ProcessStepWithoutDependsOn]
+
+    class Config:
+        orm_mode = True
+        getter_dict = DjangoOrmGetterDict
 
 
 class ProcessStepList(BaseModel):
