@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="title is-5">{{ task.title }}</h1>
+    <h1 class="title is-5">
+      <a :href="adminUrl" target="_blank">{{ task.title }}</a>
+    </h1>
     <div class="level">
       <div class="level-left">
         <div class="field">
@@ -62,6 +64,7 @@ import Vue, { PropType } from "vue";
 import { Task } from "./Gantt.vue";
 
 import eventBus from "@/event-bus";
+import http from "@/http";
 
 export default Vue.extend({
   props: { task: Object as PropType<Task>, tasks: Array as PropType<Task[]> },
@@ -82,6 +85,12 @@ export default Vue.extend({
     dependsOnIds(): number[] {
       return this.task.dependsOn;
     },
+
+    adminUrl(): string {
+      return http.transformUrl(
+        `/admin/immigration/processstep/${this.task.id}/change/`
+      );
+    },
   },
 
   methods: {
@@ -91,3 +100,15 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style scoped>
+a,
+a:active,
+a:link,
+a:visited {
+  color: darkblue;
+}
+a:hover {
+  text-decoration: underline;
+}
+</style>
