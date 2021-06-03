@@ -171,21 +171,18 @@ const routes = [
     component: ProcessSteps,
     name: "Process steps",
     props: true,
-    meta: { navbar: false },
   },
   {
     path: "/portal/processes/:countryCode/",
     component: Processes,
     name: "Immigration Processes",
     props: true,
-    meta: { navbar: false },
   },
   {
     path: "/portal/processes/:countryCode/:processIdString/",
     component: Processes,
     name: "Immigration Process",
     props: true,
-    meta: { navbar: false },
   },
 ];
 
