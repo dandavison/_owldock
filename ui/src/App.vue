@@ -13,9 +13,3 @@ export default Vue.extend({
   components: { Navbar },
 });
 </script>
-
-<style scoped>
-div.container {
-  overflow-x: scroll;
-}
-</style>

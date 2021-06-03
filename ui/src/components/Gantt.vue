@@ -1,5 +1,5 @@
 <template>
-  <div class="content section">
+  <div class="content section x-scrollable">
     <svg
       v-show="tasks.length > 0"
       v-bind="svgProps"
@@ -72,7 +72,7 @@ export default Vue.extend({
   data() {
     return {
       taskRect: { height: 50, gap: 10 },
-      margin: { left: 20, top: 40, right: 30, bottom: 20 } as Box,
+      margin: { left: 20, top: 40, right: 270, bottom: 20 } as Box,
       selectedTask: null as Task | null,
       bars: d3.select(),
     };
@@ -244,5 +244,13 @@ g.unselected {
   fill: red;
   stroke: red;
   stroke-width: 1;
+}
+.x-scrollable {
+  overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.x-scrollable::-webkit-scrollbar {
+  display: none;
 }
 </style>
