@@ -365,7 +365,7 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
     inlines = [ProcessRuleSetStepInline]
-    readonly_fields = ["steps_summary", "steps_gantt"]
+    readonly_fields = ["steps_summary", "steps_gantt", "steps_gantt_link"]
     fieldsets = [
         (None, {"fields": ["route"]}),
         (
@@ -399,6 +399,14 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
                     "duration_max_days",
                     "intra_company_moves_only",
                     "steps_summary",
+                ]
+            },
+        ),
+        (
+            None,
+            {
+                "fields": [
+                    "steps_gantt_link",
                     "steps_gantt",
                 ]
             },
@@ -459,9 +467,18 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     @admin.display(description="Gantt chart")
     def steps_gantt(self, obj: ProcessRuleSet) -> str:
         return mark_safe(
-            f"<iframe src='/portal/processes/{obj.route.host_country.code}/{obj.id}/' "
+            f"<iframe src='{self._make_gantt_chart_url(obj)}' "
             f"style='height: 1500px; width: 1800px'></iframe>"
         )
+
+    @admin.display(description="")
+    def steps_gantt_link(self, obj: ProcessRuleSet) -> str:
+        return mark_safe(
+            f"<a href='{self._make_gantt_chart_url(obj)}' target='_blank'>Open in new tab</a>"
+        )
+
+    def _make_gantt_chart_url(self, obj: ProcessRuleSet) -> str:
+        return f"/portal/processes/{obj.route.host_country.code}/{obj.id}/"
 
     @admin.display(description="Process steps")
     def process_ruleset_steps_count(self, obj: ProcessRuleSet) -> int:
