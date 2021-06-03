@@ -140,7 +140,6 @@ export interface CaseStepSerializer {
   actions: ActionSerializer[];
   active_contract: CaseStepContractSerializer;
   process_step: ProcessStepSerializer;
-  sequence_number: number;
   state: EnumSerializer;
   stored_files: StoredFileSerializer[];
 }

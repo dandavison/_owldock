@@ -37,7 +37,6 @@ export interface Route {
   host_country: Country;
 }
 export interface ProcessStepRuleSet {
-  sequence_number?: number;
   process_step: ProcessStep;
 }
 export interface ProcessStep {
