@@ -17,7 +17,7 @@ function Portal() {
       return import("./views/ClientPortal.vue");
     case Role.ProviderContact:
       return import("./views/ProviderPortal.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -28,7 +28,7 @@ function Case() {
       return import("./views/ClientCase.vue");
     case Role.ProviderContact:
       return import("./views/ProviderCase.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -39,7 +39,7 @@ function CaseList() {
       return import("./views/ClientCaseList.vue");
     case Role.ProviderContact:
       return import("./views/ProviderCaseList.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -50,7 +50,7 @@ function ClientProviderRelationshipList() {
       return import("./views/ClientProviderRelationshipList.vue");
     case Role.ProviderContact:
       return import("./views/ProviderPortal.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -61,7 +61,7 @@ function ApplicantList() {
       return import("./views/ClientApplicantList.vue");
     case Role.ProviderContact:
       return import("./views/ProviderApplicantList.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -72,7 +72,7 @@ function Assessment() {
       return import("./views/Assessment.vue");
     case Role.ProviderContact:
       return import("./views/InvalidRole.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -83,7 +83,7 @@ function Plan() {
       return import("./views/Plan.vue");
     case Role.ProviderContact:
       return import("./views/InvalidRole.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -94,7 +94,7 @@ function Initiate() {
       return import("./views/Initiate.vue");
     case Role.ProviderContact:
       return import("./views/InvalidRole.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -105,7 +105,7 @@ function Move() {
       return import("./views/Move.vue");
     case Role.ProviderContact:
       return import("./views/InvalidRole.vue");
-    case Role.Invalid:
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
@@ -116,15 +116,31 @@ function Report() {
       return import("./views/Report.vue");
     case Role.ProviderContact:
       return import("./views/InvalidRole.vue");
-    case Role.Invalid:
+    default:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
+function Processes() {
+  switch (getRole()) {
+    case Role.Admin:
+      return import("./views/Processes.vue");
+    default:
+      return import("./views/InvalidRole.vue");
+  }
+}
+
+function ProcessSteps() {
+  switch (getRole()) {
+    case Role.Admin:
+      return import("./views/ProcessSteps.vue");
+    default:
       return import("./views/InvalidRole.vue");
   }
 }
 
 const AccessData = () => import("./views/AccessData.vue");
 const NewCase = () => import("./views/NewCase.vue");
-const ProcessSteps = () => import("./views/ProcessSteps.vue");
-const Processes = () => import("./views/Processes.vue");
 
 Vue.config.productionTip = false;
 Vue.use(Buefy, {

@@ -71,7 +71,7 @@ export default Vue.extend({
         case Role.ProviderContact:
           url = `${process.env.VUE_APP_SERVER_URL}/api/provider-contact/list-applicants/`;
           break;
-        case Role.Invalid:
+        default:
           return;
       }
       this.rows = (await http.fetchDataOrNull(url)) || [];

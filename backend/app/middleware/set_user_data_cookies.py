@@ -5,7 +5,7 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 
 from client.models import Client
-from app.models import Provider
+from app.models import Provider, User
 
 
 logger = logging.getLogger(__file__)
@@ -28,7 +28,8 @@ def set_user_data_cookies(get_response: Middleware) -> Middleware:
                 ),
             )
             if not (
-                _set_client_cookies(request.user, response)
+                _set_admin_cookies(request.user, response)
+                or _set_client_cookies(request.user, response)
                 or _set_provider_cookies(request.user, response)
             ):
                 logger.error(
@@ -42,7 +43,7 @@ def set_user_data_cookies(get_response: Middleware) -> Middleware:
     return middleware
 
 
-def _set_user_attribute_cookie(attr: str, user, response: HttpResponse) -> None:
+def _set_user_attribute_cookie(attr: str, user: User, response: HttpResponse) -> None:
     try:
         value = getattr(user, attr)
     except AttributeError:
@@ -52,7 +53,16 @@ def _set_user_attribute_cookie(attr: str, user, response: HttpResponse) -> None:
             response.set_cookie(attr, value)
 
 
-def _set_client_cookies(user, response: HttpResponse) -> bool:
+def _set_admin_cookies(user: User, response: HttpResponse) -> bool:
+    if user.is_superuser:
+        response.set_cookie("logo_url", "")
+        response.set_cookie("role", "admin")
+        return True
+    else:
+        return False
+
+
+def _set_client_cookies(user: User, response: HttpResponse) -> bool:
     try:
         client = Client.objects.get(clientcontact__user_uuid=user.uuid)
     except Client.DoesNotExist:
@@ -63,7 +73,7 @@ def _set_client_cookies(user, response: HttpResponse) -> bool:
         return True
 
 
-def _set_provider_cookies(user, response: HttpResponse) -> bool:
+def _set_provider_cookies(user: User, response: HttpResponse) -> bool:
     try:
         provider = Provider.objects.get(providercontact__user=user)
     except Provider.DoesNotExist:

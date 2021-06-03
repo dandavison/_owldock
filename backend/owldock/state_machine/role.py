@@ -14,6 +14,7 @@ logger = logging.getLogger(__file__)
 
 
 class Role(Enum):
+    ADMIN = "Admin"
     CLIENT_CONTACT = "Client Contact"
     PROVIDER_CONTACT = "Provider Contact"
 
@@ -50,6 +51,8 @@ class UserRole:
     @property
     def role(self) -> Optional[Role]:
         self._validate()
+        if self.user.is_superuser:
+            return Role.ADMIN
         if self.client_contact:
             return Role.CLIENT_CONTACT
         if self.provider_contact:

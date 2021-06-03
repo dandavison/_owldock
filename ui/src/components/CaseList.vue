@@ -83,7 +83,7 @@ export default Vue.extend({
         case Role.ProviderContact:
           url = "/api/provider-contact/list-cases/";
           break;
-        case Role.Invalid:
+        default:
           return;
       }
       this.rows = (await http.fetchDataOrNull(url)) || [];

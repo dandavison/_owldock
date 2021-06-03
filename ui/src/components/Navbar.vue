@@ -4,7 +4,6 @@
       <b-navbar-item>
         <router-link to="/portal">
           <img v-if="logoUrl" :src="logoUrl" height="24px" />
-          <i v-else class="fas fa-globe-americas"></i>
         </router-link>
       </b-navbar-item>
 
