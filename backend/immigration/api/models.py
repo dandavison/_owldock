@@ -202,6 +202,9 @@ class ProcessRuleSetList(BaseModel):
                 sr.process_step._prefetched_depends_on = [
                     id2step[id]
                     for _, id in id2depends_on_ids.get(sr.process_step_id, [])
+                    # id will not be in id2step if sr.process_step_id is a
+                    # global step and id is a step in a different country.
+                    if id in id2step
                 ]
 
         return orm_process_rulesets
