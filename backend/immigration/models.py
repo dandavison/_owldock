@@ -212,11 +212,7 @@ class ProcessRuleSet(BaseModel):
     )
 
     def __str__(self) -> str:
-        data = [
-            f"contract={self.contract_location}",
-            f"payroll={self.payroll_location}",
-        ]
-        return f"{self.route}: {', '.join(data)}"
+        return f"{self.route}"
 
     def _satisfies_host_country(self, move: dict) -> bool:
         return move["host_country"]["code"] == self.route.host_country.code
