@@ -1,8 +1,24 @@
 <template>
   <div>
-    <h1 class="title is-5">
-      <a :href="adminUrl" target="_blank">{{ task.title }}</a>
-    </h1>
+    <div class="level">
+      <div class="level-left">
+        <h1 class="title is-5">
+          <a :href="adminUrl" target="_blank">{{ task.title }}</a>
+        </h1>
+      </div>
+      <div class="level-right">
+        <div class="field">
+          <b-button
+            @click="removeTask(task)"
+            class="is-danger"
+            style="float: right"
+          >
+            Remove step
+          </b-button>
+        </div>
+      </div>
+    </div>
+    <div></div>
     <div class="level">
       <div class="level-left">
         <div class="field">
@@ -96,6 +112,10 @@ export default Vue.extend({
   methods: {
     handleInput(value: string): void {
       eventBus.$emit("update:task-depends-on", this.task.id, value);
+    },
+
+    removeTask() {
+      eventBus.$emit("remove:task", this.task.id);
     },
   },
 });

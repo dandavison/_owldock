@@ -50,27 +50,35 @@ class ProcessRuleSet(BaseView):
         except orm_models.ProcessRuleSet.DoesNotExist:
             return HttpResponseNotFound(f"No ProcessRuleSet matching id={id} exists")
         else:
-            data = json.loads(request.body)
+            step_data = json.loads(request.body)
             process_steps = orm_models.ProcessStep.objects.get_for_host_country_codes(
                 [process_ruleset.route.host_country.code]
             ).in_bulk()
             try:
-                for step_data in data:
-                    step = process_steps[step_data["id"]]
-                    step.depends_on.set(step_data["depends_on_"])
-                    assert set(s.id for s in step.depends_on.all()) == set(
-                        step_data["depends_on_"]
-                    )
+                # Add or remove steps from this process
+                step_ids = [s["id"] for s in step_data]
+                before_step_names = set(
+                    s.name for s in process_ruleset.process_steps.all()
+                )
+                process_ruleset.process_steps.set(step_ids)
+                after_step_names = set(
+                    s.name for s in process_ruleset.process_steps.all()
+                )
+                removed = before_step_names - after_step_names
+                added = after_step_names - before_step_names
+                if removed:
+                    print(f"Process {process_ruleset} removed steps: {sorted(removed)}")
+                if added:
+                    print(f"Process {process_ruleset} added steps: {sorted(added)}")
+                # Edit step attributes (not specific to this process)
+                for s in step_data:
+                    step = process_steps[s["id"]]
+                    step.depends_on.add(*s["depends_on_"])
                     (
                         step.estimated_min_duration_days,
                         step.estimated_max_duration_days,
-                    ) = step_data["step_duration_range"]
+                    ) = s["step_duration_range"]
                     step.save()
-                    prss, created = orm_models.ProcessRuleSetStep.objects.get_or_create(
-                        process_ruleset=process_ruleset, process_step=step
-                    )
-                    if created:
-                        logger.info(f"Created ProcessRuleSetSet: {prss}")
             except (KeyError, IndexError, ValueError, TypeError) as exc:
                 return HttpResponseBadRequest(f"{exc.__class__.__name__}({exc})")
             else:

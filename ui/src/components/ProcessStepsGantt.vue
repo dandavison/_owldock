@@ -36,6 +36,7 @@ export default Vue.extend({
   mounted() {
     eventBus.$on("update:task-duration", this.updateTaskDuration);
     eventBus.$on("update:task-depends-on", this.updateTaskDependsOn);
+    eventBus.$on("remove:task", this.removeTask);
     eventBus.$on("add:step", this.addStep);
   },
 
@@ -63,6 +64,18 @@ export default Vue.extend({
         }
       }
       console.warn(`updateTaskDependsOn: no task has id=${id}`);
+    },
+
+    removeTask(id: number) {
+      let i = 0;
+      for (const task of this.tasks) {
+        if (task.id === id) {
+          this.tasks.splice(i, 1);
+          return;
+        }
+        i++;
+      }
+      console.warn(`removeTask: no task has id=${id}`);
     },
 
     addStep(step: ProcessStep): void {
