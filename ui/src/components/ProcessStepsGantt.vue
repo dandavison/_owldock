@@ -71,6 +71,7 @@ export default Vue.extend({
       for (const task of this.tasks) {
         if (task.id === id) {
           this.tasks.splice(i, 1);
+          this.tasks = computeTaskTimes(this.tasks);
           return;
         }
         i++;
@@ -99,7 +100,7 @@ export function makeTask(step: ProcessStep): Task {
     progress: 0,
     duration: [...step.step_duration_range],
     time: [-1, -1],
-    dependsOn: step.depends_on_.map((s) => s.id),
+    dependsOn: [...step.depends_on_],
   };
 }
 

@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import List
+from typing import List, Set
 
 from django.db.transaction import atomic
 from django.http import HttpRequest, HttpResponse
@@ -50,25 +50,34 @@ class ProcessRuleSet(BaseView):
                 [process_ruleset.route.host_country.code]
             ).in_bulk()
             try:
+                old_this_process_steps: Set[int] = {
+                    s.id for s in process_ruleset.process_steps.all()
+                }
                 # Add or remove steps from this process
-                step_ids = [s["id"] for s in step_data]
-                before_step_names = set(
-                    s.name for s in process_ruleset.process_steps.all()
-                )
-                process_ruleset.process_steps.set(step_ids)
-                after_step_names = set(
-                    s.name for s in process_ruleset.process_steps.all()
-                )
-                removed = before_step_names - after_step_names
-                added = after_step_names - before_step_names
-                if removed:
-                    print(f"Process {process_ruleset} removed steps: {sorted(removed)}")
-                if added:
-                    print(f"Process {process_ruleset} added steps: {sorted(added)}")
-                # Edit step attributes (not specific to this process)
+                new_this_process_steps = {s["id"] for s in step_data}
+                process_ruleset.process_steps.set(new_this_process_steps)
+                # Edit step attributes (Note that process steps are not specific
+                # to this process: they may belong to this host country, or they
+                # may be global.)
                 for s in step_data:
                     step = process_steps[s["id"]]
-                    step.depends_on.add(*s["depends_on_"])
+                    old_depends_on = {s.id for s in step.depends_on.all()}
+                    posted_data = set(s["depends_on_"])
+                    # Any dependency in the POSTed data will certainly be
+                    # honored as a dependency.
+                    new_depends_on = old_depends_on | posted_data
+                    if step.id in old_this_process_steps:
+                        # The step was already associated with this process, so
+                        # we delete any dependencies that are associated with
+                        # this process and yet not in the POSTed data.
+                        new_depends_on -= old_this_process_steps - posted_data
+                    else:
+                        # The step was not previously associated with this
+                        # process, so there can have been no deletions of
+                        # dependencies.
+                        pass
+                    print(f"step {step} new_depends_on: {new_depends_on}")
+                    step.depends_on.set(new_depends_on)
                     (
                         step.estimated_min_duration_days,
                         step.estimated_max_duration_days,

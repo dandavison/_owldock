@@ -4,11 +4,8 @@ documents being sent to or received from the javascript app.
 """
 from __future__ import annotations
 from decimal import Decimal
-from operator import itemgetter
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 from uuid import UUID
-
-from cytoolz import itertoolz
 
 from django.db.models import Manager as DjangoModelManager
 from djmoney.money import Money
@@ -63,7 +60,7 @@ class ProcessStep(BaseModel):
     id: int
     name: str
     host_country: Optional[Country]
-    depends_on_: List[ProcessStep]
+    depends_on_: List[int]
     step_government_fee: Optional[Decimal]
     step_duration_range: List[Optional[int]]
     required_only_if_contract_location: Optional[str]
@@ -90,7 +87,7 @@ class ProcessStepList(BaseModel):
 
     @classmethod
     def get_orm_models(cls, host_country_code: str) -> List[orm_models.ProcessStep]:
-        id2step = _prefetch_process_steps_for_host_country_codes([host_country_code])
+        id2step = _prefetch_process_steps_for_host_country_code(host_country_code)
         return list(id2step.values())
 
 
@@ -163,9 +160,9 @@ class ProcessRuleSetList(BaseModel):
             )
             .filter(**kwargs)
         )
-        id2step = _prefetch_process_steps_for_host_country_codes(
-            [pr.route.host_country.code for pr in orm_process_rulesets]
-        )
+        # We do not handle process_rulesets from a mixture of countries.
+        [country_code] = {pr.route.host_country.code for pr in orm_process_rulesets}
+        id2step = _prefetch_process_steps_for_host_country_code(country_code)
         for pr in orm_process_rulesets:
             for sr in pr.step_rulesets:
                 sr.process_step = id2step[sr.process_step_id]
@@ -173,32 +170,31 @@ class ProcessRuleSetList(BaseModel):
         return orm_process_rulesets
 
 
-def _prefetch_process_steps_for_host_country_codes(country_codes: List[str]):
-    # Create a pool of ProcessStep instances with all related objects
-    # prefetched.
-    id2step = (
-        orm_models.ProcessStep.objects.get_for_host_country_codes(country_codes)
-        .select_related("host_country")
-        .prefetch_related(
-            "required_only_if_nationalities",
-            "required_only_if_home_country",
+def _prefetch_process_steps_for_host_country_code(
+    country_code: str,
+) -> Dict[int, orm_models.ProcessStep]:
+    """
+    Return available ProcessSteps with related objects prefetched.
+    """
+    steps = orm_models.ProcessStep.objects.get_for_host_country_codes(
+        [country_code]
+    ).select_related("host_country")
+    step_ids = {s.id for s in steps}
+
+    # Get dependencies
+    id2depends_on_ids: Dict[int, List[int]] = {}
+    for from_id, to_id in orm_models.ProcessStep.depends_on.through.objects.filter(
+        from_processstep__in=step_ids
+    ).values_list("from_processstep_id", "to_processstep_id"):
+        id2depends_on_ids.setdefault(from_id, []).append(to_id)
+
+    # Attach prefetched dependency steps, but only those that are relevant to
+    # this country. For example, the Entry step is global and thus may depend on
+    # steps in many countries, but we restrict to its dependencies that are
+    # steps available in the current country.
+    for process_step in steps:
+        process_step._prefetched_depends_on = sorted(
+            set(id2depends_on_ids.get(process_step.id, [])) & step_ids
         )
-        .in_bulk()
-    )
-    id2depends_on_ids = itertoolz.groupby(
-        itemgetter(0),
-        (
-            orm_models.ProcessStep.depends_on.through.objects.filter(
-                from_processstep__in=id2step
-            ).values_list("from_processstep_id", "to_processstep_id")
-        ),
-    )
-    for process_step in id2step.values():
-        process_step._prefetched_depends_on = [
-            id2step[id]
-            for _, id in id2depends_on_ids.get(id, [])
-            # id will not be in id2step if sr.process_step_id is a
-            # global step and id is a step in a different country.
-            if id in id2step
-        ]
-    return id2step
+
+    return {s.id: s for s in steps}

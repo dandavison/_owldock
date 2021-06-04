@@ -434,7 +434,7 @@ class ProcessStep(BaseModel):
         related_name="+",
     )
 
-    _prefetched_depends_on: "List[ProcessStep]"
+    _prefetched_depends_on: "List[int]"
 
     objects = ProcessStepManager()
 
