@@ -4,7 +4,9 @@
     <div v-if="selectedTask" class="section box mt-3" style="height: 500px">
       <gantt-task-form :task="selectedTask" :tasks="tasks" />
     </div>
-    <b-button @click="save" class="is-info" style="float: right">Save</b-button>
+    <b-button @click="save" class="is-info" style="float: right">
+      Save changes
+    </b-button>
   </div>
 </template>
 
@@ -37,7 +39,7 @@ export default Vue.extend({
         title: "Confirm your changes",
         message,
         cancelText: "Cancel",
-        confirmText: "Save",
+        confirmText: "Confirm",
         type: "is-info",
         onConfirm: this.reallySave,
       });
