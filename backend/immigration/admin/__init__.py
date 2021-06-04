@@ -4,7 +4,6 @@ from django.forms import ModelForm, ValidationError
 from django.http import HttpRequest
 from django.utils.safestring import mark_safe
 from nested_admin import (
-    NestedStackedInline,
     NestedTabularInline,
     NestedModelAdmin,
 )
@@ -14,7 +13,6 @@ from immigration.admin.bloc_choice_field import BlocChoiceFieldMixin  # type: ig
 from immigration.models import (
     IssuedDocument,
     ProcessRuleSet,
-    ProcessRuleSetStep,
     ProcessStep,
     ProcessStepType,
     Route,
@@ -321,23 +319,6 @@ class RouteAdmin(admin.ModelAdmin):
     list_display = ["name", "host_country", "processruleset"]
 
 
-class ProcessRuleSetStepInline(NestedStackedInline):
-    model = ProcessRuleSetStep
-    extra = 0
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        # See HasInlinesNestedModelAdmin
-        if getattr(self, "_parent_obj", None) and db_field.name == "process_step":
-            kwargs["queryset"] = (
-                ProcessStep.objects.get_for_host_country_codes(
-                    [self._parent_obj.route.host_country.code]
-                )
-                .select_related("host_country")
-                .order_by("-host_country", "name")
-            )
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
 class ProcessRuleSetAdminForm(BlocChoiceFieldMixin, ModelForm):
     nationalities_bloc = BlocChoiceFieldMixin.make_bloc_field()
     nationalities_bloc_include = BlocChoiceFieldMixin.make_bloc_include_field()
@@ -364,7 +345,6 @@ class ProcessRuleSetAdmin(HasInlinesNestedModelAdmin):
     list_display_links = ["route"]
     list_filter = ["route__host_country", "data_entry_status"]
     filter_horizontal = ["nationalities", "home_countries"]
-    inlines = [ProcessRuleSetStepInline]
     readonly_fields = ["steps_summary", "steps_gantt_link"]
     fieldsets = [
         (None, {"fields": ["route"]}),
