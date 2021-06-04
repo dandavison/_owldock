@@ -9,7 +9,6 @@ from app.models.bloc import Bloc
 from app.models.country import Country
 from immigration import models as orm_models
 from immigration.api import models as api_models
-from owldock.dev.db_utils import print_queries, print_query_counts
 from owldock.api.http.base import BaseView
 from owldock.http import (
     HttpResponseBadRequest,
@@ -26,14 +25,10 @@ class ProcessRuleSet(BaseView):
         return self._get(id)
 
     def _get(self, id: int) -> HttpResponse:
-        with print_query_counts():
-            orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id=id)
+        orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id=id)
 
-        with print_queries():
-            api_process_ruleset = api_models.ProcessRuleSet.from_orm(
-                orm_process_ruleset
-            )
-            data = api_process_ruleset.dict()
+        api_process_ruleset = api_models.ProcessRuleSet.from_orm(orm_process_ruleset)
+        data = api_process_ruleset.dict()
         return OwldockJsonResponse(data)
 
     @atomic
@@ -88,16 +83,14 @@ class ProcessRuleSet(BaseView):
 # TODO: auth?
 class ProcessRuleSetList(BaseView):
     def get(self, request: HttpRequest, country_code: str) -> HttpResponse:
-        with print_query_counts():
-            orm_process_rulesets = api_models.ProcessRuleSetList.get_orm_models(
-                route__host_country__code=country_code
-            )
+        orm_process_rulesets = api_models.ProcessRuleSetList.get_orm_models(
+            route__host_country__code=country_code
+        )
 
-        with print_queries():
-            api_process_rulesets = api_models.ProcessRuleSetList.from_orm(
-                orm_process_rulesets
-            )
-            data = api_process_rulesets.dict()["__root__"]
+        api_process_rulesets = api_models.ProcessRuleSetList.from_orm(
+            orm_process_rulesets
+        )
+        data = api_process_rulesets.dict()["__root__"]
         self._add_bloc_descriptions("nationalities", data)
         return OwldockJsonResponse(data)
 
