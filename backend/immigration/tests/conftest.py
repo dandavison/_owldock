@@ -132,8 +132,20 @@ def greece_posted_worker_notification_step(
 
 
 @pytest.fixture()
-def entry_step(greece) -> ProcessStep:
-    return ProcessStepFactory(host_country=None, name="Entry")
+def brazil_step(brazil) -> ProcessStep:
+    return ProcessStepFactory(host_country=brazil, name="Entry")
+
+
+@pytest.fixture()
+def france_step(france) -> ProcessStep:
+    return ProcessStepFactory(host_country=france, name="Entry")
+
+
+@pytest.fixture()
+def entry_step(brazil_step, france_step) -> ProcessStep:
+    entry_step = ProcessStepFactory(host_country=None, name="Entry")
+    entry_step.depends_on.set([brazil_step, france_step])
+    return entry_step
 
 
 @pytest.fixture()
