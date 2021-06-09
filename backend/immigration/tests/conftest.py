@@ -181,6 +181,7 @@ def greece_issuance_of_residence_card_step(
     greece, greece_residence_card
 ) -> ProcessStep:
     step = ProcessStepFactory(
+        host_country=greece,
         name="Issuance of Residence Card",
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,

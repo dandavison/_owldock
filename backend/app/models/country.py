@@ -32,7 +32,8 @@ class Country(BaseModel):
     unicode_flag = models.CharField(max_length=2)
     immigration_summary = models.TextField()
     is_active = models.BooleanField(
-        help_text="For Owldock demo purposes: Should this Country appear as an option in UIs?"
+        help_text="For Owldock demo purposes: Should this Country appear as an option in UIs?",
+        default=True,
     )
 
     objects = CountryManager()

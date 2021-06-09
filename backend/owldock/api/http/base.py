@@ -15,7 +15,7 @@ class BaseView(View):
     if settings.DEV:
 
         def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-            print(colored.black(request, bold=True))
+            print(colored.black(str(request), bold=True))
             if (
                 request.headers.get("Content-Type", "").startswith("text/")
                 and request.body
