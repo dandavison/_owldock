@@ -62,7 +62,7 @@ class ProcessRuleSet(BaseView):
                 for s in step_data:
                     step = process_steps[s["id"]]
                     old_depends_on = {s.id for s in step.depends_on.all()}
-                    posted_data = set(s["depends_on_"])
+                    posted_data = set(s["depends_on_ids"])
                     # Any dependency in the POSTed data will certainly be
                     # honored as a dependency.
                     new_depends_on = old_depends_on | posted_data

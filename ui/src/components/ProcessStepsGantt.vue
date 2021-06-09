@@ -100,7 +100,7 @@ export function makeTask(step: ProcessStep): Task {
     progress: 0,
     duration: [...step.step_duration_range],
     time: [-1, -1],
-    dependsOn: [...step.depends_on_],
+    dependsOn: [...step.depends_on_ids],
   };
 }
 

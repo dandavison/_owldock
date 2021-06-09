@@ -92,12 +92,12 @@ export default Vue.extend({
 
 class ProcessStepData {
   id: number;
-  depends_on_: number[];
+  depends_on_ids: number[];
   step_duration_range: number[];
 
   constructor(task: Task) {
     this.id = task.id;
-    this.depends_on_ = [...task.dependsOn];
+    this.depends_on_ids = [...task.dependsOn];
     this.step_duration_range = [...task.duration];
   }
 }

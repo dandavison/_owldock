@@ -434,7 +434,7 @@ class ProcessStep(BaseModel):
         related_name="+",
     )
 
-    _prefetched_depends_on: "List[int]"
+    _prefetched_depends_on: "List[ProcessStep]"
 
     objects = ProcessStepManager()
 
@@ -464,11 +464,12 @@ class ProcessStep(BaseModel):
         return self.government_fee
 
     @property
-    def depends_on_(self) -> "List[ProcessStep]":
+    def depends_on_ids(self) -> List[int]:
         try:
-            return self._prefetched_depends_on
+            prefetched = self._prefetched_depends_on
         except AttributeError:
-            return list(self.depends_on.all())
+            prefetched = list(self.depends_on.all())
+        return [obj.id for obj in prefetched]
 
     def is_required_for_move(self, move: Move) -> bool:
         """

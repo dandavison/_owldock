@@ -132,6 +132,11 @@ def greece_posted_worker_notification_step(
 
 
 @pytest.fixture()
+def entry_step(greece) -> ProcessStep:
+    return ProcessStepFactory(host_country=None, name="Entry")
+
+
+@pytest.fixture()
 def greece_residence_permit_step(greece) -> ProcessStep:
     return ProcessStepFactory(
         host_country=greece,

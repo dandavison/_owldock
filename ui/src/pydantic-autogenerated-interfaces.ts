@@ -43,7 +43,7 @@ export interface ProcessStep {
   id: number;
   name: string;
   host_country?: Country;
-  depends_on_: number[];
+  depends_on_ids: number[];
   step_government_fee?: number;
   step_duration_range: number[];
   required_only_if_contract_location?: string;

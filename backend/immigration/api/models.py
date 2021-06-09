@@ -3,6 +3,7 @@ This module contains pydantic model definitions, defining the shape of JSON
 documents being sent to or received from the javascript app.
 """
 from __future__ import annotations
+from collections import defaultdict
 from decimal import Decimal
 from typing import Any, Dict, List, Optional
 from uuid import UUID
@@ -60,7 +61,7 @@ class ProcessStep(BaseModel):
     id: int
     name: str
     host_country: Optional[Country]
-    depends_on_: List[int]
+    depends_on_ids: List[int]
     step_government_fee: Optional[Decimal]
     step_duration_range: List[Optional[int]]
     required_only_if_contract_location: Optional[str]
@@ -179,22 +180,22 @@ def _prefetch_process_steps_for_host_country_code(
     steps = orm_models.ProcessStep.objects.get_for_host_country_codes(
         [country_code]
     ).select_related("host_country")
-    step_ids = {s.id for s in steps}
+    id2step = {s.id: s for s in steps}
 
     # Get dependencies
-    id2depends_on_ids: Dict[int, List[int]] = {}
+    id2depends_on_ids: Dict[int, List[int]] = defaultdict(list)
     for from_id, to_id in orm_models.ProcessStep.depends_on.through.objects.filter(
-        from_processstep__in=step_ids
+        from_processstep__in=id2step
     ).values_list("from_processstep_id", "to_processstep_id"):
-        id2depends_on_ids.setdefault(from_id, []).append(to_id)
+        id2depends_on_ids[from_id].append(to_id)
 
     # Attach prefetched dependency steps, but only those that are relevant to
     # this country. For example, the Entry step is global and thus may depend on
     # steps in many countries, but we restrict to its dependencies that are
     # steps available in the current country.
-    for process_step in steps:
-        process_step._prefetched_depends_on = sorted(
-            set(id2depends_on_ids.get(process_step.id, [])) & step_ids
-        )
+    for step in steps:
+        step._prefetched_depends_on = [
+            id2step[id] for id in id2depends_on_ids[step.id] if id in id2step
+        ]
 
-    return {s.id: s for s in steps}
+    return id2step
