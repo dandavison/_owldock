@@ -177,9 +177,14 @@ def _prefetch_process_steps_for_host_country_code(
     """
     Return available ProcessSteps with related objects prefetched.
     """
-    steps = orm_models.ProcessStep.objects.get_for_host_country_codes(
-        [country_code]
-    ).select_related("host_country")
+    steps = (
+        orm_models.ProcessStep.objects.get_for_host_country_codes([country_code])
+        .select_related("host_country")
+        .prefetch_related(
+            "required_only_if_home_country",
+            "required_only_if_nationalities",
+        )
+    )
     id2step = {s.id: s for s in steps}
 
     # Get dependencies
