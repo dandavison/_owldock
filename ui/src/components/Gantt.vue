@@ -54,6 +54,14 @@ export interface Task {
   [key: string]: number | string | number[] | [number, number];
 }
 
+function taskTimeDisplay(t: Task): string {
+  if (t.time[1] > t.time[0]) {
+    return `Day ${t.time[0] + 1} - ${t.time[1]}`;
+  } else {
+    return `Day ${t.time[0] + 1}`;
+  }
+}
+
 interface Box {
   left: number;
   top: number;
@@ -155,7 +163,7 @@ export default Vue.extend({
         .attr("x", 5)
         .attr("y", 0.7 * (y.bandwidth() - this.taskRect.gap))
         .attr("dy", "0.35em")
-        .text((d: Task) => `Day ${d.time[0] + 1} - ${d.time[1]}`);
+        .text(taskTimeDisplay);
 
       // Click on a bar to select
       this.bars.on("click", (event: Event, d: Task) => {
