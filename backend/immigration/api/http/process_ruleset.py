@@ -9,6 +9,7 @@ from app.models.bloc import Bloc
 from app.models.country import Country
 from immigration import models as orm_models
 from immigration.api import models as api_models
+from owldock.dev.db_utils import print_query_counts
 from owldock.api.http.base import BaseView
 from owldock.http import (
     HttpResponseBadRequest,
@@ -25,10 +26,16 @@ class ProcessRuleSet(BaseView):
         return self._get(id)
 
     def _get(self, id: int) -> HttpResponse:
-        orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id=id)
+        print("Data fetching queries:")
+        with print_query_counts():
+            orm_process_ruleset = api_models.ProcessRuleSet.get_orm_model(id=id)
 
-        api_process_ruleset = api_models.ProcessRuleSet.from_orm(orm_process_ruleset)
-        data = api_process_ruleset.dict()
+        print("Serialization queries:")
+        with print_query_counts():
+            api_process_ruleset = api_models.ProcessRuleSet.from_orm(
+                orm_process_ruleset
+            )
+            data = api_process_ruleset.dict()
         return OwldockJsonResponse(data)
 
     @atomic
