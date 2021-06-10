@@ -93,9 +93,15 @@ export function makeTasks(process: ProcessRuleSet): Task[] {
 }
 
 export function makeTask(step: ProcessStep): Task {
+  var title;
+  if (step.host_country) {
+    title = `${step.host_country.unicode_flag} ${step.name}`;
+  } else {
+    title = `🌍 ${step.name}`;
+  }
   return {
     id: step.id,
-    title: step.name,
+    title,
     text: "",
     progress: 0,
     duration: [...step.step_duration_range],
