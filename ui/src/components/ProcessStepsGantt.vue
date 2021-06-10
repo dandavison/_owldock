@@ -113,7 +113,11 @@ function computeTaskTimes(tasks: Task[]): Task[] {
   for (const task of tasks) {
     task.time = _computeTaskTime(task, id2task);
   }
-  return tasks.sort((a: Task, b: Task) => a.time[0] - b.time[0]);
+  return tasks.sort((a: Task, b: Task) => {
+    const startCmp = a.time[0] - b.time[0];
+    const endCmp = a.time[1] - b.time[1];
+    return startCmp != 0 ? startCmp : endCmp;
+  });
 }
 
 function _computeTaskTime(
