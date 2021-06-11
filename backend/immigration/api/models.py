@@ -57,9 +57,20 @@ class Route(BaseModel):
         getter_dict = DjangoOrmGetterDict
 
 
+class ProcessStepGetterDict(DjangoOrmGetterDict):
+    def get(self, key: Any, default: Any = None) -> Any:
+        # Serialize human-readable label
+        if key in {"type"}:
+            value = getattr(self._obj, key, default)
+            return orm_models.ProcessStepType(value).label if value else None
+        else:
+            return super().get(key, default)
+
+
 class ProcessStep(BaseModel):
     id: int
     name: str
+    type: str
     host_country: Optional[Country]
     depends_on_ids: List[int]
     step_government_fee: Optional[Decimal]
@@ -73,7 +84,7 @@ class ProcessStep(BaseModel):
 
     class Config:
         orm_mode = True
-        getter_dict = DjangoOrmGetterDict
+        getter_dict = ProcessStepGetterDict
 
 
 ProcessStep.update_forward_refs()
