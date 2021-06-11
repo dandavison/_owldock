@@ -83,6 +83,7 @@ export default Vue.extend({
           if (computeTaskTimes(tasks)) {
             this.tasks = tasks;
           }
+          eventBus.$emit("update:selected-task", null);
           return;
         }
         i++;
