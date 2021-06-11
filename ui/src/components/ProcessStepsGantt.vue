@@ -131,10 +131,12 @@ export function makeTask(step: ProcessStep): Task {
   };
 }
 
-/// Input: A tree of Steps (i.e. a Step[] array, each element of which has a
-/// Step[] array containing steps that it depends on).
+/// Input: A tree of Tasks (i.e. a Task[] array, each element of which has a
+/// Task[] array containing tasks that it depends on).
 ///
-/// Output: the same Step[] array, but with non-null startTime
+/// Output: the same Task[] array, but with non-null startTime
+
+/// Note: the function mutates the input data structure, and also returns it.
 function computeTaskTimes(tasks: Task[]): Task[] | null {
   const id2task = new Map(tasks.map((t) => [t.id, t]));
   for (const task of tasks) {
