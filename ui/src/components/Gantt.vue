@@ -47,6 +47,7 @@ interface Selection {
 
 export interface Task {
   id: number;
+  type: string; // ProcessStepType
   title: string;
   duration: number[]; // TODO: [number, number]
   time: [number, number];

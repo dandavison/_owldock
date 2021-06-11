@@ -24,3 +24,9 @@ export const HomeOrHostCountryDisplayName: Map<
   [HomeOrHostCountry.HostCountry, "Host Country"],
   [HomeOrHostCountry.None, ""],
 ]);
+
+export enum ProcessStepType {
+  Primary = "Primary",
+  Ancillary = "Ancillary",
+  Event = "Event",
+}

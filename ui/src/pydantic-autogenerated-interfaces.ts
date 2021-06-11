@@ -42,6 +42,7 @@ export interface ProcessStepRuleSet {
 export interface ProcessStep {
   id: number;
   name: string;
+  type: string;
   host_country?: Country;
   depends_on_ids: number[];
   step_government_fee?: number;
