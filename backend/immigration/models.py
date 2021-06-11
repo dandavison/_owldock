@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 from typing import Callable, List, NewType, Optional
 
+import networkx as nx
 from django.db.models import (
     BooleanField,
     CharField,
@@ -316,6 +317,14 @@ class ProcessStepManager(Manager):
         return self.filter(
             Q(host_country__code__in=country_codes) | Q(host_country__isnull=True)
         )
+
+    def dependency_cycles(self):
+        graph = nx.DiGraph()
+        for dependency in ProcessStep.depends_on.through.objects.select_related(
+            "from_processstep", "to_processstep"
+        ).all():
+            graph.add_edge(dependency.from_processstep, dependency.to_processstep)
+        return list(nx.simple_cycles(graph))
 
 
 class ProcessStep(BaseModel):
