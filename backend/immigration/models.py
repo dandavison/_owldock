@@ -48,6 +48,7 @@ class ProcessStepType(TextChoices):
     PRIMARY = "Primary"
     ANCILLARY = "Ancillary"
     EVENT = "Event"
+    ΤΕΛΟΣ = "ΤΕΛΟΣ"
 
 
 @dataclass
