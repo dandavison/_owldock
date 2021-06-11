@@ -29,18 +29,3 @@ export class BaseRule {
     this.processRuleSet = processRuleSet;
   }
 }
-
-export enum HomeOrHostCountry {
-  HomeCountry = "HOME_COUNTRY",
-  HostCountry = "HOST_COUNTRY",
-  None = "",
-}
-
-export const HomeOrHostCountryDisplayName: Map<
-  HomeOrHostCountry,
-  string
-> = new Map([
-  [HomeOrHostCountry.HomeCountry, "Home Country"],
-  [HomeOrHostCountry.HostCountry, "Host Country"],
-  [HomeOrHostCountry.None, ""],
-]);

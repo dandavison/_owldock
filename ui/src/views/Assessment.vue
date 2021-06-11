@@ -43,12 +43,8 @@ import Case from "@/components/Case.vue";
 import ProcessRulesetTable from "@/components/ProcessRulesetTable.vue";
 import { CaseSpec } from "@/editable-component";
 import { NullCase, NullMove } from "@/factories";
-import {
-  HomeOrHostCountry,
-  HomeOrHostCountryDisplayName,
-  Rule,
-  RuleEvaluationResult,
-} from "@/immigration/rules/base";
+import { Rule, RuleEvaluationResult } from "@/immigration/rules/base";
+import { HomeOrHostCountry, HomeOrHostCountryDisplayName } from "@/constants";
 import { ContractLocationRule } from "@/immigration/rules/contract-location";
 import { PayrollLocationRule } from "@/immigration/rules/payroll-location";
 import { SalaryRule } from "@/immigration/rules/salary";

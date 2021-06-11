@@ -15,10 +15,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import {
-  HomeOrHostCountry,
-  HomeOrHostCountryDisplayName,
-} from "@/immigration/rules/base";
+import { HomeOrHostCountry, HomeOrHostCountryDisplayName } from "@/constants";
 
 import eventBus from "@/event-bus";
 

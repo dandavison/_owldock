@@ -1,12 +1,7 @@
+import { Role } from "@/constants";
 import Cookies from "js-cookie";
 
-export enum Role {
-  // Hack: these string values are used to construct URLs
-  Admin = "admin",
-  ClientContact = "client-contact",
-  ProviderContact = "provider-contact",
-  Invalid = "INVALID",
-}
+export { Role } from "@/constants";
 
 export function getRole(): Role {
   switch (Cookies.get("role")) {
