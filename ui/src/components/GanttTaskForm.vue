@@ -115,7 +115,14 @@ export default Vue.extend({
     },
 
     removeTask() {
-      eventBus.$emit("remove:task", this.task.id);
+      this.$buefy.dialog.confirm({
+        title: "Confirm step removal",
+        message: `Are you sure you want to remove this step?<br>${this.task.title}`,
+        cancelText: "Cancel",
+        confirmText: "Confirm",
+        type: "is-info",
+        onConfirm: () => eventBus.$emit("remove:task", this.task.id),
+      });
     },
   },
 });
