@@ -3,6 +3,18 @@
   Owldock-domain specific data model) into Tasks (a generic data model used by
   the Gantt chart), and to contain the Gantt chart itself as a child.   -->
   <div class="content section m-5">
+    <b-field>
+      <b-slider
+        v-model="durationPessimism"
+        :min="0"
+        :max="1"
+        :step="0.001"
+        :tooltip="false"
+      >
+        <b-slider-tick :value="0"> Optimistic </b-slider-tick>
+        <b-slider-tick :value="1"> Pessimistic </b-slider-tick>
+      </b-slider>
+    </b-field>
     <gantt :tasks="tasks" :process="process" :width="width" />
   </div>
 </template>
@@ -25,14 +37,23 @@ export default Vue.extend({
   props: { process: Object as PropType<ProcessRuleSet>, width: Number },
 
   data() {
+    const durationPessimism = 0.5;
     return {
-      tasks: makeTasks(this.process),
+      tasks: makeTasks(this.process, durationPessimism),
+      durationPessimism,
     };
   },
 
   watch: {
     process(value: ProcessRuleSet) {
-      this.tasks = makeTasks(value);
+      this.tasks = makeTasks(value, this.durationPessimism);
+    },
+
+    durationPessimism(value: number) {
+      const tasks: Task[] | null = this.copyTasksWithoutTimes();
+      if (computeTaskTimes(tasks, value)) {
+        this.tasks = tasks;
+      }
     },
   },
 
@@ -52,7 +73,7 @@ export default Vue.extend({
       for (const task of tasks) {
         if (task.id === id) {
           task.duration[idx] = parseInt(value);
-          if (computeTaskTimes(tasks)) {
+          if (computeTaskTimes(tasks, this.durationPessimism)) {
             this.tasks = tasks;
           }
           return;
@@ -66,7 +87,7 @@ export default Vue.extend({
       for (const task of tasks) {
         if (task.id === id) {
           task.dependsOn = value;
-          if (computeTaskTimes(tasks)) {
+          if (computeTaskTimes(tasks, this.durationPessimism)) {
             this.tasks = tasks;
           }
           return;
@@ -82,7 +103,7 @@ export default Vue.extend({
         if (task.id === id) {
           tasks.splice(i, 1);
           tasks = pruneTasks(tasks);
-          if (computeTaskTimes(tasks)) {
+          if (computeTaskTimes(tasks, this.durationPessimism)) {
             this.tasks = tasks;
           }
           eventBus.$emit("update:selected-task", null);
@@ -96,7 +117,7 @@ export default Vue.extend({
     addStep(step: ProcessStep): void {
       const tasks: Task[] | null = this.copyTasksWithoutTimes();
       tasks.push(makeTask(step));
-      if (computeTaskTimes(tasks)) {
+      if (computeTaskTimes(tasks, this.durationPessimism)) {
         this.tasks = tasks;
       }
     },
@@ -107,10 +128,14 @@ export default Vue.extend({
   },
 });
 
-export function makeTasks(process: ProcessRuleSet): Task[] {
+export function makeTasks(
+  process: ProcessRuleSet,
+  durationPessimism: number
+): Task[] {
   return (
     computeTaskTimes(
-      process.step_rulesets.map((sr) => makeTask(sr.process_step))
+      process.step_rulesets.map((sr) => makeTask(sr.process_step)),
+      durationPessimism
     ) || []
   );
 }
@@ -187,11 +212,14 @@ function _pruneTasksSinglePass(tasks: Task[]): Task[] {
 /// Output: the same Task[] array, but with non-null startTime
 
 /// Note: the function mutates the input data structure, and also returns it.
-function computeTaskTimes(tasks: Task[]): Task[] | null {
+function computeTaskTimes(
+  tasks: Task[],
+  durationPessimism: number
+): Task[] | null {
   const id2task = new Map(tasks.map((t) => [t.id, t]));
   for (const task of tasks) {
     try {
-      task.time = _computeTaskTime(task, id2task, new Set());
+      task.time = _computeTaskTime(task, id2task, durationPessimism, new Set());
     } catch (e) {
       if (e instanceof CircularDependencyError) {
         console.error(e.message);
@@ -218,6 +246,7 @@ function computeTaskTimes(tasks: Task[]): Task[] | null {
 function _computeTaskTime(
   task: Task,
   id2task: Map<number, Task>,
+  durationPessimism: number,
   seen: Set<number>
 ): [number, number] {
   if (seen.has(task.id)) {
@@ -236,18 +265,40 @@ function _computeTaskTime(
     .map((id) => id2task.get(id) as Task)
     .filter(Boolean);
   if (dependencies.length === 0) {
-    return [0.0, (task.duration[0] || 0) as number];
+    return [
+      0.0,
+      estimateDuration(task.duration as [number, number], durationPessimism),
+    ];
   }
   // Otherwise, it starts when the last of its dependencies finishes, i.e. at
   // the greatest of the lower-bound times imposed by its dependencies.
   const lowerBounds: number[] = [];
   for (const dependency of dependencies) {
     if (dependency.time[0] < 0) {
-      dependency.time = _computeTaskTime(dependency, id2task, seen);
+      dependency.time = _computeTaskTime(
+        dependency,
+        id2task,
+        durationPessimism,
+        seen
+      );
     }
-    lowerBounds.push(dependency.time[0] + (dependency.duration[0] as number));
+    lowerBounds.push(
+      dependency.time[0] +
+        estimateDuration(
+          dependency.duration as [number, number],
+          durationPessimism
+        )
+    );
   }
   const start = Math.max(...lowerBounds);
-  return [start, start + (task.duration[0] as number)];
+  return [
+    start,
+    start +
+      estimateDuration(task.duration as [number, number], durationPessimism),
+  ];
+}
+
+function estimateDuration(bounds: [number, number], pessimism: number): number {
+  return (1 - pessimism) * bounds[0] + pessimism * bounds[1];
 }
 </script>
