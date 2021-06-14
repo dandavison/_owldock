@@ -171,6 +171,7 @@
         </div>
         <div class="level-right">
           <process-steps-gantt
+            :process="props.row.process"
             :steps="props.row.process.step_rulesets"
             :width="600"
           />
