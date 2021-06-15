@@ -49,6 +49,7 @@
       This process has no steps yet.
     </div>
     <gantt-editor
+      v-if="editable"
       :selectedTask="selectedTask"
       :tasks="tasks"
       :process="process"
@@ -103,6 +104,7 @@ export default Vue.extend({
     tasks: Array as PropType<Task[]>,
     process: Object as PropType<ProcessRuleSet>,
     xDomain: Array as PropType<number[]>,
+    editable: Boolean,
   },
 
   data() {

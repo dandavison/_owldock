@@ -13,12 +13,18 @@
         type="is-info"
         style="width: 10%; float: right"
         class="m-6"
+        v-if="tasks.length > 0"
       >
         <b-slider-tick :value="0"> Optimistic </b-slider-tick>
         <b-slider-tick :value="1"> Pessimistic </b-slider-tick>
       </b-slider>
     </b-field>
-    <gantt :tasks="tasks" :process="process" :xDomain="xDomain" />
+    <gantt
+      :tasks="tasks"
+      :process="process"
+      :xDomain="xDomain"
+      :editable="editable"
+    />
   </div>
 </template>
 
@@ -37,7 +43,7 @@ import { CircularDependencyError } from "@/error";
 
 export default Vue.extend({
   components: { Gantt },
-  props: { process: Object as PropType<ProcessRuleSet> },
+  props: { process: Object as PropType<ProcessRuleSet>, editable: Boolean },
 
   data() {
     const durationPessimism = 0.5;
