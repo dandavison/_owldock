@@ -161,21 +161,16 @@
     </b-table-column>
 
     <template #detail="props">
-      <div class="level">
-        <div class="level-left">
-          <process-step-ruleset-list
-            :stepRulesets="props.row.process.step_rulesets"
-            :move="move"
-            :dates="dates"
-          />
-        </div>
-        <div class="level-right">
-          <process-steps-gantt
-            :process="props.row.process"
-            :steps="props.row.process.step_rulesets"
-          />
-        </div>
-      </div>
+      <process-step-ruleset-list
+        :stepRulesets="props.row.process.step_rulesets"
+        :move="move"
+        :dates="dates"
+      />
+      <process-steps-gantt
+        :process="props.row.process"
+        :steps="props.row.process.step_rulesets"
+        :editable="false"
+      />
     </template>
   </b-table>
 </template>
