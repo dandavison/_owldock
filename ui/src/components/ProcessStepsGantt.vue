@@ -15,7 +15,12 @@
         <b-slider-tick :value="1"> Pessimistic </b-slider-tick>
       </b-slider>
     </b-field>
-    <gantt :tasks="tasks" :process="process" :width="width" />
+    <gantt
+      :tasks="tasks"
+      :process="process"
+      :xDomain="xDomain"
+      :width="width"
+    />
   </div>
 </template>
 
@@ -62,6 +67,13 @@ export default Vue.extend({
     eventBus.$on("update:task-depends-on", this.updateTaskDependsOn);
     eventBus.$on("remove:task", this.removeTask);
     eventBus.$on("add:step", this.addStep);
+  },
+
+  computed: {
+    xDomain(): [number, number] {
+      const tasks = makeTasks(this.process, 1.0);
+      return [0, Math.max(...tasks.map((d) => d.time[1] || 0))];
+    },
   },
 
   methods: {

@@ -103,6 +103,7 @@ export default Vue.extend({
     tasks: Array as PropType<Task[]>,
     process: Object as PropType<ProcessRuleSet>,
     width: Number,
+    xDomain: Array as PropType<number[]>,
   },
 
   data() {
@@ -125,10 +126,6 @@ export default Vue.extend({
     this.createAxis();
   },
 
-  updated() {
-    this.updateAxis();
-  },
-
   methods: {
     handleSvgClick() {
       this.selectedTask = null;
@@ -145,11 +142,6 @@ export default Vue.extend({
           `translate(0,${this.y.range()[0] - this.margin.top / 2})`
         );
     },
-
-    updateAxis() {
-      // https://davidbanks.co.nz/post/transition-d3-axes
-      d3.select("#x-axis").call(d3.axisTop(this.x));
-    },
   },
 
   computed: {
@@ -157,7 +149,7 @@ export default Vue.extend({
       const margin = this.margin as Box;
       return d3
         .scaleLinear()
-        .domain([0, Math.max(...this.tasks.map((d) => d.time[1] || 0))])
+        .domain(this.xDomain)
         .range([margin.left, this.width - margin.right]);
     },
 
