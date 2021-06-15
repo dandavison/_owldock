@@ -1,5 +1,5 @@
 <template>
-  <div class="content section x-scrollable">
+  <div>
     <svg
       v-if="tasks.length > 0"
       v-bind="svgProps"
@@ -102,7 +102,6 @@ export default Vue.extend({
   props: {
     tasks: Array as PropType<Task[]>,
     process: Object as PropType<ProcessRuleSet>,
-    width: Number,
     xDomain: Array as PropType<number[]>,
   },
 
@@ -112,6 +111,7 @@ export default Vue.extend({
       margin: { left: 20, top: 40, right: 270, bottom: 20 } as Box,
       selectedTask: null as Task | null,
       taskTimeDisplay,
+      width: 1000,
     };
   },
 
@@ -123,6 +123,8 @@ export default Vue.extend({
   },
 
   mounted() {
+    this.width = document.getElementById("gantt-container")
+      ?.clientWidth as number;
     this.createAxis();
   },
 
@@ -179,6 +181,13 @@ export default Vue.extend({
 </script>
 
 <style>
+/* #container {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+} */
 .task-rect {
   fill: #f3f3f3;
   stroke: #cccccc;

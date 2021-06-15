@@ -1,5 +1,5 @@
 <template>
-  <process-steps-gantt v-if="process" :process="process" :width="1200" />
+  <process-steps-gantt v-if="process" :process="process" />
 </template>
 
 <script lang="ts">

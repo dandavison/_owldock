@@ -1,7 +1,7 @@
 <template>
   <div class="section">
     <editable-route :initialCandidateProcesses="processes" :route="route" />
-    <process-steps-gantt v-if="process" :process="process" :width="1200" />
+    <process-steps-gantt v-if="process" :process="process" />
   </div>
 </template>
 

@@ -2,7 +2,7 @@
   <!-- The role of :process="process" this component is to convert ProcessStepRuleSets (an
   Owldock-domain specific data model) into Tasks (a generic data model used by
   the Gantt chart), and to contain the Gantt chart itself as a child.   -->
-  <div class="content section m-5">
+  <div id="gantt-container" class="content section x-scrollable">
     <b-field>
       <b-slider
         v-model="durationPessimism"
@@ -10,17 +10,15 @@
         :max="1"
         :step="0.001"
         :tooltip="false"
+        type="is-info"
+        style="width: 10%; float: right"
+        class="m-6"
       >
         <b-slider-tick :value="0"> Optimistic </b-slider-tick>
         <b-slider-tick :value="1"> Pessimistic </b-slider-tick>
       </b-slider>
     </b-field>
-    <gantt
-      :tasks="tasks"
-      :process="process"
-      :xDomain="xDomain"
-      :width="width"
-    />
+    <gantt :tasks="tasks" :process="process" :xDomain="xDomain" />
   </div>
 </template>
 
@@ -39,7 +37,7 @@ import { CircularDependencyError } from "@/error";
 
 export default Vue.extend({
   components: { Gantt },
-  props: { process: Object as PropType<ProcessRuleSet>, width: Number },
+  props: { process: Object as PropType<ProcessRuleSet> },
 
   data() {
     const durationPessimism = 0.5;
