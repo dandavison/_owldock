@@ -15,7 +15,6 @@ from app.views import HomeView, StatusView
 from immigration.api.http import (
     occupations,
     process_step,
-    process_query,
     process_ruleset,
 )
 
@@ -84,7 +83,6 @@ urlpatterns = [
         login_required(cache_page(0xFFFFFFFF)(countries.CountriesList.as_view())),
     ),
     path("api/occupations/", login_required(occupations.OccupationsList.as_view())),
-    path("api/process/query/", login_required(process_query.ProcessQuery.as_view())),
     path(
         "api/process/<int:id>/",
         login_required(process_ruleset.ProcessRuleSet.as_view()),

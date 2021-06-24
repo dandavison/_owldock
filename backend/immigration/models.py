@@ -216,69 +216,6 @@ class ProcessRuleSet(BaseModel):
     def __str__(self) -> str:
         return f"{self.route}"
 
-    def _satisfies_host_country(self, move: dict) -> bool:
-        return move["host_country"]["code"] == self.route.host_country.code
-
-    def _satisfies_nationalities(self, move: dict) -> bool:
-        move_nationalities = set([nat["code"] for nat in move["nationalities"]] or [])
-        if not move_nationalities:
-            return True
-        nationalities = set(nat.code for nat in self.nationalities.all())
-        if not nationalities:
-            return True
-        return bool(move_nationalities & nationalities)
-
-    def _satisfies_contract_location(self, move: dict) -> bool:
-        return self._matches(move["contract_location"], self.contract_location)
-
-    def _satisfies_duration(self, move: dict) -> bool:
-        INFINITELY_LONG = timedelta(days=999999999)
-        __import__("pdb").set_trace()
-        if move["target_entry_date"] is None:
-            return True
-        if move["target_exit_date"] is None:
-            move_duration = INFINITELY_LONG
-        else:
-            move_duration = move["target_exit_date"] - move["target_entry_date"]
-
-        if self.duration_min_days and move_duration.days < self.duration_min_days:
-            return False
-        if self.duration_max_days and move_duration.days > self.duration_max_days:
-            return False
-        return True
-
-    def _satisfies_intra_company_move(self, move: dict) -> bool:
-        if self.intra_company_moves_only and not move["is_intra_company"]:
-            return False
-        return True
-
-    def _satisfies_minimum_salary(self, move: dict) -> bool:
-        return self._matches(move["payroll_location"], self.payroll_location)
-
-    def _satisfies_payroll_location(self, move: dict) -> bool:
-        return self._matches(move["payroll_location"], self.payroll_location)
-
-    @staticmethod
-    def _matches(value_1, value_2) -> bool:
-        return value_1 is None or value_2 is None or value_1 == value_2
-
-    def get_predicates(self) -> "List[Callable[[dict], bool]]":
-        """
-        Return a list of predicate functions.
-
-        A Move is defined to "satisfy" this ProcessRuleSet iff all of the
-        predicate functions return True for the move.
-        """
-        return [
-            self._satisfies_host_country,
-            self._satisfies_nationalities,
-            self._satisfies_contract_location,
-            self._satisfies_payroll_location,
-            self._satisfies_duration,
-            self._satisfies_minimum_salary,
-            self._satisfies_intra_company_move,
-        ]
-
     def get_process_steps(self):
         return list(
             ProcessStep.objects.filter(processrulesetstep__process_ruleset=self)
@@ -480,38 +417,6 @@ class ProcessStep(BaseModel):
         except AttributeError:
             prefetched = list(self.depends_on.all())
         return [obj.id for obj in prefetched]
-
-    def is_required_for_move(self, move: Move) -> bool:
-        """
-        Should this step be included in a process for `move`?
-        """
-        if self._should_exclude_based_on_duration(move):
-            return False
-        if self._should_exclude_based_on_nationalities(move):
-            return False
-        return True
-
-    def _should_exclude_based_on_duration(self, move: Move) -> bool:
-        """
-        Return true iff this step is triggered by duration but this move fails
-        to trigger it.
-        """
-        return bool(
-            self.required_only_if_duration_greater_than
-            and move.duration
-            and move.duration.days < self.required_only_if_duration_greater_than
-        )
-
-    def _should_exclude_based_on_nationalities(self, move: Move) -> bool:
-        """
-        Return true iff this step is triggered by nationality but this move fails
-        to trigger it.
-        """
-        required_only_if_nationalities = set(self.required_only_if_nationalities.all())
-        if required_only_if_nationalities:
-            if not required_only_if_nationalities & set(move.nationalities):
-                return True
-        return False
 
 
 class ProcessRuleSetStep(BaseModel):
