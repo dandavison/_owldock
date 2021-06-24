@@ -51,7 +51,10 @@ class Country(BaseModel):
             # A disadvantage of this method is that some countries have more
             # than one currency and we have no information about which we should
             # choose.
-            if self._COUNTRY_ID_TO_CURRENCIES is None:
+            if (
+                self._COUNTRY_ID_TO_CURRENCIES is None
+                or self.id not in self._COUNTRY_ID_TO_CURRENCIES
+            ):
                 self._compute_country_id_to_currencies()
                 assert self._COUNTRY_ID_TO_CURRENCIES
             return sorted(self._COUNTRY_ID_TO_CURRENCIES.get(self.id, [None]), key=str)[
