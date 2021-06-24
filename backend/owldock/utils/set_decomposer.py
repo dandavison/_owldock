@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, List, Set
+from typing import Iterable, Mapping, Sequence, Set
 
 import numpy as np
 
@@ -39,7 +39,7 @@ class SetDecomposer:
 
     def __init__(
         self,
-        basis: Dict[str, Iterable[str]],
+        basis: Mapping[str, Iterable[str]],
         universe: Iterable[str],
         max_distance=0.05,
     ):
@@ -55,7 +55,7 @@ class SetDecomposer:
         assert self.basis.shape == (len(self.basis_names), len(self.universe))
         self.max_distance = max_distance
 
-    def _make_bitvectors(self, basis: List[Iterable[str]]) -> np.ndarray:
+    def _make_bitvectors(self, basis: Sequence[Set[str]]) -> np.ndarray:
         bitvectors = np.zeros((len(basis), len(self.universe)), dtype=bool)
         for i, x in enumerate(basis):
             indices = [self.indices[a] for a in set(x)]
