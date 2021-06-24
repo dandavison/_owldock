@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from datetime import date, timedelta
-from typing import Callable, List, NewType, Optional
+from datetime import date
+from typing import List, NewType, Optional
 
 import networkx as nx
 from django.db.models import (

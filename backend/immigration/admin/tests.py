@@ -7,8 +7,7 @@ from django.contrib.admin.sites import AdminSite
 from immigration.admin import ProcessStepAdmin
 from immigration.models import ProcessStep
 from immigration.tests import factories
-from owldock.dev.db_utils import assert_max_queries, print_query_counts
-from owldock.tests.constants import TEST_PASSWORD
+from owldock.dev.db_utils import assert_max_queries
 
 
 class MockSuperUser:

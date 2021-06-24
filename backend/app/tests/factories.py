@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import UploadedFile
 from factory.django import DjangoModelFactory
 
 from app.models import Provider, ProviderContact
-from immigration.models import Occupation
+from immigration.models import Occupation, Route
 from owldock.tests.constants import TEST_PASSWORD
 from owldock.tests.factories import BaseModelFactory
 

@@ -3,7 +3,7 @@ from copy import deepcopy
 from django.test import Client as DjangoTestClient
 from typing import List, Set
 
-from immigration.models import ProcessRuleSet, ProcessRuleSetStep, ProcessStep
+from immigration.models import ProcessRuleSet, ProcessStep
 
 
 def test_gantt_chart_noop(

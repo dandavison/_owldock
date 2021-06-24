@@ -1,5 +1,3 @@
-from typing import Dict
-
 from immigration.api.models import _prefetch_process_steps_for_host_country_code
 from immigration.models import ProcessStep
 
