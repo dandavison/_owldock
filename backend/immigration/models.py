@@ -220,10 +220,10 @@ class ProcessRuleSet(BaseModel):
         return move["host_country"]["code"] == self.route.host_country.code
 
     def _satisfies_nationalities(self, move: dict) -> bool:
-        move_nationalities = set(move["nationalities"] or [])
+        move_nationalities = set([nat["code"] for nat in move["nationalities"]] or [])
         if not move_nationalities:
             return True
-        nationalities = set(self.nationalities.all())
+        nationalities = set(nat.code for nat in self.nationalities.all())
         if not nationalities:
             return True
         return bool(move_nationalities & nationalities)
