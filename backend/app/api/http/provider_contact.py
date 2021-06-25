@@ -17,12 +17,10 @@ from app.api.http.client_or_provider_contact import (
     ClientOrProviderCaseListMixin,
     ClientOrProviderCaseViewMixin,
 )
-from app.api.serializers import (
-    ApplicantSerializer,
-    CaseStepSerializer,
-)
+from client import api as client_api
 from client.models.case_step import CaseStep
 from owldock.api.http.base import BaseView
+from owldock.dev.db_utils import assert_max_queries
 from owldock.http import (
     HttpResponseForbidden,
     make_explanatory_http_response,
@@ -55,9 +53,16 @@ class _ProviderContactView(BaseView):
 
 class ApplicantList(_ProviderContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
-        applicants = self.provider_contact.applicants().all()
-        serializer = ApplicantSerializer(applicants, many=True)
-        return OwldockJsonResponse(serializer.data)
+        with assert_max_queries(5):
+            applicant_orm_models = self.provider_contact.applicants().all()
+
+        with assert_max_queries(5):
+            applicant_list_api_model = client_api.models.ApplicantList.from_orm(
+                applicant_orm_models
+            )
+            response = OwldockJsonResponse(applicant_list_api_model.dict()["__root__"])
+
+        return response
 
 
 class CaseView(ClientOrProviderCaseViewMixin, _ProviderContactView):
@@ -75,8 +80,8 @@ class CaseStepView(_ProviderContactView):
             return make_explanatory_http_response(
                 qs, "provider_contact.case_steps()", **kwargs
             )
-        serializer = CaseStepSerializer(case_step)
-        return OwldockJsonResponse(serializer.data)
+        api_obj = client_api.models.CaseStep.from_orm(case_step)
+        return OwldockJsonResponse(api_obj.dict())
 
 
 class CaseList(ClientOrProviderCaseListMixin, _ProviderContactView):
