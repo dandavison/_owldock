@@ -2,8 +2,8 @@ from django.http import HttpRequest, JsonResponse
 from django.views.generic import RedirectView, View
 from subprocess import check_output, CalledProcessError
 
-from app.models import Provider
-from client.models import Client
+from app import models as app_orm_models
+from client import models as client_orm_models
 from owldock.state_machine.role import get_role, Role
 
 
@@ -21,8 +21,8 @@ class StatusView(View):
         return JsonResponse(
             {
                 "commit": self._get_git_head_commit(),
-                "clients": Client.objects.count(),
-                "providers": Provider.objects.count(),
+                "clients": client_orm_models.Client.objects.count(),
+                "providers": app_orm_models.Provider.objects.count(),
             }
         )
 
