@@ -9,7 +9,7 @@ lint: lint-flake8
 type-check: type-check-mypy
 
 test:
-	$(WITH_TEST_ENV) .venv/bin/pytest --no-header
+	$(WITH_TEST_ENV) .venv/bin/pytest --no-header $$(find app client immigration owldock -name 'test_*.py')
 
 test-all: lint type-check test
 
