@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.db import models as django_orm_models
 from django.forms import ModelForm
 from django.http import HttpRequest
+from martor.widgets import AdminMartorWidget
 
 from app.models import (
     Bloc,
@@ -54,6 +56,9 @@ class CountryAdmin(admin.ModelAdmin):
         "immigration_summary",
         "is_active",
     ]
+    formfield_overrides = {
+        django_orm_models.TextField: {"widget": AdminMartorWidget},
+    }
 
     def get_sortable_by(self, request: HttpRequest):
         # This is a pretty random choice of method to use for the purpose, but

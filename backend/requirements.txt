@@ -14,6 +14,7 @@ django-typomatic==1.2.1
 Django==3.2
 djangorestframework==3.12.2
 gunicorn==20.1.0
+martor==1.6.3
 networkx==2.5.1
 numpy==1.20.2
 psycopg2-binary==2.8.6
