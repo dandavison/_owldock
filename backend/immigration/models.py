@@ -51,6 +51,12 @@ class ProcessStepType(TextChoices):
     ΤΕΛΟΣ = "ΤΕΛΟΣ"
 
 
+class ProcessStepApplicability(TextChoices):
+    PRINCIPAL = "Principal"
+    PRINCIPAL_AND_DEPENDENTS = "Principal and dependents"
+    DEPENDENTS = "Dependents"
+
+
 @dataclass
 class Occupation:
     name: str
@@ -278,6 +284,7 @@ class ProcessStep(BaseModel):
         choices=ProcessStepType.choices,
         max_length=16,
     )
+    applies_to = CharField(choices=ProcessStepApplicability.choices, max_length=32)
     depends_on = ManyToManyField(
         "ProcessStep",
         help_text="Steps on which this step depends directly.",

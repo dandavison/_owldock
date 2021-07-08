@@ -135,6 +135,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
         "name",
         "host_country",
         "type",
+        "applies_to",
         "government_fee",
         "estimated_min_duration_days",
         "estimated_max_duration_days",
@@ -148,6 +149,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
     ]
     list_editable = [
         "type",
+        "applies_to",
         "estimated_min_duration_days",
         "estimated_max_duration_days",
     ]
@@ -161,6 +163,7 @@ class ProcessStepAdmin(HasInlinesNestedModelAdmin):
                     "name",
                     "host_country",
                     "type",
+                    "applies_to",
                 ]
             },
         ),
