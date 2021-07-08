@@ -87,6 +87,7 @@ class ProcessStepAdminForm(BlocChoiceFieldMixin, ModelForm):
             ).order_by("name")
 
     def clean(self):
+        self.cleaned_data = super().clean()
         host_country, type = (
             self.cleaned_data.get("host_country"),
             self.cleaned_data.get("type"),
