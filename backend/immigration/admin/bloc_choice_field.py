@@ -77,17 +77,12 @@ class BlocChoiceFieldMixin:
         ) in self._augmented_bloc_fields:
             if self.cleaned_data.get(bloc_attrname):
                 bloc = self.cleaned_data[bloc_attrname]
-                if self.cleaned_data.get(countries_attrname) and set(
-                    self.cleaned_data[countries_attrname]
-                ) != set(bloc.countries.all()):
-                    raise ValidationError(
-                        "When selecting by bloc, do not use the main country selector. "
-                        "If this is restrictive, please let the Owldock dev team know."
-                    )
-
+                existing_countries = self.cleaned_data[countries_attrname]
                 self.cleaned_data[countries_attrname] = {
-                    IncludeChoices.INCLUDE: bloc.countries.all(),
-                    IncludeChoices.EXCLUDE: Country.objects.exclude(
+                    IncludeChoices.INCLUDE: existing_countries.union(
+                        bloc.countries.all()
+                    ),
+                    IncludeChoices.EXCLUDE: existing_countries.exclude(
                         id__in=bloc.countries.all()
                     ),
                 }[self.cleaned_data[include_attrname]]
