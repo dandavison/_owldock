@@ -1,7 +1,7 @@
 from django.http import Http404, HttpRequest, HttpResponse
 
 from immigration import api as immigration_api
-from immigration import models as immigration_orm_models
+from immigration.models import ProcessRuleSet
 from owldock.api.http.base import BaseView
 from owldock.http import OwldockJsonResponse
 
@@ -21,7 +21,7 @@ class ProcessList(BaseView):
             raise Http404(
                 "nationalities and host_country must be supplied in URL params"
             )
-        processes = immigration_orm_models.ProcessRuleSet.objects.filter(
+        processes = ProcessRuleSet.objects.filter(
             route__host_country__code=host_country_code,
         ).prefetch_related("nationalities")
         # Remove ProcessRuleSets which specify non-matching nationalities

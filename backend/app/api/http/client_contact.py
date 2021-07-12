@@ -17,9 +17,9 @@ from app.api.http.client_or_provider_contact import (
     ClientOrProviderCaseViewMixin,
 )
 from app import api as app_api
-from app import models as app_orm_models
+from app.models import ProviderContact
 from client import api as client_api
-from client import models as client_orm_models
+from client.models import ClientContact
 from owldock.api.http.base import BaseView
 from owldock.http import (
     HttpResponseBadRequest,
@@ -33,13 +33,13 @@ from owldock.dev.db_utils import assert_max_queries
 # TODO: Refactor to share implementation with _ProviderContactView
 class _ClientContactView(BaseView):
     def setup(self, *args, **kwargs):
-        self.client_contact: client_orm_models.ClientContact
+        self.client_contact: ClientContact
         super().setup(*args, **kwargs)
         try:
-            self.client_contact = client_orm_models.ClientContact.objects.get(
+            self.client_contact = ClientContact.objects.get(
                 user_uuid=self.request.user.uuid  # type: ignore
             )
-        except client_orm_models.ClientContact.DoesNotExist:
+        except ClientContact.DoesNotExist:
             self.client_contact = None  # type: ignore
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
@@ -52,7 +52,7 @@ class _ClientContactView(BaseView):
 class ApplicantList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         with assert_max_queries(5):
-            applicant_orm_models = client_api.read.applicant.get_orm_models(
+            applicant_orm_models = client_api_read_applicant.get_orm_models(
                 self.client_contact
             )
 
@@ -126,10 +126,8 @@ def _perform_earmark_or_offer_case_step_transition(
         )
 
     try:
-        provider_contact = app_orm_models.ProviderContact.objects.get(
-            uuid=provider_contact_uuid
-        )
-    except app_orm_models.ProviderContact.DoesNotExist:
+        provider_contact = ProviderContact.objects.get(uuid=provider_contact_uuid)
+    except ProviderContact.DoesNotExist:
         return HttpResponseNotFound(
             f"ProviderContact {provider_contact_uuid} does not exist"
         )
