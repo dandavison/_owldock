@@ -45,7 +45,14 @@ class BlocAdmin(admin.ModelAdmin):
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ["name", "code", "unicode_flag", "get_blocs", "is_active"]
+    list_display = [
+        "name",
+        "code",
+        "unicode_flag",
+        "get_blocs",
+        "has_immigration_summary_text",
+        "is_active",
+    ]
     list_filter = ["is_active"]
     list_editable = ["is_active"]
     ordering = ["name"]
@@ -74,3 +81,7 @@ class CountryAdmin(admin.ModelAdmin):
         return ", ".join(
             sorted(b.name for b in self.country_ids_2containing_blocs.get(obj.id, []))
         )
+
+    @admin.display(description="Has immigration summary text?")
+    def has_immigration_summary_text(self, obj: Country) -> str:
+        return "Yes" if obj.immigration_summary else "No"
