@@ -1,9 +1,9 @@
 import pytest
 
 from app.api.http.case_step_utils import perform_case_step_transition
+from app.api.serializers import CaseSerializer
 from app.models import ProviderContact
 from app.tests.factories import UploadedFileFactory
-from client import api as client_api
 from client.models import CaseStep, ClientContact, State
 from client.tests.fake_create_case import fake_create_case_and_earmark_steps
 
@@ -207,7 +207,7 @@ def _make_case_step_FREE_assertions(
         )
 
     for c in [client_contact, other_client_contact]:
-        list(client_api.read.case.get_cases_for_client_or_provider_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_EARMARKED_assertions(
@@ -264,7 +264,7 @@ def _make_case_step_EARMARKED_assertions(
         )
 
     for c in [client_contact, other_client_contact]:
-        list(client_api.read.case.get_cases_for_client_or_provider_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_OFFERED_assertions(
@@ -323,7 +323,7 @@ def _make_case_step_OFFERED_assertions(
         )
 
     for c in [client_contact, other_client_contact]:
-        list(client_api.read.case.get_cases_for_client_or_provider_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_IN_PROGRESS_assertions(
@@ -390,7 +390,7 @@ def _make_case_step_IN_PROGRESS_assertions(
     )
 
     for c in [client_contact, other_client_contact]:
-        list(client_api.read.case.get_cases_for_client_or_provider_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _make_case_step_COMPLETE_assertions(
@@ -453,7 +453,7 @@ def _make_case_step_COMPLETE_assertions(
     )
 
     for c in [client_contact, other_client_contact]:
-        list(client_api.read.case.get_cases_for_client_or_provider_contact(c))
+        list(CaseSerializer.get_cases_for_client_or_provider_contact(c))
 
 
 def _transitions_by_name(transitions) -> dict:

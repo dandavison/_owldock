@@ -6,8 +6,8 @@ from django.db.transaction import atomic
 from django.http import HttpRequest, HttpResponse
 
 from app.exceptions import PermissionDenied
+from app.api.serializers import CaseStepSerializer
 from app.models import ProviderContact
-from client import api as client_api
 from client.models import CaseStep, ClientContact
 from owldock.http import (
     HttpResponseForbidden,
@@ -41,8 +41,8 @@ def perform_case_step_transition(
     transition(**(transition_kwargs or {}))
     case_step.save()
     if queryset.filter(**query_kwargs).exists():
-        api_obj = client_api.models.CaseStep.from_orm(case_step)
-        return OwldockJsonResponse(api_obj.dict())
+        serializer = CaseStepSerializer(case_step)
+        return OwldockJsonResponse(serializer.data)
     else:
         return OwldockJsonResponse(None)
 

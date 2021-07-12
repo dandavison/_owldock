@@ -5,7 +5,6 @@ from immigration.models import (
     Location,
     ProcessRuleSet,
     ProcessStep,
-    ProcessStepType,
     Route,
 )
 from immigration.tests.factories import (
@@ -100,7 +99,6 @@ def greece_visa_type_D_application_step(
     step = ProcessStepFactory(
         host_country=greece,
         name="Visa Type D Application",
-        type=ProcessStepType.PRIMARY,
         estimated_min_duration_days=1,
         estimated_max_duration_days=30,
         applicant_can_enter_host_country_after=True,
@@ -121,7 +119,6 @@ def greece_posted_worker_notification_step(
     step = ProcessStepFactory(
         host_country=greece,
         name="Posted Worker Notification (EU/EEA)",
-        type=ProcessStepType.ANCILLARY,
         estimated_min_duration_days=1,
         estimated_max_duration_days=10,
         applicant_can_enter_host_country_after=False,
@@ -136,23 +133,17 @@ def greece_posted_worker_notification_step(
 
 @pytest.fixture()
 def brazil_step(brazil) -> ProcessStep:
-    return ProcessStepFactory(
-        host_country=brazil, name="Entry", type=ProcessStepType.ANCILLARY
-    )
+    return ProcessStepFactory(host_country=brazil, name="Entry")
 
 
 @pytest.fixture()
 def france_step(france) -> ProcessStep:
-    return ProcessStepFactory(
-        host_country=france, name="Entry", type=ProcessStepType.ANCILLARY
-    )
+    return ProcessStepFactory(host_country=france, name="Entry")
 
 
 @pytest.fixture()
 def entry_step(brazil_step, france_step) -> ProcessStep:
-    entry_step = ProcessStepFactory(
-        host_country=None, name="Entry", type=ProcessStepType.ANCILLARY
-    )
+    entry_step = ProcessStepFactory(host_country=None, name="Entry")
     entry_step.depends_on.set([brazil_step, france_step])
     return entry_step
 
@@ -162,7 +153,6 @@ def greece_residence_permit_step(greece) -> ProcessStep:
     return ProcessStepFactory(
         host_country=greece,
         name="Residence Permit for Employment",
-        type=ProcessStepType.PRIMARY,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
@@ -178,7 +168,6 @@ def greece_tax_registration_step(greece) -> ProcessStep:
     return ProcessStepFactory(
         host_country=greece,
         name="Tax Registration",
-        type=ProcessStepType.ANCILLARY,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
@@ -194,7 +183,6 @@ def greece_biometrics_step(greece) -> ProcessStep:
     return ProcessStepFactory(
         host_country=greece,
         name="Fingerprints and Biometrics Data",
-        type=ProcessStepType.ANCILLARY,
         estimated_min_duration_days=90,
         estimated_max_duration_days=180,
         applicant_can_enter_host_country_after=False,
@@ -212,7 +200,6 @@ def greece_issuance_of_residence_card_step(
     step = ProcessStepFactory(
         host_country=greece,
         name="Issuance of Residence Card",
-        type=ProcessStepType.PRIMARY,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,
@@ -232,7 +219,6 @@ def greece_eu_registration_certificate_step(
     step = ProcessStepFactory(
         host_country=greece,
         name="EU Registration Certificate",
-        type=ProcessStepType.PRIMARY,
         estimated_min_duration_days=1,
         estimated_max_duration_days=1,
         applicant_can_enter_host_country_after=False,

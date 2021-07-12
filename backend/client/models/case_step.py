@@ -224,11 +224,10 @@ class CaseStep(BaseModel):
     def retract(self) -> None:
         self.reject()
 
-    @property
-    def actions(self) -> List[Action]:
+    def get_actions(self) -> List[Action]:
         # TODO: Better separation of HTTP API from models.py
         # This method is currently implemented here on the model class in order
-        # that it is available to a pydantic API model.
+        # that it is available to a DRF serializer.
         request = get_current_request()
         if not request:
             return []
@@ -296,7 +295,3 @@ class CaseStepContract(BaseModel):
 
     def is_blank(self) -> bool:
         return not self.accepted_at and not self.rejected_at
-
-    @property
-    def case_step_uuid(self):
-        return self.case_step.uuid

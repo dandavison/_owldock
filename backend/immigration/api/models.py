@@ -8,10 +8,24 @@ from decimal import Decimal
 from typing import Any, Dict, List, Optional
 from uuid import UUID
 
+from django.db.models import Manager as DjangoModelManager
+from djmoney.money import Money
 from pydantic import BaseModel, PositiveInt, NonNegativeInt
+from pydantic.utils import GetterDict
 
-from owldock.api.models import DjangoOrmGetterDict
 from immigration import models as orm_models
+
+
+class DjangoOrmGetterDict(GetterDict):
+    # https://github.com/samuelcolvin/pydantic/pull/2463
+    def get(self, key: Any, default: Any = None) -> Any:
+        value = super().get(key, default)
+        if isinstance(value, DjangoModelManager):
+            return list(value.all())
+        elif isinstance(value, Money):
+            return value.amount
+        else:
+            return value
 
 
 class Country(BaseModel):
@@ -55,7 +69,6 @@ class ProcessStepGetterDict(DjangoOrmGetterDict):
 
 class ProcessStep(BaseModel):
     id: int
-    uuid: UUID
     name: str
     type: str
     host_country: Optional[Country]
@@ -126,7 +139,7 @@ class ProcessRuleSet(BaseModel):
     step_rulesets: List[ProcessStepRuleSet]
     steps: List[ProcessStep]
 
-    class Config(BaseModel.Config):
+    class Config:
         orm_mode = True
         getter_dict = ProcessRuleSetGetterDict
 

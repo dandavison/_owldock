@@ -10,8 +10,8 @@ def print_diff(a, b):
     https://github.com/dandavison/delta
     """
     if not (isinstance(a, str) and isinstance(b, str)):
-        a = json.dumps(a, sort_keys=True, indent=2, default=str)
-        b = json.dumps(b, sort_keys=True, indent=2, default=str)
+        a = json.dumps(a, sort_keys=True, indent=2)
+        b = json.dumps(b, sort_keys=True, indent=2)
     diff = "\n".join(unified_diff(a.splitlines(), b.splitlines()))
     if not diff:
         print("<no change>")

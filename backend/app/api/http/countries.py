@@ -1,15 +1,13 @@
 from django.http import HttpRequest
 
+from immigration.api import models as api_models
 from app.models import Country
-from immigration import api as immigration_api
 from owldock.api.http.base import BaseView
 from owldock.http import OwldockJsonResponse
 
 
 class CountriesList(BaseView):
     def get(self, request: HttpRequest):
-        countries = immigration_api.models.CountryList.from_orm(
-            list(Country.objects.all())
-        )
+        countries = api_models.CountryList.from_orm(list(Country.objects.all()))
         data = countries.dict()["__root__"]
         return OwldockJsonResponse(data)
