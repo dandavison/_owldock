@@ -32,7 +32,7 @@ class ClientOrProviderCaseViewMixin:
 
         get_role_from_http_request(request)  # cache it
 
-        with assert_max_queries(25):  # TODO: should be <=2
+        with assert_max_queries(45):  # TODO: should be <=2
             api_obj = client_api.models.Case.from_orm(case)
             response = OwldockJsonResponse(api_obj.dict())
 
