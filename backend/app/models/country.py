@@ -26,11 +26,23 @@ class CountryManager(models.Manager):
         )
 
 
+class ImmigrationSummaryStatus(models.TextChoices):
+    NOT_STARTED = "Not started"
+    DRAFT = "Draft"
+    FINAL = "Final"
+
+
 class Country(BaseModel):
     name = models.CharField(max_length=128)
     code = models.CharField(max_length=2)
     unicode_flag = models.CharField(max_length=2)
     immigration_summary = models.TextField(blank=True)
+    immigration_summary_status = models.CharField(
+        choices=ImmigrationSummaryStatus.choices,
+        max_length=16,
+        default=ImmigrationSummaryStatus.NOT_STARTED,
+    )
+
     is_active = models.BooleanField(
         help_text="For Owldock demo purposes: Should this Country appear as an option in UIs?",
         default=True,

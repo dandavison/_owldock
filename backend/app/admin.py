@@ -50,17 +50,18 @@ class CountryAdmin(admin.ModelAdmin):
         "code",
         "unicode_flag",
         "get_blocs",
-        "has_immigration_summary_text",
+        "immigration_summary_status",
         "is_active",
     ]
-    list_filter = ["is_active"]
-    list_editable = ["is_active"]
+    list_filter = ["is_active", "immigration_summary_status"]
+    list_editable = ["is_active", "immigration_summary_status"]
     ordering = ["name"]
     fields = [
         "name",
         "code",
         "unicode_flag",
         "immigration_summary",
+        "immigration_summary_status",
         "is_active",
     ]
     formfield_overrides = {
