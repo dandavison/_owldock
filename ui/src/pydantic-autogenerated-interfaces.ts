@@ -41,6 +41,7 @@ export interface ProcessStepRuleSet {
 }
 export interface ProcessStep {
   id: number;
+  uuid: string;
   name: string;
   type: string;
   host_country?: Country;
