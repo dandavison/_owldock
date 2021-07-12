@@ -6,7 +6,7 @@ from uuid import UUID
 from app import api as app_api
 from client import models as client_orm_models
 from immigration import api as immigration_api
-from owldock.api.models import BaseModel, DjangoOrmGetterDict
+from owldock.api.models import BaseModel, DjangoOrmGetterDict, EnumValue
 
 
 class Client(BaseModel):
@@ -55,26 +55,13 @@ class CaseStepContract(BaseModel):
     rejected_at: Optional[datetime]
 
 
-class CaseStepGetterDict(DjangoOrmGetterDict):
-    def get(self, key: Any, default: Any = None) -> Any:
-        # Serialize human-readable labels of enums
-        if key in {"state"}:
-            value = getattr(self._obj, key, default)
-            return client_orm_models.State(value).label if value else None
-        else:
-            return super().get(key, default)
-
-
 class CaseStep(BaseModel):
     uuid: Optional[UUID]
     actions: ActionList
     active_contract: Optional[CaseStepContract]
     process_step: immigration_api.models.ProcessStep
-    state: str
+    state: Optional[EnumValue]
     stored_files: app_api.models.StoredFileList
-
-    class Config(BaseModel.Config):
-        getter_dict = CaseStepGetterDict
 
 
 class CaseStepList(BaseModel):

@@ -84,7 +84,10 @@ def _create_case_steps_from_process_steps(
                     "provider_contact": provider_contact.dict(),
                 },
                 "process_step": process_step.dict(),
-                "state": CaseStepState.FREE.value,
+                "state": {
+                    "value": CaseStepState.FREE.value,
+                    "name": CaseStepState.FREE.name,
+                },
                 "stored_files": [],
             }
         )

@@ -21,3 +21,8 @@ class BaseModel(pydantic.BaseModel):
     class Config:
         orm_mode = True
         getter_dict = DjangoOrmGetterDict
+
+
+class EnumValue(BaseModel):
+    name: str
+    value: str
