@@ -229,7 +229,11 @@ class ProcessRuleSet(BaseModel):
 
     @property
     def step_rulesets(self) -> "List[ProcessRuleSetStep]":
-        return list(self.processrulesetstep_set.all())
+        return list(self.processrulesetstep_set.select_related("process_step"))
+
+    @property
+    def steps(self) -> "List[ProcessStep]":
+        return [sr.process_step for sr in self.step_rulesets]
 
 
 class IssuedDocument(BaseModel):

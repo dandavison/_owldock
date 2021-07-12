@@ -124,6 +124,7 @@ class ProcessRuleSet(BaseModel):
     intra_company_moves_only: bool
     nationalities_description = ""  # computed in HTTP handler
     step_rulesets: List[ProcessStepRuleSet]
+    steps: List[ProcessStep]
 
     class Config(BaseModel.Config):
         orm_mode = True
