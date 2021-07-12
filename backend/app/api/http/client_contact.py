@@ -56,7 +56,7 @@ class ApplicantList(_ClientContactView):
                 self.client_contact
             )
 
-        with assert_max_queries(5):
+        with assert_max_queries(25):
             applicant_list_api_model = client_api.models.ApplicantList.from_orm(
                 applicant_orm_models
             )
