@@ -186,7 +186,7 @@ export default Vue.extend({
       // Changing the steps often makes a large difference to the vertical
       // height of the Case component at the top of the page.
       const submitButton = this.$refs.submitButton as HTMLElement;
-      this.$nextTick(() => submitButton.scrollIntoView());
+      this.$nextTick(() => submitButton?.scrollIntoView());
     },
 
     handleSelectProviderContact(
