@@ -77,7 +77,8 @@ export default Vue.extend({
       // appearance to the user that they are selecting a single provider
       // contact for the case. This is stored in the following value, and is
       // copied to each of the case steps.
-      defaultProviderContact: NullProviderContact() as ProviderContactSerializer,
+      defaultProviderContact:
+        NullProviderContact() as ProviderContactSerializer,
     };
   },
 
