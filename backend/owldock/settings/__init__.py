@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "nested_admin",
     "django_countries",
     "corsheaders",
-    "rest_framework",
     "djmoney",
     "app",
     "client",

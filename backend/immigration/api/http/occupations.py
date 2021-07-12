@@ -3,7 +3,6 @@ from django.conf import settings
 from django.http import HttpRequest, HttpResponse
 from django.views import View
 
-from app.api.serializers import OccupationSerializer
 from owldock.http import OwldockJsonResponse
 
 OCCUPATIONS = None
@@ -20,5 +19,4 @@ def _get_occupations():
 
 class OccupationsList(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        serializer = OccupationSerializer(_get_occupations(), many=True)
-        return OwldockJsonResponse(serializer.data)
+        return OwldockJsonResponse([])

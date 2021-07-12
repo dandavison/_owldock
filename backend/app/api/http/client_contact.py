@@ -6,6 +6,7 @@ from django.http import (
     HttpRequest,
     HttpResponse,
 )
+from pydantic import ValidationError
 
 from app.api.http.case_step_utils import (
     add_uploaded_files_to_case_step,
@@ -15,13 +16,9 @@ from app.api.http.client_or_provider_contact import (
     ClientOrProviderCaseListMixin,
     ClientOrProviderCaseViewMixin,
 )
-from app.api.serializers import (
-    CaseSerializer,
-    ClientProviderRelationshipSerializer,
-    ApplicantSerializer,
-    ProviderContactSerializer,
-)
+from app import api as app_api
 from app.models import ProviderContact
+from client import api as client_api
 from client.models import ClientContact
 from owldock.api.http.base import BaseView
 from owldock.http import (
@@ -55,13 +52,15 @@ class _ClientContactView(BaseView):
 class ApplicantList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         with assert_max_queries(5):
-            applicants = ApplicantSerializer.get_applicants_for_client_contact(
+            applicant_orm_models = client_api_read_applicant.get_orm_models(
                 self.client_contact
             )
 
-        with assert_max_queries(1):
-            serializer = ApplicantSerializer(applicants, many=True)
-            response = OwldockJsonResponse(serializer.data)
+        with assert_max_queries(25):
+            applicant_list_api_model = client_api.models.ApplicantList.from_orm(
+                applicant_orm_models
+            )
+            response = OwldockJsonResponse(applicant_list_api_model.dict()["__root__"])
 
         return response
 
@@ -79,12 +78,15 @@ class CaseList(ClientOrProviderCaseListMixin, _ClientContactView):
 class CreateCase(_ClientContactView):
     @atomic
     def post(self, request: HttpRequest) -> HttpResponse:
-        serializer = CaseSerializer(data=json.loads(request.body))
-        if serializer.is_valid():
-            serializer.create_for_client_contact(client_contact=self.client_contact)
-            return OwldockJsonResponse(None)
+        try:
+            api_obj = client_api.models.Case(**json.loads(request.body))
+        except ValidationError as e:
+            return OwldockJsonResponse({"validation-errors": e.json()})
         else:
-            return OwldockJsonResponse({"validation-errors": serializer.errors})
+            client_api.write.case.create_for_client_contact(
+                api_obj, client_contact=self.client_contact
+            )
+            return OwldockJsonResponse(None)
 
 
 class EarmarkCaseStep(_ClientContactView):
@@ -158,10 +160,10 @@ class CaseStepUploadFiles(_ClientContactView):
 class ClientProviderRelationshipList(_ClientContactView):
     def get(self, request: HttpRequest) -> HttpResponse:
         provider_relationships = self.client_contact.provider_relationships()
-        serializer = ClientProviderRelationshipSerializer(
-            provider_relationships, many=True
+        api_obj = client_api.models.ClientProviderRelationshipList.from_orm(
+            provider_relationships
         )
-        return OwldockJsonResponse(serializer.data)
+        return OwldockJsonResponse(api_obj.dict()["__root__"])
 
 
 class ProviderContactList(_ClientContactView):
@@ -174,13 +176,13 @@ class ProviderContactList(_ClientContactView):
             return HttpResponseBadRequest(
                 "process_uuid key of URL parameters must be a valid UUID"
             )
-        provider_contacts = (
+        orm_objs = list(
             self.client_contact.provider_primary_contacts_for_process(process_uuid)
             if self.primary_only
             else self.client_contact.provider_contacts_for_process(process_uuid)
         )
-        serializer = ProviderContactSerializer(provider_contacts, many=True)
-        return OwldockJsonResponse(serializer.data)
+        api_obj = app_api.models.ProviderContactList.from_orm(orm_objs)
+        return OwldockJsonResponse(api_obj.dict()["__root__"])
 
 
 class PrimaryProviderContactList(ProviderContactList):

@@ -1,6 +1,6 @@
 from django.http import Http404, HttpRequest, HttpResponse
 
-from app.api.serializers import ProcessSerializer
+from immigration import api as immigration_api
 from immigration.models import ProcessRuleSet
 from owldock.api.http.base import BaseView
 from owldock.http import OwldockJsonResponse
@@ -33,6 +33,5 @@ class ProcessList(BaseView):
             elif process_nationality_codes & nationality_codes:
                 filtered_processes.append(p)
         # TODO: Process vs ProcessRuleSet
-        serializer = ProcessSerializer(data=processes, many=True)
-        serializer.is_valid()
-        return OwldockJsonResponse(serializer.data)
+        api_obj = immigration_api.models.ProcessRuleSetList.from_orm(filtered_processes)
+        return OwldockJsonResponse(api_obj.dict()["__root__"])
