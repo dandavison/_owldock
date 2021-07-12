@@ -8,7 +8,7 @@ from django.http import (
     HttpResponse,
 )
 
-from app.models import ProviderContact
+from app import models as app_orm_models
 from app.api.http.case_step_utils import (
     add_uploaded_files_to_case_step,
     perform_case_step_transition,
@@ -18,7 +18,7 @@ from app.api.http.client_or_provider_contact import (
     ClientOrProviderCaseViewMixin,
 )
 from client import api as client_api
-from client.models.case_step import CaseStep
+from client import models as client_orm_models
 from owldock.api.http.base import BaseView
 from owldock.dev.db_utils import assert_max_queries
 from owldock.http import (
@@ -34,14 +34,14 @@ M = TypeVar("M", bound=Model)
 # TODO: Refactor to share implementation with _ClientContactView
 class _ProviderContactView(BaseView):
     def setup(self, *args, **kwargs):
-        self.provider_contact: ProviderContact
+        self.provider_contact: app_orm_models.ProviderContact
 
         super().setup(*args, **kwargs)
         try:
-            self.provider_contact = ProviderContact.objects.get(
+            self.provider_contact = app_orm_models.ProviderContact.objects.get(
                 user=self.request.user  # type: ignore
             )
-        except ProviderContact.DoesNotExist:
+        except app_orm_models.ProviderContact.DoesNotExist:
             self.provider_contact = None  # type: ignore
 
     def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
@@ -76,7 +76,7 @@ class CaseStepView(_ProviderContactView):
         kwargs = {"uuid": uuid}
         try:
             case_step = qs.get(**kwargs)
-        except CaseStep.DoesNotExist:
+        except client_orm_models.CaseStep.DoesNotExist:
             return make_explanatory_http_response(
                 qs, "provider_contact.case_steps()", **kwargs
             )

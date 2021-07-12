@@ -5,10 +5,10 @@ from typing import Union
 from django.db.transaction import atomic
 from django.http import HttpRequest, HttpResponse
 
+from app import models as app_orm_models
 from app.exceptions import PermissionDenied
-from app.models import ProviderContact
 from client import api as client_api
-from client.models import CaseStep, ClientContact
+from client import models as client_orm_models
 from owldock.http import (
     HttpResponseForbidden,
     HttpResponseNotFound,
@@ -30,7 +30,7 @@ def perform_case_step_transition(
 ):
     try:
         case_step = queryset.get(**query_kwargs)
-    except CaseStep.DoesNotExist:
+    except client_orm_models.CaseStep.DoesNotExist:
         return make_explanatory_http_response(queryset, queryset_name, **query_kwargs)
     transition = getattr(case_step, transition_name)
     if not can_proceed(transition):
@@ -48,7 +48,9 @@ def perform_case_step_transition(
 
 
 def add_uploaded_files_to_case_step(
-    client_or_provider_contact: Union[ClientContact, ProviderContact],
+    client_or_provider_contact: Union[
+        client_orm_models.ClientContact, app_orm_models.ProviderContact
+    ],
     request: HttpRequest,
     uuid: UUID,
 ) -> HttpResponse:
@@ -68,7 +70,7 @@ def add_uploaded_files_to_case_step(
                 f"case step {uuid}"
             )
         )
-    except CaseStep.DoesNotExist:
+    except client_orm_models.CaseStep.DoesNotExist:
         logger.error(
             "CaseStep.DoesNotExist when uploading file. User: %s, case step: %s",
             request.user,
@@ -76,7 +78,7 @@ def add_uploaded_files_to_case_step(
         )
         try:
             case_step = client_or_provider_contact.case_steps().get(uuid=uuid)
-        except CaseStep.DoesNotExist:
+        except client_orm_models.CaseStep.DoesNotExist:
             return HttpResponseNotFound(f"Case step {uuid} does not exist")
         else:
             return OwldockJsonResponse(
