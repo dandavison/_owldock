@@ -266,7 +266,9 @@ class ProcessStepSerializer(ModelSerializer):
     # See module docstring for explanation of read_only and allow_null
     uuid = UUIDField(read_only=False, allow_null=True, required=False)
     issued_documents = IssuedDocumentSerializer(many=True)
-    service_item = ServiceItemSerializer(source="serviceitem")
+    service_item = ServiceItemSerializer(
+        source="serviceitem", allow_null=True, required=False
+    )
 
     class Meta:
         model = ProcessStep
