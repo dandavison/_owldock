@@ -8,7 +8,7 @@
       <li>
         <portal-zone-card
           link="/portal/assessment"
-          buttonLabel="'Assessment'"
+          buttonLabel="Assessment"
           buttonColor="#f8dcf7"
         >
           <ol>

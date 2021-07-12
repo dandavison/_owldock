@@ -8,7 +8,7 @@
       <li>
         <portal-zone-card
           link="/portal/assessment"
-          buttonLabel="'Assessment'"
+          buttonLabel="Assessment"
           buttonColor="#fff2cc"
         >
           <ol>
@@ -30,7 +30,7 @@
       <li>
         <portal-zone-card
           link="/portal/new-case"
-          buttonLabel="'Create case'"
+          buttonLabel="Create case"
           buttonColor="#fff2cc"
         >
           <ol>
