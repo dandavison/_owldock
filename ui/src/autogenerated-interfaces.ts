@@ -1,155 +1,57 @@
-export interface EnumSerializer {
-  name: string;
-  value: string;
-}
+/* tslint:disable */
+/* eslint-disable */
+/**
+/* This file was automatically generated from pydantic models by running pydantic2ts.
+/* Do not modify it by hand - just update the pydantic models and then re-run the script
+*/
 
-export interface CountrySerializer {
-  uuid?: string;
+export type CountryList = Country[];
+export type ProcessRuleSetList = ProcessRuleSet[];
+export type ProcessStepList = ProcessStep[];
+
+export interface Country {
+  uuid: string;
   name: string;
   code: string;
-  currency_code: string;
+  currency_code?: string;
   unicode_flag: string;
 }
-
-export interface ActionSerializer {
-  display_name: string;
-  name: string;
-  url: string;
-}
-
-export interface UserSerializer {
-  uuid?: string;
-  first_name?: string;
-  last_name?: string;
-  email: string;
-}
-
-export interface StoredFileSerializer {
-  created_by: UserSerializer;
-  uuid?: string;
-  media_type: string;
-  name: string;
-  size: number;
-}
-
-export interface ClientSerializer {
-  uuid?: string;
-  name: string;
-}
-
-export interface ApplicantSerializer {
-  id?: number;
-  uuid?: string;
-  user: UserSerializer;
-  employer: ClientSerializer;
-  home_country: CountrySerializer;
-  nationalities: CountrySerializer[];
-}
-
-export interface ClientContactSerializer {
-  uuid?: string;
-  user: UserSerializer;
-  client: ClientSerializer;
-}
-
-export interface ProviderSerializer {
-  uuid?: string;
-  logo_url: string;
-  name: string;
-}
-
-export interface ClientProviderRelationshipSerializer {
-  uuid?: string;
-  client: ClientSerializer;
-  provider: ProviderSerializer;
-  preferred?: boolean;
-}
-
-export interface ProviderContactSerializer {
-  uuid?: string;
-  user: UserSerializer;
-  provider: ProviderSerializer;
-}
-
-export interface OccupationSerializer {
-  name: string;
-}
-
-export interface MoveSerializer {
-  host_country?: CountrySerializer;
-  target_entry_date?: string;
-  target_exit_date?: string;
-  activity?: string;
-  nationalities?: CountrySerializer[];
+export interface ProcessRuleSet {
+  id: number;
+  uuid: string;
+  route: Route;
+  nationalities: Country[];
+  home_countries: Country[];
   contract_location?: string;
   payroll_location?: string;
-  salary?: any;
-  salary_currency?: string;
+  minimum_salary?: number;
+  minimum_salary_currency?: string;
+  duration_min_days?: number;
+  duration_max_days?: number;
+  intra_company_moves_only: boolean;
+  step_rulesets: ProcessStepRuleSet[];
+  nationalities_description?: string;
 }
-
-export interface RouteSerializer {
-  id?: number;
-  host_country: CountrySerializer;
-  uuid?: string;
-  created_at?: string;
-  modified_at?: string;
+export interface Route {
   name: string;
+  host_country: Country;
 }
-
-export interface IssuedDocumentSerializer {
-  id?: number;
+export interface ProcessStepRuleSet {
+  process_step: ProcessStep;
+}
+export interface ProcessStep {
+  id: number;
+  uuid: string;
   name: string;
-}
-
-export interface ServiceItemSerializer {
-  description: string;
-}
-
-export interface ProcessStepSerializer {
-  applicant_can_enter_host_country_after?: boolean;
-  applicant_can_work_in_host_country_after?: boolean;
-  estimated_max_duration_days?: number;
-  estimated_min_duration_days?: number;
-  government_fee?: any;
-  issued_documents: IssuedDocumentSerializer[];
-  name: string;
+  type: string;
+  host_country?: Country;
+  depends_on_ids: number[];
+  step_government_fee?: number;
+  step_duration_range: number[];
+  required_only_if_contract_location?: string;
+  required_only_if_payroll_location?: string;
   required_only_if_duration_greater_than?: number;
   required_only_if_duration_less_than?: number;
-  required_only_if_nationalities?: any[];
-  required_only_if_payroll_location?: any;
-  service_item: ServiceItemSerializer;
-  uuid?: string;
-}
-
-export interface ProcessSerializer {
-  uuid?: string;
-  route: RouteSerializer;
-  steps: ProcessStepSerializer[];
-}
-
-export interface CaseStepContractSerializer {
-  id?: number;
-  case_step_uuid?: string;
-  provider_contact: ProviderContactSerializer;
-  accepted_at?: string;
-  rejected_at?: string;
-}
-
-export interface CaseStepSerializer {
-  uuid?: string;
-  actions: ActionSerializer[];
-  active_contract: CaseStepContractSerializer;
-  process_step: ProcessStepSerializer;
-  state: EnumSerializer;
-  stored_files: StoredFileSerializer[];
-}
-
-export interface CaseSerializer {
-  id?: number;
-  uuid?: string;
-  applicant: ApplicantSerializer;
-  move: MoveSerializer;
-  process: ProcessSerializer;
-  steps: CaseStepSerializer[];
-  created_at?: string;
+  required_only_if_nationalities: Country[];
+  required_only_if_home_country: Country[];
 }
