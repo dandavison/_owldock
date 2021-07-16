@@ -40,7 +40,7 @@ class ApplicantList(BaseModel):
 class Action(BaseModel):
     display_name: str
     name: str
-    url: Optional[str]
+    url: str
 
 
 class ActionList(BaseModel):
