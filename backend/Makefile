@@ -52,6 +52,10 @@ type-check-pyright:
 python:
 	DJANGO_READ_ONLY=1 $(MANAGE) shell_plus
 
+virtualenv:
+	python3 -m venv .venv
+	./.venv/bin/pip install -r requirements.txt
+
 migrate:
 	$(MANAGE) migrate
 	$(MANAGE) migrate --database client
