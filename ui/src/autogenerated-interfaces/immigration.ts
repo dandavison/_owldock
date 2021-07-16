@@ -30,6 +30,7 @@ export interface ProcessRuleSet {
   duration_max_days?: number;
   intra_company_moves_only: boolean;
   step_rulesets: ProcessStepRuleSet[];
+  steps: ProcessStep[];
   nationalities_description?: string;
 }
 export interface Route {

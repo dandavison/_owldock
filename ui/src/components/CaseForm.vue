@@ -191,7 +191,9 @@ export default Vue.extend({
     handleSelectProviderContact(providerContact: IProviderContact): void {
       this.defaultProviderContact = providerContact;
       for (let step of this.case_.steps) {
-        step.active_contract.provider_contact = providerContact;
+        if (step.active_contract) {
+          step.active_contract.provider_contact = providerContact;
+        }
       }
     },
 

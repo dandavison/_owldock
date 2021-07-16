@@ -35,9 +35,14 @@ export function NullRoute(): IRoute {
 
 function NullProcess(): IProcess {
   return {
+    id: 0,
     uuid: "",
     route: NullRoute(),
     steps: [],
+    step_rulesets: [],
+    nationalities: [],
+    home_countries: [],
+    intra_company_moves_only: false,
   };
 }
 

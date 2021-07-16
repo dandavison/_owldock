@@ -16,7 +16,7 @@ export type ClientProviderRelationshipList = ClientProviderRelationship[];
 export interface Action {
   display_name: string;
   name: string;
-  url?: string;
+  url: string;
 }
 export interface Applicant {
   id: number;
@@ -78,6 +78,7 @@ export interface ProcessRuleSet {
   duration_max_days?: number;
   intra_company_moves_only: boolean;
   step_rulesets: ProcessStepRuleSet[];
+  steps: ProcessStep[];
   nationalities_description?: string;
 }
 export interface Route {
@@ -108,7 +109,7 @@ export interface CaseStep {
   actions: ActionList;
   active_contract?: CaseStepContract;
   process_step: ProcessStep;
-  state: string;
+  state?: EnumValue;
   stored_files: StoredFileList;
 }
 export interface CaseStepContract {
@@ -127,6 +128,10 @@ export interface Provider {
   uuid: string;
   name: string;
   logo_url: string;
+}
+export interface EnumValue {
+  name: string;
+  value: string;
 }
 export interface StoredFile {
   uuid: string;
