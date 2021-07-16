@@ -160,12 +160,13 @@ class ProcessRuleSetList(BaseModel):
             )
             .filter(**kwargs)
         )
-        # We do not handle process_rulesets from a mixture of countries.
-        [country_code] = {pr.route.host_country.code for pr in orm_process_rulesets}
-        id2step = _prefetch_process_steps_for_host_country_code(country_code)
-        for pr in orm_process_rulesets:
-            for sr in pr.step_rulesets:
-                sr.process_step = id2step[sr.process_step_id]
+        if orm_process_rulesets:
+            # We do not handle process_rulesets from a mixture of countries.
+            [country_code] = {pr.route.host_country.code for pr in orm_process_rulesets}
+            id2step = _prefetch_process_steps_for_host_country_code(country_code)
+            for pr in orm_process_rulesets:
+                for sr in pr.step_rulesets:
+                    sr.process_step = id2step[sr.process_step_id]
 
         return orm_process_rulesets
 
