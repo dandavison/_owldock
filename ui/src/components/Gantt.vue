@@ -1,4 +1,5 @@
 <template>
+  <!-- A component creating a Gantt chart as SVG. -->
   <div>
     <svg
       v-if="tasks.length > 0"
