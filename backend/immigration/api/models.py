@@ -154,7 +154,7 @@ class ProcessRuleSetList(BaseModel):
                 "route__host_country",
             )
             .prefetch_related(
-                "processrulesetstep_set",
+                "processrulesetstep_set__process_step",
                 "nationalities",
                 "home_countries",
             )
