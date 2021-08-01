@@ -88,6 +88,7 @@ drop-all-tables:
 	$(MANAGE) drop_all_tables
 
 recreate-db: drop-all-tables migrate
+	$(MANAGE) load_country_fixture
 	$(MANAGE) create_fake_process_rulesets
 	$(MANAGE) create_fake_world
 
